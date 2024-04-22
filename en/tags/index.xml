@@ -6,6 +6,31 @@
         <description>Recent content in Tags on Arlettebrook&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
-        <copyright>Arlettebrook</copyright><atom:link href="https://arlettebrook.github.io/en/tags/index.xml" rel="self" type="application/rss+xml" />
+        <copyright>Arlettebrook</copyright>
+        <lastBuildDate>Mon, 22 Apr 2024 16:12:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/en/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Gh-Pages</title>
+        <link>https://arlettebrook.github.io/en/tags/gh-pages/</link>
+        <pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate>
+        
+        <guid>https://arlettebrook.github.io/en/tags/gh-pages/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Git</title>
+        <link>https://arlettebrook.github.io/en/tags/git/</link>
+        <pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate>
+        
+        <guid>https://arlettebrook.github.io/en/tags/git/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Hugo</title>
+        <link>https://arlettebrook.github.io/en/tags/hugo/</link>
+        <pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate>
+        
+        <guid>https://arlettebrook.github.io/en/tags/hugo/</guid>
+        <description></description>
+        </item>
+        
     </channel>
 </rss>
