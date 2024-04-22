@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>网站 on Arlettebrook&#39;s blog</title>
+        <title>Website on Arlettebrook&#39;s blog</title>
         <link>https://arlettebrook.github.io/en/categories/%E7%BD%91%E7%AB%99/</link>
-        <description>Recent content in 网站 on Arlettebrook&#39;s blog</description>
+        <description>Recent content in Website on Arlettebrook&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>Arlettebrook</copyright>
@@ -13,14 +13,14 @@
         <pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate>
         
         <guid>https://arlettebrook.github.io/en/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</guid>
-        <description>&lt;img src="https://arlettebrook.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站" /&gt;&lt;h2 id=&#34;1静态网页生成器&#34;&gt;
-    &lt;a href=&#34;#1%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    1.静态网页生成器
+        <description>&lt;img src="https://arlettebrook.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站" /&gt;&lt;h2 id=&#34;静态网页生成器&#34;&gt;
+    &lt;a href=&#34;#%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    静态网页生成器
 &lt;/h2&gt;&lt;p&gt;无论您需要搭建个人博客还是为您的项目创建文档，静态网页生成器（static site generator）都是一个不错的选择。无需服务器、数据库，只要你熟悉 Markdown，喜欢GitHub，使用生成器创建静态 HTML 文件，然后推送到 &lt;a class=&#34;link&#34; href=&#34;https://pages.github.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;GitHub Pages&lt;/a&gt; 等免费服务即可。&lt;/p&gt;
-&lt;h3 id=&#34;11常见的静态网页生成器&#34;&gt;
-    &lt;a href=&#34;#11%e5%b8%b8%e8%a7%81%e7%9a%84%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    1.1.常见的静态网页生成器
+&lt;h3 id=&#34;常见的静态网页生成器&#34;&gt;
+    &lt;a href=&#34;#%e5%b8%b8%e8%a7%81%e7%9a%84%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    常见的静态网页生成器
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。&lt;/li&gt;
 &lt;li&gt;jekyll 是一个静态网页、博客生成器&lt;/li&gt;
@@ -31,12 +31,12 @@
 &lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://github.com/collections/static-site-generators&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;静态网页生成器&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;2快速使用hugo搭建个人博客站点&#34;&gt;
-    &lt;a href=&#34;#2%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8hugo%e6%90%ad%e5%bb%ba%e4%b8%aa%e4%ba%ba%e5%8d%9a%e5%ae%a2%e7%ab%99%e7%82%b9&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    2.快速使用Hugo搭建个人博客站点
-&lt;/h2&gt;&lt;h3 id=&#34;21安装hugo&#34;&gt;
-    &lt;a href=&#34;#21%e5%ae%89%e8%a3%85hugo&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    2.1.安装Hugo
+&lt;h2 id=&#34;快速使用hugo搭建个人博客站点&#34;&gt;
+    &lt;a href=&#34;#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8hugo%e6%90%ad%e5%bb%ba%e4%b8%aa%e4%ba%ba%e5%8d%9a%e5%ae%a2%e7%ab%99%e7%82%b9&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    快速使用Hugo搭建个人博客站点
+&lt;/h2&gt;&lt;h3 id=&#34;安装hugo&#34;&gt;
+    &lt;a href=&#34;#%e5%ae%89%e8%a3%85hugo&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    安装Hugo
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;根据自己的操作系统，下载已经构建好的Hugo二进制文件&lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/releases/latest&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -61,9 +61,9 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;22使用hugo&#34;&gt;
-    &lt;a href=&#34;#22%e4%bd%bf%e7%94%a8hugo&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    2.2.使用Hugo
+&lt;h3 id=&#34;使用hugo&#34;&gt;
+    &lt;a href=&#34;#%e4%bd%bf%e7%94%a8hugo&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    使用Hugo
 &lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;hugo需要配合git一起使用，并且官方推荐使用bash作为终端&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -234,9 +234,9 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&#34;23目录结构&#34;&gt;
-    &lt;a href=&#34;#23%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    2.3.目录结构
+&lt;h3 id=&#34;目录结构&#34;&gt;
+    &lt;a href=&#34;#%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    目录结构
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;archetypes&lt;/code&gt;目录包含新内容的模板&lt;/p&gt;
@@ -364,9 +364,9 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;24配置文件&#34;&gt;
-    &lt;a href=&#34;#24%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    2.4.配置文件
+&lt;h3 id=&#34;配置文件&#34;&gt;
+    &lt;a href=&#34;#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    配置文件
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;hugo支持三种配置文件&lt;code&gt;hugo.tomal&lt;/code&gt;、&lt;code&gt;hugo.yaml&lt;/code&gt;、&lt;code&gt;hugo.json&lt;/code&gt;，喜欢用那个就用那个。&lt;/p&gt;
@@ -415,9 +415,9 @@
     &gt;Hugo theme&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&#34;25文章评论&#34;&gt;
-    &lt;a href=&#34;#25%e6%96%87%e7%ab%a0%e8%af%84%e8%ae%ba&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    2.5.文章评论
+&lt;h3 id=&#34;文章评论&#34;&gt;
+    &lt;a href=&#34;#%e6%96%87%e7%ab%a0%e8%af%84%e8%ae%ba&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    文章评论
 &lt;/h3&gt;&lt;p&gt;使用&lt;a class=&#34;link&#34; href=&#34;https://waline.js.org/guide/get-started/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Waline&lt;/a&gt;，其教程很完整。&lt;/p&gt;
 &lt;p&gt;根据Waline教程从头完成到使用&lt;a class=&#34;link&#34; href=&#34;https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwalinejs%2Fwaline%2Ftree%2Fmain%2Fexample&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -485,9 +485,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;                &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;placeholder&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;🎉留下你的脚印...&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;26搜索引擎优化seo&#34;&gt;
-    &lt;a href=&#34;#26%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    2.6.搜索引擎优化（SEO）
+&lt;/div&gt;&lt;h3 id=&#34;搜索引擎优化seo&#34;&gt;
+    &lt;a href=&#34;#%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    搜索引擎优化（SEO）
 &lt;/h3&gt;&lt;p&gt;本网站使用Hugo搭建，而且使用的stack主题支持自动生成基于Open Graph协议（OG协议）的标签，此处记录一下如何在Hugo搭建的网站中做搜索引擎优化（SEO）。&lt;/p&gt;
 &lt;p&gt;目的：提升网站在搜索引擎中的排名&lt;/p&gt;
 &lt;p&gt;Open Graph（开放图谱）协议，简称OG协议，是Facebook在2010年公布的一项协议，用来标记网页内容。简单来讲，OG协议就是嵌在网页头部的一些标签，这些标签标记了网页的标题、描述等特征，使得网页成为一个“富媒体对象”，可以被其他社交网站引用。&lt;/p&gt;
@@ -557,9 +557,9 @@
 &lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://jinli.io/p/%e4%b8%aa%e4%ba%ba%e7%bd%91%e7%ab%99%e7%9a%84%e5%bb%ba%e7%ab%8b%e8%bf%87%e7%a8%8b%e5%9b%9b%e7%bd%91%e7%ab%99%e7%9a%84%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;个人网站的建立过程（四）：网站的搜索引擎优化（SEO）&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;3额外的一些知识&#34;&gt;
-    &lt;a href=&#34;#3%e9%a2%9d%e5%a4%96%e7%9a%84%e4%b8%80%e4%ba%9b%e7%9f%a5%e8%af%86&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    3.额外的一些知识
+&lt;h2 id=&#34;额外的一些知识&#34;&gt;
+    &lt;a href=&#34;#%e9%a2%9d%e5%a4%96%e7%9a%84%e4%b8%80%e4%ba%9b%e7%9f%a5%e8%af%86&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    额外的一些知识
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;gh-pages&lt;/code&gt; 是GitHub 所提供的一个服务，简单来讲就是可以让你不用花钱也可以部署一个静态网页作为展示用，因此对于前端工程师来讲就非常方便而且很实用，但是部署方式有很多。&lt;/p&gt;
@@ -586,9 +586,9 @@
 &lt;/ul&gt;
 &lt;p&gt;最后要稍微注意一下gh-pages 虽然是免费提供的静态网页托管服务，但是它并不能拿来作为商业用途或是违法用途，否则你的帐号可能会被封锁&lt;/p&gt;
 &lt;p&gt;简单说一下如何查看一个仓库是否启用&lt;code&gt;gh-pages&lt;/code&gt;：进入项目settings-pages查看即可，有绿色钩就启动成功，没有需要指定分支和根目录，保存，稍等一会就行。&lt;/p&gt;
-&lt;h3 id=&#34;31用gh-pages分支展示自己的项目&#34;&gt;
-    &lt;a href=&#34;#31%e7%94%a8gh-pages%e5%88%86%e6%94%af%e5%b1%95%e7%a4%ba%e8%87%aa%e5%b7%b1%e7%9a%84%e9%a1%b9%e7%9b%ae&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    3.1.用gh-pages分支展示自己的项目
+&lt;h3 id=&#34;用gh-pages分支展示自己的项目&#34;&gt;
+    &lt;a href=&#34;#%e7%94%a8gh-pages%e5%88%86%e6%94%af%e5%b1%95%e7%a4%ba%e8%87%aa%e5%b7%b1%e7%9a%84%e9%a1%b9%e7%9b%ae&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    用gh-pages分支展示自己的项目
 &lt;/h3&gt;&lt;p&gt;我们只需要将网页资源上传至gh-pages分支即可&lt;/p&gt;
 &lt;p&gt;搭建项目网站：将项目网站资源推送到gh-pages分支上,静态资源必须提交了才会成功&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
