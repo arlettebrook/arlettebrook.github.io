@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Go调用外部命令标准库之os/exec。">
+<title>Go调用外部命令os/exec库介绍</title>
+
+<link rel='canonical' href='https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/'>
+
+<link rel="stylesheet" href="/scss/style.min.2728a1da02e4dfcac1eef2aafc62514f5ee9adb50a945282387cb2374e97e7c0.css"><meta property='og:title' content="Go调用外部命令os/exec库介绍">
+<meta property='og:description' content="Go调用外部命令标准库之os/exec。">
+<meta property='og:url' content='https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/'>
+<meta property='og:site_name' content='Arlettebrook&#39;s blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Go' /><meta property='article:published_time' content='2024-04-24T23:41:31&#43;08:00'/><meta property='article:modified_time' content='2024-04-24T23:41:31&#43;08:00'/>
+<meta name="twitter:site" content="@arlettebrook">
+    <meta name="twitter:creator" content="@arlettebrook"><meta name="twitter:title" content="Go调用外部命令os/exec库介绍">
+<meta name="twitter:description" content="Go调用外部命令标准库之os/exec。">
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended">
+
+
+        <div id="article-toolbar" style="position: sticky;top: 5px;z-index: 1000;">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#引子">引子</a></li>
+    <li><a href="#运行命令">运行命令</a></li>
+    <li><a href="#显示输出">显示输出</a>
+      <ol>
+        <li><a href="#显示到标准输出">显示到标准输出</a></li>
+        <li><a href="#输出到文件">输出到文件</a></li>
+        <li><a href="#发送到网络">发送到网络</a></li>
+        <li><a href="#保存到内存对象中">保存到内存对象中</a></li>
+        <li><a href="#输出到多个目的地">输出到多个目的地</a></li>
+      </ol>
+    </li>
+    <li><a href="#运行命令获取输出">运行命令，获取输出</a></li>
+    <li><a href="#分别获取标准输出和标准错误">分别获取标准输出和标准错误</a></li>
+    <li><a href="#标准输入">标准输入</a></li>
+    <li><a href="#环境变量">环境变量</a></li>
+    <li><a href="#检查命令是否存在">检查命令是否存在</a></li>
+    <li><a href="#封装">封装</a></li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/go/" style="background-color: #2a9d8f; color: #fff;">
+                Go
+            </a>
+        
+            <a href="/categories/%E7%BC%96%E7%A8%8B/" style="background-color: #2a9d8f; color: #fff;">
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/">Go调用外部命令os/exec库介绍</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Go调用外部命令标准库之os/exec。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 24, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <hr>
+<h2 id="引子">
+    <a href="#%e5%bc%95%e5%ad%90" class="header-anchor">#</a>
+    引子
+</h2><p>在工作中，我时不时地会需要在Go中调用外部命令。前段时间我做了一个工具，在钉钉群中添加了一个机器人，@这个机器人可以让它执行一些写好的脚本程序完成指定的任务。机器人倒是不难，照着钉钉开发者文档添加好机器人，然后@这个机器人就会向一个你指定的服务器发送一个POST请求，请求中会附带文本消息。所以我要做的就是搭一个Web服务器，可以用go原生的net/http包，也可以用gin/fasthttp/fiber这些Web框架。收到请求之后，检查附带文本中的关键字去调用对应的程序，然后返回结果。</p>
+<p>go标准库中的os/exec包对调用外部程序提供了支持，本文详细介绍os/exec的使用姿势。</p>
+<hr>
+<h2 id="运行命令">
+    <a href="#%e8%bf%90%e8%a1%8c%e5%91%bd%e4%bb%a4" class="header-anchor">#</a>
+    运行命令
+</h2><p>Linux中有个<code>cal</code>命令，它可以显示指定年、月的日历，如果不指定年、月，默认为当前时间对应的年月。如果使用的是Windows，推荐安装msys2，这个软件包含了绝大多数的Linux常用命令。</p>
+<p><img src="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370.png"
+	width="508"
+	height="714"
+	srcset="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hube3381562c708eec75f7ef34fbf2fa5a_102162_480x0_resize_box_3.png 480w, /p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hube3381562c708eec75f7ef34fbf2fa5a_102162_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="image-20240424235145370"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="71"
+		data-flex-basis="170px"
+	
+></p>
+<p>那么，在Go代码中怎么调用这个命令呢？其实也很简单：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先，我们调用<code>exec.Command</code>传入命令名，创建一个命令对象<code>exec.Cmd</code>。接着调用该命令对象的<code>Run()</code>方法运行它。</p>
+<p>如果你实际运行了，你会发现什么也没有发生，哈哈。事实上，使用os/exec执行命令，标准输出和标准错误默认会被丢弃。</p>
+<hr>
+<h2 id="显示输出">
+    <a href="#%e6%98%be%e7%a4%ba%e8%be%93%e5%87%ba" class="header-anchor">#</a>
+    显示输出
+</h2><p><code>exec.Cmd</code>对象有两个字段<code>Stdout</code>和<code>Stderr</code>，类型皆为<code>io.Writer</code>。我们可以将任意实现了<code>io.Writer</code>接口的类型实例赋给这两个字段，继而实现标准输出和标准错误的重定向。<code>io.Writer</code>接口在 Go 标准库和第三方库中随处可见，例如<code>*os.File</code>、<code>*bytes.Buffer</code>、<code>net.Conn</code>。所以我们可以将命令的输出重定向到文件、内存缓存甚至发送到网络中。</p>
+<h3 id="显示到标准输出">
+    <a href="#%e6%98%be%e7%a4%ba%e5%88%b0%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba" class="header-anchor">#</a>
+    显示到标准输出
+</h3><p>将<code>exec.Cmd</code>对象的<code>Stdout</code>和<code>Stderr</code>这两个字段都设置为<code>os.Stdout</code>，那么输出内容都将显示到标准输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>运行程序。我在git bash运行，得到如下结果：</p>
+<p><img src="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378.png"
+	width="382"
+	height="319"
+	srcset="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu31e809d703e74fc17059636a2a115931_49980_480x0_resize_box_3.png 480w, /p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu31e809d703e74fc17059636a2a115931_49980_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="image-20240424235225378"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="119"
+		data-flex-basis="287px"
+	
+></p>
+<p>输出了中文，检查一下环境变量LANG的值，果然是<code>zh_CN.UTF-8</code>。如果想输出英文，可以将环境变量LANG设置为<code>en_US.UTF-8</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="nv">$LANG</span>
+</span></span><span class="line"><span class="cl">zh_CN.UTF-8
+</span></span><span class="line"><span class="cl">$ <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8 go run main.go
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>得到输出：</p>
+<p><img src="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897.png"
+	width="596"
+	height="315"
+	srcset="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu0800ee0bb4962a236c252d9b19d905cf_57376_480x0_resize_box_3.png 480w, /p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu0800ee0bb4962a236c252d9b19d905cf_57376_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="image-20240424235319897"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="189"
+		data-flex-basis="454px"
+	
+></p>
+<h3 id="输出到文件">
+    <a href="#%e8%be%93%e5%87%ba%e5%88%b0%e6%96%87%e4%bb%b6" class="header-anchor">#</a>
+    输出到文件
+</h3><p>打开或创建文件，然后将文件句柄赋给<code>exec.Cmd</code>对象的<code>Stdout</code>和<code>Stderr</code>这两个字段即可实现输出到文件的功能。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">OpenFile</span><span class="p">(</span><span class="s">&#34;out.txt&#34;</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">O_WRONLY</span><span class="p">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">ModePerm</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;os.OpenFile() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">f</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="nx">f</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="p">=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>os.OpenFile</code>打开一个文件，指定<code>os.O_CREATE</code>标志让操作系统在文件不存在时自动创建一个，返回该文件对象<code>*os.File</code>。<code>*os.File</code>实现了<code>io.Writer</code>接口。</p>
+<p>运行程序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ go run main.go
+</span></span><span class="line"><span class="cl">$ cat out.txt
+</span></span><span class="line"><span class="cl">    November <span class="m">2022</span>   
+</span></span><span class="line"><span class="cl">Su Mo Tu We Th Fr Sa
+</span></span><span class="line"><span class="cl">       <span class="m">1</span>  <span class="m">2</span>  <span class="m">3</span>  <span class="m">4</span>  <span class="m">5</span>
+</span></span><span class="line"><span class="cl"> <span class="m">6</span>  <span class="m">7</span>  <span class="m">8</span>  <span class="m">9</span> <span class="m">10</span> <span class="m">11</span> <span class="m">12</span>
+</span></span><span class="line"><span class="cl"><span class="m">13</span> <span class="m">14</span> <span class="m">15</span> <span class="m">16</span> <span class="m">17</span> <span class="m">18</span> <span class="m">19</span>
+</span></span><span class="line"><span class="cl"><span class="m">20</span> <span class="m">21</span> <span class="m">22</span> <span class="m">23</span> <span class="m">24</span> <span class="m">25</span> <span class="m">26</span>
+</span></span><span class="line"><span class="cl"><span class="m">27</span> <span class="m">28</span> <span class="m">29</span> <span class="m">30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="发送到网络">
+    <a href="#%e5%8f%91%e9%80%81%e5%88%b0%e7%bd%91%e7%bb%9c" class="header-anchor">#</a>
+    发送到网络
+</h3><p>现在我们来编写一个日历服务，接收年、月信息，返回该月的日历。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">cal</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">year</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nf">Query</span><span class="p">().</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;year&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">month</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nf">Query</span><span class="p">().</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;month&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="nx">year</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">w</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="nx">w</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">http</span><span class="p">.</span><span class="nf">HandleFunc</span><span class="p">(</span><span class="s">&#34;/cal&#34;</span><span class="p">,</span> <span class="nx">cal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:8080&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里为了简单，错误处理都省略了。正常情况下，year和month参数都需要做合法性校验。<code>exec.Command</code>函数接收一个字符串类型的可变参数作为命令的参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Command</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">arg</span> <span class="o">...</span><span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">Cmd</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199.png"
+	width="857"
+	height="820"
+	srcset="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hua5f23be303f0a3bcae8948fd87547a77_167340_480x0_resize_box_3.png 480w, /p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hua5f23be303f0a3bcae8948fd87547a77_167340_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="image-20240424235532199"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="104"
+		data-flex-basis="250px"
+	
+></p>
+<h3 id="保存到内存对象中">
+    <a href="#%e4%bf%9d%e5%ad%98%e5%88%b0%e5%86%85%e5%ad%98%e5%af%b9%e8%b1%a1%e4%b8%ad" class="header-anchor">#</a>
+    保存到内存对象中
+</h3><p><code>*bytes.Buffer</code>同样也实现了<code>io.Writer</code>接口，故如果我们创建一个<code>*bytes.Buffer</code>对象，并将其赋给<code>exec.Cmd</code>的<code>Stdout</code>和<code>Stderr</code>这两个字段，那么命令执行之后，该<code>*bytes.Buffer</code>对象中保存的就是命令的输出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">buf</span> <span class="o">:=</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">NewBuffer</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">buf</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="nx">buf</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ go run main.go
+</span></span><span class="line"><span class="cl">    November <span class="m">2022</span>   
+</span></span><span class="line"><span class="cl">Su Mo Tu We Th Fr Sa
+</span></span><span class="line"><span class="cl">       <span class="m">1</span>  <span class="m">2</span>  <span class="m">3</span>  <span class="m">4</span>  <span class="m">5</span>
+</span></span><span class="line"><span class="cl"> <span class="m">6</span>  <span class="m">7</span>  <span class="m">8</span>  <span class="m">9</span> <span class="m">10</span> <span class="m">11</span> <span class="m">12</span>
+</span></span><span class="line"><span class="cl"><span class="m">13</span> <span class="m">14</span> <span class="m">15</span> <span class="m">16</span> <span class="m">17</span> <span class="m">18</span> <span class="m">19</span>
+</span></span><span class="line"><span class="cl"><span class="m">20</span> <span class="m">21</span> <span class="m">22</span> <span class="m">23</span> <span class="m">24</span> <span class="m">25</span> <span class="m">26</span>
+</span></span><span class="line"><span class="cl"><span class="m">27</span> <span class="m">28</span> <span class="m">29</span> <span class="m">30</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>运行命令，然后得到输出的字符串或字节切片这种模式是如此的普遍，并且使用便利，<code>os/exec</code>包提供了一个便捷方法：<code>CombinedOutput</code>。</p>
+<h3 id="输出到多个目的地">
+    <a href="#%e8%be%93%e5%87%ba%e5%88%b0%e5%a4%9a%e4%b8%aa%e7%9b%ae%e7%9a%84%e5%9c%b0" class="header-anchor">#</a>
+    输出到多个目的地
+</h3><p>有时，我们希望能输出到文件和网络，同时保存到内存对象。使用go提供的<code>io.MultiWriter</code>可以很容易实现这个需求。<code>io.MultiWriter</code>很方便地将多个<code>io.Writer</code>转为一个<code>io.Writer</code>。</p>
+<p>我们稍微修改上面的web程序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">cal</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">year</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nf">Query</span><span class="p">().</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;year&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">month</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nf">Query</span><span class="p">().</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;month&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">f</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">OpenFile</span><span class="p">(</span><span class="s">&#34;out.txt&#34;</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="p">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_WRONLY</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">ModePerm</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">buf</span> <span class="o">:=</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">NewBuffer</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">mw</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nf">MultiWriter</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">f</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="nx">year</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">mw</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="nx">mw</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调用<code>io.MultiWriter</code>将多个<code>io.Writer</code>整合成一个<code>io.Writer</code>，然后将cmd对象的<code>Stdout</code>和<code>Stderr</code>都赋值为这个<code>io.Writer</code>。这样，命令运行时产出的输出会分别送往<code>http.ResponseWriter</code>、<code>*os.File</code>以及<code>*bytes.Buffer</code>。</p>
+<hr>
+<h2 id="运行命令获取输出">
+    <a href="#%e8%bf%90%e8%a1%8c%e5%91%bd%e4%bb%a4%e8%8e%b7%e5%8f%96%e8%be%93%e5%87%ba" class="header-anchor">#</a>
+    运行命令，获取输出
+</h2><p>前面提到，我们常常需要运行命令，返回输出。<code>exec.Cmd</code>对象提供了一个便捷方法：<code>CombinedOutput()</code>。该方法运行命令，将输出内容以一个字节切片返回便于后续处理。所以，上面获取输出的程序可以简化为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">output</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">CombinedOutput</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">output</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So easy!</p>
+<p><code>CombinedOutput()</code>方法的实现很简单，先将标准输出和标准错误重定向到<code>*bytes.Buffer</code>对象，然后运行程序，最后返回该对象中的字节切片：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Cmd</span><span class="p">)</span> <span class="nf">CombinedOutput</span><span class="p">()</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Stdout</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;exec: Stdout already set&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Stderr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;exec: Stderr already set&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">b</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">c</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">b</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">c</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">b</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">b</span><span class="p">.</span><span class="nf">Bytes</span><span class="p">(),</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>CombinedOutput</code>方法前几行判断表明，<code>Stdout</code>和<code>Stderr</code>必须是未设置状态。这其实很好理解，一般情况下，如果已经打算使用<code>CombinedOutput</code>方法获取输出内容，不会再自找麻烦地再去设置<code>Stdout</code>和<code>Stderr</code>字段了。</p>
+<p>与<code>CombinedOutput</code>类似的还有<code>Output</code>方法，区别是<code>Output</code>只会返回运行命令产出的标准输出内容。</p>
+<hr>
+<h2 id="分别获取标准输出和标准错误">
+    <a href="#%e5%88%86%e5%88%ab%e8%8e%b7%e5%8f%96%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba%e5%92%8c%e6%a0%87%e5%87%86%e9%94%99%e8%af%af" class="header-anchor">#</a>
+    分别获取标准输出和标准错误
+</h2><p>创建两个<code>*bytes.Buffer</code>对象，分别赋给<code>exec.Cmd</code>对象的<code>Stdout</code>和<code>Stderr</code>这两个字段，然后运行命令即可分别获取标准输出和标准错误。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cal&#34;</span><span class="p">,</span> <span class="s">&#34;15&#34;</span><span class="p">,</span> <span class="s">&#34;2012&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">stdout</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stderr</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">stderr</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;output:\n%s\nerror:\n%s\n&#34;</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">.</span><span class="nf">String</span><span class="p">(),</span> <span class="nx">stderr</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="标准输入">
+    <a href="#%e6%a0%87%e5%87%86%e8%be%93%e5%85%a5" class="header-anchor">#</a>
+    标准输入
+</h2><p><code>exec.Cmd</code>对象有一个类型为<code>io.Reader</code>的字段<code>Stdin</code>。命令运行时会从这个<code>io.Reader</code>读取输入。先来看一个最简单的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;cat&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdin</span> <span class="p">=</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">NewBufferString</span><span class="p">(</span><span class="s">&#34;hello\nworld&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果不带参数运行<code>cat</code>命令，则进入交互模式，<code>cat</code>按行读取输入，并且原样发送到输出。</p>
+<p>再来看一个复杂点的例子。Go标准库中<code>compress/bzip2</code>包只提供解压方法，并没有压缩方法。我们可以利用Linux命令<code>bzip2</code>实现压缩。<code>bzip2</code>从标准输入中读取数据，将其压缩，并发送到标准输出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">bzipCompress</span><span class="p">(</span><span class="nx">d</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">out</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;bzip2&#34;</span><span class="p">,</span> <span class="s">&#34;-c&#34;</span><span class="p">,</span> <span class="s">&#34;-9&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdin</span> <span class="p">=</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">NewBuffer</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Stdout</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">out</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">Run</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">out</span><span class="p">.</span><span class="nf">Bytes</span><span class="p">(),</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>参数<code>-c</code>表示压缩，<code>-9</code>表示压缩等级，9为最高。为了验证函数的正确性，写个简单的程序，先压缩&quot;hello world&quot;字符串，然后解压，看看是否能得到原来的字符串：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">data</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello world&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">compressed</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nf">bzipCompress</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">r</span> <span class="o">:=</span> <span class="nx">bzip2</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nf">NewBuffer</span><span class="p">(</span><span class="nx">compressed</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">decompressed</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">decompressed</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>运行程序，输出&quot;hello world&quot;。</p>
+<hr>
+<h2 id="环境变量">
+    <a href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" class="header-anchor">#</a>
+    环境变量
+</h2><p>环境变量可以在一定程度上微调程序的行为，当然这需要程序的支持。例如，设置<code>ENV=production</code>会抑制调试日志的输出。每个环境变量都是一个键值对。<code>exec.Cmd</code>对象中有一个类型为<code>[]string</code>的字段<code>Env</code>。我们可以通过修改它来达到控制命令运行时的环境变量的目的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;os/exec&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">Command</span><span class="p">(</span><span class="s">&#34;bash&#34;</span><span class="p">,</span> <span class="s">&#34;-c&#34;</span><span class="p">,</span> <span class="s">&#34;./test.sh&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">nameEnv</span> <span class="o">:=</span> <span class="s">&#34;NAME=darjun&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">ageEnv</span> <span class="o">:=</span> <span class="s">&#34;AGE=18&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">newEnv</span> <span class="o">:=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">Environ</span><span class="p">(),</span> <span class="nx">nameEnv</span><span class="p">,</span> <span class="nx">ageEnv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">cmd</span><span class="p">.</span><span class="nx">Env</span> <span class="p">=</span> <span class="nx">newEnv</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">out</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nf">CombinedOutput</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;cmd.Run() failed: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">out</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面代码获取系统的环境变量，然后又添加了两个环境变量<code>NAME</code>和<code>AGE</code>。最后使用<code>bash</code>运行脚本<code>test.sh</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$NAME</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$AGE</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$GOPATH</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>程序运行结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ go run main.go 
+</span></span><span class="line"><span class="cl">darjun
+</span></span><span class="line"><span class="cl"><span class="m">18</span>
+</span></span><span class="line"><span class="cl">D:<span class="se">\w</span>orkspace<span class="se">\c</span>ode<span class="se">\g</span>o
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="检查命令是否存在">
+    <a href="#%e6%a3%80%e6%9f%a5%e5%91%bd%e4%bb%a4%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8" class="header-anchor">#</a>
+    检查命令是否存在
+</h2><p>一般在运行命令之前，我们通过希望能检查要运行的命令是否存在，如果存在则直接运行，否则提示用户安装此命令。<code>os/exec</code>包提供了函数<code>LookPath</code>可以获取命令所在目录，如果命令不存在，则返回一个error。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">path</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">LookPath</span><span class="p">(</span><span class="s">&#34;ls&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;no cmd ls: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;find ls in path:%s\n&#34;</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">path</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">LookPath</span><span class="p">(</span><span class="s">&#34;not-exist&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;no cmd not-exist: %v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;find not-exist in path:%s\n&#34;</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ go run main.go 
+</span></span><span class="line"><span class="cl">find ls in path:C:<span class="se">\P</span>rogram Files<span class="se">\G</span>it<span class="se">\u</span>sr<span class="se">\b</span>in<span class="se">\l</span>s.exe
+</span></span><span class="line"><span class="cl">no cmd not-exist: exec: <span class="s2">&#34;not-exist&#34;</span>: executable file not found in %PATH%
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="封装">
+    <a href="#%e5%b0%81%e8%a3%85" class="header-anchor">#</a>
+    封装
+</h2><p>执行外部命令的流程比较固定：</p>
+<ul>
+<li>调用<code>exec.Command()</code>创建命令对象；</li>
+<li>调用<code>Cmd.Run()</code>执行命令</li>
+</ul>
+<p>可以自己封装成一个工具包。</p>
+<hr>
+<h2 id="总结">
+    <a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#</a>
+    总结
+</h2><p>本文介绍了使用<code>os/exec</code>这个标准库调用外部命令的各种姿势。</p>
+<hr>
+<h2 id="参考">
+    <a href="#%e5%8f%82%e8%80%83" class="header-anchor">#</a>
+    参考
+</h2><ol>
+<li>Advanced command execution in go with os/exec: <a class="link" href="https://https//blog.kowalczyk.info/article/wOYk/advanced-command-execution-in-go-with-osexec.html"  target="_blank" rel="noopener"
+    >https://blog.kowalczyk.info/article/wOYk/advanced-command-execution-in-go-with-osexec.html</a></li>
+<li><a class="link" href="https://darjun.github.io/2022/11/01/godailylib/osexec/"  target="_blank" rel="noopener"
+    >Go中调用外部命令的几种姿势</a>搬运自该篇文章。</li>
+</ol>
+
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/go/">Go</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Go-homedir库介绍</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Go flag库介绍</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"copyright":false,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo"],"lang":"zh-cn","locale":{"admin":"👻Hi!","placeholder":"🎉留下你的脚印..."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline.trojan123.top/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2024 Arlettebrook
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.25.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

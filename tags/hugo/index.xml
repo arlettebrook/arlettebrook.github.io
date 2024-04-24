@@ -163,7 +163,7 @@
 &lt;p&gt;要将站点发布到其他目录，请使用该标志&lt;code&gt;--destination&lt;/code&gt;或在站点配置中设置&lt;code&gt;publishDir&lt;/code&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注意：每次构建不会清空public目录，只会覆盖旧内容。&lt;/p&gt;
-&lt;p&gt;这样做是为了防止，构建之后面在public添加的文件被删除&lt;/p&gt;
+&lt;p&gt;这样做是为了防止，构建之后在public添加的文件被删除&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
