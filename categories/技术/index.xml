@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>技术 on Arlettebrook&#39;s blog</title>
+        <link>https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/</link>
+        <description>Recent content in 技术 on Arlettebrook&#39;s blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Arlettebrook</copyright>
+        <lastBuildDate>Mon, 22 Apr 2024 22:18:17 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Git常用命令</title>
+        <link>https://arlettebrook.github.io/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+        <pubDate>Mon, 22 Apr 2024 22:18:17 +0800</pubDate>
+        
+        <guid>https://arlettebrook.github.io/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+        <description>&lt;blockquote&gt;
+&lt;p&gt;注意：要学会使用-h &amp;ndash;help选项，查看命令，看不懂在查阅。&lt;code&gt;git help &amp;lt;command&amp;gt;&lt;/code&gt;可进入官方文档。&lt;strong&gt;Git&lt;/strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.liaoxuefeng.com/wiki/896043488029600&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;入门参考&lt;/a&gt;。以下常用命令个人收集总结。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;git简单命令&#34;&gt;
+    &lt;a href=&#34;#git%e7%ae%80%e5%8d%95%e5%91%bd%e4%bb%a4&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git简单命令
+&lt;/h2&gt;&lt;h3 id=&#34;git-init&#34;&gt;
+    &lt;a href=&#34;#git-init&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git init
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git init &amp;lt;directory&amp;gt;&lt;/code&gt;在指定的⽬录下创建⼀个空的git repo。不带参数将在当前⽬录下创建⼀个git repo。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-clone&#34;&gt;
+    &lt;a href=&#34;#git-clone&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git clone
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git clone &amp;lt;repo&amp;gt;&lt;/code&gt;克隆⼀个指定repo到本地。指定的repo可以是本地⽂件系统或者由HTTP或SSH指定的远程路径。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git clone -b &amp;lt;branch&amp;gt; &amp;lt;repo&amp;gt;&lt;/code&gt;克隆指定仓库的分支&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git clone --recursive &amp;lt;repo&amp;gt;&lt;/code&gt;递归地克隆，克隆带有子模块的仓库
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git clone --recurse-submodules &amp;lt;repository_url&amp;gt;&lt;/code&gt;同理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;可组合使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-add&#34;&gt;
+    &lt;a href=&#34;#git-add&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git add
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git add &amp;lt;directory&amp;gt;&lt;/code&gt;将指定⽬录的所有修改加⼊到下⼀次 commit中。把&lt;code&gt;&amp;lt;directory&amp;gt;&lt;/code&gt;替换成&lt;code&gt;&amp;lt;file&amp;gt;&lt;/code&gt;将添加指定⽂件的修改。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git add *&lt;/code&gt;、&lt;code&gt;git add .&lt;/code&gt;、&lt;code&gt;git add -A&lt;/code&gt;三条命令但是一样的，将所以修改提交到暂存区。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-commit&#34;&gt;
+    &lt;a href=&#34;#git-commit&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git commit
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;这个命令通常带&lt;code&gt;-m&lt;/code&gt;选项&lt;code&gt;git commit -m &amp;quot;&amp;lt;message&amp;gt;&amp;quot;&lt;/code&gt;提交暂存区的修改，使⽤指定的 &lt;code&gt;&amp;lt;message&amp;gt;&lt;/code&gt;作为提交信息，⽽不是打开⽂本编辑器输⼊提交信息。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit -m &amp;lt;message&amp;gt; --amend&lt;/code&gt;将当前staged修改合并到最近⼀次的commit中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-status&#34;&gt;
+    &lt;a href=&#34;#git-status&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git status
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git status&lt;/code&gt;显示哪些⽂件已被staged、以及未跟踪(untracked)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-reflog&#34;&gt;
+    &lt;a href=&#34;#git-reflog&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git reflog
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git reflog&lt;/code&gt;显示本地repo的所有commit⽇志。&lt;/li&gt;
+&lt;li&gt;与&lt;code&gt;git log&lt;/code&gt;的区别
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;log&lt;/code&gt;项目的提交历史，&lt;code&gt;reflog&lt;/code&gt;本地仓库的&lt;strong&gt;引用&lt;/strong&gt;提交日志。&lt;/li&gt;
+&lt;li&gt;引用会保留所以的提交历史，如何重置的历史。主要目的是提供一个安全网，以便在误操作（如错误的 &lt;code&gt;git reset&lt;/code&gt;）后可以恢复丢失的提交或分支。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log&lt;/code&gt; 的输出是永久性的，而 &lt;code&gt;reflog&lt;/code&gt; 会在一段时间后自动过期（默认是 30 天），以节省空间。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-rm&#34;&gt;
+    &lt;a href=&#34;#git-rm&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git rm
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git rm fileName&lt;/code&gt;删除指定的文件。
+&lt;ul&gt;
+&lt;li&gt;与&lt;code&gt;rm fileName&lt;/code&gt;的区别。
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;git rm&lt;/code&gt;不能删除未跟踪的文件，&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git rm&lt;/code&gt;删除之后直接到暂存区，而&lt;code&gt;rm&lt;/code&gt;是到工作区&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;注意删除之后都需要提交操作。&lt;/li&gt;
+&lt;li&gt;撤销操作不用记，git都会有提示&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-switch&#34;&gt;
+    &lt;a href=&#34;#git-switch&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git switch
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;该命令适用于特定git版本。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git switch &amp;lt;branch&amp;gt;&lt;/code&gt;切换到指定分支，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git checkout &amp;lt;branch&amp;gt;&lt;/code&gt;同理，但这个都适用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git switch -c &amp;lt;branch&amp;gt;&lt;/code&gt;创建并切换指定分支&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-branch&#34;&gt;
+    &lt;a href=&#34;#git-branch&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git branch
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git branch&lt;/code&gt;显示本地repo的所有分⽀。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-v&lt;/code&gt;显示详细信息&lt;/li&gt;
+&lt;li&gt;带&lt;code&gt;*&lt;/code&gt;的为当前分支&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git branch -r&lt;/code&gt;显示远程仓库的所以分支。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可以使用&lt;code&gt;git checkout &amp;lt;branch&amp;gt;&lt;/code&gt;检出远程分支，可以省略&lt;code&gt;origin/&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git branch -a&lt;/code&gt;显示本地和远程的所有分支&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git branch -m &amp;lt;old_branch_name&amp;gt; &amp;lt;new_branch_name&amp;gt;&lt;/code&gt;重命名分支&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;新分支名已经存在， &lt;code&gt;-M&lt;/code&gt; 强制重命名。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git branch &amp;lt;name&amp;gt;&lt;/code&gt;创建指定分支&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git branch -D &amp;lt;branch&amp;gt;&lt;/code&gt;强制删除指定分支，无论是否合并到当前分支。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git branch -d &amp;lt;branch&amp;gt;&lt;/code&gt;删除指定的分支，如果没有合并到当前分支，git会阻止操作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-merge&#34;&gt;
+    &lt;a href=&#34;#git-merge&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git merge
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git merge &amp;lt;branch&amp;gt;&lt;/code&gt;合并指定分支。将指定&lt;code&gt;&amp;lt;branch&amp;gt;&lt;/code&gt;分⽀合并到当前分⽀。
+&lt;ul&gt;
+&lt;li&gt;是在当前分支合并指定分支。&lt;/li&gt;
+&lt;li&gt;合并分支可能会出现冲突。要解决冲突之后才能合并。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git merge --abort&lt;/code&gt;放弃本次合并&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;git一般命令&#34;&gt;
+    &lt;a href=&#34;#git%e4%b8%80%e8%88%ac%e5%91%bd%e4%bb%a4&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git一般命令
+&lt;/h2&gt;&lt;h3 id=&#34;git-revert&#34;&gt;
+    &lt;a href=&#34;#git-revert&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git revert
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git revert &amp;lt;commit&amp;gt; &lt;/code&gt;对指定&lt;code&gt;&amp;lt;commit&amp;gt;&lt;/code&gt;创建⼀个undo的commit，并应⽤到当前分⽀。就是撤销指定的提交并保留记录
+&lt;ul&gt;
+&lt;li&gt;效果：撤销指定的提交，回到了撤销提交的是上个版本，&lt;strong&gt;保留了撤销历史&lt;/strong&gt;。&lt;strong&gt;会打开编辑器显示具体效果&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;一般不用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-reset&#34;&gt;
+    &lt;a href=&#34;#git-reset&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git reset
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git reset &amp;lt;commit&amp;gt;&lt;/code&gt;&lt;strong&gt;重置&lt;/strong&gt;到指定的提交，不会保留commit历史。工作区和暂存区会变成未跟踪。&lt;code&gt;--hard&lt;/code&gt;选项完全重置到指定提交。未跟踪的重置不了。重置历史可以通过&lt;code&gt;git reflog&lt;/code&gt;查看，利用这个可以重置已经重置的版本库。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;commit&amp;gt;&lt;/code&gt;可以是：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;HEAD&lt;/code&gt;表示最新的提交或者这个&lt;strong&gt;版本库&lt;/strong&gt;，HEAD^、HEAD~1上上次提交或者上个版本&lt;/li&gt;
+&lt;li&gt;或者使用&lt;code&gt;commit_hash&lt;/code&gt;，提交的哈希值可以使用&lt;code&gt;git log&lt;/code&gt;查看，只需要前几位就行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt;（重置到最新的提交）移除所有暂存区、工作区的修改，到未跟踪。这些命令其实省略了&lt;code&gt;HEAD&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git reset --hard&lt;/code&gt; 重置到最新的提交，删除工作区和暂存区&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git reset &amp;lt;file&amp;gt;&lt;/code&gt;将&lt;code&gt;&amp;lt;file&amp;gt;&lt;/code&gt;从暂存区移除，但保持⼯作区不变。此操作不会修改⼯作区的任何⽂件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-restore&#34;&gt;
+    &lt;a href=&#34;#git-restore&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git restore
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git restore &amp;lt;file&amp;gt;...&lt;/code&gt;撤销对工作区的修改，是对以跟踪的文件当未添加到暂存区的文件。多个文件用空格分开。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git checkout -- &amp;lt;file&amp;gt;...&lt;/code&gt;同理，&lt;code&gt;--&lt;/code&gt;可以省略&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git restore --staged &amp;lt;file&amp;gt;...&lt;/code&gt;撤销对暂存区的修改到未跟踪。针对添加到暂存区的文件。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git reset HEAD &amp;lt;file&amp;gt;...&lt;/code&gt;同理，&lt;code&gt;HEAD&lt;/code&gt;可以省略。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;具体用哪一个，git都会有提示，不用记。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-checkout&#34;&gt;
+    &lt;a href=&#34;#git-checkout&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git checkout
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git checkout &amp;lt;branch&amp;gt;&lt;/code&gt;切换到指定的分支&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果分支为远程分支，则检出远程分支&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git checkout -b &amp;lt;new-branch&amp;gt;&lt;/code&gt;切换并创建指定的分支&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git checkout &amp;lt;file&amp;gt;&lt;/code&gt;撤销工作区的修改&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git restore &amp;lt;file&amp;gt;&lt;/code&gt;同理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git checkout &amp;lt;commit&amp;gt;&lt;/code&gt;根据指定的提交创建一个分支,处于游离态。一般不用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git checkout -b &amp;lt;local_branch_name&amp;gt; origin/&amp;lt;remote_branch_name&amp;gt;&lt;/code&gt;切换到远程分支&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git checkout &amp;lt;branch&amp;gt;&lt;/code&gt;差不多，可以使用&lt;code&gt;git fetch origin&lt;/code&gt;获取仓库所以信息，在检出分支。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git checkout -&lt;/code&gt;切换到前一个分支。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-remote&#34;&gt;
+    &lt;a href=&#34;#git-remote&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git remote
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;用来管理远程仓库列表，&lt;code&gt;origin&lt;/code&gt;为远程仓库的默认别名。这些远端仓库的信息都被保存在&lt;code&gt;./git/config&lt;/code&gt; 文件中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git remote&lt;/code&gt;列出所有已配置的远程仓库的信息。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-v&lt;/code&gt;显示详细信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git remote add &amp;lt;remote_name&amp;gt; &amp;lt;remote_url&amp;gt;&lt;/code&gt;添加远程仓库&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加⼀个新的远程连接。添加后可使⽤ &lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt;作为指定&lt;code&gt;&amp;lt;url&amp;gt;&lt;/code&gt;远程连接的名称。&lt;/li&gt;
+&lt;li&gt;只有配置了这个才能推送到远程仓库。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git remote rename &amp;lt;old_name&amp;gt; &amp;lt;new_name&amp;gt;&lt;/code&gt;重命名远程仓库。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git remote set-url &amp;lt;remote_name&amp;gt; &amp;lt;new_url&amp;gt;&lt;/code&gt;修改远程仓库的url。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git remote remove &amp;lt;remote_name&amp;gt;&lt;/code&gt;或&lt;code&gt;git remote rm &amp;lt;remote_name&amp;gt;&lt;/code&gt;删除远程仓库。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git remote show &amp;lt;remote_name&amp;gt;&lt;/code&gt;显示远程仓库的详细信息，包括 URL、跟踪的分支等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;补充如何创建远程仓库&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;创建远程仓库可以先在github上创建好，然后在本地pull下来，在进行修改后push上去。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可以建一个&lt;strong&gt;空白仓库&lt;/strong&gt;，在本地push上去，但需要进行绑定。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git remote add origin https://github.com/username/null-project.git
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git branch -M main
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git push -u origin main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;gjit-push&#34;&gt;
+    &lt;a href=&#34;#gjit-push&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    gjit push
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;将本地仓库推送到远程仓库&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git push &amp;lt;remote_repository&amp;gt; &amp;lt;本地分支名&amp;gt;:&amp;lt;远程分支名&amp;gt;&lt;/code&gt;推送本地分支到指定的远程分支。如果远程分支不存在，会自动创建。&lt;code&gt;:&lt;/code&gt;前后不能有空格。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当分支同名，可以简写成&lt;code&gt;git push &amp;lt;remote_repository&amp;gt; &amp;lt;本地分支名&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;果无法提交的话执行，&lt;code&gt;-f&lt;/code&gt;、&lt;code&gt;--force&lt;/code&gt;选项强制推送，一般不用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git push -u &amp;lt;remote_repository&amp;gt; &amp;lt;本地分支名&amp;gt;&lt;/code&gt;设置默认推送分支。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;作用：这样设置以后，推送到远程仓库可以简写成&lt;code&gt;git push&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git push&lt;/code&gt; 代替 &lt;code&gt;git push origin master&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-u&lt;/code&gt;是&lt;code&gt;--set-upstream&lt;/code&gt;的短形式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git push &amp;lt;remote_repository&amp;gt; -d &amp;lt;远程分支名&amp;gt;&lt;/code&gt;删除远程分支 。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--delete&lt;/code&gt;长选项。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push origin :test&lt;/code&gt;同理，没有写本地分支，就是删除远程分支。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git push &amp;lt;remote&amp;gt; &amp;lt;tagname&amp;gt;&lt;/code&gt;推送指定标签到指定远程仓库，一般为`origin``&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;``git push &lt;remote&gt; &amp;ndash;tags`推送所用标签到远程&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-pull&#34;&gt;
+    &lt;a href=&#34;#git-pull&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git pull
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git pull &amp;lt;remote_repository&amp;gt; &amp;lt;远程分支名&amp;gt;:&amp;lt;本地分支名&amp;gt;&lt;/code&gt;从远程仓库拉取最新代码到本地仓库。
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git pull&lt;/code&gt;会拉取并合并，出现冲突要解决之后才能合并。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git fetch&lt;/code&gt;获取当前远程仓库的最新信息，不会合并。&lt;/li&gt;
+&lt;li&gt;通常可以简写成&lt;code&gt;git pull&lt;/code&gt;,远程仓库默认是&lt;code&gt;origin&lt;/code&gt;，分支默认是当前分支。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git pull --rebase&amp;lt;remote&amp;gt;&lt;/code&gt; 抓取远程分⽀，并以rebase模式并⼊本地repo⽽不是merge。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-fetch&#34;&gt;
+    &lt;a href=&#34;#git-fetch&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git fetch
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git fetch origin&lt;/code&gt;获取远程仓库最新的更改。不会合并。默认仓库是&lt;code&gt;origin&lt;/code&gt;，分支是当前分支，这里可以省略&lt;code&gt;origin&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git fetch origin &amp;lt;branch&amp;gt;&lt;/code&gt;获取特定分支的更改.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git fetch --all&lt;/code&gt;获取所用仓库远程仓库的最新更改。&lt;/li&gt;
+&lt;li&gt;与&lt;code&gt;git pull&lt;/code&gt;的区别
+&lt;ol&gt;
+&lt;li&gt;都会获取远程仓库最新的更改。&lt;/li&gt;
+&lt;li&gt;但是fetch不会合并，而pull会合并。可以理解为&lt;code&gt;git pull&lt;/code&gt; 是 &lt;code&gt;git fetch&lt;/code&gt; 和 &lt;code&gt;git merge&lt;/code&gt; 的组合&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;获取最新更改之后可以：
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;git checkout &amp;lt;branch&amp;gt;&lt;/code&gt;检出指定分支，如果加&lt;code&gt;origin&lt;/code&gt;要这样&lt;code&gt;git checkout -b &amp;lt;branch&amp;gt; origin/&amp;lt;branch&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git merge origin/master&lt;/code&gt;合并远程 master 分支的更改到当前的分支&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git rebase origin/master&lt;/code&gt;使用 rebase 来整合更改（这可能会改变提交历史）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-stash&#34;&gt;
+    &lt;a href=&#34;#git-stash&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git stash
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git stash&lt;/code&gt;保存工作区、暂存区，可以切换分支去完成别的任务。不保存修改，未提交的修改会错乱到别的分支。并且只能保存已追踪的文件。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git stash list&lt;/code&gt;查看保存的工作区以及暂存区。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git stash apply&lt;/code&gt;恢复保存的工作区以及暂存区。
+&lt;ul&gt;
+&lt;li&gt;这个命令执行之后不会删除存储的工作区以及暂存区。&lt;/li&gt;
+&lt;li&gt;要用&lt;code&gt;git stash drop&lt;/code&gt;才能删除。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git stash pop&lt;/code&gt;恢复并删除保存的工作区以及暂存区。&lt;/li&gt;
+&lt;li&gt;默认都是保存、恢复第一个stash即&lt;code&gt;stash@{0}&lt;/code&gt;。若要指定第几个在后面加&lt;code&gt;stash@{num}&lt;/code&gt;。
+&lt;ul&gt;
+&lt;li&gt;如恢复第二个stash：&lt;code&gt;git stash pop stash@{1}&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;每个分支共用一个stash。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-tag&#34;&gt;
+    &lt;a href=&#34;#git-tag&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git tag
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;作用：用于标记项目的版本发布或重要的里程碑。&lt;/li&gt;
+&lt;li&gt;分类
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;git tag &amp;lt;tagname&amp;gt; &amp;lt;commit ID&amp;gt;&lt;/code&gt;轻量标签
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git tag vn.n.n&lt;/code&gt;打标签，&lt;code&gt;n.n.n&lt;/code&gt;表示对应的版本号，版本号前面一般加&lt;code&gt;v&lt;/code&gt;，遵循一定的命名规范，如&lt;code&gt;v1.0.1&lt;/code&gt;。
+&lt;ul&gt;
+&lt;li&gt;默认是打在最新的一次提交。&lt;/li&gt;
+&lt;li&gt;后面跟提交的哈希值可以指定给那次提交打标签。如&lt;code&gt;git tag v0.9.0 f52c633&lt;/code&gt;。
+&lt;ul&gt;
+&lt;li&gt;哈希值可以通过&lt;code&gt;git log&lt;/code&gt;查看&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git tag -a &amp;lt;tagname&amp;gt; -m &amp;quot;&amp;lt;tag message&amp;gt;&amp;quot; &amp;lt;commit ID&amp;gt;&lt;/code&gt;附注标签
+&lt;ol&gt;
+&lt;li&gt;如&lt;code&gt;git tag -a v0.1 -m &amp;quot;version 0.1 released&amp;quot; 1094adb&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;推荐id省略默认最新提交。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;查看标签
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;git tag&lt;/code&gt;显示所有的本地tag列表，按照字母顺序排序。如果tag数量较多，可能会显示不全。省略选项&lt;code&gt;-l&lt;/code&gt;、&lt;code&gt;--list&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git show &amp;lt;tagname&amp;gt;&lt;/code&gt;显示指定tag的详细信息，包括提交的作者、提交时间、提交信息等。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git tag -n&lt;/code&gt;：显示tag列表，并同时显示每个tag对应的提交信息。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git ls-remote --tags origin&lt;/code&gt;：显示远程仓库中的所有tag信息。更推荐这种。
+&lt;ol&gt;
+&lt;li&gt;或者先&lt;code&gt;git fetch&lt;/code&gt;获取最新的更改，然后&lt;code&gt;git tag&lt;/code&gt;检出所有标签。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;删除标签
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;git tag -d &amp;lt;tagname&amp;gt;&lt;/code&gt;删除本地标签&lt;/li&gt;
+&lt;li&gt;删除远程标签：首先需要在本地删除标签，然后推送到远程仓库 &lt;code&gt;git push origin :refs/tags/&amp;lt;tagname&amp;gt;&lt;/code&gt;
+&lt;ol&gt;
+&lt;li&gt;远程标签是&lt;code&gt;refs/tags/v0.0.1&lt;/code&gt;这样存在的，跟删除远程分支差不多。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;标签一旦创建，就不能直接修改,如果需要修改标签，通常需要删除原标签，并重新创建一个新标签。&lt;/li&gt;
+&lt;li&gt;推送标签
+&lt;ol&gt;
+&lt;li&gt;打的标签不会自动推送到远程仓库，需要手动推送。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push &amp;lt;remote&amp;gt; &amp;lt;tagname&amp;gt;&lt;/code&gt;推送指定标签到指定远程仓库，一般为&lt;code&gt;origin&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push &amp;lt;remote&amp;gt; --tags&lt;/code&gt;推送所用标签到远程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;git复杂命令&#34;&gt;
+    &lt;a href=&#34;#git%e5%a4%8d%e6%9d%82%e5%91%bd%e4%bb%a4&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git复杂命令
+&lt;/h2&gt;&lt;h3 id=&#34;git-log&#34;&gt;
+    &lt;a href=&#34;#git-log&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git log
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git log&lt;/code&gt;以缺省格式显示全部commit历史。更多⾃定义参数请参考后续部分。&lt;code&gt;q&lt;/code&gt;退出，&lt;code&gt;空格&lt;/code&gt;下一页，&lt;code&gt;h&lt;/code&gt;查看帮助
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git log --stat&lt;/code&gt;：显示详细的commit历史。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log -&amp;lt;limit&amp;gt;&lt;/code&gt;限制log的显示数量。例如：”git log -5”仅显示最新5条commit。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log --oneline&lt;/code&gt;每⾏显示⼀条commit，简化信息。与&lt;code&gt;--pretty=oneline&lt;/code&gt;等效&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log --author= &amp;quot;&amp;lt;pattern&amp;gt;&amp;quot;&lt;/code&gt;按提交者名字搜索并显示commit。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log --grep= &amp;quot;&amp;lt;pattern&amp;gt;&amp;quot;&lt;/code&gt;按指定内容搜索并显示commit。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log &amp;lt;since&amp;gt;..&amp;lt;until&amp;gt;&lt;/code&gt;显示指定范围的commit。范围参数可以是commit ID、分⽀名称、HEAD或任意相对位置。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log -- &amp;lt;file&amp;gt;&lt;/code&gt;仅显示包含指定⽂件修改的commit。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git log --graph&lt;/code&gt;使⽤&amp;ndash;graph参数显示图形化的branch信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-diff&#34;&gt;
+    &lt;a href=&#34;#git-diff&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git diff
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git diff&lt;/code&gt;⽐较⼯作区和暂存区的修改。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git diff HEAD&lt;/code&gt;⽐较⼯作区和上⼀次commit后的修改。
+&lt;ul&gt;
+&lt;li&gt;HEAD指向当前分支最新的commit版本库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git diff --cached&lt;/code&gt;⽐较暂存区和上⼀次commit后的修改。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git diff --stashed&lt;/code&gt;查看暂存区与最新提交的差异，与上面一样&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git diff &amp;lt;commit1&amp;gt; &amp;lt;commit2&amp;gt;&lt;/code&gt;查看两个提交之间的差异。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git diff &amp;lt;filename&amp;gt;&lt;/code&gt;后面指定文件，只查看该文件的修改情况，没有参数查询全部&lt;/li&gt;
+&lt;li&gt;用&lt;code&gt;git diff HEAD -- readme.txt&lt;/code&gt;命令可以查看版本库和工作区里面最新版本的区别&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-config&#34;&gt;
+    &lt;a href=&#34;#git-config&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git config
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;作用：通过&lt;code&gt;git config&lt;/code&gt;命令配置git的配置文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;git配置文件级别分为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;仓库级别 &lt;code&gt;--local&lt;/code&gt; 【优先级最高】。文件所在位置仓库下的&lt;code&gt;.git/config&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;当前用户级别 &lt;code&gt;--global&lt;/code&gt;【优先级次之】&lt;strong&gt;一般配置它&lt;/strong&gt;。文件所在位置用户家目录下的&lt;code&gt;.gitconfig&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;系统所有用户级别 &lt;code&gt;--system&lt;/code&gt;【优先级最低】。文件所在位置git安装目录下的&lt;code&gt; ./etc/gitconfig&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;-l&lt;/code&gt;、&lt;code&gt;--list&lt;/code&gt;查看配置。&lt;strong&gt;常用&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;git config -l&lt;/code&gt;查看所有的配置信息，依次是系统级别、用户级别、仓库级别&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git config --local -l&lt;/code&gt; 查看仓库级别配置。必须要进入到具体的目录下。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git config --global -l&lt;/code&gt; 查看当前用户配置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git config --system -l&lt;/code&gt; 查看系统所有用户配置&lt;/li&gt;
+&lt;li&gt;可以与&lt;code&gt;--show-origin&lt;/code&gt; 显示文件位置，&lt;code&gt;--show-scope&lt;/code&gt;显示文件级别&lt;strong&gt;组合使用&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;-e&lt;/code&gt;、&lt;code&gt;--edit&lt;/code&gt;打开编辑器编辑&lt;strong&gt;指定级别&lt;/strong&gt;的配置文件，没有指定默认仓库级别，会使用默认编辑器打开编辑。安装的时候设置的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;添加配置、修改配置：直接配置对应的配置参数就行。一般配置用户级别就行。省略了&lt;code&gt;--add&lt;/code&gt;选项。没有指定级别，默认仓库基本。常用的添加配置命令:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;用户邮箱和用户名。安装git之后&lt;strong&gt;必设置的配置&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global user.email &amp;quot;Your mail&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global user.name &amp;quot;Your name&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果我们没有配置，在提交代码时会有如下错误：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;xxx@DESKTOP-MD21325 MINGW64 /d/test/test &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;master&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ git commit -m &lt;span class=&#34;s2&#34;&gt;&amp;#34;feature: add readme&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Author identity unknown
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;*** Please tell me who you are.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Run
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  git config --global user.email &lt;span class=&#34;s2&#34;&gt;&amp;#34;you@example.com&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  git config --global user.name &lt;span class=&#34;s2&#34;&gt;&amp;#34;Your Name&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;to &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; your account&lt;span class=&#34;s1&#34;&gt;&amp;#39;s default identity.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;Omit --global to set the identity only in this repository.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;fatal: unable to auto-detect email address (got &amp;#39;&lt;/span&gt;xxx@DESKTOP-MD21325.&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;none&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;设置自己的代理。网速慢&lt;strong&gt;必设置的配置&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global http.proxy  &amp;quot;http://proxy_ip:port&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global https.proxy &amp;quot;https://proxy_ip:port&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;--unset&lt;/code&gt;取消配置，注意要指定取消的配置级别。常用取消配置命令：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;取消代理配置&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global --unset http.proxy&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global --unset https.proxy&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;--get&lt;/code&gt;查看指定级别、指定配置项的配置，默认仓库级别。如：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;查看代理配置&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global --get http.proxy&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git config --global --get https.proxy&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git config --global alias.&amp;lt;alias-name&amp;gt; &amp;lt;git-command&amp;gt;&lt;/code&gt;配置⼀个git命令的快捷⽅式。例如：配置”alias.glog log &amp;ndash;graph &amp;ndash;oneline”使”git glog”相当于”git log &amp;ndash;graph &amp;ndash;oneline”.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git config --global core.editor &amp;lt;editor&amp;gt;&lt;/code&gt;配置⽂本编辑器，例如vi，在必要时⾃动打开此⽂本编辑器。安装的时候也可以指定默认编辑器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-submodule&#34;&gt;
+    &lt;a href=&#34;#git-submodule&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git submodule
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git submodule init&lt;/code&gt;初始化子模块，将子模块的配置信息存储在父仓库中。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通常执行之后再执行更新子模块使用，如克隆带有子模块的仓库，没有加&lt;code&gt;--recursive&lt;/code&gt;，是不会克隆子模块的&lt;/li&gt;
+&lt;li&gt;初始化子模块之后，执行更新子模块就会根据配置信息下载子模块&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git submodule update&lt;/code&gt;根据父仓库子模块的配置信息更新子模块，如果没有初始化子模块可以加参数&lt;code&gt;--init&lt;/code&gt;，会下载与父项目绑定版本的子模块，若要更新加&lt;code&gt;--remote&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--init&lt;/code&gt;初识化子模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--recursive&lt;/code&gt;会递归下载子模块的子模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--remote&lt;/code&gt;根据子模块远程仓库的配置信息更新子模块，会下载最新版本的子模块
+&lt;ul&gt;
+&lt;li&gt;注意更新之后要提交更新的版本，否则当在执行更新命令没有加&lt;code&gt;--remote&lt;/code&gt;时会退回与父仓库绑定的版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;git submodule add &amp;lt;repository&amp;gt; &amp;lt;path&amp;gt;&lt;/code&gt;添加子模块。其中，&lt;code&gt;&amp;lt;repository&amp;gt;&lt;/code&gt;是子模块的远程仓库地址，&lt;code&gt;&amp;lt;path&amp;gt;&lt;/code&gt;是子模块在主项目中的路径。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;子模块可以当正常仓库使用。创建时&lt;code&gt;&amp;lt;path&amp;gt;&lt;/code&gt;路径不能存在文件，更克隆差不多。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-subtree&#34;&gt;
+    &lt;a href=&#34;#git-subtree&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git subtree
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;作用：将一个仓库中的目录作为另一个仓库，可以指定分支&lt;/li&gt;
+&lt;li&gt;用途：搭建项目网站时，将项目网站资源推送到gh-pages分支上
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git subtree push --prefix=dist origin gh-pages&lt;/code&gt;将目录添加到&lt;code&gt;gh-pages&lt;/code&gt;分支上，&lt;code&gt;dist&lt;/code&gt;为项目网站的目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git subtree push --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code&gt;将子目录的内容推送到远程仓库。它会将当前仓库中子目录的修改推送到指定的远程仓库和分支中。
+&lt;ul&gt;
+&lt;li&gt;注意：以这种推送的方式添加的&lt;code&gt;subtree&lt;/code&gt;不能执行&lt;code&gt;subtree pull&lt;/code&gt;命令，只有通过&lt;code&gt;subtree add&lt;/code&gt;添加的&lt;strong&gt;才能都执行&lt;/strong&gt;，但能够执行&lt;code&gt;subtree push&lt;/code&gt;命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git subtree pull --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code&gt;这个命令用于从远程仓库更新子目录的内容。它会拉取远程仓库的最新代码，并更新到当前仓库的子目录中。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git subtree add --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code&gt;这个命令用于将远程仓库的内容作为子目录添加到当前仓库中。&lt;code&gt;&amp;lt;prefix&amp;gt;&lt;/code&gt;是子目录的名称，&lt;code&gt;&amp;lt;repository&amp;gt;&lt;/code&gt;是远程仓库的地址，&lt;code&gt;&amp;lt;branch&amp;gt;&lt;/code&gt;是要合并的分支。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;git-rebase&#34;&gt;
+    &lt;a href=&#34;#git-rebase&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    git rebase
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;作用：rebase翻译成变基，顾名思义：改变基准点。可以使提交历史更加清晰和线性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;原因：通过合并两个不同的分支，提交历史会很错乱。而通过变基，会使得提交历史更加整洁和可读。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如何实现：就是修改创建分支的起点（基准点），到最新的提交。起点变了，提交历史就简化了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;命令：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git rebase &amp;lt;base&amp;gt;&lt;/code&gt;基于&lt;code&gt;&amp;lt;base&amp;gt;&lt;/code&gt;对当前分⽀进⾏rebase&lt;code&gt;。&amp;lt;base&amp;gt;&lt;/code&gt;可以是commit、分⽀名称、tag或相对于HEAD的commit。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git rebase -i &amp;lt;base&amp;gt;&lt;/code&gt;以交互模式对当前分⽀做rebase。&lt;/li&gt;
+&lt;li&gt;rebase的过程中可能会出现冲突，解决冲突之后需要使用&lt;code&gt;git add&lt;/code&gt;命令将解决冲突后的文件标记为已解决，然后，使用&lt;code&gt;git rebase --continue&lt;/code&gt;命令继续rebase过程。Git会尝试继续应用剩余的提交。如果再次出现冲突，你需要重复上述解决冲突和继续rebase的步骤。&lt;/li&gt;
+&lt;li&gt;如果在rebase过程中出现了问题，或者你决定放弃rebase操作，你可以使用&lt;code&gt;git rebase --abort&lt;/code&gt;命令来撤销整个rebase操作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;git rebase的注意事项&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;避免对已经推送到远程仓库的提交执行rebase操作&lt;/strong&gt;：这可能会导致提交历史的不一致，给其他协作者带来困扰。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;保持工作目录干净&lt;/strong&gt;：在执行rebase之前，确保你的工作目录中没有未提交的更改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;谨慎使用&lt;/strong&gt;：由于rebase会改变提交历史，因此在与他人共享分支时要特别小心。通常，在公共分支上应该使用merge而不是rebase。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过掌握git rebase的用法和注意事项，你可以更有效地管理你的Git仓库，保持代码的清晰和整洁。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;扩展&#34;&gt;
+    &lt;a href=&#34;#%e6%89%a9%e5%b1%95&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    扩展
+&lt;/h2&gt;&lt;h4 id=&#34;gitignore文件&#34;&gt;
+    &lt;a href=&#34;#gitignore%e6%96%87%e4%bb%b6&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    .gitignore文件
+&lt;/h4&gt;&lt;p&gt;Git提供了&lt;code&gt;.gitignore&lt;/code&gt;文件，用于指定哪些文件或目录应该被Git忽略，不纳入版本控制系统中。&lt;code&gt;.gitignore&lt;/code&gt;文件是一个文本文件，可以包含一些简单的规则，指定应该忽略哪些文件或目录。以下是一些.gitignore文件的示例规则：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;忽略所有以.tmp结尾的文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;*.tmp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;忽略所有的log文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;*.log
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;忽略所有的.idea目录：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.idea/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;忽略所有的build目录及其内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;build/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;忽略根目录下的config.json文件，但不忽略子目录中的config.json文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/config.json
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;忽略所有的node_modules目录及其内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;node_modules/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;忽略所有的DS_Store文件（Mac OS X系统中的文件）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.DS_Store
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以将这些规则写入.gitignore文件中，并将该文件添加到Git仓库中，以使Git忽略这些文件或目录。需要注意的是，即使某些文件或目录已经被添加到Git仓库中，也可以通过修改.gitignore文件来让Git忽略它们，但需要执行以下命令才能使.gitignore文件生效：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git rm -r --cached .
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git add .
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git commit -m &lt;span class=&#34;s2&#34;&gt;&amp;#34;update .gitignore&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git push
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这些命令会删除Git缓存中已经添加的文件，然后重新添加文件并提交更改，以使.gitignore文件生效。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;总结：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;当Git执行提交操作时，它会检查.gitignore文件中列出的文件和目录，并将它们从提交中排除。这是非常有用的，因为有些文件或目录不应该被纳入版本控制系统中，例如编译生成的文件、日志文件、临时文件等。&lt;/p&gt;
+&lt;p&gt;.gitignore文件的语法是基于模式匹配的，其中的特殊字符有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;*：匹配任意字符，但不包括路径分隔符（/）。&lt;/li&gt;
+&lt;li&gt;?：匹配任意单个字符，但不包括路径分隔符（/）。&lt;/li&gt;
+&lt;li&gt;/：路径分隔符，用于指定目录。&lt;/li&gt;
+&lt;li&gt;!：用于否定模式，即不忽略指定的文件或目录。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以在.gitignore文件中使用通配符、路径、注释等语法，以更精确地指定需要忽略的文件或目录。同时，可以在仓库的根目录下创建一个.gitignore文件，也可以在子目录中创建独立的.gitignore文件。&lt;/p&gt;
+&lt;hr&gt;
+
+</description>
+        </item>
+        
+    </channel>
+</rss>
