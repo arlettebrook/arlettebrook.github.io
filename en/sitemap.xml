@@ -106,8 +106,18 @@
                 href="https://arlettebrook.github.io/en/tags/"
                 />
   </url><url>
-    <loc>https://arlettebrook.github.io/en/tags/gh-pages/</loc>
+    <loc>https://arlettebrook.github.io/en/tags/github-pages/</loc>
     <lastmod>2024-04-24T22:58:26+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://arlettebrook.github.io/tags/github-pages/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://arlettebrook.github.io/en/tags/github-pages/"
+                />
   </url><url>
     <loc>https://arlettebrook.github.io/en/categories/go/</loc>
     <lastmod>2024-04-24T22:58:26+08:00</lastmod>
