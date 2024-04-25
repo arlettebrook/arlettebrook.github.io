@@ -108,15 +108,18 @@
   </url><url>
     <loc>https://arlettebrook.github.io/en/tags/gh-pages/</loc>
     <lastmod>2024-04-24T22:58:26+08:00</lastmod>
+  </url><url>
+    <loc>https://arlettebrook.github.io/en/categories/go/</loc>
+    <lastmod>2024-04-24T22:58:26+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://arlettebrook.github.io/tags/gh-pages/"
+                href="https://arlettebrook.github.io/categories/go/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://arlettebrook.github.io/en/tags/gh-pages/"
+                href="https://arlettebrook.github.io/en/categories/go/"
                 />
   </url><url>
     <loc>https://arlettebrook.github.io/en/tags/hugo/</loc>
@@ -197,18 +200,6 @@
                 href="https://arlettebrook.github.io/en/about/"
                 />
   </url><url>
-    <loc>https://arlettebrook.github.io/en/categories/go/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://arlettebrook.github.io/categories/go/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://arlettebrook.github.io/en/categories/go/"
-                />
-  </url><url>
     <loc>https://arlettebrook.github.io/en/links/</loc>
     <xhtml:link
                 rel="alternate"
@@ -243,6 +234,18 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://arlettebrook.github.io/en/search/"
+                />
+  </url><url>
+    <loc>https://arlettebrook.github.io/en/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://arlettebrook.github.io/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://arlettebrook.github.io/en/tags/"
                 />
   </url>
 </urlset>

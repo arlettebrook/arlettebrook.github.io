@@ -28,9 +28,6 @@
                 href="https://arlettebrook.github.io/categories/"
                 />
   </url><url>
-    <loc>https://arlettebrook.github.io/tags/go/</loc>
-    <lastmod>2024-04-24T23:41:31+08:00</lastmod>
-  </url><url>
     <loc>https://arlettebrook.github.io/categories/go/</loc>
     <lastmod>2024-04-24T23:41:31+08:00</lastmod>
     <xhtml:link
@@ -43,6 +40,9 @@
                 hreflang="zh-cn"
                 href="https://arlettebrook.github.io/categories/go/"
                 />
+  </url><url>
+    <loc>https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</loc>
+    <lastmod>2024-04-24T23:41:31+08:00</lastmod>
   </url><url>
     <loc>https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/</loc>
     <lastmod>2024-04-24T23:41:31+08:00</lastmod>
@@ -87,6 +87,9 @@
                 />
   </url><url>
     <loc>https://arlettebrook.github.io/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/</loc>
+    <lastmod>2024-04-24T22:47:45+08:00</lastmod>
+  </url><url>
+    <loc>https://arlettebrook.github.io/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/</loc>
     <lastmod>2024-04-24T22:47:45+08:00</lastmod>
   </url><url>
     <loc>https://arlettebrook.github.io/categories/git/</loc>
@@ -144,18 +147,8 @@
     <loc>https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/</loc>
     <lastmod>2024-04-24T22:54:17+08:00</lastmod>
   </url><url>
-    <loc>https://arlettebrook.github.io/tags/gh-pages/</loc>
+    <loc>https://arlettebrook.github.io/tags/github-pages/</loc>
     <lastmod>2024-04-24T22:58:26+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://arlettebrook.github.io/en/tags/gh-pages/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://arlettebrook.github.io/tags/gh-pages/"
-                />
   </url><url>
     <loc>https://arlettebrook.github.io/tags/hugo/</loc>
     <lastmod>2024-04-24T22:58:26+08:00</lastmod>
@@ -220,6 +213,18 @@
                 rel="alternate"
                 hreflang="zh-cn"
                 href="https://arlettebrook.github.io/archives/"
+                />
+  </url><url>
+    <loc>https://arlettebrook.github.io/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://arlettebrook.github.io/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://arlettebrook.github.io/tags/"
                 />
   </url><url>
     <loc>https://arlettebrook.github.io/%E5%85%B3%E4%BA%8E/</loc>

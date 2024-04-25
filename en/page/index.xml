@@ -209,6 +209,14 @@ Here are some ideas to get you started:
         <guid>https://arlettebrook.github.io/en/search/</guid>
         <description></description>
         </item>
+        <item>
+        <title>Tags</title>
+        <link>https://arlettebrook.github.io/en/tags/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://arlettebrook.github.io/en/tags/</guid>
+        <description></description>
+        </item>
         
     </channel>
 </rss>

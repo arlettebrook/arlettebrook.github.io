@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Gh-Pages on Arlettebrook&#39;s blog</title>
-        <link>https://arlettebrook.github.io/tags/gh-pages/</link>
-        <description>Recent content in Gh-Pages on Arlettebrook&#39;s blog</description>
+        <title>Github-Pages on Arlettebrook&#39;s blog</title>
+        <link>https://arlettebrook.github.io/tags/github-pages/</link>
+        <description>Recent content in Github-Pages on Arlettebrook&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Arlettebrook</copyright>
-        <lastBuildDate>Mon, 22 Apr 2024 16:12:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/gh-pages/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 22 Apr 2024 16:12:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/github-pages/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>基于Hugo和gh-pages快速搭建静态网站</title>
         <link>https://arlettebrook.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</link>
         <pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate>
