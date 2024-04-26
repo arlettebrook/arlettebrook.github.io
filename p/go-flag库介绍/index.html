@@ -1,1339 +1,605 @@
-<!DOCTYPE html>
-<html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Go标准库之flag。">
-<title>Go flag库介绍</title>
-
-<link rel='canonical' href='https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/'>
-
-<link rel="stylesheet" href="/scss/style.min.2728a1da02e4dfcac1eef2aafc62514f5ee9adb50a945282387cb2374e97e7c0.css"><meta property='og:title' content="Go flag库介绍">
-<meta property='og:description' content="Go标准库之flag。">
-<meta property='og:url' content='https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/'>
-<meta property='og:site_name' content='Arlettebrook&#39;s blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Go标准库' /><meta property='article:published_time' content='2024-04-22T18:02:17&#43;08:00'/><meta property='article:modified_time' content='2024-04-24T22:54:17&#43;08:00'/>
-<meta name="twitter:site" content="@arlettebrook">
-    <meta name="twitter:creator" content="@arlettebrook"><meta name="twitter:title" content="Go flag库介绍">
-<meta name="twitter:description" content="Go标准库之flag。">
-    <link rel="shortcut icon" href="/img/favicon.ico" />
-
-  
-
-
-    </head>
-    <body class="
-    article-page
-    ">
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "auto");
-            }
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended">
-
-
-        <div id="article-toolbar" style="position: sticky;top: 5px;z-index: 1000;">
-            <a href="/" class="back-home">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="15 6 9 12 15 18" />
-</svg>
-
-
-
-                <span>返回</span>
-            </a>
-        </div>
-    
-
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#简介">简介</a></li>
-    <li><a href="#快速使用">快速使用</a></li>
-    <li><a href="#选项格式">选项格式</a></li>
-    <li><a href="#另一种定义选项的方式">另一种定义选项的方式</a></li>
-    <li><a href="#高级用法">高级用法</a>
-      <ol>
-        <li><a href="#定义短选项">定义短选项</a></li>
-        <li><a href="#解析时间间隔">解析时间间隔</a></li>
-        <li><a href="#自定义选项">自定义选项</a></li>
-        <li><a href="#解析程序中的字符串">解析程序中的字符串</a></li>
-      </ol>
-    </li>
-    <li><a href="#参考">参考</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
-            <main class="main full-width">
-    <article class="main-article">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/go/" style="background-color: #2a9d8f; color: #fff;">
-                Go
-            </a>
-        
-            <a href="/categories/%E7%BC%96%E7%A8%8B/" style="background-color: #2a9d8f; color: #fff;">
-                编程
-            </a>
-        
-    </header>
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/">Go flag库介绍</a>
-        </h2>
-    
-        
-        <h3 class="article-subtitle">
-            Go标准库之flag。
-        </h3>
-        
-    </div>
-
-    
-    
-    
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Apr 22, 2024</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    阅读时长: 9 分钟
-                </time>
-            </div>
-        
-    </footer>
-    
-
-    
-</div>
-
-</header>
-
-    <section class="article-content">
-    
-    
-    <h2 id="简介">
-    <a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#</a>
-    简介
-</h2><p><code>flag</code>用于解析命令行选项。有过类 Unix 系统使用经验的童鞋对命令行选项应该不陌生。例如命令<code>ls -al</code>列出当前目录下所有文件和目录的详细信息，其中<code>-al</code>就是命令行选项。</p>
-<p>命令行选项在实际开发中很常用，特别是在写工具的时候。</p>
-<ul>
-<li>指定配置文件的路径，如<code>redis-server ./redis.conf</code>以当前目录下的配置文件<code>redis.conf</code>启动 Redis 服务器；</li>
-<li>自定义某些参数，如<code>python -m SimpleHTTPServer 8080</code>启动一个 HTTP 服务器，监听 8080 端口。如果不指定，则默认监听 8000 端口。</li>
-</ul>
-<h2 id="快速使用">
-    <a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#</a>
-    快速使用
-</h2><p>学习一个库的第一步当然是使用它。我们先看看<code>flag</code>库的基本使用：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;flag&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">intflag</span> <span class="kt">int</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">boolflag</span> <span class="kt">bool</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">stringflag</span> <span class="kt">string</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">IntVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">intflag</span><span class="p">,</span> <span class="s">&#34;intflag&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#34;int flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">BoolVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">boolflag</span><span class="p">,</span> <span class="s">&#34;boolflag&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;bool flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">stringflag</span><span class="p">,</span> <span class="s">&#34;stringflag&#34;</span><span class="p">,</span> <span class="s">&#34;default&#34;</span><span class="p">,</span> <span class="s">&#34;string flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;int flag:&#34;</span><span class="p">,</span> <span class="nx">intflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;bool flag:&#34;</span><span class="p">,</span> <span class="nx">boolflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;string flag:&#34;</span><span class="p">,</span> <span class="nx">stringflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>可以先编译程序，然后运行（我使用的是 Win10 + Git Bash）：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go build -o main.exe main.go
-</span></span><span class="line"><span class="cl">$ ./main.exe -intflag <span class="m">12</span> -boolflag <span class="m">1</span> -stringflag <span class="nb">test</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>输出：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">int flag: <span class="m">12</span>
-</span></span><span class="line"><span class="cl">bool flag: <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">string flag: <span class="nb">test</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果不设置某个选项，相应变量会取默认值：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./main.exe -intflag <span class="m">12</span> -boolflag <span class="m">1</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>输出：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">int flag: <span class="m">12</span>
-</span></span><span class="line"><span class="cl">bool flag: <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">string flag: default
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>可以看到没有设置的选项<code>stringflag</code>为默认值<code>default</code>。</p>
-<p>还可以直接使用<code>go run</code>，这个命令会先编译程序生成可执行文件，然后执行该文件，将命令行中的其它选项传给这个程序。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">go run main.go -intflag <span class="m">12</span> -boolflag <span class="m">1</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>可以使用<code>-h</code>显示选项帮助信息：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./main.exe -h
-</span></span><span class="line"><span class="cl">Usage of D:<span class="se">\c</span>ode<span class="se">\g</span>olang<span class="se">\s</span>rc<span class="se">\g</span>ithub.com<span class="se">\d</span>arjun<span class="se">\c</span>md<span class="se">\f</span>lag<span class="se">\m</span>ain.exe:
-</span></span><span class="line"><span class="cl">  -boolflag
-</span></span><span class="line"><span class="cl">        bool flag value
-</span></span><span class="line"><span class="cl">  -intflag int
-</span></span><span class="line"><span class="cl">        int flag value
-</span></span><span class="line"><span class="cl">  -stringflag string
-</span></span><span class="line"><span class="cl">        string flag value <span class="o">(</span>default <span class="s2">&#34;default&#34;</span><span class="o">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>总结一下，使用<code>flag</code>库的一般步骤：</p>
-<ul>
-<li>定义一些全局变量存储选项的值，如这里的<code>intflag/boolflag/stringflag</code>；</li>
-<li>在<code>init</code>方法中使用<code>flag.TypeVar</code>方法定义选项，这里的<code>Type</code>可以为基本类型<code>Int/Uint/Float64/Bool</code>，还可以是时间间隔<code>time.Duration</code>。定义时传入变量的地址、选项名、默认值和帮助信息；</li>
-<li>在<code>main</code>方法中调用<code>flag.Parse</code>从<code>os.Args[1:]</code>中解析选项。因为<code>os.Args[0]</code>为可执行程序路径，会被剔除。</li>
-</ul>
-<p>注意点：</p>
-<p><code>flag.Parse</code>方法必须在所有选项都定义之后调用，且<code>flag.Parse</code>调用之后不能再定义选项。如果按照前面的步骤，基本不会出现问题。 因为<code>init</code>在所有代码之前执行，将选项定义都放在<code>init</code>中，<code>main</code>函数中执行<code>flag.Parse</code>时所有选项都已经定义了。</p>
-<h2 id="选项格式">
-    <a href="#%e9%80%89%e9%a1%b9%e6%a0%bc%e5%bc%8f" class="header-anchor">#</a>
-    选项格式
-</h2><p><code>flag</code>库支持三种命令行选项格式。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">-flag
-</span></span><span class="line"><span class="cl">-flag<span class="o">=</span>x
-</span></span><span class="line"><span class="cl">-flag x
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><code>-</code>和<code>--</code>都可以使用，它们的作用是一样的。有些库使用<code>-</code>表示短选项，<code>--</code>表示长选项。相对而言，<code>flag</code>使用起来更简单。</p>
-<p>第一种形式只支持布尔类型的选项，出现即为<code>true</code>，不出现为默认值。 第三种形式不支持布尔类型的选项。因为这种形式的布尔选项在类 Unix 系统中可能会出现意想不到的行为。看下面的命令：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cmd -x *
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>其中，<code>*</code>是 shell 通配符。如果有名字为 0、false的文件，布尔选项<code>-x</code>将会取<code>false</code>。反之，布尔选项<code>-x</code>将会取<code>true</code>。而且这个选项消耗了一个参数。 如果要显示设置一个布尔选项为<code>false</code>，只能使用<code>-flag=false</code>这种形式。</p>
-<p>遇到第一个非选项参数（即不是以<code>-</code>和<code>--</code>开头的）或终止符<code>--</code>，解析停止。运行下面程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./main.exe noflag -intflag <span class="m">12</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>将会输出：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">int flag: <span class="m">0</span>
-</span></span><span class="line"><span class="cl">bool flag: <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">string flag: default
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>因为解析遇到<code>noflag</code>就停止了，后面的选项<code>-intflag</code>没有被解析到。所以所有选项都取的默认值。</p>
-<p>运行下面的程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./main.exe -intflag <span class="m">12</span> -- -boolflag<span class="o">=</span><span class="nb">true</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>将会输出：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">int flag: <span class="m">12</span>
-</span></span><span class="line"><span class="cl">bool flag: <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">string flag: default
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>首先解析了选项<code>intflag</code>，设置其值为 12。遇到<code>--</code>后解析终止了，后面的<code>--boolflag=true</code>没有被解析到，所以<code>boolflag</code>选项取默认值<code>false</code>。</p>
-<p>解析终止之后如果还有命令行参数，<code>flag</code>库会存储下来，通过<code>flag.Args</code>方法返回这些参数的切片。 可以通过<code>flag.NArg</code>方法获取未解析的参数数量，<code>flag.Arg(i)</code>访问位置<code>i</code>（从 0 开始）上的参数。 选项个数也可以通过调用<code>flag.NFlag</code>方法获取。</p>
-<p>稍稍修改一下上面的程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">flag</span><span class="p">.</span><span class="nf">Args</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Non-Flag Argument Count:&#34;</span><span class="p">,</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NArg</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NArg</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Argument %d: %s\n&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">Arg</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Flag Count:&#34;</span><span class="p">,</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NFlag</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>编译运行该程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go build -o main.exe main.go
-</span></span><span class="line"><span class="cl">$ ./main.exe -intflag <span class="m">12</span> -- -stringflag <span class="nb">test</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>输出：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>-stringflag test<span class="o">]</span>
-</span></span><span class="line"><span class="cl">Non-Flag Argument Count: <span class="m">2</span>
-</span></span><span class="line"><span class="cl">Argument 0: -stringflag
-</span></span><span class="line"><span class="cl">Argument 1: <span class="nb">test</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>解析遇到<code>--</code>终止后，剩余参数<code>-stringflag test</code>保存在<code>flag</code>中，可以通过<code>Args/NArg/Arg</code>等方法访问。</p>
-<p>整数选项值可以接受 1234（十进制）、0664（八进制）和 0x1234（十六进制）的形式，并且可以是负数。实际上<code>flag</code>在内部使用<code>strconv.ParseInt</code>方法将字符串解析成<code>int</code>。 所以理论上，<code>ParseInt</code>接受的格式都可以。</p>
-<p>布尔类型的选项值可以为：</p>
-<ul>
-<li>取值为<code>true</code>的：1、t、T、true、TRUE、True；</li>
-<li>取值为<code>false</code>的：0、f、F、false、FALSE、False。</li>
-</ul>
-<h2 id="另一种定义选项的方式">
-    <a href="#%e5%8f%a6%e4%b8%80%e7%a7%8d%e5%ae%9a%e4%b9%89%e9%80%89%e9%a1%b9%e7%9a%84%e6%96%b9%e5%bc%8f" class="header-anchor">#</a>
-    另一种定义选项的方式
-</h2><p>上面我们介绍了使用<code>flag.TypeVar</code>定义选项，这种方式需要我们先定义变量，然后变量的地址。 还有一种方式，调用<code>flag.Type</code>（其中<code>Type</code>可以为<code>Int/Uint/Bool/Float64/String/Duration</code>等）会自动为我们分配变量，返回该变量的地址。用法与前一种方式类似：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;flag&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">intflag</span> <span class="o">*</span><span class="kt">int</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">boolflag</span> <span class="o">*</span><span class="kt">bool</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">stringflag</span> <span class="o">*</span><span class="kt">string</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">intflag</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;intflag&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#34;int flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">boolflag</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">Bool</span><span class="p">(</span><span class="s">&#34;boolflag&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;bool flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">stringflag</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;stringflag&#34;</span><span class="p">,</span> <span class="s">&#34;default&#34;</span><span class="p">,</span> <span class="s">&#34;string flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;int flag:&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">intflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;bool flag:&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">boolflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;string flag:&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">stringflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>编译并运行程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go build -o main.exe main.go
-</span></span><span class="line"><span class="cl">$ ./main.exe -intflag <span class="m">12</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>将输出：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">int flag: <span class="m">12</span>
-</span></span><span class="line"><span class="cl">bool flag: <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">string flag: default
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>除了使用时需要解引用，其它与前一种方式基本相同。</p>
-<h2 id="高级用法">
-    <a href="#%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95" class="header-anchor">#</a>
-    高级用法
-</h2><h3 id="定义短选项">
-    <a href="#%e5%ae%9a%e4%b9%89%e7%9f%ad%e9%80%89%e9%a1%b9" class="header-anchor">#</a>
-    定义短选项
-</h3><p><code>flag</code>库并没有显示支持短选项，但是可以通过给某个相同的变量设置不同的选项来实现。即两个选项共享同一个变量。 由于初始化顺序不确定，必须保证它们拥有相同的默认值。否则不传该选项时，行为是不确定的。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;flag&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">logLevel</span> <span class="kt">string</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">const</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">defaultLogLevel</span> <span class="p">=</span> <span class="s">&#34;DEBUG&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">usage</span> <span class="p">=</span> <span class="s">&#34;set log level value&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">)</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">logLevel</span><span class="p">,</span> <span class="s">&#34;log_type&#34;</span><span class="p">,</span> <span class="nx">defaultLogLevel</span><span class="p">,</span> <span class="nx">usage</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">logLevel</span><span class="p">,</span> <span class="s">&#34;l&#34;</span><span class="p">,</span> <span class="nx">defaultLogLevel</span><span class="p">,</span> <span class="nx">usage</span> <span class="o">+</span> <span class="s">&#34;(shorthand)&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;log level:&#34;</span><span class="p">,</span> <span class="nx">logLevel</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>编译、运行程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go build -o main.exe main.go
-</span></span><span class="line"><span class="cl">$ ./main.exe -log_type WARNING
-</span></span><span class="line"><span class="cl">$ ./main.exe -l WARNING
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>使用长、短选项均输出：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">log level: WARNING
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>不传入该选项，输出默认值：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./main.exe
-</span></span><span class="line"><span class="cl">log level: DEBUG
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="解析时间间隔">
-    <a href="#%e8%a7%a3%e6%9e%90%e6%97%b6%e9%97%b4%e9%97%b4%e9%9a%94" class="header-anchor">#</a>
-    解析时间间隔
-</h3><p>除了能使用基本类型作为选项，<code>flag</code>库还支持<code>time.Duration</code>类型，即时间间隔。时间间隔支持的格式非常之多，例如&quot;300ms&quot;、&quot;-1.5h&quot;、“2h45m&quot;等等等等。 时间单位可以是 ns/us/ms/s/m/h/day 等。实际上<code>flag</code>内部会调用<code>time.ParseDuration</code>。具体支持的格式可以参见<a class="link" href="https://golang.org/pkg/time/#ParseDuration"  target="_blank" rel="noopener"
-    >time</a>（需fq）库的文档。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;flag&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;time&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">period</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">DurationVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">period</span><span class="p">,</span> <span class="s">&#34;period&#34;</span><span class="p">,</span> <span class="mi">1</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span> <span class="s">&#34;sleep period&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Sleeping for %v...&#34;</span><span class="p">,</span> <span class="nx">period</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">period</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>根据传入的命令行选项<code>period</code>，程序睡眠相应的时间，默认 1 秒。编译、运行程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go build -o main.exe main.go
-</span></span><span class="line"><span class="cl">$ ./main.exe
-</span></span><span class="line"><span class="cl">Sleeping <span class="k">for</span> 1s...
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">$ ./main.exe -period 1m30s
-</span></span><span class="line"><span class="cl">Sleeping <span class="k">for</span> 1m30s...
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="自定义选项">
-    <a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e9%80%89%e9%a1%b9" class="header-anchor">#</a>
-    自定义选项
-</h3><p>除了使用<code>flag</code>库提供的选项类型，我们还可以自定义选项类型。我们分析一下标准库中提供的案例：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;errors&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;flag&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;strings&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;time&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">interval</span> <span class="p">[]</span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span><span class="nx">interval</span><span class="p">)</span> <span class="nf">String</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprint</span><span class="p">(</span><span class="o">*</span><span class="nx">i</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span><span class="nx">interval</span><span class="p">)</span> <span class="nf">Set</span><span class="p">(</span><span class="nx">value</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">i</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;interval flag already set&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">dt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Split</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="s">&#34;,&#34;</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">duration</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nf">ParseDuration</span><span class="p">(</span><span class="nx">dt</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">err</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="o">*</span><span class="nx">i</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="o">*</span><span class="nx">i</span><span class="p">,</span> <span class="nx">duration</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">intervalFlag</span> <span class="nx">interval</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">Var</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">intervalFlag</span><span class="p">,</span> <span class="s">&#34;deltaT&#34;</span><span class="p">,</span> <span class="s">&#34;comma-seperated list of intervals to use between events&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">flag</span><span class="p">.</span><span class="nf">Parse</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">intervalFlag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>首先定义一个新类型，这里定义类型<code>interval</code>。</p>
-<p>新类型必须实现<code>flag.Value</code>接口：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="c1">// src/flag/flag.go
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">Value</span> <span class="kd">interface</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">String</span><span class="p">()</span> <span class="kt">string</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">Set</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">error</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>其中<code>String</code>方法格式化该类型的值，<code>flag.Parse</code>方法在执行时遇到自定义类型的选项会将选项值作为参数调用该类型变量的<code>Set</code>方法。 这里将以<code>,</code>分隔的时间间隔解析出来存入一个切片中。</p>
-<p>自定义类型选项的定义必须使用<code>flag.Var</code>方法。</p>
-<p>编译、执行程序：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go build -o main.exe main.go
-</span></span><span class="line"><span class="cl">$ ./main.exe -deltaT 30s
-</span></span><span class="line"><span class="cl"><span class="o">[</span>30s<span class="o">]</span>
-</span></span><span class="line"><span class="cl">$ ./main.exe -deltaT 30s,1m,1m30s
-</span></span><span class="line"><span class="cl"><span class="o">[</span>30s 1m0s 1m30s<span class="o">]</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果指定的选项值非法，<code>Set</code>方法返回一个<code>error</code>类型的值，<code>Parse</code>执行终止，打印错误和使用帮助。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ./main.exe -deltaT 30x
-</span></span><span class="line"><span class="cl">invalid value <span class="s2">&#34;30x&#34;</span> <span class="k">for</span> flag -deltaT: time: unknown unit x in duration 30x
-</span></span><span class="line"><span class="cl">Usage of D:<span class="se">\c</span>ode<span class="se">\g</span>olang<span class="se">\s</span>rc<span class="se">\g</span>ithub.com<span class="se">\d</span>arjun<span class="se">\g</span>o-daily-lib<span class="se">\f</span>lag<span class="se">\s</span>elf-defined<span class="se">\m</span>ain.exe:
-</span></span><span class="line"><span class="cl">  -deltaT value
-</span></span><span class="line"><span class="cl">        comma-seperated list of intervals to use between events
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="解析程序中的字符串">
-    <a href="#%e8%a7%a3%e6%9e%90%e7%a8%8b%e5%ba%8f%e4%b8%ad%e7%9a%84%e5%ad%97%e7%ac%a6%e4%b8%b2" class="header-anchor">#</a>
-    解析程序中的字符串
-</h3><p>有时候选项并不是通过命令行传递的。例如，从配置表中读取或程序生成的。这时候可以使用<code>flag.FlagSet</code>结构的相关方法来解析这些选项。</p>
-<p>实际上，我们前面调用的<code>flag</code>库的方法，都会间接调用<code>FlagSet</code>结构的方法。<code>flag</code>库中定义了一个<code>FlagSet</code>类型的全局变量<code>CommandLine</code>专门用于解析命令行选项。 前面调用的<code>flag</code>库的方法只是为了提供便利，它们内部都是调用的<code>CommandLine</code>的相应方法：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="c1">// src/flag/flag.go
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">CommandLine</span> <span class="p">=</span> <span class="nf">NewFlagSet</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">ExitOnError</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Parse</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">CommandLine</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">IntVar</span><span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="kt">int</span><span class="p">,</span> <span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">value</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">usage</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">CommandLine</span><span class="p">.</span><span class="nf">Var</span><span class="p">(</span><span class="nf">newIntValue</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">p</span><span class="p">),</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">usage</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Int</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">value</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">usage</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="kt">int</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">CommandLine</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">usage</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NFlag</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">CommandLine</span><span class="p">.</span><span class="nx">actual</span><span class="p">)</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Arg</span><span class="p">(</span><span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">CommandLine</span><span class="p">.</span><span class="nf">Arg</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">NArg</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">CommandLine</span><span class="p">.</span><span class="nx">args</span><span class="p">)</span> <span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>同样的，我们也可以自己创建<code>FlagSet</code>类型变量来解析选项。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;flag&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">args</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;-intflag&#34;</span><span class="p">,</span> <span class="s">&#34;12&#34;</span><span class="p">,</span> <span class="s">&#34;-stringflag&#34;</span><span class="p">,</span> <span class="s">&#34;test&#34;</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">intflag</span> <span class="kt">int</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">boolflag</span> <span class="kt">bool</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">var</span> <span class="nx">stringflag</span> <span class="kt">string</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nx">fs</span> <span class="o">:=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NewFlagSet</span><span class="p">(</span><span class="s">&#34;MyFlagSet&#34;</span><span class="p">,</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">ContinueOnError</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fs</span><span class="p">.</span><span class="nf">IntVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">intflag</span><span class="p">,</span> <span class="s">&#34;intflag&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#34;int flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fs</span><span class="p">.</span><span class="nf">BoolVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">boolflag</span><span class="p">,</span> <span class="s">&#34;boolflag&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;bool flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fs</span><span class="p">.</span><span class="nf">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">stringflag</span><span class="p">,</span> <span class="s">&#34;stringflag&#34;</span><span class="p">,</span> <span class="s">&#34;default&#34;</span><span class="p">,</span> <span class="s">&#34;string flag value&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="nx">fs</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;int flag:&#34;</span><span class="p">,</span> <span class="nx">intflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;bool flag:&#34;</span><span class="p">,</span> <span class="nx">boolflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;string flag:&#34;</span><span class="p">,</span> <span class="nx">stringflag</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><code>NewFlagSet</code>方法有两个参数，第一个参数是程序名称，输出帮助或出错时会显示该信息。第二个参数是解析出错时如何处理，有几个选项：</p>
-<ul>
-<li><code>ContinueOnError</code>：发生错误后继续解析，<code>CommandLine</code>就是使用这个选项；</li>
-<li><code>ExitOnError</code>：出错时调用<code>os.Exit(2)</code>退出程序；</li>
-<li><code>PanicOnError</code>：出错时产生 panic。</li>
-</ul>
-<p>随便看一眼<code>flag</code>库中的相关代码：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="line"><span class="cl"><span class="c1">// src/flag/flag.go
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">f</span> <span class="o">*</span><span class="nx">FlagSet</span><span class="p">)</span> <span class="nf">Parse</span><span class="p">(</span><span class="nx">arguments</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">f</span><span class="p">.</span><span class="nx">parsed</span> <span class="p">=</span> <span class="kc">true</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">f</span><span class="p">.</span><span class="nx">args</span> <span class="p">=</span> <span class="nx">arguments</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">seen</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">parseOne</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">seen</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">continue</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="k">break</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="nx">f</span><span class="p">.</span><span class="nx">errorHandling</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">ContinueOnError</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">err</span>
-</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">ExitOnError</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">      <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">PanicOnError</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">      <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>与直接使用<code>flag</code>库的方法有一点不同，<code>FlagSet</code>调用<code>Parse</code>方法时需要显示传入字符串切片作为参数。因为<code>flag.Parse</code>在内部调用了<code>CommandLine.Parse(os.Args[1:])</code>。 示例代码都放在<a class="link" href="https://github.com/darjun/go-daily-lib"  target="_blank" rel="noopener"
-    >GitHub</a>上了。</p>
-<h2 id="参考">
-    <a href="#%e5%8f%82%e8%80%83" class="header-anchor">#</a>
-    参考
-</h2><ol>
-<li><a class="link" href="https://golang.org/pkg/flag/"  target="_blank" rel="noopener"
-    >flag</a>库文档</li>
-<li><a class="link" href="https://darjun.github.io/2020/01/10/godailylib/flag/"  target="_blank" rel="noopener"
-    >Go 每日一库之 flag</a></li>
-</ol>
-
-
-</section>
-
-
-    <footer class="article-footer">
-    
-    <section class="article-tags">
-        
-            <a href="/tags/go%E6%A0%87%E5%87%86%E5%BA%93/">Go标准库</a>
-        
-    </section>
-
-
-    
-    <section class="article-copyright">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
-</svg>
-
-
-
-        <span>Licensed under CC BY-NC-SA 4.0</span>
-    </section>
-    <section class="article-lastmod">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-        <span>
-            最后更新于 Apr 24, 2024 22:54 CST
-        </span>
-    </section></footer>
-
-
-    
-</article>
-
-    
-
-    
-
-<aside class="related-content--wrapper">
-    <h2 class="section-title">相关文章</h2>
-    <div class="related-content">
-        <div class="flex article-list--tile">
-            
-                
-<article class="">
-    <a href="/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Go调用外部命令os/exec库介绍</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Go常见设计模式：选项模式</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Go常见设计模式：单例模式</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Go-homedir库介绍</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/">
-        
-        
-            <div class="article-image">
-                <img src="/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/hugo.46f61e8ea6a2df8fc5bf1d24a17c44a6_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_250x150_fill_q75_box_smart1.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站"
-                        
-                        data-hash="md5-RvYejqai34/Fvx0koXxEpg==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">基于Hugo和gh-pages快速搭建静态网站</h2>
-        </div>
-    </a>
-</article>
-
-            
-        </div>
-    </div>
-</aside>
-
-     
-    
-        
-    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
-<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
-<div id="waline" class="waline-container"></div>
-<style>
-    .waline-container {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-        --waline-font-size: var(--article-font-size);
-    }
-    .waline-container .wl-count {
-        color: var(--card-text-color-main);
-    }
-</style><script>
-    
-    Waline.init({"copyright":false,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://unpkg.com/@waline/emojis@1.0.1/weibo"],"lang":"zh-cn","locale":{"admin":"👻Hi!","placeholder":"🎉留下你的脚印..."},"pageview":true,"requiredMeta":["name","email"],"serverURL":"https://waline.trojan123.top/"});
-</script>
-
-    
-
-    <footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-            2020 - 
-        
-        2024 Arlettebrook
-    </section>
-    
-    <section class="powerby">
-        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.25.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
-    </section>
-</footer>
-
-
-    
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
-
-            </main>
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
-
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
-
-        document.head.appendChild(customFont);
-    }());
-</script>
-
-    </body>
-</html>
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Go标准库之flag。"><title>Go flag库介绍</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Go flag库介绍"><meta property='og:description' content="Go标准库之flag。"><meta property='og:url' content='https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go标准库'><meta property='article:published_time' content='2024-04-22T18:02:17+08:00'><meta property='article:modified_time' content='2024-04-24T22:54:17+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Go flag库介绍"><meta name=twitter:description content="Go标准库之flag。"><link rel="shortcut icon" href=/img/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#简介>简介</a></li><li><a href=#快速使用>快速使用</a></li><li><a href=#选项格式>选项格式</a></li><li><a href=#另一种定义选项的方式>另一种定义选项的方式</a></li><li><a href=#高级用法>高级用法</a><ol><li><a href=#定义短选项>定义短选项</a></li><li><a href=#解析时间间隔>解析时间间隔</a></li><li><a href=#自定义选项>自定义选项</a></li><li><a href=#解析程序中的字符串>解析程序中的字符串</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#2a9d8f;color:#fff>Go
+</a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#2a9d8f;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/>Go flag库介绍</a></h2><h3 class=article-subtitle>Go标准库之flag。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Apr 22, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 9 分钟</time></div></footer></div></header><section class=article-content><h2 id=简介><a href=#%e7%ae%80%e4%bb%8b class=header-anchor>#</a>
+简介</h2><p><code>flag</code>用于解析命令行选项。有过类 Unix 系统使用经验的童鞋对命令行选项应该不陌生。例如命令<code>ls -al</code>列出当前目录下所有文件和目录的详细信息，其中<code>-al</code>就是命令行选项。</p><p>命令行选项在实际开发中很常用，特别是在写工具的时候。</p><ul><li>指定配置文件的路径，如<code>redis-server ./redis.conf</code>以当前目录下的配置文件<code>redis.conf</code>启动 Redis 服务器；</li><li>自定义某些参数，如<code>python -m SimpleHTTPServer 8080</code>启动一个 HTTP 服务器，监听 8080 端口。如果不指定，则默认监听 8000 端口。</li></ul><h2 id=快速使用><a href=#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+快速使用</h2><p>学习一个库的第一步当然是使用它。我们先看看<code>flag</code>库的基本使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=nx>intflag</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl>  <span class=nx>boolflag</span> <span class=kt>bool</span>
+</span></span><span class=line><span class=cl>  <span class=nx>stringflag</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>init</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>IntVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>intflag</span><span class=p>,</span> <span class=s>&#34;intflag&#34;</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=s>&#34;int flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>BoolVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>boolflag</span><span class=p>,</span> <span class=s>&#34;boolflag&#34;</span><span class=p>,</span> <span class=kc>false</span><span class=p>,</span> <span class=s>&#34;bool flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>StringVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>stringflag</span><span class=p>,</span> <span class=s>&#34;stringflag&#34;</span><span class=p>,</span> <span class=s>&#34;default&#34;</span><span class=p>,</span> <span class=s>&#34;string flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;int flag:&#34;</span><span class=p>,</span> <span class=nx>intflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;bool flag:&#34;</span><span class=p>,</span> <span class=nx>boolflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;string flag:&#34;</span><span class=p>,</span> <span class=nx>stringflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以先编译程序，然后运行（我使用的是 Win10 + Git Bash）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go build -o main.exe main.go
+</span></span><span class=line><span class=cl>$ ./main.exe -intflag <span class=m>12</span> -boolflag <span class=m>1</span> -stringflag <span class=nb>test</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>int flag: <span class=m>12</span>
+</span></span><span class=line><span class=cl>bool flag: <span class=nb>true</span>
+</span></span><span class=line><span class=cl>string flag: <span class=nb>test</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果不设置某个选项，相应变量会取默认值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -intflag <span class=m>12</span> -boolflag <span class=m>1</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>int flag: <span class=m>12</span>
+</span></span><span class=line><span class=cl>bool flag: <span class=nb>true</span>
+</span></span><span class=line><span class=cl>string flag: default
+</span></span></code></pre></td></tr></table></div></div><p>可以看到没有设置的选项<code>stringflag</code>为默认值<code>default</code>。</p><p>还可以直接使用<code>go run</code>，这个命令会先编译程序生成可执行文件，然后执行该文件，将命令行中的其它选项传给这个程序。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>go run main.go -intflag <span class=m>12</span> -boolflag <span class=m>1</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以使用<code>-h</code>显示选项帮助信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -h
+</span></span><span class=line><span class=cl>Usage of D:<span class=se>\c</span>ode<span class=se>\g</span>olang<span class=se>\s</span>rc<span class=se>\g</span>ithub.com<span class=se>\d</span>arjun<span class=se>\c</span>md<span class=se>\f</span>lag<span class=se>\m</span>ain.exe:
+</span></span><span class=line><span class=cl>  -boolflag
+</span></span><span class=line><span class=cl>        bool flag value
+</span></span><span class=line><span class=cl>  -intflag int
+</span></span><span class=line><span class=cl>        int flag value
+</span></span><span class=line><span class=cl>  -stringflag string
+</span></span><span class=line><span class=cl>        string flag value <span class=o>(</span>default <span class=s2>&#34;default&#34;</span><span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>总结一下，使用<code>flag</code>库的一般步骤：</p><ul><li>定义一些全局变量存储选项的值，如这里的<code>intflag/boolflag/stringflag</code>；</li><li>在<code>init</code>方法中使用<code>flag.TypeVar</code>方法定义选项，这里的<code>Type</code>可以为基本类型<code>Int/Uint/Float64/Bool</code>，还可以是时间间隔<code>time.Duration</code>。定义时传入变量的地址、选项名、默认值和帮助信息；</li><li>在<code>main</code>方法中调用<code>flag.Parse</code>从<code>os.Args[1:]</code>中解析选项。因为<code>os.Args[0]</code>为可执行程序路径，会被剔除。</li></ul><p>注意点：</p><p><code>flag.Parse</code>方法必须在所有选项都定义之后调用，且<code>flag.Parse</code>调用之后不能再定义选项。如果按照前面的步骤，基本不会出现问题。 因为<code>init</code>在所有代码之前执行，将选项定义都放在<code>init</code>中，<code>main</code>函数中执行<code>flag.Parse</code>时所有选项都已经定义了。</p><h2 id=选项格式><a href=#%e9%80%89%e9%a1%b9%e6%a0%bc%e5%bc%8f class=header-anchor>#</a>
+选项格式</h2><p><code>flag</code>库支持三种命令行选项格式。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>-flag
+</span></span><span class=line><span class=cl>-flag<span class=o>=</span>x
+</span></span><span class=line><span class=cl>-flag x
+</span></span></code></pre></td></tr></table></div></div><p><code>-</code>和<code>--</code>都可以使用，它们的作用是一样的。有些库使用<code>-</code>表示短选项，<code>--</code>表示长选项。相对而言，<code>flag</code>使用起来更简单。</p><p>第一种形式只支持布尔类型的选项，出现即为<code>true</code>，不出现为默认值。 第三种形式不支持布尔类型的选项。因为这种形式的布尔选项在类 Unix 系统中可能会出现意想不到的行为。看下面的命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>cmd -x *
+</span></span></code></pre></td></tr></table></div></div><p>其中，<code>*</code>是 shell 通配符。如果有名字为 0、false的文件，布尔选项<code>-x</code>将会取<code>false</code>。反之，布尔选项<code>-x</code>将会取<code>true</code>。而且这个选项消耗了一个参数。 如果要显示设置一个布尔选项为<code>false</code>，只能使用<code>-flag=false</code>这种形式。</p><p>遇到第一个非选项参数（即不是以<code>-</code>和<code>--</code>开头的）或终止符<code>--</code>，解析停止。运行下面程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe noflag -intflag <span class=m>12</span>
+</span></span></code></pre></td></tr></table></div></div><p>将会输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>int flag: <span class=m>0</span>
+</span></span><span class=line><span class=cl>bool flag: <span class=nb>false</span>
+</span></span><span class=line><span class=cl>string flag: default
+</span></span></code></pre></td></tr></table></div></div><p>因为解析遇到<code>noflag</code>就停止了，后面的选项<code>-intflag</code>没有被解析到。所以所有选项都取的默认值。</p><p>运行下面的程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -intflag <span class=m>12</span> -- -boolflag<span class=o>=</span><span class=nb>true</span>
+</span></span></code></pre></td></tr></table></div></div><p>将会输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>int flag: <span class=m>12</span>
+</span></span><span class=line><span class=cl>bool flag: <span class=nb>false</span>
+</span></span><span class=line><span class=cl>string flag: default
+</span></span></code></pre></td></tr></table></div></div><p>首先解析了选项<code>intflag</code>，设置其值为 12。遇到<code>--</code>后解析终止了，后面的<code>--boolflag=true</code>没有被解析到，所以<code>boolflag</code>选项取默认值<code>false</code>。</p><p>解析终止之后如果还有命令行参数，<code>flag</code>库会存储下来，通过<code>flag.Args</code>方法返回这些参数的切片。 可以通过<code>flag.NArg</code>方法获取未解析的参数数量，<code>flag.Arg(i)</code>访问位置<code>i</code>（从 0 开始）上的参数。 选项个数也可以通过调用<code>flag.NFlag</code>方法获取。</p><p>稍稍修改一下上面的程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>flag</span><span class=p>.</span><span class=nf>Args</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Non-Flag Argument Count:&#34;</span><span class=p>,</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>NArg</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>NArg</span><span class=p>();</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Argument %d: %s\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>Arg</span><span class=p>(</span><span class=nx>i</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Flag Count:&#34;</span><span class=p>,</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>NFlag</span><span class=p>())</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>编译运行该程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go build -o main.exe main.go
+</span></span><span class=line><span class=cl>$ ./main.exe -intflag <span class=m>12</span> -- -stringflag <span class=nb>test</span>
+</span></span></code></pre></td></tr></table></div></div><p>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=o>[</span>-stringflag test<span class=o>]</span>
+</span></span><span class=line><span class=cl>Non-Flag Argument Count: <span class=m>2</span>
+</span></span><span class=line><span class=cl>Argument 0: -stringflag
+</span></span><span class=line><span class=cl>Argument 1: <span class=nb>test</span>
+</span></span></code></pre></td></tr></table></div></div><p>解析遇到<code>--</code>终止后，剩余参数<code>-stringflag test</code>保存在<code>flag</code>中，可以通过<code>Args/NArg/Arg</code>等方法访问。</p><p>整数选项值可以接受 1234（十进制）、0664（八进制）和 0x1234（十六进制）的形式，并且可以是负数。实际上<code>flag</code>在内部使用<code>strconv.ParseInt</code>方法将字符串解析成<code>int</code>。 所以理论上，<code>ParseInt</code>接受的格式都可以。</p><p>布尔类型的选项值可以为：</p><ul><li>取值为<code>true</code>的：1、t、T、true、TRUE、True；</li><li>取值为<code>false</code>的：0、f、F、false、FALSE、False。</li></ul><h2 id=另一种定义选项的方式><a href=#%e5%8f%a6%e4%b8%80%e7%a7%8d%e5%ae%9a%e4%b9%89%e9%80%89%e9%a1%b9%e7%9a%84%e6%96%b9%e5%bc%8f class=header-anchor>#</a>
+另一种定义选项的方式</h2><p>上面我们介绍了使用<code>flag.TypeVar</code>定义选项，这种方式需要我们先定义变量，然后变量的地址。 还有一种方式，调用<code>flag.Type</code>（其中<code>Type</code>可以为<code>Int/Uint/Bool/Float64/String/Duration</code>等）会自动为我们分配变量，返回该变量的地址。用法与前一种方式类似：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=nx>intflag</span> <span class=o>*</span><span class=kt>int</span>
+</span></span><span class=line><span class=cl>  <span class=nx>boolflag</span> <span class=o>*</span><span class=kt>bool</span>
+</span></span><span class=line><span class=cl>  <span class=nx>stringflag</span> <span class=o>*</span><span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>init</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>intflag</span> <span class=p>=</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>Int</span><span class=p>(</span><span class=s>&#34;intflag&#34;</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=s>&#34;int flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>boolflag</span> <span class=p>=</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>Bool</span><span class=p>(</span><span class=s>&#34;boolflag&#34;</span><span class=p>,</span> <span class=kc>false</span><span class=p>,</span> <span class=s>&#34;bool flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>stringflag</span> <span class=p>=</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>String</span><span class=p>(</span><span class=s>&#34;stringflag&#34;</span><span class=p>,</span> <span class=s>&#34;default&#34;</span><span class=p>,</span> <span class=s>&#34;string flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;int flag:&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>intflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;bool flag:&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>boolflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;string flag:&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>stringflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>编译并运行程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go build -o main.exe main.go
+</span></span><span class=line><span class=cl>$ ./main.exe -intflag <span class=m>12</span>
+</span></span></code></pre></td></tr></table></div></div><p>将输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>int flag: <span class=m>12</span>
+</span></span><span class=line><span class=cl>bool flag: <span class=nb>false</span>
+</span></span><span class=line><span class=cl>string flag: default
+</span></span></code></pre></td></tr></table></div></div><p>除了使用时需要解引用，其它与前一种方式基本相同。</p><h2 id=高级用法><a href=#%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95 class=header-anchor>#</a>
+高级用法</h2><h3 id=定义短选项><a href=#%e5%ae%9a%e4%b9%89%e7%9f%ad%e9%80%89%e9%a1%b9 class=header-anchor>#</a>
+定义短选项</h3><p><code>flag</code>库并没有显示支持短选项，但是可以通过给某个相同的变量设置不同的选项来实现。即两个选项共享同一个变量。 由于初始化顺序不确定，必须保证它们拥有相同的默认值。否则不传该选项时，行为是不确定的。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>logLevel</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>init</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kd>const</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=nx>defaultLogLevel</span> <span class=p>=</span> <span class=s>&#34;DEBUG&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nx>usage</span> <span class=p>=</span> <span class=s>&#34;set log level value&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>)</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>StringVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>logLevel</span><span class=p>,</span> <span class=s>&#34;log_type&#34;</span><span class=p>,</span> <span class=nx>defaultLogLevel</span><span class=p>,</span> <span class=nx>usage</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>StringVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>logLevel</span><span class=p>,</span> <span class=s>&#34;l&#34;</span><span class=p>,</span> <span class=nx>defaultLogLevel</span><span class=p>,</span> <span class=nx>usage</span> <span class=o>+</span> <span class=s>&#34;(shorthand)&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;log level:&#34;</span><span class=p>,</span> <span class=nx>logLevel</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>编译、运行程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go build -o main.exe main.go
+</span></span><span class=line><span class=cl>$ ./main.exe -log_type WARNING
+</span></span><span class=line><span class=cl>$ ./main.exe -l WARNING
+</span></span></code></pre></td></tr></table></div></div><p>使用长、短选项均输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>log level: WARNING
+</span></span></code></pre></td></tr></table></div></div><p>不传入该选项，输出默认值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe
+</span></span><span class=line><span class=cl>log level: DEBUG
+</span></span></code></pre></td></tr></table></div></div><h3 id=解析时间间隔><a href=#%e8%a7%a3%e6%9e%90%e6%97%b6%e9%97%b4%e9%97%b4%e9%9a%94 class=header-anchor>#</a>
+解析时间间隔</h3><p>除了能使用基本类型作为选项，<code>flag</code>库还支持<code>time.Duration</code>类型，即时间间隔。时间间隔支持的格式非常之多，例如"300ms"、"-1.5h"、“2h45m"等等等等。 时间单位可以是 ns/us/ms/s/m/h/day 等。实际上<code>flag</code>内部会调用<code>time.ParseDuration</code>。具体支持的格式可以参见<a class=link href=https://golang.org/pkg/time/#ParseDuration target=_blank rel=noopener>time</a>（需fq）库的文档。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;time&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=nx>period</span> <span class=nx>time</span><span class=p>.</span><span class=nx>Duration</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>init</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>DurationVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>period</span><span class=p>,</span> <span class=s>&#34;period&#34;</span><span class=p>,</span> <span class=mi>1</span><span class=o>*</span><span class=nx>time</span><span class=p>.</span><span class=nx>Second</span><span class=p>,</span> <span class=s>&#34;sleep period&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Sleeping for %v...&#34;</span><span class=p>,</span> <span class=nx>period</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>time</span><span class=p>.</span><span class=nf>Sleep</span><span class=p>(</span><span class=nx>period</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>根据传入的命令行选项<code>period</code>，程序睡眠相应的时间，默认 1 秒。编译、运行程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go build -o main.exe main.go
+</span></span><span class=line><span class=cl>$ ./main.exe
+</span></span><span class=line><span class=cl>Sleeping <span class=k>for</span> 1s...
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ ./main.exe -period 1m30s
+</span></span><span class=line><span class=cl>Sleeping <span class=k>for</span> 1m30s...
+</span></span></code></pre></td></tr></table></div></div><h3 id=自定义选项><a href=#%e8%87%aa%e5%ae%9a%e4%b9%89%e9%80%89%e9%a1%b9 class=header-anchor>#</a>
+自定义选项</h3><p>除了使用<code>flag</code>库提供的选项类型，我们还可以自定义选项类型。我们分析一下标准库中提供的案例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;errors&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;strings&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;time&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>interval</span> <span class=p>[]</span><span class=nx>time</span><span class=p>.</span><span class=nx>Duration</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>i</span> <span class=o>*</span><span class=nx>interval</span><span class=p>)</span> <span class=nf>String</span><span class=p>()</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>fmt</span><span class=p>.</span><span class=nf>Sprint</span><span class=p>(</span><span class=o>*</span><span class=nx>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>i</span> <span class=o>*</span><span class=nx>interval</span><span class=p>)</span> <span class=nf>Set</span><span class=p>(</span><span class=nx>value</span> <span class=kt>string</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=nb>len</span><span class=p>(</span><span class=o>*</span><span class=nx>i</span><span class=p>)</span> <span class=p>&gt;</span> <span class=mi>0</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;interval flag already set&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>dt</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>Split</span><span class=p>(</span><span class=nx>value</span><span class=p>,</span> <span class=s>&#34;,&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>duration</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>time</span><span class=p>.</span><span class=nf>ParseDuration</span><span class=p>(</span><span class=nx>dt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=o>*</span><span class=nx>i</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=o>*</span><span class=nx>i</span><span class=p>,</span> <span class=nx>duration</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=nx>intervalFlag</span> <span class=nx>interval</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>init</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>Var</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>intervalFlag</span><span class=p>,</span> <span class=s>&#34;deltaT&#34;</span><span class=p>,</span> <span class=s>&#34;comma-seperated list of intervals to use between events&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>flag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>intervalFlag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>首先定义一个新类型，这里定义类型<code>interval</code>。</p><p>新类型必须实现<code>flag.Value</code>接口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=c1>// src/flag/flag.go
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>Value</span> <span class=kd>interface</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nf>String</span><span class=p>()</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>  <span class=nf>Set</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span> <span class=kt>error</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>其中<code>String</code>方法格式化该类型的值，<code>flag.Parse</code>方法在执行时遇到自定义类型的选项会将选项值作为参数调用该类型变量的<code>Set</code>方法。 这里将以<code>,</code>分隔的时间间隔解析出来存入一个切片中。</p><p>自定义类型选项的定义必须使用<code>flag.Var</code>方法。</p><p>编译、执行程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go build -o main.exe main.go
+</span></span><span class=line><span class=cl>$ ./main.exe -deltaT 30s
+</span></span><span class=line><span class=cl><span class=o>[</span>30s<span class=o>]</span>
+</span></span><span class=line><span class=cl>$ ./main.exe -deltaT 30s,1m,1m30s
+</span></span><span class=line><span class=cl><span class=o>[</span>30s 1m0s 1m30s<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果指定的选项值非法，<code>Set</code>方法返回一个<code>error</code>类型的值，<code>Parse</code>执行终止，打印错误和使用帮助。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -deltaT 30x
+</span></span><span class=line><span class=cl>invalid value <span class=s2>&#34;30x&#34;</span> <span class=k>for</span> flag -deltaT: time: unknown unit x in duration 30x
+</span></span><span class=line><span class=cl>Usage of D:<span class=se>\c</span>ode<span class=se>\g</span>olang<span class=se>\s</span>rc<span class=se>\g</span>ithub.com<span class=se>\d</span>arjun<span class=se>\g</span>o-daily-lib<span class=se>\f</span>lag<span class=se>\s</span>elf-defined<span class=se>\m</span>ain.exe:
+</span></span><span class=line><span class=cl>  -deltaT value
+</span></span><span class=line><span class=cl>        comma-seperated list of intervals to use between events
+</span></span></code></pre></td></tr></table></div></div><h3 id=解析程序中的字符串><a href=#%e8%a7%a3%e6%9e%90%e7%a8%8b%e5%ba%8f%e4%b8%ad%e7%9a%84%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-anchor>#</a>
+解析程序中的字符串</h3><p>有时候选项并不是通过命令行传递的。例如，从配置表中读取或程序生成的。这时候可以使用<code>flag.FlagSet</code>结构的相关方法来解析这些选项。</p><p>实际上，我们前面调用的<code>flag</code>库的方法，都会间接调用<code>FlagSet</code>结构的方法。<code>flag</code>库中定义了一个<code>FlagSet</code>类型的全局变量<code>CommandLine</code>专门用于解析命令行选项。 前面调用的<code>flag</code>库的方法只是为了提供便利，它们内部都是调用的<code>CommandLine</code>的相应方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=c1>// src/flag/flag.go
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>CommandLine</span> <span class=p>=</span> <span class=nf>NewFlagSet</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Args</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=nx>ExitOnError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>Parse</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>CommandLine</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Args</span><span class=p>[</span><span class=mi>1</span><span class=p>:])</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>IntVar</span><span class=p>(</span><span class=nx>p</span> <span class=o>*</span><span class=kt>int</span><span class=p>,</span> <span class=nx>name</span> <span class=kt>string</span><span class=p>,</span> <span class=nx>value</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>usage</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>CommandLine</span><span class=p>.</span><span class=nf>Var</span><span class=p>(</span><span class=nf>newIntValue</span><span class=p>(</span><span class=nx>value</span><span class=p>,</span> <span class=nx>p</span><span class=p>),</span> <span class=nx>name</span><span class=p>,</span> <span class=nx>usage</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>Int</span><span class=p>(</span><span class=nx>name</span> <span class=kt>string</span><span class=p>,</span> <span class=nx>value</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>usage</span> <span class=kt>string</span><span class=p>)</span> <span class=o>*</span><span class=kt>int</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>CommandLine</span><span class=p>.</span><span class=nf>Int</span><span class=p>(</span><span class=nx>name</span><span class=p>,</span> <span class=nx>value</span><span class=p>,</span> <span class=nx>usage</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>NFlag</span><span class=p>()</span> <span class=kt>int</span> <span class=p>{</span> <span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=nx>CommandLine</span><span class=p>.</span><span class=nx>actual</span><span class=p>)</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>Arg</span><span class=p>(</span><span class=nx>i</span> <span class=kt>int</span><span class=p>)</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>CommandLine</span><span class=p>.</span><span class=nf>Arg</span><span class=p>(</span><span class=nx>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>NArg</span><span class=p>()</span> <span class=kt>int</span> <span class=p>{</span> <span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=nx>CommandLine</span><span class=p>.</span><span class=nx>args</span><span class=p>)</span> <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>同样的，我们也可以自己创建<code>FlagSet</code>类型变量来解析选项。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>args</span> <span class=o>:=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;-intflag&#34;</span><span class=p>,</span> <span class=s>&#34;12&#34;</span><span class=p>,</span> <span class=s>&#34;-stringflag&#34;</span><span class=p>,</span> <span class=s>&#34;test&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>intflag</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>boolflag</span> <span class=kt>bool</span>
+</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>stringflag</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>fs</span> <span class=o>:=</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>NewFlagSet</span><span class=p>(</span><span class=s>&#34;MyFlagSet&#34;</span><span class=p>,</span> <span class=nx>flag</span><span class=p>.</span><span class=nx>ContinueOnError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fs</span><span class=p>.</span><span class=nf>IntVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>intflag</span><span class=p>,</span> <span class=s>&#34;intflag&#34;</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=s>&#34;int flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fs</span><span class=p>.</span><span class=nf>BoolVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>boolflag</span><span class=p>,</span> <span class=s>&#34;boolflag&#34;</span><span class=p>,</span> <span class=kc>false</span><span class=p>,</span> <span class=s>&#34;bool flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fs</span><span class=p>.</span><span class=nf>StringVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>stringflag</span><span class=p>,</span> <span class=s>&#34;stringflag&#34;</span><span class=p>,</span> <span class=s>&#34;default&#34;</span><span class=p>,</span> <span class=s>&#34;string flag value&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>fs</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>args</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;int flag:&#34;</span><span class=p>,</span> <span class=nx>intflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;bool flag:&#34;</span><span class=p>,</span> <span class=nx>boolflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;string flag:&#34;</span><span class=p>,</span> <span class=nx>stringflag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>NewFlagSet</code>方法有两个参数，第一个参数是程序名称，输出帮助或出错时会显示该信息。第二个参数是解析出错时如何处理，有几个选项：</p><ul><li><code>ContinueOnError</code>：发生错误后继续解析，<code>CommandLine</code>就是使用这个选项；</li><li><code>ExitOnError</code>：出错时调用<code>os.Exit(2)</code>退出程序；</li><li><code>PanicOnError</code>：出错时产生 panic。</li></ul><p>随便看一眼<code>flag</code>库中的相关代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=c1>// src/flag/flag.go
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=p>(</span><span class=nx>f</span> <span class=o>*</span><span class=nx>FlagSet</span><span class=p>)</span> <span class=nf>Parse</span><span class=p>(</span><span class=nx>arguments</span> <span class=p>[]</span><span class=kt>string</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>f</span><span class=p>.</span><span class=nx>parsed</span> <span class=p>=</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>  <span class=nx>f</span><span class=p>.</span><span class=nx>args</span> <span class=p>=</span> <span class=nx>arguments</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>seen</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>f</span><span class=p>.</span><span class=nf>parseOne</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>seen</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>continue</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>break</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>switch</span> <span class=nx>f</span><span class=p>.</span><span class=nx>errorHandling</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nx>ContinueOnError</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nx>ExitOnError</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>      <span class=nx>os</span><span class=p>.</span><span class=nf>Exit</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nx>PanicOnError</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>      <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>与直接使用<code>flag</code>库的方法有一点不同，<code>FlagSet</code>调用<code>Parse</code>方法时需要显示传入字符串切片作为参数。因为<code>flag.Parse</code>在内部调用了<code>CommandLine.Parse(os.Args[1:])</code>。 示例代码都放在<a class=link href=https://github.com/darjun/go-daily-lib target=_blank rel=noopener>GitHub</a>上了。</p><h2 id=参考><a href=#%e5%8f%82%e8%80%83 class=header-anchor>#</a>
+参考</h2><ol><li><a class=link href=https://golang.org/pkg/flag/ target=_blank rel=noopener>flag</a>库文档</li><li><a class=link href=https://darjun.github.io/2020/01/10/godailylib/flag/ target=_blank rel=noopener>Go 每日一库之 flag</a></li></ol></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E6%A0%87%E5%87%86%E5%BA%93/>Go标准库</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section><section class=article-lastmod><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>最后更新于 Apr 24, 2024 22:54 +0800</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go调用外部命令os/exec库介绍</h2></div></a></article><article><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/><div class=article-details><h2 class=article-title>Go常见设计模式：选项模式</h2></div></a></article><article><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/><div class=article-details><h2 class=article-title>Go常见设计模式：单例模式</h2></div></a></article><article><a href=/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go-homedir库介绍</h2></div></a></article><article class=has-image><a href=/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/><div class=article-image><img src=/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/hugo.46f61e8ea6a2df8fc5bf1d24a17c44a6_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站" data-hash="md5-RvYejqai34/Fvx0koXxEpg=="></div><div class=article-details><h2 class=article-title>基于Hugo和gh-pages快速搭建静态网站</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Arlettebrook</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
