@@ -665,10 +665,10 @@ git rebase
 &lt;h2 id="扩展">
 &lt;a href="#%e6%89%a9%e5%b1%95" class="header-anchor">#&lt;/a>
 扩展
-&lt;/h2>&lt;h4 id="gitignore文件">
+&lt;/h2>&lt;h3 id="gitignore文件">
 &lt;a href="#gitignore%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
 .gitignore文件
-&lt;/h4>&lt;p>Git提供了&lt;code>.gitignore&lt;/code>文件，用于指定哪些文件或目录应该被Git忽略，不纳入版本控制系统中。&lt;code>.gitignore&lt;/code>文件是一个文本文件，可以包含一些简单的规则，指定应该忽略哪些文件或目录。以下是一些.gitignore文件的示例规则：&lt;/p>
+&lt;/h3>&lt;p>Git提供了&lt;code>.gitignore&lt;/code>文件，用于指定哪些文件或目录应该被Git忽略，不纳入版本控制系统中。&lt;code>.gitignore&lt;/code>文件是一个文本文件，可以包含一些简单的规则，指定应该忽略哪些文件或目录。以下是一些.gitignore文件的示例规则：&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>忽略所有以.tmp结尾的文件：&lt;/p>
@@ -774,4 +774,49 @@ git rebase
 &lt;li>!：用于否定模式，即不忽略指定的文件或目录。&lt;/li>
 &lt;/ul>
 &lt;p>可以在.gitignore文件中使用通配符、路径、注释等语法，以更精确地指定需要忽略的文件或目录。同时，可以在仓库的根目录下创建一个.gitignore文件，也可以在子目录中创建独立的.gitignore文件。&lt;/p>
-&lt;hr></description></item></channel></rss>
+&lt;hr>
+&lt;h3 id="git账户认证">
+&lt;a href="#git%e8%b4%a6%e6%88%b7%e8%ae%a4%e8%af%81" class="header-anchor">#&lt;/a>
+git账户认证
+&lt;/h3>&lt;ul>
+&lt;li>当我们对远程仓库就行修改时，需要对应的权限，不是什么人都能够修改仓库。只有通过了git账户认证，才能修改对应的仓库。&lt;/li>
+&lt;li>常见git账户认证的方式：
+&lt;ul>
+&lt;li>&lt;strong>SSH秘钥认证&lt;/strong>
+&lt;ul>
+&lt;li>这是Git中最常见的认证方式之一。用户首先生成一对公钥和私钥，然后将&lt;strong>公钥&lt;/strong>添加到Git服务器上的用户帐户中。当用户尝试与Git服务器进行通信时，Git将使用私钥进行身份验证。这种方式相对安全，因为私钥是保存在用户本地机器上的，不会被传输到Git服务器。&lt;/li>
+&lt;li>秘钥生成命令：bash中运行&lt;code>ssh-keygen&lt;/code>,一直回车就行，秘钥位置：主目录下的&lt;code>.ssh&lt;/code>目录&lt;/li>
+&lt;li>公钥设置位置：github账户&lt;code>Settings&lt;/code>-&amp;gt;&lt;code>SSH and GPG keys&lt;/code>-&amp;gt;&lt;code>New SSH key&lt;/code>将公钥复制粘贴保存就行。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>HTTPS认证&lt;/strong>
+&lt;ul>
+&lt;li>在这种方式中，用户需要提供&lt;strong>用户名&lt;/strong>和&lt;strong>密码&lt;/strong>进行身份验证。用户需要在Git服务器上创建一个用户帐户，并将其关联到本地的Git仓库中。当用户执行需要身份验证的操作时，Git会要求输入用户名和密码。这种方式相对简单，适用于个人项目或小型团队。&lt;/li>
+&lt;li>设置位置：在使用Git进行操作时，如push或pull，系统会提示你输入用户名和密码进行身份验证。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>访问令牌（Personal Access Token）认证&lt;/strong>：不常用
+&lt;ul>
+&lt;li>访问令牌提供了一种更安全、更灵活的身份验证方式，因为它可以限制令牌的使用权限，并且可以随时撤销或重新生成令牌。&lt;/li>
+&lt;li>设置位置：github账户&lt;code>Settings&lt;/code>-&amp;gt;&lt;code>Developer Settings&lt;/code>-&amp;gt;&lt;code>Personal access tokens&lt;/code>-&amp;gt;&lt;code>Tokens (classic)&lt;/code>-&amp;gt;&lt;code>Generate new token&lt;/code>，然后根据自己的需求设置token的权限。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="ssh-keygen">
+&lt;a href="#ssh-keygen" class="header-anchor">#&lt;/a>
+ssh-keygen
+&lt;/h4>&lt;p>&lt;code>ssh-keygen&lt;/code>命令是一个用于生成、管理和转换SSH认证密钥的工具。它支持RSA和DSA两种认证密钥类型，并且提供了多种选项和参数，以满足不同的需求。&lt;/p>
+&lt;p>使用&lt;code>ssh-keygen&lt;/code>命令，你可以生成新的密钥对，指定密钥的长度、类型以及保存的文件名。生成的私钥将保存在本地，而公钥则用于在SSH服务器上进行身份验证。&lt;/p>
+&lt;p>以下是一些常用的&lt;code>ssh-keygen&lt;/code>命令选项：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-t&lt;/code>：指定要创建的密钥类型，默认为RSA。&lt;/li>
+&lt;li>&lt;code>-b&lt;/code>：指定密钥长度（以位为单位）。对于RSA密钥，最小要求是768位，默认是2048位。对于DSA密钥，长度必须是1024位（根据FIPS 1862标准规定）。&lt;/li>
+&lt;li>&lt;code>-f&lt;/code>：指定用于保存密钥的文件名。如果不指定，将使用默认值&lt;code>id_rsa&lt;/code>（对于私钥）和&lt;code>id_rsa.pub&lt;/code>（对于公钥）。&lt;/li>
+&lt;li>&lt;code>-C&lt;/code>：提供一个新注释，通常用于标识密钥的用途或所有者。&lt;/li>
+&lt;li>&lt;code>-P&lt;/code> 和 &lt;code>-N&lt;/code>：分别用于提供旧密码和新密码，以保护私钥文件。如果留空，则表示不需要密码。&lt;/li>
+&lt;/ul>
+&lt;p>在生成密钥对后，你可以将公钥复制到需要访问的SSH服务器上，通常是将公钥内容追加到服务器的&lt;code>~/.ssh/authorized_keys&lt;/code>文件中。这样，当你使用SSH客户端连接到服务器时，客户端将使用私钥进行身份验证，如果验证成功，你将能够无需输入密码即可登录到服务器。&lt;/p>
+&lt;p>请注意，私钥的安全性至关重要。私钥应该妥善保管，并且不应该与其他人共享。同时，定期更换密钥对也是保持安全性的好习惯。&lt;/p>
+&lt;p>除了生成和管理密钥对，&lt;code>ssh-keygen&lt;/code>还提供了其他功能，如转换密钥格式、读取密钥文件等。你可以通过查看&lt;code>ssh-keygen&lt;/code>的帮助文档或手册页（通过运行&lt;code>man ssh-keygen&lt;/code>命令）来获取更详细的信息和用法示例。&lt;/p></description></item></channel></rss>
