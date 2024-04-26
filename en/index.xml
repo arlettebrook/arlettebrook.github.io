@@ -1,0 +1,1537 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Arlettebrook's blog</title><link>https://arlettebrook.github.io/en/</link><description>Recent content on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Arlettebrook</copyright><lastBuildDate>Mon, 22 Apr 2024 22:18:17 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>Git常用命令</title><link>https://arlettebrook.github.io/en/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Mon, 22 Apr 2024 22:18:17 +0800</pubDate><guid>https://arlettebrook.github.io/en/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;blockquote>
+&lt;p>注意：要学会使用-h &amp;ndash;help选项，查看命令，看不懂在查阅。&lt;code>git help &amp;lt;command&amp;gt;&lt;/code>可进入官方文档。&lt;strong>Git&lt;/strong>&lt;a class="link" href="https://www.liaoxuefeng.com/wiki/896043488029600" target="_blank" rel="noopener"
+>入门参考&lt;/a>。以下常用命令个人收集总结。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="git简单命令">
+&lt;a href="#git%e7%ae%80%e5%8d%95%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
+git简单命令
+&lt;/h2>&lt;h3 id="git-init">
+&lt;a href="#git-init" class="header-anchor">#&lt;/a>
+git init
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git init &amp;lt;directory&amp;gt;&lt;/code>在指定的⽬录下创建⼀个空的git repo。不带参数将在当前⽬录下创建⼀个git repo。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-clone">
+&lt;a href="#git-clone" class="header-anchor">#&lt;/a>
+git clone
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git clone &amp;lt;repo&amp;gt;&lt;/code>克隆⼀个指定repo到本地。指定的repo可以是本地⽂件系统或者由HTTP或SSH指定的远程路径。&lt;/li>
+&lt;li>&lt;code>git clone -b &amp;lt;branch&amp;gt; &amp;lt;repo&amp;gt;&lt;/code>克隆指定仓库的分支&lt;/li>
+&lt;li>&lt;code>git clone --recursive &amp;lt;repo&amp;gt;&lt;/code>递归地克隆，克隆带有子模块的仓库
+&lt;ul>
+&lt;li>&lt;code>git clone --recurse-submodules &amp;lt;repository_url&amp;gt;&lt;/code>同理&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>可组合使用&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-add">
+&lt;a href="#git-add" class="header-anchor">#&lt;/a>
+git add
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git add &amp;lt;directory&amp;gt;&lt;/code>将指定⽬录的所有修改加⼊到下⼀次 commit中。把&lt;code>&amp;lt;directory&amp;gt;&lt;/code>替换成&lt;code>&amp;lt;file&amp;gt;&lt;/code>将添加指定⽂件的修改。&lt;/li>
+&lt;li>&lt;code>git add *&lt;/code>、&lt;code>git add .&lt;/code>、&lt;code>git add -A&lt;/code>三条命令但是一样的，将所以修改提交到暂存区。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-commit">
+&lt;a href="#git-commit" class="header-anchor">#&lt;/a>
+git commit
+&lt;/h3>&lt;ul>
+&lt;li>这个命令通常带&lt;code>-m&lt;/code>选项&lt;code>git commit -m &amp;quot;&amp;lt;message&amp;gt;&amp;quot;&lt;/code>提交暂存区的修改，使⽤指定的 &lt;code>&amp;lt;message&amp;gt;&lt;/code>作为提交信息，⽽不是打开⽂本编辑器输⼊提交信息。&lt;/li>
+&lt;li>&lt;code>git commit -m &amp;lt;message&amp;gt; --amend&lt;/code>将当前staged修改合并到最近⼀次的commit中。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-status">
+&lt;a href="#git-status" class="header-anchor">#&lt;/a>
+git status
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git status&lt;/code>显示哪些⽂件已被staged、以及未跟踪(untracked)。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-reflog">
+&lt;a href="#git-reflog" class="header-anchor">#&lt;/a>
+git reflog
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git reflog&lt;/code>显示本地repo的所有commit⽇志。&lt;/li>
+&lt;li>与&lt;code>git log&lt;/code>的区别
+&lt;ol>
+&lt;li>&lt;code>log&lt;/code>项目的提交历史，&lt;code>reflog&lt;/code>本地仓库的&lt;strong>引用&lt;/strong>提交日志。&lt;/li>
+&lt;li>引用会保留所以的提交历史，如何重置的历史。主要目的是提供一个安全网，以便在误操作（如错误的 &lt;code>git reset&lt;/code>）后可以恢复丢失的提交或分支。&lt;/li>
+&lt;li>&lt;code>git log&lt;/code> 的输出是永久性的，而 &lt;code>reflog&lt;/code> 会在一段时间后自动过期（默认是 30 天），以节省空间。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-rm">
+&lt;a href="#git-rm" class="header-anchor">#&lt;/a>
+git rm
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git rm fileName&lt;/code>删除指定的文件。
+&lt;ul>
+&lt;li>与&lt;code>rm fileName&lt;/code>的区别。
+&lt;ol>
+&lt;li>&lt;code>git rm&lt;/code>不能删除未跟踪的文件，&lt;/li>
+&lt;li>&lt;code>git rm&lt;/code>删除之后直接到暂存区，而&lt;code>rm&lt;/code>是到工作区&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>注意删除之后都需要提交操作。&lt;/li>
+&lt;li>撤销操作不用记，git都会有提示&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-switch">
+&lt;a href="#git-switch" class="header-anchor">#&lt;/a>
+git switch
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>该命令适用于特定git版本。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git switch &amp;lt;branch&amp;gt;&lt;/code>切换到指定分支，&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git checkout &amp;lt;branch&amp;gt;&lt;/code>同理，但这个都适用。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git switch -c &amp;lt;branch&amp;gt;&lt;/code>创建并切换指定分支&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-branch">
+&lt;a href="#git-branch" class="header-anchor">#&lt;/a>
+git branch
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>git branch&lt;/code>显示本地repo的所有分⽀。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-v&lt;/code>显示详细信息&lt;/li>
+&lt;li>带&lt;code>*&lt;/code>的为当前分支&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git branch -r&lt;/code>显示远程仓库的所以分支。&lt;/p>
+&lt;ul>
+&lt;li>可以使用&lt;code>git checkout &amp;lt;branch&amp;gt;&lt;/code>检出远程分支，可以省略&lt;code>origin/&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git branch -a&lt;/code>显示本地和远程的所有分支&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git branch -m &amp;lt;old_branch_name&amp;gt; &amp;lt;new_branch_name&amp;gt;&lt;/code>重命名分支&lt;/p>
+&lt;ul>
+&lt;li>新分支名已经存在， &lt;code>-M&lt;/code> 强制重命名。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git branch &amp;lt;name&amp;gt;&lt;/code>创建指定分支&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git branch -D &amp;lt;branch&amp;gt;&lt;/code>强制删除指定分支，无论是否合并到当前分支。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git branch -d &amp;lt;branch&amp;gt;&lt;/code>删除指定的分支，如果没有合并到当前分支，git会阻止操作。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-merge">
+&lt;a href="#git-merge" class="header-anchor">#&lt;/a>
+git merge
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git merge &amp;lt;branch&amp;gt;&lt;/code>合并指定分支。将指定&lt;code>&amp;lt;branch&amp;gt;&lt;/code>分⽀合并到当前分⽀。
+&lt;ul>
+&lt;li>是在当前分支合并指定分支。&lt;/li>
+&lt;li>合并分支可能会出现冲突。要解决冲突之后才能合并。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git merge --abort&lt;/code>放弃本次合并&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="git一般命令">
+&lt;a href="#git%e4%b8%80%e8%88%ac%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
+git一般命令
+&lt;/h2>&lt;h3 id="git-revert">
+&lt;a href="#git-revert" class="header-anchor">#&lt;/a>
+git revert
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git revert &amp;lt;commit&amp;gt; &lt;/code>对指定&lt;code>&amp;lt;commit&amp;gt;&lt;/code>创建⼀个undo的commit，并应⽤到当前分⽀。就是撤销指定的提交并保留记录
+&lt;ul>
+&lt;li>效果：撤销指定的提交，回到了撤销提交的是上个版本，&lt;strong>保留了撤销历史&lt;/strong>。&lt;strong>会打开编辑器显示具体效果&lt;/strong>&lt;/li>
+&lt;li>一般不用&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-reset">
+&lt;a href="#git-reset" class="header-anchor">#&lt;/a>
+git reset
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>git reset &amp;lt;commit&amp;gt;&lt;/code>&lt;strong>重置&lt;/strong>到指定的提交，不会保留commit历史。工作区和暂存区会变成未跟踪。&lt;code>--hard&lt;/code>选项完全重置到指定提交。未跟踪的重置不了。重置历史可以通过&lt;code>git reflog&lt;/code>查看，利用这个可以重置已经重置的版本库。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>&amp;lt;commit&amp;gt;&lt;/code>可以是：
+&lt;ul>
+&lt;li>&lt;code>HEAD&lt;/code>表示最新的提交或者这个&lt;strong>版本库&lt;/strong>，HEAD^、HEAD~1上上次提交或者上个版本&lt;/li>
+&lt;li>或者使用&lt;code>commit_hash&lt;/code>，提交的哈希值可以使用&lt;code>git log&lt;/code>查看，只需要前几位就行。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git reset&lt;/code>（重置到最新的提交）移除所有暂存区、工作区的修改，到未跟踪。这些命令其实省略了&lt;code>HEAD&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>git reset --hard&lt;/code> 重置到最新的提交，删除工作区和暂存区&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git reset &amp;lt;file&amp;gt;&lt;/code>将&lt;code>&amp;lt;file&amp;gt;&lt;/code>从暂存区移除，但保持⼯作区不变。此操作不会修改⼯作区的任何⽂件。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-restore">
+&lt;a href="#git-restore" class="header-anchor">#&lt;/a>
+git restore
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git restore &amp;lt;file&amp;gt;...&lt;/code>撤销对工作区的修改，是对以跟踪的文件当未添加到暂存区的文件。多个文件用空格分开。
+&lt;ul>
+&lt;li>&lt;code>git checkout -- &amp;lt;file&amp;gt;...&lt;/code>同理，&lt;code>--&lt;/code>可以省略&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git restore --staged &amp;lt;file&amp;gt;...&lt;/code>撤销对暂存区的修改到未跟踪。针对添加到暂存区的文件。
+&lt;ul>
+&lt;li>&lt;code>git reset HEAD &amp;lt;file&amp;gt;...&lt;/code>同理，&lt;code>HEAD&lt;/code>可以省略。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>具体用哪一个，git都会有提示，不用记。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-checkout">
+&lt;a href="#git-checkout" class="header-anchor">#&lt;/a>
+git checkout
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>git checkout &amp;lt;branch&amp;gt;&lt;/code>切换到指定的分支&lt;/p>
+&lt;ul>
+&lt;li>如果分支为远程分支，则检出远程分支&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git checkout -b &amp;lt;new-branch&amp;gt;&lt;/code>切换并创建指定的分支&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git checkout &amp;lt;file&amp;gt;&lt;/code>撤销工作区的修改&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git restore &amp;lt;file&amp;gt;&lt;/code>同理&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git checkout &amp;lt;commit&amp;gt;&lt;/code>根据指定的提交创建一个分支,处于游离态。一般不用。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git checkout -b &amp;lt;local_branch_name&amp;gt; origin/&amp;lt;remote_branch_name&amp;gt;&lt;/code>切换到远程分支&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git checkout &amp;lt;branch&amp;gt;&lt;/code>差不多，可以使用&lt;code>git fetch origin&lt;/code>获取仓库所以信息，在检出分支。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git checkout -&lt;/code>切换到前一个分支。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-remote">
+&lt;a href="#git-remote" class="header-anchor">#&lt;/a>
+git remote
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>用来管理远程仓库列表，&lt;code>origin&lt;/code>为远程仓库的默认别名。这些远端仓库的信息都被保存在&lt;code>./git/config&lt;/code> 文件中。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git remote&lt;/code>列出所有已配置的远程仓库的信息。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-v&lt;/code>显示详细信息&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git remote add &amp;lt;remote_name&amp;gt; &amp;lt;remote_url&amp;gt;&lt;/code>添加远程仓库&lt;/p>
+&lt;ul>
+&lt;li>添加⼀个新的远程连接。添加后可使⽤ &lt;code>&amp;lt;name&amp;gt;&lt;/code>作为指定&lt;code>&amp;lt;url&amp;gt;&lt;/code>远程连接的名称。&lt;/li>
+&lt;li>只有配置了这个才能推送到远程仓库。&lt;/li>
+&lt;li>&lt;code>git remote rename &amp;lt;old_name&amp;gt; &amp;lt;new_name&amp;gt;&lt;/code>重命名远程仓库。&lt;/li>
+&lt;li>&lt;code>git remote set-url &amp;lt;remote_name&amp;gt; &amp;lt;new_url&amp;gt;&lt;/code>修改远程仓库的url。&lt;/li>
+&lt;li>&lt;code>git remote remove &amp;lt;remote_name&amp;gt;&lt;/code>或&lt;code>git remote rm &amp;lt;remote_name&amp;gt;&lt;/code>删除远程仓库。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git remote show &amp;lt;remote_name&amp;gt;&lt;/code>显示远程仓库的详细信息，包括 URL、跟踪的分支等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>补充如何创建远程仓库&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>创建远程仓库可以先在github上创建好，然后在本地pull下来，在进行修改后push上去。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>可以建一个&lt;strong>空白仓库&lt;/strong>，在本地push上去，但需要进行绑定。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git remote add origin https://github.com/username/null-project.git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git branch -M main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git push -u origin main
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="gjit-push">
+&lt;a href="#gjit-push" class="header-anchor">#&lt;/a>
+gjit push
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>将本地仓库推送到远程仓库&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git push &amp;lt;remote_repository&amp;gt; &amp;lt;本地分支名&amp;gt;:&amp;lt;远程分支名&amp;gt;&lt;/code>推送本地分支到指定的远程分支。如果远程分支不存在，会自动创建。&lt;code>:&lt;/code>前后不能有空格。&lt;/p>
+&lt;ul>
+&lt;li>当分支同名，可以简写成&lt;code>git push &amp;lt;remote_repository&amp;gt; &amp;lt;本地分支名&amp;gt;&lt;/code>&lt;/li>
+&lt;li>果无法提交的话执行，&lt;code>-f&lt;/code>、&lt;code>--force&lt;/code>选项强制推送，一般不用。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git push -u &amp;lt;remote_repository&amp;gt; &amp;lt;本地分支名&amp;gt;&lt;/code>设置默认推送分支。&lt;/p>
+&lt;ul>
+&lt;li>作用：这样设置以后，推送到远程仓库可以简写成&lt;code>git push&lt;/code>
+&lt;ul>
+&lt;li>&lt;code>git push&lt;/code> 代替 &lt;code>git push origin master&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>-u&lt;/code>是&lt;code>--set-upstream&lt;/code>的短形式。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git push &amp;lt;remote_repository&amp;gt; -d &amp;lt;远程分支名&amp;gt;&lt;/code>删除远程分支 。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>--delete&lt;/code>长选项。&lt;/li>
+&lt;li>&lt;code>git push origin :test&lt;/code>同理，没有写本地分支，就是删除远程分支。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git push &amp;lt;remote&amp;gt; &amp;lt;tagname&amp;gt;&lt;/code>推送指定标签到指定远程仓库，一般为`origin``&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>``git push &lt;remote> &amp;ndash;tags`推送所用标签到远程&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-pull">
+&lt;a href="#git-pull" class="header-anchor">#&lt;/a>
+git pull
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git pull &amp;lt;remote_repository&amp;gt; &amp;lt;远程分支名&amp;gt;:&amp;lt;本地分支名&amp;gt;&lt;/code>从远程仓库拉取最新代码到本地仓库。
+&lt;ul>
+&lt;li>&lt;code>git pull&lt;/code>会拉取并合并，出现冲突要解决之后才能合并。&lt;/li>
+&lt;li>&lt;code>git fetch&lt;/code>获取当前远程仓库的最新信息，不会合并。&lt;/li>
+&lt;li>通常可以简写成&lt;code>git pull&lt;/code>,远程仓库默认是&lt;code>origin&lt;/code>，分支默认是当前分支。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git pull --rebase&amp;lt;remote&amp;gt;&lt;/code> 抓取远程分⽀，并以rebase模式并⼊本地repo⽽不是merge。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-fetch">
+&lt;a href="#git-fetch" class="header-anchor">#&lt;/a>
+git fetch
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git fetch origin&lt;/code>获取远程仓库最新的更改。不会合并。默认仓库是&lt;code>origin&lt;/code>，分支是当前分支，这里可以省略&lt;code>origin&lt;/code>
+&lt;ul>
+&lt;li>&lt;code>git fetch origin &amp;lt;branch&amp;gt;&lt;/code>获取特定分支的更改.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git fetch --all&lt;/code>获取所用仓库远程仓库的最新更改。&lt;/li>
+&lt;li>与&lt;code>git pull&lt;/code>的区别
+&lt;ol>
+&lt;li>都会获取远程仓库最新的更改。&lt;/li>
+&lt;li>但是fetch不会合并，而pull会合并。可以理解为&lt;code>git pull&lt;/code> 是 &lt;code>git fetch&lt;/code> 和 &lt;code>git merge&lt;/code> 的组合&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>获取最新更改之后可以：
+&lt;ol>
+&lt;li>&lt;code>git checkout &amp;lt;branch&amp;gt;&lt;/code>检出指定分支，如果加&lt;code>origin&lt;/code>要这样&lt;code>git checkout -b &amp;lt;branch&amp;gt; origin/&amp;lt;branch&amp;gt;&lt;/code>&lt;/li>
+&lt;li>&lt;code>git merge origin/master&lt;/code>合并远程 master 分支的更改到当前的分支&lt;/li>
+&lt;li>&lt;code>git rebase origin/master&lt;/code>使用 rebase 来整合更改（这可能会改变提交历史）&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-stash">
+&lt;a href="#git-stash" class="header-anchor">#&lt;/a>
+git stash
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git stash&lt;/code>保存工作区、暂存区，可以切换分支去完成别的任务。不保存修改，未提交的修改会错乱到别的分支。并且只能保存已追踪的文件。&lt;/li>
+&lt;li>&lt;code>git stash list&lt;/code>查看保存的工作区以及暂存区。&lt;/li>
+&lt;li>&lt;code>git stash apply&lt;/code>恢复保存的工作区以及暂存区。
+&lt;ul>
+&lt;li>这个命令执行之后不会删除存储的工作区以及暂存区。&lt;/li>
+&lt;li>要用&lt;code>git stash drop&lt;/code>才能删除。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git stash pop&lt;/code>恢复并删除保存的工作区以及暂存区。&lt;/li>
+&lt;li>默认都是保存、恢复第一个stash即&lt;code>stash@{0}&lt;/code>。若要指定第几个在后面加&lt;code>stash@{num}&lt;/code>。
+&lt;ul>
+&lt;li>如恢复第二个stash：&lt;code>git stash pop stash@{1}&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>每个分支共用一个stash。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-tag">
+&lt;a href="#git-tag" class="header-anchor">#&lt;/a>
+git tag
+&lt;/h3>&lt;ul>
+&lt;li>作用：用于标记项目的版本发布或重要的里程碑。&lt;/li>
+&lt;li>分类
+&lt;ol>
+&lt;li>&lt;code>git tag &amp;lt;tagname&amp;gt; &amp;lt;commit ID&amp;gt;&lt;/code>轻量标签
+&lt;ul>
+&lt;li>&lt;code>git tag vn.n.n&lt;/code>打标签，&lt;code>n.n.n&lt;/code>表示对应的版本号，版本号前面一般加&lt;code>v&lt;/code>，遵循一定的命名规范，如&lt;code>v1.0.1&lt;/code>。
+&lt;ul>
+&lt;li>默认是打在最新的一次提交。&lt;/li>
+&lt;li>后面跟提交的哈希值可以指定给那次提交打标签。如&lt;code>git tag v0.9.0 f52c633&lt;/code>。
+&lt;ul>
+&lt;li>哈希值可以通过&lt;code>git log&lt;/code>查看&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git tag -a &amp;lt;tagname&amp;gt; -m &amp;quot;&amp;lt;tag message&amp;gt;&amp;quot; &amp;lt;commit ID&amp;gt;&lt;/code>附注标签
+&lt;ol>
+&lt;li>如&lt;code>git tag -a v0.1 -m &amp;quot;version 0.1 released&amp;quot; 1094adb&lt;/code>&lt;/li>
+&lt;li>推荐id省略默认最新提交。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>查看标签
+&lt;ol>
+&lt;li>&lt;code>git tag&lt;/code>显示所有的本地tag列表，按照字母顺序排序。如果tag数量较多，可能会显示不全。省略选项&lt;code>-l&lt;/code>、&lt;code>--list&lt;/code>&lt;/li>
+&lt;li>&lt;code>git show &amp;lt;tagname&amp;gt;&lt;/code>显示指定tag的详细信息，包括提交的作者、提交时间、提交信息等。&lt;/li>
+&lt;li>&lt;code>git tag -n&lt;/code>：显示tag列表，并同时显示每个tag对应的提交信息。&lt;/li>
+&lt;li>&lt;code>git ls-remote --tags origin&lt;/code>：显示远程仓库中的所有tag信息。更推荐这种。
+&lt;ol>
+&lt;li>或者先&lt;code>git fetch&lt;/code>获取最新的更改，然后&lt;code>git tag&lt;/code>检出所有标签。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>删除标签
+&lt;ol>
+&lt;li>&lt;code>git tag -d &amp;lt;tagname&amp;gt;&lt;/code>删除本地标签&lt;/li>
+&lt;li>删除远程标签：首先需要在本地删除标签，然后推送到远程仓库 &lt;code>git push origin :refs/tags/&amp;lt;tagname&amp;gt;&lt;/code>
+&lt;ol>
+&lt;li>远程标签是&lt;code>refs/tags/v0.0.1&lt;/code>这样存在的，跟删除远程分支差不多。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>标签一旦创建，就不能直接修改,如果需要修改标签，通常需要删除原标签，并重新创建一个新标签。&lt;/li>
+&lt;li>推送标签
+&lt;ol>
+&lt;li>打的标签不会自动推送到远程仓库，需要手动推送。&lt;/li>
+&lt;li>&lt;code>git push &amp;lt;remote&amp;gt; &amp;lt;tagname&amp;gt;&lt;/code>推送指定标签到指定远程仓库，一般为&lt;code>origin&lt;/code>&lt;/li>
+&lt;li>&lt;code>git push &amp;lt;remote&amp;gt; --tags&lt;/code>推送所用标签到远程&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="git复杂命令">
+&lt;a href="#git%e5%a4%8d%e6%9d%82%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
+git复杂命令
+&lt;/h2>&lt;h3 id="git-log">
+&lt;a href="#git-log" class="header-anchor">#&lt;/a>
+git log
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git log&lt;/code>以缺省格式显示全部commit历史。更多⾃定义参数请参考后续部分。&lt;code>q&lt;/code>退出，&lt;code>空格&lt;/code>下一页，&lt;code>h&lt;/code>查看帮助
+&lt;ul>
+&lt;li>&lt;code>git log --stat&lt;/code>：显示详细的commit历史。&lt;/li>
+&lt;li>&lt;code>git log -&amp;lt;limit&amp;gt;&lt;/code>限制log的显示数量。例如：”git log -5”仅显示最新5条commit。&lt;/li>
+&lt;li>&lt;code>git log --oneline&lt;/code>每⾏显示⼀条commit，简化信息。与&lt;code>--pretty=oneline&lt;/code>等效&lt;/li>
+&lt;li>&lt;code>git log --author= &amp;quot;&amp;lt;pattern&amp;gt;&amp;quot;&lt;/code>按提交者名字搜索并显示commit。&lt;/li>
+&lt;li>&lt;code>git log --grep= &amp;quot;&amp;lt;pattern&amp;gt;&amp;quot;&lt;/code>按指定内容搜索并显示commit。&lt;/li>
+&lt;li>&lt;code>git log &amp;lt;since&amp;gt;..&amp;lt;until&amp;gt;&lt;/code>显示指定范围的commit。范围参数可以是commit ID、分⽀名称、HEAD或任意相对位置。&lt;/li>
+&lt;li>&lt;code>git log -- &amp;lt;file&amp;gt;&lt;/code>仅显示包含指定⽂件修改的commit。&lt;/li>
+&lt;li>&lt;code>git log --graph&lt;/code>使⽤&amp;ndash;graph参数显示图形化的branch信息。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-diff">
+&lt;a href="#git-diff" class="header-anchor">#&lt;/a>
+git diff
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>git diff&lt;/code>⽐较⼯作区和暂存区的修改。&lt;/li>
+&lt;li>&lt;code>git diff HEAD&lt;/code>⽐较⼯作区和上⼀次commit后的修改。
+&lt;ul>
+&lt;li>HEAD指向当前分支最新的commit版本库&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git diff --cached&lt;/code>⽐较暂存区和上⼀次commit后的修改。&lt;/li>
+&lt;li>&lt;code>git diff --stashed&lt;/code>查看暂存区与最新提交的差异，与上面一样&lt;/li>
+&lt;li>&lt;code>git diff &amp;lt;commit1&amp;gt; &amp;lt;commit2&amp;gt;&lt;/code>查看两个提交之间的差异。&lt;/li>
+&lt;li>&lt;code>git diff &amp;lt;filename&amp;gt;&lt;/code>后面指定文件，只查看该文件的修改情况，没有参数查询全部&lt;/li>
+&lt;li>用&lt;code>git diff HEAD -- readme.txt&lt;/code>命令可以查看版本库和工作区里面最新版本的区别&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-config">
+&lt;a href="#git-config" class="header-anchor">#&lt;/a>
+git config
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>作用：通过&lt;code>git config&lt;/code>命令配置git的配置文件&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>git配置文件级别分为：&lt;/p>
+&lt;ol>
+&lt;li>仓库级别 &lt;code>--local&lt;/code> 【优先级最高】。文件所在位置仓库下的&lt;code>.git/config&lt;/code>&lt;/li>
+&lt;li>当前用户级别 &lt;code>--global&lt;/code>【优先级次之】&lt;strong>一般配置它&lt;/strong>。文件所在位置用户家目录下的&lt;code>.gitconfig&lt;/code>&lt;/li>
+&lt;li>系统所有用户级别 &lt;code>--system&lt;/code>【优先级最低】。文件所在位置git安装目录下的&lt;code> ./etc/gitconfig&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-l&lt;/code>、&lt;code>--list&lt;/code>查看配置。&lt;strong>常用&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>git config -l&lt;/code>查看所有的配置信息，依次是系统级别、用户级别、仓库级别&lt;/li>
+&lt;li>&lt;code>git config --local -l&lt;/code> 查看仓库级别配置。必须要进入到具体的目录下。&lt;/li>
+&lt;li>&lt;code>git config --global -l&lt;/code> 查看当前用户配置&lt;/li>
+&lt;li>&lt;code>git config --system -l&lt;/code> 查看系统所有用户配置&lt;/li>
+&lt;li>可以与&lt;code>--show-origin&lt;/code> 显示文件位置，&lt;code>--show-scope&lt;/code>显示文件级别&lt;strong>组合使用&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-e&lt;/code>、&lt;code>--edit&lt;/code>打开编辑器编辑&lt;strong>指定级别&lt;/strong>的配置文件，没有指定默认仓库级别，会使用默认编辑器打开编辑。安装的时候设置的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>添加配置、修改配置：直接配置对应的配置参数就行。一般配置用户级别就行。省略了&lt;code>--add&lt;/code>选项。没有指定级别，默认仓库基本。常用的添加配置命令:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>用户邮箱和用户名。安装git之后&lt;strong>必设置的配置&lt;/strong>&lt;/p>
+&lt;p>&lt;code>git config --global user.email &amp;quot;Your mail&amp;quot;&lt;/code>&lt;/p>
+&lt;p>&lt;code>git config --global user.name &amp;quot;Your name&amp;quot;&lt;/code>&lt;/p>
+&lt;p>如果我们没有配置，在提交代码时会有如下错误：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">xxx@DESKTOP-MD21325 MINGW64 /d/test/test &lt;span class="o">(&lt;/span>master&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git commit -m &lt;span class="s2">&amp;#34;feature: add readme&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Author identity unknown
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">*** Please tell me who you are.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Run
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> git config --global user.email &lt;span class="s2">&amp;#34;you@example.com&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> git config --global user.name &lt;span class="s2">&amp;#34;Your Name&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">to &lt;span class="nb">set&lt;/span> your account&lt;span class="s1">&amp;#39;s default identity.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1">Omit --global to set the identity only in this repository.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1">fatal: unable to auto-detect email address (got &amp;#39;&lt;/span>xxx@DESKTOP-MD21325.&lt;span class="o">(&lt;/span>none&lt;span class="o">)&lt;/span>&lt;span class="err">&amp;#39;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>设置自己的代理。网速慢&lt;strong>必设置的配置&lt;/strong>&lt;/p>
+&lt;p>&lt;code>git config --global http.proxy &amp;quot;http://proxy_ip:port&amp;quot;&lt;/code>&lt;/p>
+&lt;p>&lt;code>git config --global https.proxy &amp;quot;https://proxy_ip:port&amp;quot;&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>--unset&lt;/code>取消配置，注意要指定取消的配置级别。常用取消配置命令：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>取消代理配置&lt;/p>
+&lt;p>&lt;code>git config --global --unset http.proxy&lt;/code>&lt;/p>
+&lt;p>&lt;code>git config --global --unset https.proxy&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>--get&lt;/code>查看指定级别、指定配置项的配置，默认仓库级别。如：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>查看代理配置&lt;/p>
+&lt;p>&lt;code>git config --global --get http.proxy&lt;/code>&lt;/p>
+&lt;p>&lt;code>git config --global --get https.proxy&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git config --global alias.&amp;lt;alias-name&amp;gt; &amp;lt;git-command&amp;gt;&lt;/code>配置⼀个git命令的快捷⽅式。例如：配置”alias.glog log &amp;ndash;graph &amp;ndash;oneline”使”git glog”相当于”git log &amp;ndash;graph &amp;ndash;oneline”.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git config --global core.editor &amp;lt;editor&amp;gt;&lt;/code>配置⽂本编辑器，例如vi，在必要时⾃动打开此⽂本编辑器。安装的时候也可以指定默认编辑器。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-submodule">
+&lt;a href="#git-submodule" class="header-anchor">#&lt;/a>
+git submodule
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>git submodule init&lt;/code>初始化子模块，将子模块的配置信息存储在父仓库中。&lt;/p>
+&lt;ul>
+&lt;li>通常执行之后再执行更新子模块使用，如克隆带有子模块的仓库，没有加&lt;code>--recursive&lt;/code>，是不会克隆子模块的&lt;/li>
+&lt;li>初始化子模块之后，执行更新子模块就会根据配置信息下载子模块&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git submodule update&lt;/code>根据父仓库子模块的配置信息更新子模块，如果没有初始化子模块可以加参数&lt;code>--init&lt;/code>，会下载与父项目绑定版本的子模块，若要更新加&lt;code>--remote&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>--init&lt;/code>初识化子模块&lt;/li>
+&lt;li>&lt;code>--recursive&lt;/code>会递归下载子模块的子模块&lt;/li>
+&lt;li>&lt;code>--remote&lt;/code>根据子模块远程仓库的配置信息更新子模块，会下载最新版本的子模块
+&lt;ul>
+&lt;li>注意更新之后要提交更新的版本，否则当在执行更新命令没有加&lt;code>--remote&lt;/code>时会退回与父仓库绑定的版本&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>git submodule add &amp;lt;repository&amp;gt; &amp;lt;path&amp;gt;&lt;/code>添加子模块。其中，&lt;code>&amp;lt;repository&amp;gt;&lt;/code>是子模块的远程仓库地址，&lt;code>&amp;lt;path&amp;gt;&lt;/code>是子模块在主项目中的路径。&lt;/p>
+&lt;ul>
+&lt;li>子模块可以当正常仓库使用。创建时&lt;code>&amp;lt;path&amp;gt;&lt;/code>路径不能存在文件，更克隆差不多。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-subtree">
+&lt;a href="#git-subtree" class="header-anchor">#&lt;/a>
+git subtree
+&lt;/h3>&lt;ul>
+&lt;li>作用：将一个仓库中的目录作为另一个仓库，可以指定分支&lt;/li>
+&lt;li>用途：搭建项目网站时，将项目网站资源推送到gh-pages分支上
+&lt;ul>
+&lt;li>&lt;code>git subtree push --prefix=dist origin gh-pages&lt;/code>将目录添加到&lt;code>gh-pages&lt;/code>分支上，&lt;code>dist&lt;/code>为项目网站的目录&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git subtree push --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code>将子目录的内容推送到远程仓库。它会将当前仓库中子目录的修改推送到指定的远程仓库和分支中。
+&lt;ul>
+&lt;li>注意：以这种推送的方式添加的&lt;code>subtree&lt;/code>不能执行&lt;code>subtree pull&lt;/code>命令，只有通过&lt;code>subtree add&lt;/code>添加的&lt;strong>才能都执行&lt;/strong>，但能够执行&lt;code>subtree push&lt;/code>命令&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>git subtree pull --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code>这个命令用于从远程仓库更新子目录的内容。它会拉取远程仓库的最新代码，并更新到当前仓库的子目录中。&lt;/li>
+&lt;li>&lt;code>git subtree add --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code>这个命令用于将远程仓库的内容作为子目录添加到当前仓库中。&lt;code>&amp;lt;prefix&amp;gt;&lt;/code>是子目录的名称，&lt;code>&amp;lt;repository&amp;gt;&lt;/code>是远程仓库的地址，&lt;code>&amp;lt;branch&amp;gt;&lt;/code>是要合并的分支。&lt;/li>
+&lt;/ul>
+&lt;h3 id="git-rebase">
+&lt;a href="#git-rebase" class="header-anchor">#&lt;/a>
+git rebase
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>作用：rebase翻译成变基，顾名思义：改变基准点。可以使提交历史更加清晰和线性。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>原因：通过合并两个不同的分支，提交历史会很错乱。而通过变基，会使得提交历史更加整洁和可读。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如何实现：就是修改创建分支的起点（基准点），到最新的提交。起点变了，提交历史就简化了。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>命令：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git rebase &amp;lt;base&amp;gt;&lt;/code>基于&lt;code>&amp;lt;base&amp;gt;&lt;/code>对当前分⽀进⾏rebase&lt;code>。&amp;lt;base&amp;gt;&lt;/code>可以是commit、分⽀名称、tag或相对于HEAD的commit。&lt;/li>
+&lt;li>&lt;code>git rebase -i &amp;lt;base&amp;gt;&lt;/code>以交互模式对当前分⽀做rebase。&lt;/li>
+&lt;li>rebase的过程中可能会出现冲突，解决冲突之后需要使用&lt;code>git add&lt;/code>命令将解决冲突后的文件标记为已解决，然后，使用&lt;code>git rebase --continue&lt;/code>命令继续rebase过程。Git会尝试继续应用剩余的提交。如果再次出现冲突，你需要重复上述解决冲突和继续rebase的步骤。&lt;/li>
+&lt;li>如果在rebase过程中出现了问题，或者你决定放弃rebase操作，你可以使用&lt;code>git rebase --abort&lt;/code>命令来撤销整个rebase操作。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>git rebase的注意事项&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>避免对已经推送到远程仓库的提交执行rebase操作&lt;/strong>：这可能会导致提交历史的不一致，给其他协作者带来困扰。&lt;/li>
+&lt;li>&lt;strong>保持工作目录干净&lt;/strong>：在执行rebase之前，确保你的工作目录中没有未提交的更改。&lt;/li>
+&lt;li>&lt;strong>谨慎使用&lt;/strong>：由于rebase会改变提交历史，因此在与他人共享分支时要特别小心。通常，在公共分支上应该使用merge而不是rebase。&lt;/li>
+&lt;/ul>
+&lt;p>通过掌握git rebase的用法和注意事项，你可以更有效地管理你的Git仓库，保持代码的清晰和整洁。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>​&lt;/p>
+&lt;hr>
+&lt;h2 id="扩展">
+&lt;a href="#%e6%89%a9%e5%b1%95" class="header-anchor">#&lt;/a>
+扩展
+&lt;/h2>&lt;h4 id="gitignore文件">
+&lt;a href="#gitignore%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
+.gitignore文件
+&lt;/h4>&lt;p>Git提供了&lt;code>.gitignore&lt;/code>文件，用于指定哪些文件或目录应该被Git忽略，不纳入版本控制系统中。&lt;code>.gitignore&lt;/code>文件是一个文本文件，可以包含一些简单的规则，指定应该忽略哪些文件或目录。以下是一些.gitignore文件的示例规则：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>忽略所有以.tmp结尾的文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">*.tmp
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>忽略所有的log文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">*.log
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>忽略所有的.idea目录：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">.idea/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>忽略所有的build目录及其内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">build/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>忽略根目录下的config.json文件，但不忽略子目录中的config.json文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">/config.json
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>忽略所有的node_modules目录及其内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">node_modules/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>忽略所有的DS_Store文件（Mac OS X系统中的文件）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">.DS_Store
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;p>可以将这些规则写入.gitignore文件中，并将该文件添加到Git仓库中，以使Git忽略这些文件或目录。需要注意的是，即使某些文件或目录已经被添加到Git仓库中，也可以通过修改.gitignore文件来让Git忽略它们，但需要执行以下命令才能使.gitignore文件生效：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git rm -r --cached .
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git add .
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git commit -m &lt;span class="s2">&amp;#34;update .gitignore&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git push
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这些命令会删除Git缓存中已经添加的文件，然后重新添加文件并提交更改，以使.gitignore文件生效。&lt;/p>
+&lt;p>&lt;strong>总结：&lt;/strong>&lt;/p>
+&lt;p>当Git执行提交操作时，它会检查.gitignore文件中列出的文件和目录，并将它们从提交中排除。这是非常有用的，因为有些文件或目录不应该被纳入版本控制系统中，例如编译生成的文件、日志文件、临时文件等。&lt;/p>
+&lt;p>.gitignore文件的语法是基于模式匹配的，其中的特殊字符有：&lt;/p>
+&lt;ul>
+&lt;li>*：匹配任意字符，但不包括路径分隔符（/）。&lt;/li>
+&lt;li>?：匹配任意单个字符，但不包括路径分隔符（/）。&lt;/li>
+&lt;li>/：路径分隔符，用于指定目录。&lt;/li>
+&lt;li>!：用于否定模式，即不忽略指定的文件或目录。&lt;/li>
+&lt;/ul>
+&lt;p>可以在.gitignore文件中使用通配符、路径、注释等语法，以更精确地指定需要忽略的文件或目录。同时，可以在仓库的根目录下创建一个.gitignore文件，也可以在子目录中创建独立的.gitignore文件。&lt;/p>
+&lt;hr></description></item><item><title>基于Hugo和gh-pages快速搭建静态网站</title><link>https://arlettebrook.github.io/en/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</link><pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate><guid>https://arlettebrook.github.io/en/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</guid><description>&lt;img src="https://arlettebrook.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/hugo.jpg" alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站" />&lt;h2 id="静态网页生成器">
+&lt;a href="#%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8" class="header-anchor">#&lt;/a>
+静态网页生成器
+&lt;/h2>&lt;p>无论您需要搭建个人博客还是为您的项目创建文档，静态网页生成器（static site generator）都是一个不错的选择。无需服务器、数据库，只要你熟悉 Markdown，喜欢GitHub，使用生成器创建静态 HTML 文件，然后推送到 &lt;a class="link" href="https://pages.github.com/" target="_blank" rel="noopener"
+>GitHub Pages&lt;/a> 等免费服务即可。&lt;/p>
+&lt;h3 id="常见的静态网页生成器">
+&lt;a href="#%e5%b8%b8%e8%a7%81%e7%9a%84%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8" class="header-anchor">#&lt;/a>
+常见的静态网页生成器
+&lt;/h3>&lt;ul>
+&lt;li>Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。&lt;/li>
+&lt;li>jekyll 是一个静态网页、博客生成器&lt;/li>
+&lt;li>vuepress是基于 Vue 的静态网页生成器&lt;/li>
+&lt;li>Hexo 是一个由Nodejs驱动的快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>参考：&lt;a class="link" href="https://github.com/collections/static-site-generators" target="_blank" rel="noopener"
+>静态网页生成器&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="快速使用hugo搭建个人博客站点">
+&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8hugo%e6%90%ad%e5%bb%ba%e4%b8%aa%e4%ba%ba%e5%8d%9a%e5%ae%a2%e7%ab%99%e7%82%b9" class="header-anchor">#&lt;/a>
+快速使用Hugo搭建个人博客站点
+&lt;/h2>&lt;h3 id="安装hugo">
+&lt;a href="#%e5%ae%89%e8%a3%85hugo" class="header-anchor">#&lt;/a>
+安装Hugo
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>根据自己的操作系统，下载已经构建好的Hugo二进制文件&lt;a class="link" href="https://github.com/gohugoio/hugo/releases/latest" target="_blank" rel="noopener"
+>官方地址&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>官方推荐下载扩展版，支持的功能更多&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>解压之后，将hugo可执行文件加入到PATH环境变量中，即可使用&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">hugo version &lt;span class="c1"># 查看版本，扩展版含这个extended标签&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo -h &lt;span class="c1"># 显示帮助信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo subcommand -h &lt;span class="c1"># 获取子命令的帮助信息&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h3 id="使用hugo">
+&lt;a href="#%e4%bd%bf%e7%94%a8hugo" class="header-anchor">#&lt;/a>
+使用Hugo
+&lt;/h3>&lt;blockquote>
+&lt;p>hugo需要配合git一起使用，并且官方推荐使用bash作为终端&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>
+&lt;p>创建项目并安装主题hugo-theme-stack&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">hugo new site quickstart &lt;span class="c1"># 创建目录结构&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> quickstart
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git init
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git submodule add https://github.com/CaiJimmy/hugo-theme-stack/ themes/hugo-theme-stack &lt;span class="c1"># 安装主题&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>添加内容并使用安装主题的默认配置&lt;/p>
+&lt;ul>
+&lt;li>使用安装主题的实例进行快速添加内容
+&lt;ul>
+&lt;li>只需要进入主题文件中的&lt;code>exampleSite&lt;/code>中的&lt;code>content&lt;/code>拷贝到&lt;code>quickstart&lt;/code>根目录中&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>同理，在主题文件中的&lt;code>exampleSite&lt;/code>中的&lt;code>hugo.yaml&lt;/code>拷贝到&lt;code>quickstart&lt;/code>根目录中，重命名为,并删除&lt;code>hugo.toml&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>最后运行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">hugo server &lt;span class="c1"># 本地启动一个http服务器，便于开发和测试站点，默认热更新&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo server --navigateToChanged &lt;span class="c1"># 自动重定向：编辑内容时，浏览器会自动重定向到上次修改的页面&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>会使用到的命令&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">hugo new content post/fist-post.md &lt;span class="c1"># 会在content目录下创建post/fist-post.md文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 执行完后，会在content/post目录自动生成一个MarkDown格式的first.md文件：&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+++
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">date&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;2015-01-08T08:36:54-07:00&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">draft&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">title&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;Fist Post&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+++
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># draft 默认为true，构建网站时不会构建该文档&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 要构建草稿文档可以用-D或--buildDrafts选项启动服务&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> hugo server -D
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># title 默认为文件名首字母大写&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>构建命令&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>进入项目目录，运行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">hugo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>hugo&lt;/code>命令会构建生成静态文件，会将文件发布项目的&lt;code>public&lt;/code>目录下&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>要将站点发布到其他目录，请使用该标志&lt;code>--destination&lt;/code>或在站点配置中设置&lt;code>publishDir&lt;/code>&lt;/p>
+&lt;blockquote>
+&lt;p>注意：每次构建不会清空public目录，只会覆盖旧内容。&lt;/p>
+&lt;p>这样做是为了防止，构建之后在public添加的文件被删除&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>草稿、未来和过期内容&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Hugo 允许在内容的前面设置&lt;code>draft&lt;/code>、&lt;code>date&lt;/code>、&lt;code>publishDate&lt;/code>和&lt;code>expiryDate&lt;/code>。默认情况下，Hugo 在以下情况下不会发布内容：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>其&lt;code>draft&lt;/code>值为&lt;code>true&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>是&lt;code>date&lt;/code>在未来&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>是&lt;code>publishDate&lt;/code>在未来&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>已经&lt;code>expiryDate&lt;/code>过去了&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>下面的行为可以取消&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">hugo --buildDrafts &lt;span class="c1"># or -D&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo --buildExpired &lt;span class="c1"># or -E&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo --buildFuture &lt;span class="c1"># or -F&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>注意：当这样构建之后，需要手动删除不期望构建的文件，在推送站点&lt;/p>
+&lt;p>否则当推送到远程会出现&lt;strong>意外&lt;/strong>的内容&lt;/p>
+&lt;p>所以建议运行上面的命令之后，前提public中没有手动添加的文件，在构建之前手动清空&lt;code>public&lt;/code>目录，防止出现草稿、过期和未来的内容&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>最后将public中的所以文件推送到静态网站托管平台即可&lt;/p>
+&lt;ul>
+&lt;li>也可以使用自动构建和部署&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>更多内容参考：&lt;/p>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://www.gohugo.org/post/coderzh-hugo/" target="_blank" rel="noopener"
+>使用hugo搭建个人博客站点&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://blog.linsnow.cn/p/join-hugo-and-stack/" target="_blank" rel="noopener"
+>（1）带着Stack主题入坑Hugo&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://blog.linsnow.cn/p/deploy-hugo/" target="_blank" rel="noopener"
+>（2）部署你的Hugo博客&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://blog.linsnow.cn/p/modify-hugo/" target="_blank" rel="noopener"
+>（3）Stack主题的自定义&lt;/a>
+&lt;ol>
+&lt;li>自定义主题添加了&lt;code>assets/scss&lt;/code>、&lt;code>layouts/_default/&lt;/code>、&lt;code>layouts/index.html&lt;/code>,不用了删了就行&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;h3 id="目录结构">
+&lt;a href="#%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84" class="header-anchor">#&lt;/a>
+目录结构
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>archetypes&lt;/code>目录包含新内容的模板&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>目录下的&lt;code>default.md&lt;/code>由标记（markdown）和内容格式&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>内容格式：&amp;mdash;yaml&amp;mdash;、+++toml+++、{json}&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">--- &lt;span class="c1"># +++/{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">date: &lt;span class="s1">&amp;#39;{{ .Date }}&amp;#39;&lt;/span> &lt;span class="c1"># yaml&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">draft: &lt;span class="nb">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">title: &lt;span class="s1">&amp;#39;{{ replace .File.ContentBaseName `-` ` ` | title }}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--- &lt;span class="c1"># +++/{&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>当运行&lt;code>hugo new content post/my-first-post.md&lt;/code>命令时会根据&lt;code>default.md&lt;/code>创建内容文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">date: &lt;span class="s2">&amp;#34;2023-08-24T11:49:46-07:00&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">draft: &lt;span class="nb">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">title: My First Post
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">---
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>可以创建新内容的模版&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">archetypes/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── default.md
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└── post.md
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>若运行&lt;code>hugo new content post/my-first-post.md&lt;/code>查找模版的顺序
+&lt;ul>
+&lt;li>archetypes/post.md&lt;/li>
+&lt;li>archetypes/default.md&lt;/li>
+&lt;li>themes/my-theme/archetypes/post.md&lt;/li>
+&lt;li>themes/my-theme/archetypes/default.md&lt;/li>
+&lt;li>如果这些都不存在，Hugo 将使用内置的默认原型&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>assets&lt;/code>目录包含通常通过资产管道传递的全局资源，包括图像、CSS、Sass、JavaScript 和 TypeScript 等资源。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>config&lt;/code>目录包含站点配置，可能分为多个子目录和文件。对于具有最少配置的项目或不需要在不同环境中表现不同的项目，&lt;code>hugo.toml&lt;/code>在项目根目录中命名的单个配置文件就足够了&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>content&lt;/code>目录包含构成站点内容的标记文件（通常是 Markdown）和页面资源。&lt;/p>
+&lt;ul>
+&lt;li>对应&lt;code>stack&lt;/code>主题：
+&lt;ul>
+&lt;li>&lt;code>post&lt;/code>&lt;strong>存放发布的文章格式md&lt;/strong>&lt;/li>
+&lt;li>&lt;code>page&lt;/code>&lt;strong>存放导航区域的md格式配置&lt;/strong>
+&lt;ul>
+&lt;li>不同的语言结尾用.en.md等表示&lt;/li>
+&lt;li>根据模版进行修改即可，根据自己的需求，没有的&lt;strong>需要自己补充和修改文件内容&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>categories&lt;/code>&lt;strong>存放类别的md格式配置&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>data&lt;/code>目录包含增强内容、配置、本地化和导航的数据文件（JSON、TOML、YAML 或 XML）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>i18n&lt;/code>目录包含多语言站点的翻译表。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>content&lt;/code>目录包含将内容、数据和资源转换为完整网站的模板。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>public&lt;/code>目录包含运行&lt;code>hugo&lt;/code>或&lt;code>hugo server&lt;/code>命令时生成的已发布网站。 Hugo 根据需要重新创建该目录及其内容&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>resources&lt;/code>目录包含 Hugo 资产管道的缓存输出，这些输出是在运行&lt;code>hugo&lt;/code>或&lt;code>hugo server&lt;/code>命令时生成的。默认情况下，此缓存目录包括 CSS 和图像。 Hugo 根据需要重新创建该目录及其内容。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>static&lt;/code>目录包含在您构建站点时将复制到公共目录的文件。例如：&lt;code>favicon.ico&lt;/code>、&lt;code>robots.txt&lt;/code>和 验证站点所有权的文件.与assets差不多&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>themes&lt;/code>目录包含一个或多个&lt;a class="link" href="https://gohugo.io/getting-started/glossary/#theme" target="_blank" rel="noopener"
+>主题&lt;/a>，每个主题都位于其自己的子目录中。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>联合文件系统：&lt;/p>
+&lt;ul>
+&lt;li>这样理解：安装的主题里面同样有自己站点的目录结构，hugo构建时会将主题里面的文件挂载到站点，优先级是&lt;strong>站点的高&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="配置文件">
+&lt;a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
+配置文件
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>hugo支持三种配置文件&lt;code>hugo.tomal&lt;/code>、&lt;code>hugo.yaml&lt;/code>、&lt;code>hugo.json&lt;/code>，喜欢用那个就用那个。&lt;/p>
+&lt;blockquote>
+&lt;p>每种文件格式的规范：&lt;a class="link" href="https://toml.io/en/latest" target="_blank" rel="noopener"
+>TOML&lt;/a>、&lt;a class="link" href="https://yaml.org/spec/" target="_blank" rel="noopener"
+>YAML&lt;/a>和&lt;a class="link" href="https://datatracker.ietf.org/doc/html/rfc7159" target="_blank" rel="noopener"
+>JSON&lt;/a>。&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>配置文件可以有多个，可以放到config目录下，默认都是使用hugo开头的文件&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>指定配置文件构建&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">hugo server --config other.toml
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo --config a.toml,b.yaml,c.json &lt;span class="c1"># 可以指定多个，左边的优先级高&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>更多内容&lt;a class="link" href="https://gohugo.io/getting-started/configuration/" target="_blank" rel="noopener"
+>配置参考&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>额外的一些关于配置文件的总结&lt;/p>
+&lt;ul>
+&lt;li>默认语言修改为zh-cn，意味着&lt;code>index.md&lt;/code>表示中文，&lt;code>index.zh-cn.md&lt;/code>也表示中文，此时的英文要用&lt;code>index.en.md&lt;/code>表示&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>更多内容参考：&lt;/p>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://gohugo.io/documentation/" target="_blank" rel="noopener"
+>Hugo官方文档&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.gohugo.org/" target="_blank" rel="noopener"
+>Hugo中文文档&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://themes.gohugo.io/" target="_blank" rel="noopener"
+>Hugo theme&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;h3 id="文章评论">
+&lt;a href="#%e6%96%87%e7%ab%a0%e8%af%84%e8%ae%ba" class="header-anchor">#&lt;/a>
+文章评论
+&lt;/h3>&lt;p>使用&lt;a class="link" href="https://waline.js.org/guide/get-started/" target="_blank" rel="noopener"
+>Waline&lt;/a>，其教程很完整。&lt;/p>
+&lt;p>根据Waline教程从头完成到使用&lt;a class="link" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwalinejs%2Fwaline%2Ftree%2Fmain%2Fexample" target="_blank" rel="noopener"
+>Vercel&lt;/a>部署完成。&lt;/p>
+&lt;p>最后在&lt;code>config.yaml&lt;/code>中的waline的serverURL给上你的Vercel服务器地址。&lt;/p>
+&lt;p>以及开启评论，最后waline还可以配置评论通知渠道。&lt;/p>
+&lt;ul>
+&lt;li>将cloudflare解析的域名绑定到vercel&lt;a class="link" href="https://vercel.com/docs/integrations/external-platforms/cloudflare" target="_blank" rel="noopener"
+>文档&lt;/a>
+&lt;ul>
+&lt;li>概括：添加一条CNAME记录值为cname.vercel-dns.com，开启代理，将SSL/TLS修改为完全&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>将cloudflare解析的域名绑定到github-pages&lt;a class="link" href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site" target="_blank" rel="noopener"
+>文档&lt;/a>
+&lt;ul>
+&lt;li>概括：添加一条子域，类型CNAME记录值为username.github.io，开启代理，将SSL/TLS修改为完全,username为你的用户名&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>更多内容请查阅文档&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">comments&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">provider&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">waline&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">waline&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">serverURL&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">url&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">lang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">zh-cn&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">pageview&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">copyright&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">emoji&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">https://unpkg.com/@waline/emojis@1.0.1/weibo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requiredMeta&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">name&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">email&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">locale&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">admin&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">👻Hi!&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">placeholder&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">🎉留下你的脚印...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="搜索引擎优化seo">
+&lt;a href="#%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo" class="header-anchor">#&lt;/a>
+搜索引擎优化（SEO）
+&lt;/h3>&lt;p>本网站使用Hugo搭建，而且使用的stack主题支持自动生成基于Open Graph协议（OG协议）的标签，此处记录一下如何在Hugo搭建的网站中做搜索引擎优化（SEO）。&lt;/p>
+&lt;p>目的：提升网站在搜索引擎中的排名&lt;/p>
+&lt;p>Open Graph（开放图谱）协议，简称OG协议，是Facebook在2010年公布的一项协议，用来标记网页内容。简单来讲，OG协议就是嵌在网页头部的一些标签，这些标签标记了网页的标题、描述等特征，使得网页成为一个“富媒体对象”，可以被其他社交网站引用。&lt;/p>
+&lt;p>很多搜索引擎都支持OG协议，在网页中使用OG协议的标签，就更有利于提升我们的网页在搜索引擎中的排名。&lt;/p>
+&lt;p>OG协议的标签在网页中通常表示为类似下面所示的格式：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;og:title&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;The Rock&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;og:type&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;video.movie&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;og:url&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;https://www.imdb.com/title/tt0117500/&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;og:image&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;https://ia.media-imdb.com/images/rock.jpg&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;og:url&amp;#39;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;https://arlettebrook.github.io/search/&amp;#39;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;og:site_name&amp;#39;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;Arlettebrook&amp;amp;#39;s blog&amp;#39;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;og:type&amp;#39;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;article&amp;#39;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">property&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;article:section&amp;#39;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#39;P
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">age&amp;#39;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;twitter:title&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;搜索&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;twitter:site&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;@arlettebrook&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+ &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;twitter:creator&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;@arlettebrook&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;twitter:title&amp;#34;&lt;/span> &lt;span class="na">co&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">ntent&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;搜索&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;twitter:description&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;&lt;/span>&lt;span class="nt">link&lt;/span> &lt;span class="na">rel&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;alternate&amp;#34;&lt;/span> &lt;span class="na">type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;application/js
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">on&amp;#34;&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;https://arlettebrook.github.io/search/index.json&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">link&lt;/span> &lt;span class="na">rel&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;shortcut icon&amp;#34;&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/img/favicon.ico&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>stack主题提供了对OG协议的支持，只需要在网站根目录下的&lt;code>config/_default/params.en.yaml&lt;/code>和&lt;code>config/_default/params.zh-cn.yaml&lt;/code>配置文件中开启即可：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">opengraph&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">twitter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Your Twitter username&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">site&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">JinliCyou&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Available values: summary, summary_large_image&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">card&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">summary_large_image&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样，Hugo在生成和部署网站时就会在网页HTML文件中自动嵌入OG标签。&lt;/p>
+&lt;blockquote>
+&lt;p>参考：&lt;a class="link" href="https://jinli.io/p/%e4%b8%aa%e4%ba%ba%e7%bd%91%e7%ab%99%e7%9a%84%e5%bb%ba%e7%ab%8b%e8%bf%87%e7%a8%8b%e5%9b%9b%e7%bd%91%e7%ab%99%e7%9a%84%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo/" target="_blank" rel="noopener"
+>个人网站的建立过程（四）：网站的搜索引擎优化（SEO）&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="额外的一些知识">
+&lt;a href="#%e9%a2%9d%e5%a4%96%e7%9a%84%e4%b8%80%e4%ba%9b%e7%9f%a5%e8%af%86" class="header-anchor">#&lt;/a>
+额外的一些知识
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>gh-pages&lt;/code> 是GitHub 所提供的一个服务，简单来讲就是可以让你不用花钱也可以部署一个静态网页作为展示用，因此对于前端工程师来讲就非常方便而且很实用，但是部署方式有很多。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>gh-pages&lt;/code>是&lt;code>github-pages&lt;/code>的缩写，可以用于个人博客和项目介绍的网站服务。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>gh-pages&lt;/code>也是github特殊的分支，用来存放网站相关的一些资源，通常网站地址为&lt;code>username.github.io/仓库名&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>项目名与&lt;code>username.github.io&lt;/code>一样的话，可以省略仓库名，跟github个人资料页面一样，所以这个仓库是一个特殊的仓库，默认会自动开启gh-pages服务。别的需要手动。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>虽然gh-pages 是属于免费的服务，基本上只要你持有GitHub 帐号就可以使用，但是它基本上有几个重点可以稍微注意一下：&lt;/p>
+&lt;ul>
+&lt;li>只能放置纯静态网页，也就是说没有后端的网页，例如PHP、Node.js、Python 等等，只能是纯HTML、CSS、JavaScript 等等，因为它并没有运算能力。&lt;/li>
+&lt;li>gh-pages 是以储存库为单位，也就是说每个储存库都可以有一个gh-pages 分支，但是每个储存库只能有一个gh-pages 分支，因此如果你想要部署多个网页，那么你就需要建立多个储存库。&lt;/li>
+&lt;li>gh-pages 的容量是有限制的，每个储存库的容量是1GB，如果你的网页超过这个容量，那么就无法部署。&lt;/li>
+&lt;li>gh-pages 的流量为每月100GB&lt;/li>
+&lt;li>gh-pages 每小时只能部署10 次，如果是使用自己写的GitHub Actions 就没有这个限制（毕竟要花钱）。&lt;/li>
+&lt;li>免费的ssh 凭证&lt;/li>
+&lt;li>预设的网域是&lt;code>https://&amp;lt;username&amp;gt;.github.io/&amp;lt;repository&amp;gt;&lt;/code>，如果你想要使用自己的网域，那么你就需要花钱购买网域，并且设定DNS&lt;/li>
+&lt;/ul>
+&lt;p>最后要稍微注意一下gh-pages 虽然是免费提供的静态网页托管服务，但是它并不能拿来作为商业用途或是违法用途，否则你的帐号可能会被封锁&lt;/p>
+&lt;p>简单说一下如何查看一个仓库是否启用&lt;code>gh-pages&lt;/code>：进入项目settings-pages查看即可，有绿色钩就启动成功，没有需要指定分支和根目录，保存，稍等一会就行。&lt;/p>
+&lt;h3 id="用gh-pages分支展示自己的项目">
+&lt;a href="#%e7%94%a8gh-pages%e5%88%86%e6%94%af%e5%b1%95%e7%a4%ba%e8%87%aa%e5%b7%b1%e7%9a%84%e9%a1%b9%e7%9b%ae" class="header-anchor">#&lt;/a>
+用gh-pages分支展示自己的项目
+&lt;/h3>&lt;p>我们只需要将网页资源上传至gh-pages分支即可&lt;/p>
+&lt;p>搭建项目网站：将项目网站资源推送到gh-pages分支上,静态资源必须提交了才会成功&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git subtree push --prefix&lt;span class="o">=&lt;/span>dist origin gh-pages &lt;span class="c1"># dist为项目网站的目录&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>拉取指定分支&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git fetch origin &lt;span class="c1"># 获取origin仓库的信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git checkout -b aaa origin/aaa &lt;span class="c1"># 创建并检出分支&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># git clone之后也也可以检出分支&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git checkout gh-page &lt;span class="c1"># 失败用上面办法&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 在git clone 的时候可以指定分支-b选项&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git clone -b url
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果要项目中不含自己网站的源码，可以忽略public目录，将public目录创建为一个私有仓库的子目录，然后将子目录作为，项目的gh-pages分支。&lt;/p>
+&lt;p>上面的方式是最简单的。&lt;/p></description></item><item><title>Archives</title><link>https://arlettebrook.github.io/en/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://arlettebrook.github.io/en/archives/</guid><description/></item><item><title>About</title><link>https://arlettebrook.github.io/en/about/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://arlettebrook.github.io/en/about/</guid><description>&lt;p>&lt;a class="link" href="https://github.com/Arlettebrook/arlettebrook" target="_blank" rel="noopener"
+>&lt;img src="https://arlettebrook.github.io/icon/Bottom_up.svg"
+loading="lazy"
+>&lt;/a>&lt;/p>
+&lt;p>
+&lt;a href='https://github.com/Arlettebrook/arlettebrook'>&lt;img src="https://github.com/Arlettebrook/arlettebrook/blob/main/icon/Olaf.gif?raw=true" width="100px" alt="Olaf" />&lt;/a>&lt;a href="https://github.com/arlettebrook">&lt;img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&amp;pause=1000&amp;width=435&amp;lines=Hi+there+%F0%9F%91%8B%2C+I+am+Arlettebrook." alt="Typing SVG" />&lt;/a>
+&lt;/p>
+&lt;div align='center'>&lt;a href='https://github.com/Arlettebrook/arlettebrook' >&lt;img width="70%" alt="Github Image" src="https://arlettebrook.github.io/icon/git-header.svg" >&lt;/a>&lt;/div>
+&lt;p>&lt;a href='https://github.com/Arlettebrook/arlettebrook'>&lt;img src='https://badges.frapsoft.com/os/v2/open-source.svg?v=103' alt="Open Source" />&lt;/a>&lt;/p>
+&lt;div align='center'>
+&lt;b>&lt;i>Awesome-github-profiles&lt;/i>&lt;br/>&lt;br/>
+&lt;i>Config files for your GitHub profile.&lt;/i>&lt;br>&lt;br/>
+&lt;i>List of GitHub profiles that have awesome customisation, that you can use for inspiration.&lt;/i>&lt;/b>
+&lt;/div>
+&lt;hr>
+&lt;div>
+&lt;a href='https://github.com/arlettebrook'>
+&lt;img src="https://github.com/Arlettebrook/arlettebrook/blob/main/icon/header_.png?raw=true"> &lt;/a>
+&lt;/div>
+&lt;p align='center'>
+&lt;a href='https://github.com/Arlettebrook/arlettebrook'>&lt;img src="https://arlettebrook.github.io/icon/GITHey.gif" width="50px" alt="Olaf" />&lt;/a>
+&lt;/p>
+&lt;p align="center">
+&lt;a href='https://github.com/arlettebrook'>
+&lt;img src="https://github-readme-stats.vercel.app/api?username=arlettebrook&amp;show_icons=true&amp;theme=onedark&amp;show=reviews,discussions_started,discussions_answered,prs_merged,prs_merged_percentage&amp;PAT_1"> &lt;/a>
+&lt;/p>
+&lt;div align='center'>
+&lt;a href='https://github.com/arlettebrook/arlettebrook'>
+&lt;img src='https://github-readme-stats.vercel.app/api/wakatime?username=Arlettebrook&amp;layout=donut-vertical&amp;theme=panda'>
+&lt;/a>
+&lt;/div>
+&lt;div align='center'>
+&lt;img src='https://github-readme-stats.vercel.app/api/top-langs/?username=arlettebrook&amp;langs_count=6&amp;layout=compact&amp;theme=nord&amp;PAT_1'>
+&lt;/div>
+&lt;table align="center" border="0" cellspacing="5" cellpadding="0">
+&lt;tr>
+&lt;td>
+&lt;a href='https://github.com/arlettebrook/autoCheck-in'>
+&lt;img src='https://github-readme-stats.vercel.app/api/pin/?username=arlettebrook&amp;repo=autoCheck-in&amp;show_owner=true&amp;theme=buefy&amp;PAT_1'>
+&lt;/a>
+&lt;/td>
+&lt;td>
+&lt;a href='https://github.com/arlettebrook/arlettebrook'>
+&lt;img src='https://github-readme-stats.vercel.app/api/pin/?username=arlettebrook&amp;repo=arlettebrook&amp;show_owner=true&amp;theme=buefy&amp;PAT_1'>
+&lt;/a>
+&lt;/td>
+&lt;/tr>
+&lt;!-- 添加更多图片链接 -->
+&lt;tr>
+&lt;td>
+&lt;a href='https://github.com/arlettebrook/tencentVideoSign-in'>
+&lt;img src='https://github-readme-stats.vercel.app/api/pin/?username=arlettebrook&amp;repo=tencentVideoSign-in&amp;show_owner=true&amp;theme=buefy&amp;PAT_1'>
+&lt;/a>
+&lt;/td>
+&lt;td>
+&lt;a href='https://github.com/arlettebrook/null'>
+&lt;img src='https://github-readme-stats.vercel.app/api/pin/?username=arlettebrook&amp;repo=null&amp;show_owner=true&amp;theme=buefy&amp;PAT_1'>
+&lt;/a>
+&lt;/td>
+&lt;/tr>
+&lt;/table>
+&lt;ul>
+&lt;li>📫 &lt;strong>How to reach me:&lt;/strong>
+&lt;ul>
+&lt;li>&lt;strong>Email: &lt;a class="link" href="mailto:arlettebrook@foxmail.com" >arlettebrook@foxmail.com&lt;/a>&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;div align='center'>
+&lt;b>&lt;i>Awesome-github-profiles&lt;/i>&lt;br/>&lt;br/>
+&lt;i>If you liked my profile, you can Star ⭐ the repo and if you want to use this template you can Fork it and can use.&lt;/i>&lt;br>
+&lt;i>Would you ike to meet me?&lt;/i>&lt;/br>&lt;br/>
+&lt;i>If you want to contribute to any of my repositories, feel free to submit PRs, issues and email me. Pick a slot if you'd like to meet me and chat about proposals and ideas - but make sure to describe the agenda.&lt;/i>&lt;/b>&lt;br/>
+&lt;/div>
+&lt;blockquote>
+&lt;p>&lt;a href='https://github.com/Arlettebrook/arlettebrook'>&lt;img src="https://arlettebrook.github.io/icon/Minion.gif" width="50px" alt="Olaf" />&lt;/a>&lt;strong>这里有更多关于个人资料的模板，可以自由挑选自己喜欢的元素，加入到自己的profile中。如果觉得有用，感谢给&lt;a class="link" href="https://github.com/Arlettebrook/arlettebrook" target="_blank" rel="noopener"
+>本仓库&lt;/a>、&lt;a class="link" href="https://github.com/EddieHubCommunity/awesome-github-profiles" target="_blank" rel="noopener"
+>模板仓库&lt;/a>一颗心⭐。&lt;/strong>&lt;/p>
+&lt;/blockquote>
+&lt;details>
+&lt;summary>More profile templates and api&lt;/summary>
+&lt;p align='center'>
+&lt;b>&lt;a href='./profileTemplates.md'>More profile Templates&lt;/a>&lt;/b>&lt;br/>
+&lt;b>&lt;a href='https://github.com/rzashakeri/beautify-github-profile'>rzashakeri/beautify-github-profile&lt;/a>&lt;/b>&lt;br/>
+&lt;b>&lt;a href='https://github.com/abhisheknaiidu/awesome-github-profile-readme'>abhisheknaiidu/awesome-github-profile-readme&lt;/a>&lt;/b>&lt;br/>
+&lt;/p>
+&lt;!-- DO NOT EDIT THIS SECTION -->
+&lt;!-- START_SECTION:data-section -->
+&lt;/details>
+&lt;hr>
+&lt;h2 id="star-history">
+&lt;a href="#star-history" class="header-anchor">#&lt;/a>
+Star History
+&lt;/h2>&lt;p>&lt;a class="link" href="https://github.com/arlettebrook" target="_blank" rel="noopener"
+>&lt;img src="https://api.star-history.com/svg?repos=Arlettebrook/autoCheck-in,Arlettebrook/arlettebrook&amp;amp;type=Date"
+loading="lazy"
+alt="Star History Chart"
+>&lt;/a>&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>免责声明: 本人所有仓库项目中所涉及的任何解锁和解密分析脚本，仅用于测试和学习研究，不保证其合法性，准确性，完整性和有效性，请根据情况自行判断。请勿将本项目的任何内容用于商业或非法途径，否则后果由使用者自负。如果您认为该项目的内容可能涉嫌侵犯其权利，请与我联系，我会尽快删除文件。如果您使用或复制了本人仓库项目中的任何内容，则视为您已接受此免责声明。 搜集整理自各位大佬。&lt;/p>
+&lt;/blockquote>
+&lt;p>Thanks for visiting :heart:&lt;/p>
+&lt;p align="center">
+&lt;a href='https://github.com/Arlettebrook/arlettebrook'>
+&lt;img src="https://profile-counter.glitch.me/arlettebrook/count.svg">
+&lt;a/>
+&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/Arlettebrook/arlettebrook" target="_blank" rel="noopener"
+>&lt;img src="https://arlettebrook.github.io/icon/Bottom_down.svg"
+loading="lazy"
+>&lt;/a>&lt;/p>
+&lt;!--
+**arlettebrook/arlettebrook** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Here are some ideas to get you started:
+- 🔭 I’m currently working on ...
+- 🌱 I’m currently learning ...
+- 👯 I’m looking to collaborate on ...
+- 🤔 I’m looking for help with ...
+- 💬 Ask me about ...
+- 📫 How to reach me: ...
+- 😄 Pronouns: ...
+- ⚡ Fun fact: ...
+--></description></item><item><title>Links</title><link>https://arlettebrook.github.io/en/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://arlettebrook.github.io/en/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
+&lt;p>This page&amp;rsquo;s frontmatter:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">links&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub is the world&amp;#39;s largest software development platform.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://www.typescriptlang.org&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ts-logo-128.jpg&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>Search</title><link>https://arlettebrook.github.io/en/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://arlettebrook.github.io/en/search/</guid><description/></item><item><title>Tags</title><link>https://arlettebrook.github.io/en/tags/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://arlettebrook.github.io/en/tags/</guid><description/></item></channel></rss>

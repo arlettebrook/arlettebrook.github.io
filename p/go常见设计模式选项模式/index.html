@@ -1,0 +1,312 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Go常见设计模式之选项模式。"><title>Go常见设计模式：选项模式</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Go常见设计模式：选项模式"><meta property='og:description' content="Go常见设计模式之选项模式。"><meta property='og:url' content='https://arlettebrook.github.io/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go设计模式'><meta property='article:published_time' content='2024-04-25T23:22:54+08:00'><meta property='article:modified_time' content='2024-04-25T23:22:54+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Go常见设计模式：选项模式"><meta name=twitter:description content="Go常见设计模式之选项模式。"><link rel="shortcut icon" href=/img/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#通过多构造函数实现>通过多构造函数实现</a></li><li><a href=#通过默认参数选项实现>通过默认参数选项实现</a></li><li><a href=#通过选项模式实现>通过选项模式实现</a></li><li><a href=#总结>总结</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#2a9d8f;color:#fff>Go
+</a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#2a9d8f;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/>Go常见设计模式：选项模式</a></h2><h3 class=article-subtitle>Go常见设计模式之选项模式。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Apr 25, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 4 分钟</time></div></footer></div></header><section class=article-content><hr><blockquote><p>在程序开发中，有些场景是我们经常会遇到的，软件行业的先行者们帮我们总结了一些解决常见场景编码问题的最佳实践，于是就有了设计模式。选项模式在 Go 语言开发中会经常用到，所以今天我们来介绍一下选项模式的应用。</p><p>熟悉 Python 开发的同学都知道，Python 有默认参数的存在，使得我们在实例化一个对象的时候，可以根据需要来选择性的覆盖某些默认参数，以此来决定如何实例化对象。当一个对象有多个默认参数时，这个特性非常好用，能够优雅的简化代码。</p><p>而 Go 语言从语法上是不支持默认参数的，所以为了实现既能通过默认参数创建对象，又能通过传递自定义参数创建对象，我们就需要通过一些编程技巧来实现。</p></blockquote><hr><h2 id=通过多构造函数实现><a href=#%e9%80%9a%e8%bf%87%e5%a4%9a%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%ae%9e%e7%8e%b0 class=header-anchor>#</a>
+通过多构造函数实现</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=nx>defaultAddr</span> <span class=p>=</span> <span class=s>&#34;127.0.0.1&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>defaultPort</span> <span class=p>=</span> <span class=mi>8000</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Server</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Addr</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Port</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>NewServer</span><span class=p>()</span> <span class=o>*</span><span class=nx>Server</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>Server</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Addr</span><span class=p>:</span> <span class=nx>defaultAddr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Port</span><span class=p>:</span> <span class=nx>defaultPort</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>NewServerWithOptions</span><span class=p>(</span><span class=nx>addr</span> <span class=kt>string</span><span class=p>,</span> <span class=nx>port</span> <span class=kt>int</span><span class=p>)</span> <span class=o>*</span><span class=nx>Server</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>Server</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Addr</span><span class=p>:</span> <span class=nx>addr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Port</span><span class=p>:</span> <span class=nx>port</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s1</span> <span class=o>:=</span> <span class=nf>NewServer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s2</span> <span class=o>:=</span> <span class=nf>NewServerWithOptions</span><span class=p>(</span><span class=s>&#34;localhost&#34;</span><span class=p>,</span> <span class=mi>8001</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>s1</span><span class=p>)</span>  <span class=c1>// &amp;{127.0.0.1 8000}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>s2</span><span class=p>)</span>  <span class=c1>// &amp;{localhost 8001}
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里我们为 <code>Server</code> 结构体实现了两个构造函数，其中 <code>NewServer</code> 无需传递参数即可直接返回 <code>Server</code> 对象，<code>NewServerWithOptions</code> 则需要传递 <code>addr</code> 和 <code>port</code> 两个参数来构造 <code>Server</code> 对象。当我们无需对 <code>Server</code> 进行定制，通过默认参数创建的对象即可满足需求时，我们可以使用 <code>NewServer</code> 来生成对象（<code>s1</code>），而当我们需要对其进行定制时，则可以使用 <code>NewServerWithOptions</code> 来生成对象（<code>s2</code>）。</p><hr><h2 id=通过默认参数选项实现><a href=#%e9%80%9a%e8%bf%87%e9%bb%98%e8%ae%a4%e5%8f%82%e6%95%b0%e9%80%89%e9%a1%b9%e5%ae%9e%e7%8e%b0 class=header-anchor>#</a>
+通过默认参数选项实现</h2><p>另外一种实现默认参数的方案是，我们可以为要生成的结构体对象定义一个选项结构体，用来生成要创建对象的默认参数，代码实现如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=nx>defaultAddr</span> <span class=p>=</span> <span class=s>&#34;127.0.0.1&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>defaultPort</span> <span class=p>=</span> <span class=mi>8000</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Server</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Addr</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Port</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>ServerOptions</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Addr</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Port</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>NewServerOptions</span><span class=p>()</span> <span class=o>*</span><span class=nx>ServerOptions</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>ServerOptions</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Addr</span><span class=p>:</span> <span class=nx>defaultAddr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Port</span><span class=p>:</span> <span class=nx>defaultPort</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>NewServerWithOptions</span><span class=p>(</span><span class=nx>opts</span> <span class=o>*</span><span class=nx>ServerOptions</span><span class=p>)</span> <span class=o>*</span><span class=nx>Server</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>Server</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Addr</span><span class=p>:</span> <span class=nx>opts</span><span class=p>.</span><span class=nx>Addr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Port</span><span class=p>:</span> <span class=nx>opts</span><span class=p>.</span><span class=nx>Port</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s1</span> <span class=o>:=</span> <span class=nf>NewServerWithOptions</span><span class=p>(</span><span class=nf>NewServerOptions</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s2</span> <span class=o>:=</span> <span class=nf>NewServerWithOptions</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>ServerOptions</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Addr</span><span class=p>:</span> <span class=s>&#34;localhost&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Port</span><span class=p>:</span> <span class=mi>8001</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>s1</span><span class=p>)</span>  <span class=c1>// &amp;{127.0.0.1 8000}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>s2</span><span class=p>)</span>  <span class=c1>// &amp;{localhost 8001}
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>我们为 <code>Server</code> 结构体专门实现了一个 <code>ServerOptions</code> 用来生成默认参数，调用 <code>NewServerOptions</code> 函数即可获得默认参数配置，构造函数 <code>NewServerWithOptions</code> 接收一个 <code>*ServerOptions</code> 类型作为参数，所以我们可以直接将调用 <code>NewServerOptions</code> 函数的返回值传递给 <code>NewServerWithOptions</code> 来实现通过默认参数生成对象（<code>s1</code>），也可以通过手动构造 <code>ServerOptions</code> 配置来生成定制对象（<code>s2</code>）。</p><hr><h2 id=通过选项模式实现><a href=#%e9%80%9a%e8%bf%87%e9%80%89%e9%a1%b9%e6%a8%a1%e5%bc%8f%e5%ae%9e%e7%8e%b0 class=header-anchor>#</a>
+通过选项模式实现</h2><p>以上两种方式虽然都能够完成功能，但实现上却都不够优雅，接下来我们一起来看下如何通过选项模式更优雅的解决这个问题，代码实现如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=nx>defaultAddr</span> <span class=p>=</span> <span class=s>&#34;127.0.0.1&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>defaultPort</span> <span class=p>=</span> <span class=mi>8000</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Server</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Addr</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Port</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>ServerOptions</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Addr</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Port</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>ServerOption</span> <span class=kd>interface</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nf>apply</span><span class=p>(</span><span class=o>*</span><span class=nx>ServerOptions</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>FuncServerOption</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>f</span> <span class=kd>func</span><span class=p>(</span><span class=o>*</span><span class=nx>ServerOptions</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>fo</span> <span class=nx>FuncServerOption</span><span class=p>)</span> <span class=nf>apply</span><span class=p>(</span><span class=nx>option</span> <span class=o>*</span><span class=nx>ServerOptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fo</span><span class=p>.</span><span class=nf>f</span><span class=p>(</span><span class=nx>option</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>WithAddr</span><span class=p>(</span><span class=nx>addr</span> <span class=kt>string</span><span class=p>)</span> <span class=nx>ServerOption</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>FuncServerOption</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>f</span><span class=p>:</span> <span class=kd>func</span><span class=p>(</span><span class=nx>options</span> <span class=o>*</span><span class=nx>ServerOptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>options</span><span class=p>.</span><span class=nx>Addr</span> <span class=p>=</span> <span class=nx>addr</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>WithPort</span><span class=p>(</span><span class=nx>port</span> <span class=kt>int</span><span class=p>)</span> <span class=nx>ServerOption</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>FuncServerOption</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>f</span><span class=p>:</span> <span class=kd>func</span><span class=p>(</span><span class=nx>options</span> <span class=o>*</span><span class=nx>ServerOptions</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>options</span><span class=p>.</span><span class=nx>Port</span> <span class=p>=</span> <span class=nx>port</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>NewServer</span><span class=p>(</span><span class=nx>opts</span> <span class=o>...</span><span class=nx>ServerOption</span><span class=p>)</span> <span class=o>*</span><span class=nx>Server</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>options</span> <span class=o>:=</span> <span class=nx>ServerOptions</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Addr</span><span class=p>:</span> <span class=nx>defaultAddr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Port</span><span class=p>:</span> <span class=nx>defaultPort</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>opt</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>opts</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>opt</span><span class=p>.</span><span class=nf>apply</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>options</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>&amp;</span><span class=nx>Server</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Addr</span><span class=p>:</span> <span class=nx>options</span><span class=p>.</span><span class=nx>Addr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Port</span><span class=p>:</span> <span class=nx>options</span><span class=p>.</span><span class=nx>Port</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s1</span> <span class=o>:=</span> <span class=nf>NewServer</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s2</span> <span class=o>:=</span> <span class=nf>NewServer</span><span class=p>(</span><span class=nf>WithAddr</span><span class=p>(</span><span class=s>&#34;localhost&#34;</span><span class=p>),</span> <span class=nf>WithPort</span><span class=p>(</span><span class=mi>8001</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s3</span> <span class=o>:=</span> <span class=nf>NewServer</span><span class=p>(</span><span class=nf>WithPort</span><span class=p>(</span><span class=mi>8001</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>s1</span><span class=p>)</span>  <span class=c1>// &amp;{127.0.0.1 8000}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>s2</span><span class=p>)</span>  <span class=c1>// &amp;{localhost 8001}
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>s3</span><span class=p>)</span>  <span class=c1>// &amp;{127.0.0.1 8001}
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>乍一看，我们的代码复杂了很多，但其实都是定义上的复杂，调用构造函数生成对象的代码复杂度是没有改变的。</p><p>在这里我们定义了 <code>ServerOptions</code> 结构体用来配置默认参数，因为这里 <code>Addr</code> 和 <code>Port</code> 都有默认参数，所以 <code>ServerOptions</code> 的定义和 <code>Server</code> 定义是一样的，但有一定复杂性的结构体中可能会有些参数没有默认参数，必须让用户来配置，这时 <code>ServerOptions</code> 的字段就会少一些，大家可以按需定义。</p><p>同时，我们还定义了一个 <code>ServerOption</code> 接口和实现了此接口的 <code>FuncServerOption</code> 结构体，它们的作用是让我们能够通过 <code>apply</code> 方法为 <code>ServerOptions</code> 结构体单独配置某项参数。</p><p>我们可以分别为每个默认参数都定义一个 <code>WithXXX</code> 函数用来配置参数，如这里定义的 <code>WithAddr</code> 和 <code>WithPort</code> ，这样用户就可以通过调用 <code>WithXXX</code> 函数来定制需要覆盖的默认参数。</p><p>此时默认参数定义在构造函数 <code>NewServer</code> 中，构造函数的接收一个不定长参数，类型为 <code>ServerOption</code>，在构造函数内部通过一个 <code>for</code> 循环调用每个传进来的 <code>ServerOption</code> 对象的 <code>apply</code> 方法，将用户配置的参数依次赋值给构造函数内部的默认参数对象 <code>options</code> 中，以此来替换默认参数，<code>for</code> 循环执行完成后，得到的 <code>options</code> 对象将是最终配置，将其属性依次赋值给 <code>Server</code> 即可生成新的对象。</p><hr><h2 id=总结><a href=#%e6%80%bb%e7%bb%93 class=header-anchor>#</a>
+总结</h2><p>通过 <code>s2</code> 和 <code>s3</code> 的打印结果可以发现，使用选项模式实现的构造函数更加灵活，相较于前两种实现，选项模式中我们可以自由的更改其中任意一项或多项默认配置。</p><p>虽然选项模式确实会多写一些代码，但多数情况下这是值得的，Google 的 <code>gRPC</code> 框架 Go 语言实现中创建 <code>gRPC</code> server 的构造函数 <a class=link href=https://github.com/grpc/grpc-go/blob/master/server.go#L561 target=_blank rel=noopener><code>NewServer</code></a> 就使用了选项模式，感兴趣的同学可以看下其源码的实现思想其实和这里的示例程序如出一辙。</p><p>希望今天的分享能够给你带来一点帮助。</p><blockquote><p>原文地址：<a class=link href=https://jianghushinian.cn/2021/12/12/Golang-%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/ target=_blank rel=noopener>Go 常见设计模式之选项模式</a></p></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/>Go设计模式</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/><div class=article-details><h2 class=article-title>Go常见设计模式：单例模式</h2></div></a></article><article><a href=/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go调用外部命令os/exec库介绍</h2></div></a></article><article><a href=/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go-homedir库介绍</h2></div></a></article><article><a href=/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go flag库介绍</h2></div></a></article><article class=has-image><a href=/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/><div class=article-image><img src=/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/hugo.46f61e8ea6a2df8fc5bf1d24a17c44a6_hu45a5e3ad5e058da6a00650ed8fd40bea_15530_250x150_fill_q75_box_smart1.jpg width=250 height=150 loading=lazy alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站" data-hash="md5-RvYejqai34/Fvx0koXxEpg=="></div><div class=article-details><h2 class=article-title>基于Hugo和gh-pages快速搭建静态网站</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Arlettebrook</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
