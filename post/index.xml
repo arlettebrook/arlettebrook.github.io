@@ -4064,12 +4064,20 @@ ssh-keygen
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>如果要项目中不含自己网站的源码，可以忽略public目录，将public目录创建为一个私有仓库的子目录，然后将子目录作为，项目的gh-pages分支。&lt;/p>
-&lt;h3 id="通过actions自动部署gh-pages">
-&lt;a href="#%e9%80%9a%e8%bf%87actions%e8%87%aa%e5%8a%a8%e9%83%a8%e7%bd%b2gh-pages" class="header-anchor">#&lt;/a>
-通过Actions自动部署gh-pages
-&lt;/h3>&lt;ol>
+&lt;h3 id="通过github-actions自动部署gh-pages">
+&lt;a href="#%e9%80%9a%e8%bf%87github-actions%e8%87%aa%e5%8a%a8%e9%83%a8%e7%bd%b2gh-pages" class="header-anchor">#&lt;/a>
+通过GitHub Actions自动部署gh-pages
+&lt;/h3>&lt;blockquote>
+&lt;p>简单介绍一下GitHub Actions:&lt;/p>
+&lt;ol>
+&lt;li>GitHub Actions是一个自动化工具。&lt;/li>
+&lt;li>可以实现自动化构建、测试、和部署项目。&lt;/li>
+&lt;li>定义自动化过程是通过编写&lt;code>workflows&lt;/code>（工作流）实现的，格式是&lt;code>yaml&lt;/code>。&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;ol>
 &lt;li>
-&lt;p>执行Actions需要git账户认证，方式是SSH秘钥认证。&lt;/p>
+&lt;p>推送部署的github-pages需要git账户认证，方式是SSH秘钥认证。&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>所以需要设置ssh秘钥。&lt;/p>
