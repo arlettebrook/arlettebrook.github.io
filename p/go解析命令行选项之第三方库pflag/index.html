@@ -1,0 +1,583 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="pflag可以作为 Go 内置 flag 包的替代品，属于第三方库。"><title>Go解析命令行选项之第三方库pflag</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Go解析命令行选项之第三方库pflag"><meta property='og:description' content="pflag可以作为 Go 内置 flag 包的替代品，属于第三方库。"><meta property='og:url' content='https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go第三方库'><meta property='article:published_time' content='2024-05-02T15:21:19+08:00'><meta property='article:modified_time' content='2024-05-02T15:21:19+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Go解析命令行选项之第三方库pflag"><meta name=twitter:description content="pflag可以作为 Go 内置 flag 包的替代品，属于第三方库。"><link rel="shortcut icon" href=/img/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#特点>特点</a></li><li><a href=#使用>使用</a><ol><li><a href=#基本用法>基本用法</a></li><li><a href=#进阶用法>进阶用法</a></li><li><a href=#命令行标志语法>命令行标志语法</a></li><li><a href=#标志名-normalize>标志名 Normalize</a></li><li><a href=#nooptdefval>NoOptDefVal</a></li><li><a href=#弃用隐藏标志>弃用/隐藏标志</a></li><li><a href=#支持-flag-类型>支持 flag 类型</a></li></ol></li><li><a href=#总结>总结</a></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#2a9d8f;color:#fff>Go
+</a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#2a9d8f;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/>Go解析命令行选项之第三方库pflag</a></h2><h3 class=article-subtitle>pflag可以作为 Go 内置 flag 包的替代品，属于第三方库。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 02, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 8 分钟</time></div></footer></div></header><section class=article-content><hr><blockquote><p>在使用 Go 进行开发的过程中，命令行参数解析是我们经常遇到的需求。尽管 Go 标准库提供了 flag 包用于实现命令行参数解析，但只能满足基本需要，不支持高级特性。于是 Go 社区中出现了一个叫 pflag 的第三方包，功能更加全面且足够强大。在本文中，我们将学习并掌握如何使用 pflag。</p></blockquote><h2 id=特点><a href=#%e7%89%b9%e7%82%b9 class=header-anchor>#</a>
+特点</h2><p>pflag 作为 Go 内置 flag 包的替代品，具有如下特点：</p><ul><li>实现了 POSIX/GNU 风格的 –flags。</li><li>pflag 与<a class=link href=https://www.gnu.org/software/libc/manual/html_node/index.html target=_blank rel=noopener>《The GNU C Library》</a> 中「25.1.1 程序参数语法约定」章节中 <a class=link href=https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html target=_blank rel=noopener>POSIX 建议语法</a>兼容。</li><li>兼容 Go 标准库中的 flag 包。如果直接使用 flag 包定义的全局 <code>FlagSet</code> 对象 <code>CommandLine</code>，则完全兼容；否则当你手动实例化了 <code>FlagSet</code> 对象，这时就需要为每个标志设置一个简短标志（<code>Shorthand</code>）。</li></ul><hr><h2 id=使用><a href=#%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+使用</h2><h3 id=基本用法><a href=#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95 class=header-anchor>#</a>
+基本用法</h3><p>安装</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>go get -u github.com/spf13/pflag
+</span></span></code></pre></td></tr></table></div></div><p>导入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;github.com/spf13/pflag&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用</p><p>我们可以像使用 Go 标准库中的 flag 包一样使用 pflag。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/spf13/pflag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>host</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>value</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>h</span> <span class=o>*</span><span class=nx>host</span><span class=p>)</span> <span class=nf>String</span><span class=p>()</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>h</span><span class=p>.</span><span class=nx>value</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>h</span> <span class=o>*</span><span class=nx>host</span><span class=p>)</span> <span class=nf>Set</span><span class=p>(</span><span class=nx>v</span> <span class=kt>string</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>h</span><span class=p>.</span><span class=nx>value</span> <span class=p>=</span> <span class=nx>v</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>h</span> <span class=o>*</span><span class=nx>host</span><span class=p>)</span> <span class=nf>Type</span><span class=p>()</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s>&#34;host&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>ip</span> <span class=o>*</span><span class=kt>int</span> <span class=p>=</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>Int</span><span class=p>(</span><span class=s>&#34;ip&#34;</span><span class=p>,</span> <span class=mi>1234</span><span class=p>,</span> <span class=s>&#34;help message for ip&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>port</span> <span class=kt>int</span>
+</span></span><span class=line><span class=cl>    <span class=nx>pflag</span><span class=p>.</span><span class=nf>IntVar</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>port</span><span class=p>,</span> <span class=s>&#34;port&#34;</span><span class=p>,</span> <span class=mi>8080</span><span class=p>,</span> <span class=s>&#34;help message for port&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>h</span> <span class=nx>host</span>
+</span></span><span class=line><span class=cl>    <span class=nx>pflag</span><span class=p>.</span><span class=nf>Var</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>h</span><span class=p>,</span> <span class=s>&#34;host&#34;</span><span class=p>,</span> <span class=s>&#34;help message for host&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 解析命令行参数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>pflag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;ip: %d\n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>ip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;port: %d\n&#34;</span><span class=p>,</span> <span class=nx>port</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;host: %+v\n&#34;</span><span class=p>,</span> <span class=nx>h</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;NFlag: %v\n&#34;</span><span class=p>,</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>NFlag</span><span class=p>())</span> <span class=c1>// 返回已设置的命令行标志个数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;NArg: %v\n&#34;</span><span class=p>,</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>NArg</span><span class=p>())</span>   <span class=c1>// 返回处理完标志后剩余的参数个数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Args: %v\n&#34;</span><span class=p>,</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>Args</span><span class=p>())</span>   <span class=c1>// 返回处理完标志后剩余的参数列表
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Arg(1): %v\n&#34;</span><span class=p>,</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>Arg</span><span class=p>(</span><span class=mi>1</span><span class=p>))</span> <span class=c1>// 返回处理完标志后剩余的参数列表中第 i 项
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>以上示例演示的 pflag 用法跟 flag 包用法一致，可以做到二者无缝替换。</p><p>示例分别使用 <code>pflag.Int()</code>、<code>pflag.IntVar()</code>、<code>pflag.Var()</code> 三种不同方式来声明标志。其中 <code>ip</code> 和 <code>port</code> 都是 <code>int</code> 类型标志，<code>host</code> 标志则为自定义的 <code>host</code> 类型，它实现了 <code>pflag.Value</code> 接口，通过实现接口类型，标志能够支持任意类型，增加灵活性。</p><p>通过 <code>--help/-h</code> 参数查看命令行程序使用帮助：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go --help                      
+</span></span><span class=line><span class=cl>Usage of ./main:
+</span></span><span class=line><span class=cl>      --host host   <span class=nb>help</span> message <span class=k>for</span> host
+</span></span><span class=line><span class=cl>      --ip int      <span class=nb>help</span> message <span class=k>for</span> ip <span class=o>(</span>default 1234<span class=o>)</span>
+</span></span><span class=line><span class=cl>      --port int    <span class=nb>help</span> message <span class=k>for</span> port <span class=o>(</span>default 8080<span class=o>)</span>
+</span></span><span class=line><span class=cl>pflag: <span class=nb>help</span> requested
+</span></span><span class=line><span class=cl><span class=nb>exit</span> status <span class=m>2</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以发现，帮助信息中的标志位置是经过重新排序的，并不是标志定义的顺序。</p><p>与 flag 包不同的是，pflag 包参数定界符是两个 <code>-</code>，而不是一个 <code>-</code>，在 pflag 中 <code>--</code> 和 <code>-</code> 具有不同含义，这点稍后会进行介绍。</p><p><code>ip</code> 标志的默认参数为 <code>1234</code>，<code>port</code> 标志的默认参数为 <code>8080</code>。</p><blockquote><p>注意：在有些终端下执行程序退出后，还会多打印一行 <code>exit status 2</code>，这并不意味着程序没有正常退出，而是因为 <code>--help</code> 意图就是用来查看使用帮助，所以程序在打印使用帮助信息后，主动调用 <code>os.Exit(2)</code> 退出了。</p></blockquote><p>通过如下方式使用命令行程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go --ip <span class=m>1</span> x y --host localhost a b 
+</span></span><span class=line><span class=cl>ip: <span class=m>1</span>
+</span></span><span class=line><span class=cl>port: <span class=m>8080</span>
+</span></span><span class=line><span class=cl>host: <span class=o>{</span>value:localhost<span class=o>}</span>
+</span></span><span class=line><span class=cl>NFlag: <span class=m>2</span>
+</span></span><span class=line><span class=cl>NArg: <span class=m>4</span>
+</span></span><span class=line><span class=cl>Args: <span class=o>[</span>x y a b<span class=o>]</span>
+</span></span><span class=line><span class=cl>Arg<span class=o>(</span>1<span class=o>)</span>: y
+</span></span></code></pre></td></tr></table></div></div><p><code>ip</code> 标志的默认值已被命令行参数 <code>1</code> 所覆盖，由于没有传递 <code>port</code> 标志，所以打印结果为默认值 <code>8080</code>，<code>host</code> 标志的值也能够被正常打印。</p><p>还有 4 个非选项参数数 <code>x</code>、<code>y</code>、<code>a</code>、<code>b</code> 也都被 pflag 识别并记录了下来。这点比 flag 要强大，在 flag 包中，非选项参数数只能写在所有命令行参数最后，<code>x</code>、<code>y</code> 出现在这里程序是会报错的。</p><h3 id=进阶用法><a href=#%e8%bf%9b%e9%98%b6%e7%94%a8%e6%b3%95 class=header-anchor>#</a>
+进阶用法</h3><p>除了像 flag 包一样的用法，pflag 还支持一些独有的用法，以下是用法示例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/spf13/pflag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>host</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>value</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>h</span> <span class=o>*</span><span class=nx>host</span><span class=p>)</span> <span class=nf>String</span><span class=p>()</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>h</span><span class=p>.</span><span class=nx>value</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>h</span> <span class=o>*</span><span class=nx>host</span><span class=p>)</span> <span class=nf>Set</span><span class=p>(</span><span class=nx>v</span> <span class=kt>string</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>h</span><span class=p>.</span><span class=nx>value</span> <span class=p>=</span> <span class=nx>v</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>h</span> <span class=o>*</span><span class=nx>host</span><span class=p>)</span> <span class=nf>Type</span><span class=p>()</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s>&#34;host&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>flagSet</span> <span class=o>:=</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>NewFlagSet</span><span class=p>(</span><span class=s>&#34;test&#34;</span><span class=p>,</span> <span class=nx>pflag</span><span class=p>.</span><span class=nx>ExitOnError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>ip</span> <span class=p>=</span> <span class=nx>flagSet</span><span class=p>.</span><span class=nf>IntP</span><span class=p>(</span><span class=s>&#34;ip&#34;</span><span class=p>,</span> <span class=s>&#34;i&#34;</span><span class=p>,</span> <span class=mi>1234</span><span class=p>,</span> <span class=s>&#34;help message for ip&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>boolVar</span> <span class=kt>bool</span>
+</span></span><span class=line><span class=cl>    <span class=nx>flagSet</span><span class=p>.</span><span class=nf>BoolVarP</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>boolVar</span><span class=p>,</span> <span class=s>&#34;boolVar&#34;</span><span class=p>,</span> <span class=s>&#34;b&#34;</span><span class=p>,</span> <span class=kc>true</span><span class=p>,</span> <span class=s>&#34;help message for boolVar&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>h</span> <span class=nx>host</span>
+</span></span><span class=line><span class=cl>    <span class=nx>flagSet</span><span class=p>.</span><span class=nf>VarP</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>h</span><span class=p>,</span> <span class=s>&#34;host&#34;</span><span class=p>,</span> <span class=s>&#34;H&#34;</span><span class=p>,</span> <span class=s>&#34;help message for host&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>flagSet</span><span class=p>.</span><span class=nx>SortFlags</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>parseErr</span> <span class=o>:=</span> <span class=nx>flagSet</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Args</span><span class=p>[</span><span class=mi>1</span><span class=p>:])</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>parseErr</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=s>&#34;解析命令行参数出错：&#34;</span><span class=p>,</span> <span class=nx>parseErr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;ip: %d\n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>ip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;boolVar: %t\n&#34;</span><span class=p>,</span> <span class=nx>boolVar</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;host: %#v\n&#34;</span><span class=p>,</span> <span class=nx>h</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>i</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>flagSet</span><span class=p>.</span><span class=nf>GetInt</span><span class=p>(</span><span class=s>&#34;ip&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;i: %d, err: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>首先我们通过 <code>pflag.NewFlagSet</code> 自定义了 <code>FlagSet</code> 对象 <code>flagset</code>，之后的标志定义和解析都通过 <code>flagset</code> 来完成。</p><p>前文示例中 <code>pflag.Int()</code> 这种用法，实际上使用的是全局 <code>FlagSet</code> 对象 <code>CommandLine</code>，<code>CommandLine</code> 定义如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>var</span> <span class=nx>CommandLine</span> <span class=p>=</span> <span class=nf>NewFlagSet</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Args</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=nx>ExitOnError</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>现在同样使用三种不同方式来声明标志，分别为 <code>flagset.IntP()</code>、<code>flagset.BoolVarP()</code>、<code>flagset.VarP()</code>。不难发现，这三个方法的命名结尾都多了一个 <code>P</code>，它们的能力也得以升级，三个方法都多了一个 <code>shorthand string</code> 参数（<code>flagset.IntP</code> 的第 2 个参数，<code>flagset.BoolVarP</code> 和 <code>flagset.VarP</code> 的第 3 个参数）用来设置简短标志。</p><p>从声明标志的方法名中我们能够总结出一些规律：</p><ul><li><code>pflag.&lt;Type></code> 类方法名会将标志参数值存储在指针中并返回。</li><li><code>pflag.&lt;Type>Var</code> 类方法名中包含 <code>Var</code> 关键字的，会将标志参数值绑定到第一个指针类型的参数。</li><li><code>pflag.&lt;Type>P</code>、<code>pflag.&lt;Type>VarP</code> 类方法名以 <code>P</code> 结尾的，支持简短标志。</li></ul><p>一个完整标志在命令行传参时使用的分界符为 <code>--</code>，而一个简短标志的分界符则为 <code>-</code>。</p><p><code>flagset.SortFlags = false</code> 作用是禁止打印帮助信息时对标志进行重排序。</p><p>示例最后，使用 <code>flagset.GetInt()</code> 获取参数的值。</p><p>通过 <code>--help/-h</code> 参数查看命令行程序使用帮助：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go --help
+</span></span><span class=line><span class=cl>Usage of test:
+</span></span><span class=line><span class=cl>  -i, --ip int      <span class=nb>help</span> message <span class=k>for</span> ip <span class=o>(</span>default 1234<span class=o>)</span>
+</span></span><span class=line><span class=cl>  -b, --boolVar     <span class=nb>help</span> message <span class=k>for</span> boolVar <span class=o>(</span>default <span class=nb>true</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>  -H, --host host   <span class=nb>help</span> message <span class=k>for</span> host
+</span></span><span class=line><span class=cl>pflag: <span class=nb>help</span> requested
+</span></span><span class=line><span class=cl><span class=nb>exit</span> status <span class=m>2</span>
+</span></span></code></pre></td></tr></table></div></div><p>这次的帮助信息中，标志顺序没有被改变，就是声明的顺序。</p><p>每一个标志都会对应一个简短标志，如 <code>-b</code> 和 <code>--boolVar</code> 是等价的，可以更加方便的设置参数。</p><p>指定如下命令行参数运行示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go --ip <span class=m>1</span> -H localhost --boolVar<span class=o>=</span><span class=nb>false</span>
+</span></span><span class=line><span class=cl>ip: <span class=m>1</span>
+</span></span><span class=line><span class=cl>boolVar: <span class=nb>false</span>
+</span></span><span class=line><span class=cl>host: main.host<span class=o>{</span>value:<span class=s2>&#34;localhost&#34;</span><span class=o>}</span>
+</span></span><span class=line><span class=cl>i: 1, err: &lt;nil&gt;
+</span></span></code></pre></td></tr></table></div></div><p>通过 <code>--ip 1</code> 使用完整标志指定 <code>ip</code> 参数值。</p><p>通过 <code>-H localhost</code> 使用简短标志指定 <code>host</code> 参数值。</p><p>布尔类型的标志指定参数 <code>--boolVar=false</code> 需要使用等号 <code>=</code> 而非空格。</p><h3 id=命令行标志语法><a href=#%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%a0%87%e5%bf%97%e8%af%ad%e6%b3%95 class=header-anchor>#</a>
+命令行标志语法</h3><p>命令行标志遵循如下语法：</p><div class=table-wrapper><table><thead><tr><th>语法</th><th>说明</th></tr></thead><tbody><tr><td><code>--flag</code></td><td>适用于 bool 类型标志，或具有 <code>NoOptDefVal</code> 属性的标志。</td></tr><tr><td><code>--flag x</code></td><td>适用于非 bool 类型标志，或没有 <code>NoOptDefVal</code> 属性的标志。</td></tr><tr><td><code>--flag=x</code></td><td>适用于 bool 类型标志。</td></tr><tr><td><code>-n 1234</code>/<code>-n=1234</code>/<code>-n1234</code></td><td>简短标志，非 bool 类型且没有 <code>NoOptDefVal</code> 属性，三者等价。</td></tr></tbody></table></div><p>标志解析在终止符 <code>--</code> 之后停止。</p><p>整数标志接受 1234、0664、0x1234，并且可能为负数。</p><p>布尔标志接受 1, 0, t, f, true, false, TRUE, FALSE, True, False。</p><p><code>Duration</code> 标志接受任何对 <code>time.ParseDuration</code> 有效的输入。</p><h3 id=标志名-normalize><a href=#%e6%a0%87%e5%bf%97%e5%90%8d-normalize class=header-anchor>#</a>
+标志名 Normalize</h3><p>标准化Normalize</p><p>借助 <code>pflag.NormalizedName</code> 我们能够给标志起一个或多个别名、规范化标志名等。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;strings&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/spf13/pflag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>normalizeFunc</span><span class=p>(</span><span class=nx>f</span> <span class=o>*</span><span class=nx>pflag</span><span class=p>.</span><span class=nx>FlagSet</span><span class=p>,</span> <span class=nx>name</span> <span class=kt>string</span><span class=p>)</span> <span class=nx>pflag</span><span class=p>.</span><span class=nx>NormalizedName</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// alias
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>switch</span> <span class=nx>name</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=s>&#34;old-flag-name&#34;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>       <span class=nx>name</span> <span class=p>=</span> <span class=s>&#34;new-flag-name&#34;</span>
+</span></span><span class=line><span class=cl>       <span class=k>break</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// --my-flag == --my_flag == --my.flag
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>from</span> <span class=o>:=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;-&#34;</span><span class=p>,</span> <span class=s>&#34;_&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>to</span> <span class=o>:=</span> <span class=s>&#34;.&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>sep</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>from</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>name</span> <span class=p>=</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>Replace</span><span class=p>(</span><span class=nx>name</span><span class=p>,</span> <span class=nx>sep</span><span class=p>,</span> <span class=nx>to</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>NormalizedName</span><span class=p>(</span><span class=nx>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>flagSet</span> <span class=o>:=</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>NewFlagSet</span><span class=p>(</span><span class=s>&#34;test&#34;</span><span class=p>,</span> <span class=nx>pflag</span><span class=p>.</span><span class=nx>ExitOnError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>ip</span> <span class=p>=</span> <span class=nx>flagSet</span><span class=p>.</span><span class=nf>IntP</span><span class=p>(</span><span class=s>&#34;new-flag-name&#34;</span><span class=p>,</span> <span class=s>&#34;i&#34;</span><span class=p>,</span> <span class=mi>1234</span><span class=p>,</span> <span class=s>&#34;help message for new-flag-name&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>myFlag</span> <span class=p>=</span> <span class=nx>flagSet</span><span class=p>.</span><span class=nf>IntP</span><span class=p>(</span><span class=s>&#34;my-flag&#34;</span><span class=p>,</span> <span class=s>&#34;m&#34;</span><span class=p>,</span> <span class=mi>1234</span><span class=p>,</span> <span class=s>&#34;help message for my-flag&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>flagSet</span><span class=p>.</span><span class=nf>SetNormalizeFunc</span><span class=p>(</span><span class=nx>normalizeFunc</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=o>:=</span> <span class=nx>flagSet</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Args</span><span class=p>[</span><span class=mi>1</span><span class=p>:])</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=s>&#34;命令行参数解析失败：&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;ip: %d\n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>ip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;myFlag: %d\n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>myFlag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>要使用 <code>pflag.NormalizedName</code>，我们需要创建一个函数 <code>normalizeFunc</code>，然后将其通过 <code>flagset.SetNormalizeFunc(normalizeFunc)</code> 注入到 <code>flagset</code> 使其生效。</p><p>在 <code>normalizeFunc</code> 函数中，我们给 <code>new-flag-name</code> 标志起了一个别名 <code>old-flag-name</code>。</p><p>另外，还对标志名进行了规范化处理，带有 <code>-</code> 和 <code>_</code> 分割符的标志名，会统一规范化成以 <code>.</code> 作为分隔符的标志名。</p><p>使用示例如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run pflag.go --old-flag-name <span class=m>2</span> --my-flag <span class=m>200</span>
+</span></span><span class=line><span class=cl>ip: <span class=m>2</span>
+</span></span><span class=line><span class=cl>myFlag: <span class=m>200</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ go run pflag.go --new-flag-name <span class=m>3</span> --my_flag <span class=m>300</span>
+</span></span><span class=line><span class=cl>ip: <span class=m>3</span>
+</span></span><span class=line><span class=cl>myFlag: <span class=m>300</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ go run pflag.go --new-flag_name <span class=m>2</span> --my.flag <span class=m>200</span>
+</span></span><span class=line><span class=cl>ip: <span class=m>2</span>
+</span></span><span class=line><span class=cl>myFlag: <span class=m>200</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=nooptdefval><a href=#nooptdefval class=header-anchor>#</a>
+NoOptDefVal</h3><p><code>NoOptDefVal</code> 是 <code>no option default values</code> 的简写。</p><p>创建标志后，可以为标志设置 <code>NoOptDefVal</code> 属性，如果标志具有 <code>NoOptDefVal</code> 属性并且在命令行上设置了标志而没有参数选项，则标志将设置为 <code>NoOptDefVal</code> 指定的值。</p><p>如下示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/spf13/pflag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>ip</span> <span class=p>=</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>IntP</span><span class=p>(</span><span class=s>&#34;flagName&#34;</span><span class=p>,</span> <span class=s>&#34;f&#34;</span><span class=p>,</span> <span class=mi>1234</span><span class=p>,</span> <span class=s>&#34;help message&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>pflag</span><span class=p>.</span><span class=nf>Lookup</span><span class=p>(</span><span class=s>&#34;flagName&#34;</span><span class=p>).</span><span class=nx>NoOptDefVal</span> <span class=p>=</span> <span class=s>&#34;4321&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>pflag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=o>*</span><span class=nx>ip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>不同参数结果如下：</p><div class=table-wrapper><table><thead><tr><th>命令行参数</th><th>结果值</th></tr></thead><tbody><tr><td>–flagname=1357</td><td>ip=1357</td></tr><tr><td>–flagname</td><td>ip=4321</td></tr><tr><td>[nothing]</td><td>ip=1234</td></tr></tbody></table></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>var</span> <span class=nx>ip</span> <span class=p>=</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>BoolP</span><span class=p>(</span><span class=s>&#34;flagName&#34;</span><span class=p>,</span> <span class=s>&#34;f&#34;</span><span class=p>,</span> <span class=kc>false</span><span class=p>,</span> <span class=s>&#34;help message&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//pflag.Lookup(&#34;flagName&#34;).NoOptDefVal = &#34;false&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>pflag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=o>*</span><span class=nx>ip</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>bool类型的<code>NoOptDefValue</code>默认值是true，可以修改为false</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go -f
+</span></span><span class=line><span class=cl><span class=nb>true</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=弃用隐藏标志><a href=#%e5%bc%83%e7%94%a8%e9%9a%90%e8%97%8f%e6%a0%87%e5%bf%97 class=header-anchor>#</a>
+弃用/隐藏标志</h3><p>使用 <code>flags.MarkDeprecated</code> 可以弃用一个标志，使用 <code>flags.MarkShorthandDeprecated</code> 可以弃用一个简短标志，使用 <code>flags.MarkHidden</code> 可以隐藏一个标志。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/spf13/pflag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>flags</span> <span class=o>:=</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>NewFlagSet</span><span class=p>(</span><span class=s>&#34;test&#34;</span><span class=p>,</span> <span class=nx>pflag</span><span class=p>.</span><span class=nx>ExitOnError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>ip</span> <span class=p>=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>IntP</span><span class=p>(</span><span class=s>&#34;ip&#34;</span><span class=p>,</span> <span class=s>&#34;i&#34;</span><span class=p>,</span> <span class=mi>1234</span><span class=p>,</span> <span class=s>&#34;help message for ip&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>boolVar</span> <span class=kt>bool</span>
+</span></span><span class=line><span class=cl>    <span class=nx>flags</span><span class=p>.</span><span class=nf>BoolVarP</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>boolVar</span><span class=p>,</span> <span class=s>&#34;boolVar&#34;</span><span class=p>,</span> <span class=s>&#34;b&#34;</span><span class=p>,</span> <span class=kc>true</span><span class=p>,</span> <span class=s>&#34;help message for boolVar&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>h</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=nx>flags</span><span class=p>.</span><span class=nf>StringVarP</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>h</span><span class=p>,</span> <span class=s>&#34;host&#34;</span><span class=p>,</span> <span class=s>&#34;H&#34;</span><span class=p>,</span> <span class=s>&#34;127.0.0.1&#34;</span><span class=p>,</span> <span class=s>&#34;help message for host&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 弃用标志
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>_</span> <span class=p>=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>MarkDeprecated</span><span class=p>(</span><span class=s>&#34;ip&#34;</span><span class=p>,</span> <span class=s>&#34;deprecated&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>_</span> <span class=p>=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>MarkShorthandDeprecated</span><span class=p>(</span><span class=s>&#34;boolVar&#34;</span><span class=p>,</span> <span class=s>&#34;please use --boolVar only&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 隐藏标志
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>_</span> <span class=p>=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>MarkHidden</span><span class=p>(</span><span class=s>&#34;host&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=o>:=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Args</span><span class=p>[</span><span class=mi>1</span><span class=p>:])</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>log</span><span class=p>.</span><span class=nf>Fatalln</span><span class=p>(</span><span class=s>&#34;解析命令行出错了：&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;ip: %d\n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>ip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;boolVar: %t\n&#34;</span><span class=p>,</span> <span class=nx>boolVar</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;host: %+v\n&#34;</span><span class=p>,</span> <span class=nx>h</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>查看使用帮助：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go -h
+</span></span><span class=line><span class=cl>Usage of test:
+</span></span><span class=line><span class=cl>      --boolVar   <span class=nb>help</span> message <span class=k>for</span> boolVar <span class=o>(</span>default <span class=nb>true</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>pflag: <span class=nb>help</span> requested
+</span></span><span class=line><span class=cl><span class=nb>exit</span> status <span class=m>2</span>
+</span></span></code></pre></td></tr></table></div></div><p>从打印结果可以发现，弃用标志 <code>ip</code> 时，其对应的简短标志 <code>i</code> 也会跟着被弃用；弃用 <code>boolVar</code> 所对应的简短标志 <code>b</code> 时，<code>boolVar</code> 标志会被保留；<code>host</code> 标志则完全被隐藏。</p><p>指定如下命令行参数运行示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go --ip <span class=m>1</span> --boolVar<span class=o>=</span><span class=nb>false</span> -H localhost
+</span></span><span class=line><span class=cl>Flag --ip has been deprecated, deprecated
+</span></span><span class=line><span class=cl>ip: <span class=m>1</span>
+</span></span><span class=line><span class=cl>boolVar: <span class=nb>false</span>
+</span></span><span class=line><span class=cl>host: localhost
+</span></span></code></pre></td></tr></table></div></div><p>打印信息中会提示用户 <code>ip</code> 标志已经弃用，不过使用 <code>--ip 1</code> 指定的参数值依然能够生效。</p><p>隐藏的 <code>host</code> 标志使用 <code>-H localhost</code> 指定参数值同样能够生效。</p><p>指定如下命令行参数运行示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go -i <span class=m>1</span> -b<span class=o>=</span><span class=nb>false</span> --host localhost
+</span></span><span class=line><span class=cl>Flag --ip has been deprecated, deprecated
+</span></span><span class=line><span class=cl>Flag shorthand -b has been deprecated, please use --boolVar only
+</span></span><span class=line><span class=cl>ip: <span class=m>1</span>
+</span></span><span class=line><span class=cl>boolVar: <span class=nb>false</span>
+</span></span><span class=line><span class=cl>host: localhost
+</span></span></code></pre></td></tr></table></div></div><p>打印信息中增加了一条简短标志 <code>-b</code> 已被弃用的提示，指定参数值依然生效。</p><p>对于弃用的 <code>ip</code> 标志，使用简短标志形式传惨 <code>-i 1</code> 同样生效。</p><h3 id=支持-flag-类型><a href=#%e6%94%af%e6%8c%81-flag-%e7%b1%bb%e5%9e%8b class=header-anchor>#</a>
+支持 flag 类型</h3><p>由于 pflag 对 flag 包兼容，所以可以在一个程序中混用二者：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;flag&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/spf13/pflag&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>ip</span> <span class=o>*</span><span class=kt>int</span> <span class=p>=</span> <span class=nx>pflag</span><span class=p>.</span><span class=nf>Int</span><span class=p>(</span><span class=s>&#34;ip&#34;</span><span class=p>,</span> <span class=mi>1234</span><span class=p>,</span> <span class=s>&#34;help message for ip&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>port</span> <span class=o>*</span><span class=kt>int</span> <span class=p>=</span> <span class=nx>flag</span><span class=p>.</span><span class=nf>Int</span><span class=p>(</span><span class=s>&#34;port&#34;</span><span class=p>,</span> <span class=mi>80</span><span class=p>,</span> <span class=s>&#34;help message for port&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>pflag</span><span class=p>.</span><span class=nx>CommandLine</span><span class=p>.</span><span class=nf>AddGoFlagSet</span><span class=p>(</span><span class=nx>flag</span><span class=p>.</span><span class=nx>CommandLine</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>pflag</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;ip: %d\n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>ip</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;port: %d\n&#34;</span><span class=p>,</span> <span class=o>*</span><span class=nx>port</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>其中，<code>ip</code> 标志是使用 <code>pflag.Int()</code> 声明的，<code>port</code> 标志则是使用 <code>flag.Int()</code> 声明的。只需要通过 <code>AddGoFlagSet</code> 方法将 <code>flag.CommandLine</code> 注册到 pflag 中，那么 pflag 就可以使用 flag 中声明的标志集合了。</p><p>运行示例结果如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go --ip <span class=m>10</span> --port <span class=m>8000</span>
+</span></span><span class=line><span class=cl>ip: <span class=m>10</span>
+</span></span><span class=line><span class=cl>port: <span class=m>8000</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=总结><a href=#%e6%80%bb%e7%bb%93 class=header-anchor>#</a>
+总结</h2><p>本文主要介绍了 Go第三方标志包 pflag 的特点及用法。</p><p>首先介绍了 pflag 的基本使用方法，包括声明标志、解析命令行参数、获取标志值等。接着介绍了 pflag 的进阶用法，例如自定义 <code>FlagSet</code>、使用 <code>pflag.&lt;Type>P</code> 方法来支持简短标志。之后又对命令行标志语法进行了讲解，对于布尔值、非布尔值和简短标志，都有各自不同的语法。我们还讲解了如何借助 <code>pflag.NormalizedName</code> 给标志起一个或多个别名、规范化标志名。然后介绍了 <code>NoOptDefVal</code> 的作用和如何弃用/隐藏标志。最后通过示例演示了如何在一个程序中混用 flag 和 pflag。</p><blockquote><p>彩蛋：不知道你有没有发现，示例中的 <code>ip</code> 标志的名称其实代表的是 <code>int pointer</code> 而非 <code>Internet Protocol Address</code>。<code>ip</code> 标志源自官方示例，不过我顺势而为又声明了 <code>port</code>、<code>host</code> 标志，算是一个程序中的谐音梗 :)。</p></blockquote><hr><h2 id=参考><a href=#%e5%8f%82%e8%80%83 class=header-anchor>#</a>
+参考</h2><blockquote><ol><li>pflag 源码: <a class=link href=https://github.com/spf13/pflag target=_blank rel=noopener>https://github.com/spf13/pflag</a></li><li>pflag 文档: <a class=link href=https://pkg.go.dev/github.com/spf13/pflag target=_blank rel=noopener>https://pkg.go.dev/github.com/spf13/pflag</a></li><li>程序参数语法约定: <a class=link href=https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html target=_blank rel=noopener>https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html</a></li><li><a class=link href=https://jianghushinian.cn/2023/03/27/use-of-go-command-line-parameter-parsing-tool-pflag/ target=_blank rel=noopener>Go 命令行参数解析工具 pflag 使用</a></li></ol></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/>Go第三方库</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/><div class=article-details><h2 class=article-title>Go解析命令行选项之第三方库go-flags</h2></div></a></article><article><a href=/p/go%E7%AC%AC%E4%B8%89%E6%96%B9log%E5%BA%93%E4%B9%8Bzap/><div class=article-details><h2 class=article-title>Go第三方log库之zap</h2></div></a></article><article><a href=/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go-homedir库介绍</h2></div></a></article><article><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/><div class=article-details><h2 class=article-title>Go常见设计模式：选项模式</h2></div></a></article><article><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/><div class=article-details><h2 class=article-title>Go常见设计模式：单例模式</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Arlettebrook</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
