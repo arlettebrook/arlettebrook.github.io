@@ -2746,4 +2746,6 @@ data-flex-basis="250px"
 >flag&lt;/a>库文档&lt;/li>
 &lt;li>&lt;a class="link" href="https://darjun.github.io/2020/01/10/godailylib/flag/" target="_blank" rel="noopener"
 >Go 每日一库之 flag&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://jianghushinian.cn/2023/03/26/dive-into-the-go-flag-standard-library/" target="_blank" rel="noopener"
+>深入探究 Go flag 标准库&lt;/a>附源码分析&lt;/li>
 &lt;/ol></description></item></channel></rss>

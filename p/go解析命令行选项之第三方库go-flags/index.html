@@ -1,0 +1,628 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="go-flags是基于结构体标签解析命令行选项的Go第三方库。"><title>Go解析命令行选项之第三方库go-flags</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Go解析命令行选项之第三方库go-flags"><meta property='og:description' content="go-flags是基于结构体标签解析命令行选项的Go第三方库。"><meta property='og:url' content='https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go第三方库'><meta property='article:published_time' content='2024-05-01T21:50:22+08:00'><meta property='article:modified_time' content='2024-05-01T21:50:22+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Go解析命令行选项之第三方库go-flags"><meta name=twitter:description content="go-flags是基于结构体标签解析命令行选项的Go第三方库。"><link rel="shortcut icon" href=/img/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#简介>简介</a></li><li><a href=#快速开始>快速开始</a></li><li><a href=#基本特性>基本特性</a><ol><li><a href=#支持丰富的数据类型>支持丰富的数据类型</a></li><li><a href=#常用设置>常用设置</a></li></ol></li><li><a href=#高级特性>高级特性</a><ol><li><a href=#选项分组>选项分组</a></li><li><a href=#子命令>子命令</a></li></ol></li><li><a href=#其他>其他</a></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#2a9d8f;color:#fff>Go
+</a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#2a9d8f;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/>Go解析命令行选项之第三方库go-flags</a></h2><h3 class=article-subtitle>go-flags是基于结构体标签解析命令行选项的Go第三方库。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 01, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 8 分钟</time></div></footer></div></header><section class=article-content><hr><h2 id=简介><a href=#%e7%ae%80%e4%bb%8b class=header-anchor>#</a>
+简介</h2><p>在<a class=link href=https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/ target=_blank rel=noopener>Go flag库介绍</a>中，我们介绍了<code>flag</code>库。<code>flag</code>库是用于解析命令行选项的标准库。但是<code>flag</code>有几个缺点：</p><ul><li>不显示支持短选项。当然在<a class=link href=https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/ target=_blank rel=noopener>Go flag库介绍</a>文章中也提到过可以通过将两个选项共享同一个变量迂回实现，但写起来比较繁琐；</li><li>选项变量的定义比较繁琐，每个选项都需要根据类型调用对应的<code>Type</code>或<code>TypeVar</code>函数；</li><li>默认只支持有限的数据类型，当前只有基本类型<code>bool/int/uint/string</code>和<code>time.Duration</code>；</li></ul><p>为了解决这些问题，出现了不少第三方解析命令行选项的库，今天的主角<a class=link href=https://github.com/jessevdk/go-flags target=_blank rel=noopener><code>go-flags</code></a>就是其中一个。第一次看到<code>go-flags</code>库是在阅读<a class=link href=https://github.com/sosedoff/pgweb target=_blank rel=noopener>pgweb</a>源码的时候。</p><p><code>go-flags</code>提供了比标准库<code>flag</code>更多的选项。它利用结构标签（struct tag）和反射提供了一个方便、简洁的接口。它除了基本的功能，还提供了丰富的特性：</p><ul><li>支持短选项（-v）和长选项（–verbose）；</li><li>支持短选项合写，如<code>-aux</code>；</li><li>同一个选项可以设置多个值；</li><li>支持所有的基础类型和 map 类型，甚至是函数；</li><li>支持命名空间和选项组；</li><li>等等。</li></ul><p>上面只是粗略介绍了<code>go-flags</code>的特性，下面我们依次来介绍。</p><hr><h2 id=快速开始><a href=#%e5%bf%ab%e9%80%9f%e5%bc%80%e5%a7%8b class=header-anchor>#</a>
+快速开始</h2><p>学习从使用开始！我们先来看看<code>go-flags</code>的基本使用。</p><p>由于是第三方库，使用前需要安装，执行下面的命令安装：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go get -u github.com/jessevdk/go-flags
+</span></span></code></pre></td></tr></table></div></div><p>代码中使用<code>import</code>导入该库：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;github.com/jessevdk/go-flags&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>完整示例代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;errors&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/jessevdk/go-flags&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Option</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Verbose</span> <span class=p>[]</span><span class=kt>bool</span> <span class=s>`short:&#34;v&#34; long:&#34;verbose&#34; description:&#34;Show verbose debug message&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>opt</span> <span class=nx>Option</span>
+</span></span><span class=line><span class=cl>	<span class=nx>_</span><span class=p>,</span> <span class=nx>parseErr</span> <span class=o>:=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>opt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>parseErr</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=kd>var</span> <span class=nx>errPtr</span> <span class=o>*</span><span class=nx>flags</span><span class=p>.</span><span class=nx>Error</span> <span class=c1>// 指针类型实现Error接口
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>if</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>As</span><span class=p>(</span><span class=nx>parseErr</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>errPtr</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// 断言的类型要是指针
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>if</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>Is</span><span class=p>(</span><span class=nx>errPtr</span><span class=p>.</span><span class=nx>Type</span><span class=p>,</span> <span class=nx>flags</span><span class=p>.</span><span class=nx>ErrHelp</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nb>panic</span><span class=p>(</span><span class=nx>parseErr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>opt</span><span class=p>.</span><span class=nx>Verbose</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用<code>go-flags</code>的一般步骤：</p><ul><li>定义选项结构，在结构标签中设置选项信息。通过<code>short</code>和<code>long</code>设置短、长选项名字，<code>description</code>设置帮助信息。命令行传参时，短选项前加<code>-</code>，长选项前加<code>--</code>；</li><li>声明选项变量；</li><li>调用<code>go-flags</code>的解析方法解析。</li><li>解析之后会返回两个参数：<ul><li>第一个：剩余未解析选项，是string类型的切片，一般忽略。</li><li>第二个：error对象<ul><li>对于帮助信息的error对象我们应该忽略。内部会打印这个错误，造成重复。其他错误抛出panic，并退出</li></ul></li></ul></li><li><code>flags.Parse()</code>方法默认选项是<code>Default = HelpFlag | PrintErrors | PassDoubleDash</code>:打印帮助信息、打印错误信息、&ndash;后面的参数不解析。</li><li>错误信息是封装到<code>flags.Error</code>结构体里面的<code>ErrorType</code>类型l字段里面的。所以需要断言之后再判断。</li></ul><p>编译、运行代码（我的环境是 Win10 + Git Bash）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go build -o main.exe main.go
+</span></span></code></pre></td></tr></table></div></div><p>短选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -v
+</span></span><span class=line><span class=cl><span class=o>[</span>true<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>长选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=err>$</span> <span class=p>.</span><span class=o>/</span><span class=nx>main</span><span class=p>.</span><span class=nx>exe</span> <span class=o>--</span><span class=nx>verbose</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=kc>true</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>由于<code>Verbose</code>字段是切片类型，每次遇到<code>-v</code>或<code>--verbose</code>都会追加一个<code>true</code>到切片中。</p><p>多个短选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -v -v
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=nb>true</span> true<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>多个长选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe --verbose --verbose
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=nb>true</span> true<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>短选项 + 长选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -v --verbose -v
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=nb>true</span> <span class=nb>true</span> true<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>短选项合写：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -vvv
+</span></span><span class=line><span class=cl><span class=o>[</span><span class=nb>true</span> <span class=nb>true</span> true<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=基本特性><a href=#%e5%9f%ba%e6%9c%ac%e7%89%b9%e6%80%a7 class=header-anchor>#</a>
+基本特性</h2><h3 id=支持丰富的数据类型><a href=#%e6%94%af%e6%8c%81%e4%b8%b0%e5%af%8c%e7%9a%84%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b class=header-anchor>#</a>
+支持丰富的数据类型</h3><p><code>go-flags</code>相比标准库<code>flag</code>支持更丰富的数据类型：</p><ul><li>所有的基本类型（包括有符号整数<code>int/int8/int16/int32/int64</code>，无符号整数<code>uint/uint8/uint16/uint32/uint64</code>，浮点数<code>float32/float64</code>，布尔类型<code>bool</code>和字符串<code>string</code>）和<strong>它们的切片</strong>；</li><li>map 类型。只支持键为<code>string</code>，值为基础类型的 map；</li><li>函数类型。</li></ul><p>如果字段是基本类型的切片，基本解析流程与对应的基本类型是一样的。切片类型选项的不同之处在于，遇到相同的选项时，值会被追加到切片中。而非切片类型的选项，后出现的值会覆盖先出现的值。</p><p>下面来看一个示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;errors&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/jessevdk/go-flags&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Option</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>IntFlag</span>        <span class=kt>int</span>            <span class=s>`short:&#34;i&#34; long:&#34;int&#34; description:&#34;int flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>IntSlice</span>       <span class=p>[]</span><span class=kt>int</span>          <span class=s>`long:&#34;intslice&#34; description:&#34;int slice flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>BoolFlag</span>       <span class=kt>bool</span>           <span class=s>`long:&#34;bool&#34; description:&#34;bool flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>BoolSlice</span>      <span class=p>[]</span><span class=kt>bool</span>         <span class=s>`long:&#34;boolslice&#34; description:&#34;bool slice flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>FloatFlag</span>      <span class=kt>float64</span>        <span class=s>`long:&#34;float&#34; description:&#34;float64 flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>FloatSlice</span>     <span class=p>[]</span><span class=kt>float64</span>      <span class=s>`long:&#34;floatslice&#34; description:&#34;float64 slice flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StringFlag</span>     <span class=kt>string</span>         <span class=s>`short:&#34;s&#34; long:&#34;string&#34; description:&#34;string flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StringSlice</span>    <span class=p>[]</span><span class=kt>string</span>       <span class=s>`long:&#34;strslice&#34; description:&#34;string slice flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>PtrStringSlice</span> <span class=p>[]</span><span class=o>*</span><span class=kt>string</span>      <span class=s>`long:&#34;pstrslice&#34; description:&#34;slice of pointer of string flag value&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Call</span>           <span class=kd>func</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span>   <span class=s>`long:&#34;call&#34; description:&#34;callback&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>IntMap</span>         <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>int</span> <span class=s>`long:&#34;intmap&#34; description:&#34;A map from string to int&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>opt</span> <span class=nx>Option</span>
+</span></span><span class=line><span class=cl>    <span class=nx>opt</span><span class=p>.</span><span class=nx>Call</span> <span class=p>=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>value</span> <span class=kt>string</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;in callback: &#34;</span><span class=p>,</span> <span class=nx>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>_</span><span class=p>,</span> <span class=nx>parseErr</span> <span class=o>:=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>opt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>parseErr</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=kd>var</span> <span class=nx>errPtr</span> <span class=o>*</span><span class=nx>flags</span><span class=p>.</span><span class=nx>Error</span>
+</span></span><span class=line><span class=cl>       <span class=k>if</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>As</span><span class=p>(</span><span class=nx>parseErr</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>errPtr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=k>return</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span>
+</span></span><span class=line><span class=cl>       <span class=nb>panic</span><span class=p>(</span><span class=nx>parseErr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=k>return</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;int flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>IntFlag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;int slice flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>IntSlice</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;bool flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>BoolFlag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;bool slice flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>BoolSlice</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;float flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>FloatFlag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;float slice flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>FloatSlice</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;string flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>StringFlag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;string slice flag: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>StringSlice</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;slice of pointer of string flag: &#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nb>len</span><span class=p>(</span><span class=nx>opt</span><span class=p>.</span><span class=nx>PtrStringSlice</span><span class=p>);</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;\t%d: %v\n&#34;</span><span class=p>,</span> <span class=nx>i</span><span class=p>,</span> <span class=o>*</span><span class=nx>opt</span><span class=p>.</span><span class=nx>PtrStringSlice</span><span class=p>[</span><span class=nx>i</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;int map: %v\n&#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>IntMap</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>基本类型和其切片比较简单，就不过多介绍了。值得留意的是基本类型指针的切片，即上面的<code>PtrStringSlice</code>字段，类型为<code>[]*string</code>。 由于结构中存储的是字符串指针，<code>go-flags</code>在解析过程中遇到该选项会自动创建字符串，将指针追加到切片中。</p><p>运行程序，传入<code>--pstrslice</code>选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe --pstrslice test1 --pstrslice test2
+</span></span><span class=line><span class=cl>slice of pointer of string flag:
+</span></span><span class=line><span class=cl>    0: test1
+</span></span><span class=line><span class=cl>    1: test2
+</span></span></code></pre></td></tr></table></div></div><p>另外，我们可以在选项中定义函数类型。该函数的唯一要求是有一个字符串类型的参数。解析中每次遇到该选项就会以选项值为参数调用这个函数。 上面代码中，<code>Call</code>函数只是简单的打印传入的选项值。运行代码，传入<code>--call</code>选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe --call test1 --call test2
+</span></span><span class=line><span class=cl>in callback:  test1
+</span></span><span class=line><span class=cl>in callback:  test2
+</span></span></code></pre></td></tr></table></div></div><p>最后，<code>go-flags</code>还支持 map 类型。虽然限制键必须是<code>string</code>类型，值必须是基本类型，也能实现比较灵活的配置。 <code>map</code>类型的选项值中键-值通过<code>:</code>分隔，如<code>key:value</code>，可设置多个。运行代码，传入<code>--intmap</code>选项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe --intmap key1:12 --intmap key2:58
+</span></span><span class=line><span class=cl>int map: map<span class=o>[</span>key1:12 key2:58<span class=o>]</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=常用设置><a href=#%e5%b8%b8%e7%94%a8%e8%ae%be%e7%bd%ae class=header-anchor>#</a>
+常用设置</h3><p><code>go-flags</code>提供了非常多的设置选项，具体可参见<a class=link href=https://godoc.org/github.com/jessevdk/go-flags target=_blank rel=noopener>文档</a>。这里重点介绍两个<code>required</code>和<code>default</code>。</p><p><code>required</code>非空时，表示对应的选项必须设置值，否则解析时返回<code>ErrRequired</code>错误。</p><p><code>default</code>用于设置选项的默认值。如果已经设置了默认值，那么<code>required</code>是否设置并不影响，也就是说命令行参数中该选项可以没有。</p><p>看下面示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;github.com/jessevdk/go-flags&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Option</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>Required</span>    <span class=kt>string</span>  <span class=s>`short:&#34;r&#34; long:&#34;required&#34; required:&#34;true&#34;`</span>
+</span></span><span class=line><span class=cl>  <span class=nx>Default</span>     <span class=kt>string</span>  <span class=s>`short:&#34;d&#34; long:&#34;default&#34; default:&#34;default&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>opt</span> <span class=nx>Option</span>
+</span></span><span class=line><span class=cl>  <span class=nx>_</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>opt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=s>&#34;Parse error:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;required: &#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>Required</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;default: &#34;</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>Default</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行程序，不传入<code>default</code>选项，<code>Default</code>字段取默认值，不传入<code>required</code>选项，执行报错：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ ./main.exe -r required-data
+</span></span><span class=line><span class=cl>required:  required-data
+</span></span><span class=line><span class=cl>default:  default
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ ./main.exe -d default-data -r required-data
+</span></span><span class=line><span class=cl>required:  required-data
+</span></span><span class=line><span class=cl>default:  default-data
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ ./main.exe
+</span></span><span class=line><span class=cl>the required flag <span class=sb>`</span>/r, /required<span class=s1>&#39; was not specified
+</span></span></span><span class=line><span class=cl><span class=s1>2020/01/09 18:07:39 Parse error:the required flag `/r, /required&#39;</span> was not specified
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=高级特性><a href=#%e9%ab%98%e7%ba%a7%e7%89%b9%e6%80%a7 class=header-anchor>#</a>
+高级特性</h2><h3 id=选项分组><a href=#%e9%80%89%e9%a1%b9%e5%88%86%e7%bb%84 class=header-anchor>#</a>
+选项分组</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;errors&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/jessevdk/go-flags&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Option</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>GroupBasicOption</span> <span class=s>`group:&#34;basic&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>GroupSliceOption</span> <span class=s>`group:&#34;slice&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>GroupBasicOption</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>IntFlag</span>    <span class=kt>int</span>     <span class=s>`short:&#34;i&#34; long:&#34;intflag&#34; description:&#34;int flag&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>BoolFlag</span>   <span class=kt>bool</span>    <span class=s>`short:&#34;b&#34; long:&#34;boolflag&#34; description:&#34;bool flag&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>FloatFlag</span>  <span class=kt>float64</span> <span class=s>`short:&#34;f&#34; long:&#34;floatflag&#34; description:&#34;float flag&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StringFlag</span> <span class=kt>string</span>  <span class=s>`short:&#34;s&#34; long:&#34;stringflag&#34; description:&#34;string flag&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>GroupSliceOption</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>IntSlice</span>    <span class=kt>int</span>     <span class=s>`long:&#34;intslice&#34; description:&#34;int slice&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>BoolSlice</span>   <span class=kt>bool</span>    <span class=s>`long:&#34;boolslice&#34; description:&#34;bool slice&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>FloatSlice</span>  <span class=kt>float64</span> <span class=s>`long:&#34;floatslice&#34; description:&#34;float slice&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StringSlice</span> <span class=kt>string</span>  <span class=s>`long:&#34;stringslice&#34; description:&#34;string slice&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>opt</span> <span class=nx>Option</span>
+</span></span><span class=line><span class=cl>    <span class=nx>p</span> <span class=o>:=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>NewParser</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>opt</span><span class=p>,</span> <span class=nx>flags</span><span class=p>.</span><span class=nx>Default</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>_</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>p</span><span class=p>.</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=kd>var</span> <span class=nx>errPtr</span> <span class=o>*</span><span class=nx>flags</span><span class=p>.</span><span class=nx>Error</span>
+</span></span><span class=line><span class=cl>       <span class=k>if</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>As</span><span class=p>(</span><span class=nx>err</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>errPtr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=k>return</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span>
+</span></span><span class=line><span class=cl>       <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>opt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>上面代码中我们将基本类型和它们的切片类型选项拆分到两个结构体中，这样可以使代码看起来更清晰自然，特别是在代码量很大的情况下。 这样做还有一个好处，我们试试用<code>--help</code>运行该程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go --help
+</span></span><span class=line><span class=cl>Usage:
+</span></span><span class=line><span class=cl>  C:<span class=se>\U</span>sers<span class=se>\L</span>enovo<span class=se>\A</span>ppData<span class=se>\L</span>ocal<span class=se>\T</span>emp<span class=se>\g</span>o-build4141518920<span class=se>\b</span>001<span class=se>\e</span>xe<span class=se>\m</span>ain.exe <span class=o>[</span>OPTIONS<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>basic:
+</span></span><span class=line><span class=cl>  /i, /intflag:      int flag
+</span></span><span class=line><span class=cl>  /b, /boolflag      bool flag
+</span></span><span class=line><span class=cl>  /f, /floatflag:    float flag
+</span></span><span class=line><span class=cl>  /s, /stringflag:   string flag
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>slice:
+</span></span><span class=line><span class=cl>      /intslice:     int slice
+</span></span><span class=line><span class=cl>      /boolslice     bool slice
+</span></span><span class=line><span class=cl>      /floatslice:   float slice
+</span></span><span class=line><span class=cl>      /stringslice:  string slice
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Help Options:
+</span></span><span class=line><span class=cl>  /?                 Show this <span class=nb>help</span> message
+</span></span><span class=line><span class=cl>  /h, /help          Show this <span class=nb>help</span> message
+</span></span></code></pre></td></tr></table></div></div><p>输出的帮助信息中，也是按照我们设定的分组显示了，便于查看。</p><p><code>group</code>标签字段用于分组并命名。当在结构体字段上指定时，使该结构体字段具有给定名称的单独组（可选）</p><h3 id=子命令><a href=#%e5%ad%90%e5%91%bd%e4%bb%a4 class=header-anchor>#</a>
+子命令</h3><p><code>go-flags</code>支持子命令。我们经常使用的 Go 和 Git 命令行程序就有大量的子命令。例如<code>go version</code>、<code>go build</code>、<code>go run</code>、<code>git status</code>、<code>git commit</code>这些命令中<code>version/build/run/status/commit</code>就是子命令。 使用<code>go-flags</code>定义子命令比较简单：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;errors&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;strconv&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;strings&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/jessevdk/go-flags&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Option</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>GroupBasicOption</span> <span class=s>`group:&#34;Basic&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>GroupSliceOption</span> <span class=s>`group:&#34;Slice&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>MathCommand</span>      <span class=s>`command:&#34;math&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Call</span>             <span class=kd>func</span><span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=s>`long:&#34;call&#34; description:&#34;callback&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>GroupBasicOption</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>IntFlag</span>    <span class=kt>int</span>     <span class=s>`short:&#34;i&#34; long:&#34;intflag&#34; description:&#34;int flag&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>BoolFlag</span>   <span class=kt>bool</span>    <span class=s>`short:&#34;b&#34; long:&#34;boolflag&#34; description:&#34;bool flag&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>FloatFlag</span>  <span class=kt>float64</span> <span class=s>`short:&#34;f&#34; long:&#34;floatflag&#34; description:&#34;float flag&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StringFlag</span> <span class=kt>string</span>  <span class=s>`short:&#34;s&#34; long:&#34;stringflag&#34; description:&#34;string flag&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>GroupSliceOption</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>IntSlice</span>    <span class=kt>int</span>     <span class=s>`long:&#34;intslice&#34; description:&#34;int slice&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>BoolSlice</span>   <span class=kt>bool</span>    <span class=s>`long:&#34;boolslice&#34; description:&#34;bool slice&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>FloatSlice</span>  <span class=kt>float64</span> <span class=s>`long:&#34;floatslice&#34; description:&#34;float slice&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>StringSlice</span> <span class=kt>string</span>  <span class=s>`long:&#34;stringslice&#34; description:&#34;string slice&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>MathCommand</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Op</span>     <span class=kt>string</span> <span class=s>`long:&#34;op&#34;  description:&#34;operation to execute&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Args</span>   <span class=p>[]</span><span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Result</span> <span class=kt>int64</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>m</span> <span class=o>*</span><span class=nx>MathCommand</span><span class=p>)</span> <span class=nf>Execute</span><span class=p>(</span><span class=nx>args</span> <span class=p>[]</span><span class=kt>string</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 注意，不能使用乘法符号*和除法符号/，它们都不可识别。
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=nx>m</span><span class=p>.</span><span class=nx>Op</span> <span class=o>!=</span> <span class=s>&#34;+&#34;</span> <span class=o>&amp;&amp;</span> <span class=nx>m</span><span class=p>.</span><span class=nx>Op</span> <span class=o>!=</span> <span class=s>&#34;-&#34;</span> <span class=o>&amp;&amp;</span> <span class=nx>m</span><span class=p>.</span><span class=nx>Op</span> <span class=o>!=</span> <span class=s>&#34;*&#34;</span> <span class=o>&amp;&amp;</span> <span class=nx>m</span><span class=p>.</span><span class=nx>Op</span> <span class=o>!=</span> <span class=s>&#34;/&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=k>return</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;invalid op&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>arg</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>args</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>num</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>strconv</span><span class=p>.</span><span class=nf>ParseInt</span><span class=p>(</span><span class=nx>arg</span><span class=p>,</span> <span class=mi>10</span><span class=p>,</span> <span class=mi>64</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=k>return</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=c1>// 只实现了加的功能
+</span></span></span><span class=line><span class=cl><span class=c1></span>       <span class=nx>m</span><span class=p>.</span><span class=nx>Result</span> <span class=o>+=</span> <span class=nx>num</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>m</span><span class=p>.</span><span class=nx>Args</span> <span class=p>=</span> <span class=nx>args</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>opt</span> <span class=nx>Option</span>
+</span></span><span class=line><span class=cl>    <span class=nx>opt</span><span class=p>.</span><span class=nx>Call</span> <span class=p>=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>i</span> <span class=kt>int</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//_, errParse := flags.Parse(&amp;opt)
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>_</span><span class=p>,</span> <span class=nx>errParse</span> <span class=o>:=</span> <span class=nx>flags</span><span class=p>.</span><span class=nf>NewParser</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>opt</span><span class=p>,</span> <span class=nx>flags</span><span class=p>.</span><span class=nx>HelpFlag</span><span class=p>|</span><span class=nx>flags</span><span class=p>.</span><span class=nx>PassDoubleDash</span><span class=p>).</span><span class=nf>Parse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>errParse</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=kd>var</span> <span class=nx>p</span> <span class=o>*</span><span class=nx>flags</span><span class=p>.</span><span class=nx>Error</span>
+</span></span><span class=line><span class=cl>       <span class=k>if</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>As</span><span class=p>(</span><span class=nx>errParse</span><span class=p>,</span> <span class=o>&amp;</span><span class=nx>p</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=cm>/*if errors.Is(p.Type, flags.ErrHelp) {
+</span></span></span><span class=line><span class=cl><span class=cm>             os.Exit(0)
+</span></span></span><span class=line><span class=cl><span class=cm>          }*/</span>
+</span></span><span class=line><span class=cl>          <span class=k>switch</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=k>case</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>Is</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>Type</span><span class=p>,</span> <span class=nx>flags</span><span class=p>.</span><span class=nx>ErrHelp</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>             <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>Message</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>             <span class=nx>os</span><span class=p>.</span><span class=nf>Exit</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>          <span class=k>case</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>Is</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>Type</span><span class=p>,</span> <span class=nx>flags</span><span class=p>.</span><span class=nx>ErrCommandRequired</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>          <span class=k>default</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>             <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>Message</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>errParse</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>opt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;The result of %s is %d&#34;</span><span class=p>,</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>Join</span><span class=p>(</span><span class=nx>opt</span><span class=p>.</span><span class=nx>MathCommand</span><span class=p>.</span><span class=nx>Args</span><span class=p>,</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>MathCommand</span><span class=p>.</span><span class=nx>Op</span><span class=p>),</span> <span class=nx>opt</span><span class=p>.</span><span class=nx>MathCommand</span><span class=p>.</span><span class=nx>Result</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>子命令必须实现<code>go-flags</code>定义的<code>Commander</code>接口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-golang data-lang=golang><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Commander</span> <span class=kd>interface</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>Execute</span><span class=p>(</span><span class=nx>args</span> <span class=p>[]</span><span class=kt>string</span><span class=p>)</span> <span class=kt>error</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>command</code>结构体标签字段：当在结构体字段上指定时，使该结构体字段具有给定名称的（子）命令</p><p>解析命令行时，如果遇到不是以<code>-</code>或<code>--</code>开头的参数，<code>go-flags</code>会尝试将其解释为子命令名。子命令的名字通过在结构标签中使用<code>command</code>指定。 子命令后面的参数都将作为子命令的参数，子命令也可以有选项。</p><p>上面代码中，我们实现了一个可以计算任意个整数的加、减、乘、除子命令<code>math</code>。</p><p>接下来看看如何使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go math --op + <span class=m>1</span> <span class=m>2</span> <span class=m>3</span>
+</span></span><span class=line><span class=cl><span class=o>{{</span><span class=m>0</span> <span class=nb>false</span> <span class=m>0</span> <span class=o>}</span> <span class=o>{</span><span class=m>0</span> <span class=nb>false</span> <span class=m>0</span> <span class=o>}</span> <span class=o>{</span>+ <span class=o>[</span><span class=m>1</span> <span class=m>2</span> 3<span class=o>]</span> 6<span class=o>}</span> 0x6809a0<span class=o>}</span>
+</span></span><span class=line><span class=cl>The result of 1+2+3 is <span class=m>6</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意，不能使用乘法符号<code>*</code>和除法符号<code>/</code>，它们都不可识别。</p><hr><h2 id=其他><a href=#%e5%85%b6%e4%bb%96 class=header-anchor>#</a>
+其他</h2><p><code>go-flags</code>库还有很多有意思的特性，例如支持 Windows 选项格式（<code>/v</code>和<code>/verbose</code>）、从环境变量中读取默认值、从 ini 文件中读取默认设置等等。大家有兴趣可以自行去研究~</p><hr><h2 id=参考><a href=#%e5%8f%82%e8%80%83 class=header-anchor>#</a>
+参考</h2><blockquote><ol><li><a class=link href=https://godoc.org/github.com/jessevdk/go-flags target=_blank rel=noopener>go-flags</a>GoDoc 文档</li><li><a class=link href=https://darjun.github.io/2020/01/10/godailylib/go-flags/ target=_blank rel=noopener>Go 每日一库之 go-flags</a></li></ol></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/>Go第三方库</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/go%E7%AC%AC%E4%B8%89%E6%96%B9log%E5%BA%93%E4%B9%8Bzap/><div class=article-details><h2 class=article-title>Go第三方log库之zap</h2></div></a></article><article><a href=/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go-homedir库介绍</h2></div></a></article><article><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F/><div class=article-details><h2 class=article-title>Go常见设计模式：选项模式</h2></div></a></article><article><a href=/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/><div class=article-details><h2 class=article-title>Go常见设计模式：单例模式</h2></div></a></article><article><a href=/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go调用外部命令os/exec库介绍</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 Arlettebrook</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
