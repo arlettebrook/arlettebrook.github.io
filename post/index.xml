@@ -1,4 +1,689 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Arlettebrook's blog</title><link>https://arlettebrook.github.io/post/</link><description>Recent content in Posts on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Thu, 02 May 2024 15:21:19 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Go解析命令行选项之第三方库pflag</title><link>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/</link><pubDate>Thu, 02 May 2024 15:21:19 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Arlettebrook's blog</title><link>https://arlettebrook.github.io/post/</link><description>Recent content in Posts on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Thu, 02 May 2024 23:33:49 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Go命令行程序库之cobra</title><link>https://arlettebrook.github.io/p/go%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%BA%93%E4%B9%8Bcobra/</link><pubDate>Thu, 02 May 2024 23:33:49 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%BA%93%E4%B9%8Bcobra/</guid><description>&lt;hr>
+&lt;h2 id="介绍">
+&lt;a href="#%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
+介绍
+&lt;/h2>&lt;p>&lt;a class="link" href="http://github.com/spf13/cobra" target="_blank" rel="noopener"
+>Cobra&lt;/a>是一个命令行程序库，可以用来编写命令行程序。同时，它也提供了一个脚手架， 用于生成基于 cobra 的应用程序框架。非常多知名的开源项目使用了 cobra 库构建命令行，如&lt;a class="link" href="http://kubernetes.io/" target="_blank" rel="noopener"
+>Kubernetes&lt;/a>、&lt;a class="link" href="http://gohugo.io/" target="_blank" rel="noopener"
+>Hugo&lt;/a>、&lt;a class="link" href="https://github.com/coreos/etcd" target="_blank" rel="noopener"
+>etcd&lt;/a>等等等等。 本文介绍 cobra 库的基本使用和一些有趣的特性。&lt;/p>
+&lt;p>关于作者&lt;a class="link" href="http://github.com/spf13" target="_blank" rel="noopener"
+>spf13&lt;/a>，这里多说两句。spf13 开源不少项目，而且他的开源项目质量都比较高。 相信使用过 vim 的都知道&lt;a class="link" href="https://github.com/spf13/spf13-vim" target="_blank" rel="noopener"
+>spf13-vim&lt;/a>，号称 vim 终极配置。 可以一键配置，对于我这样的懒人来说绝对是福音。他的&lt;a class="link" href="https://github.com/spf13/viper" target="_blank" rel="noopener"
+>viper&lt;/a>是一个完整的配置解决方案。 完美支持 JSON/TOML/YAML/HCL/envfile/Java properties 配置文件等格式，还有一些比较实用的特性，如配置热更新、多查找目录、配置保存等。 还有非常火的静态网站生成器&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+>hugo&lt;/a>也是他的作品。&lt;/p>
+&lt;p>Cobra 是一个 Go 语言开发的命令行（CLI）框架，它提供了简洁、灵活且强大的方式来创建命令行程序。它包含一个用于创建命令行程序的库（Cobra 库），以及一个用于快速生成基于 Cobra 库的命令行程序工具（Cobra 命令）。Cobra 是由 Go 团队成员 &lt;a class="link" href="https://spf13.com/" target="_blank" rel="noopener"
+>spf13&lt;/a> 为 &lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+>Hugo&lt;/a> 项目创建的，并已被许多流行的 Go 项目所采用，如 Kubernetes、Helm、Docker (distribution)、Etcd 等。&lt;/p>
+&lt;hr>
+&lt;h2 id="概念">
+&lt;a href="#%e6%a6%82%e5%bf%b5" class="header-anchor">#&lt;/a>
+概念
+&lt;/h2>&lt;p>Cobra 建立在命令、参数和标志这三个结构之上。要使用 Cobra 编写一个命令行程序，需要明确这三个概念。&lt;/p>
+&lt;ul>
+&lt;li>命令（COMMAND）：命令表示要执行的操作。&lt;/li>
+&lt;li>参数（ARG）：是命令的参数，一般用来表示操作的对象。&lt;/li>
+&lt;li>标志（FLAG）：是命令的修饰，可以调整操作的行为。&lt;/li>
+&lt;/ul>
+&lt;p>一个好的命令行程序在使用时读起来像句子，用户会自然的理解并知道如何使用该程序。&lt;/p>
+&lt;p>要编写一个好的命令行程序，需要遵循的模式是 &lt;code>APPNAME VERB NOUN --ADJECTIVE&lt;/code> 或 &lt;code>APPNAME COMMAND ARG --FLAG&lt;/code>。&lt;/p>
+&lt;p>在这里 &lt;code>VERB&lt;/code> 代表动词，&lt;code>NOUN&lt;/code> 代表名词，&lt;code>ADJECTIVE&lt;/code> 代表形容词。&lt;/p>
+&lt;p>以下是一个现实世界中好的命令行程序的例子：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ hugo server --port&lt;span class="o">=&lt;/span>&lt;span class="m">1313&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以上示例中，&lt;code>server&lt;/code> 是一个命令（子命令），&lt;code>port&lt;/code> 是一个标志（&lt;code>1313&lt;/code> 是标志的参数，但不是命令的参数 ARG）。&lt;/p>
+&lt;p>下面是一个 &lt;code>git&lt;/code> 命令的例子：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ git clone URL --bare
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以上示例中，&lt;code>clone&lt;/code> 是一个命令（子命令），&lt;code>URL&lt;/code> 是命令的参数，&lt;code>bare&lt;/code> 是标志。&lt;/p>
+&lt;h2 id="特性">
+&lt;a href="#%e7%89%b9%e6%80%a7" class="header-anchor">#&lt;/a>
+特性
+&lt;/h2>&lt;p>cobra 提供非常丰富的功能：&lt;/p>
+&lt;ul>
+&lt;li>轻松支持子命令，如&lt;code>app server&lt;/code>，&lt;code>app fetch&lt;/code>等；&lt;/li>
+&lt;li>完全兼容 POSIX 选项（包括短、长选项）；&lt;/li>
+&lt;li>嵌套子命令；&lt;/li>
+&lt;li>全局、本地层级选项。可以在多处设置选项，按照一定的顺序取用；&lt;/li>
+&lt;li>使用脚手架轻松生成程序框架和命令。&lt;/li>
+&lt;li>等。&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="快速使用">
+&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+快速使用
+&lt;/h2>&lt;p>要使用 Cobra 创建命令行程序，需要先通过如下命令进行下载并添加到项目：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">go get -u github.com/spf13/cobra@latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>安装好后，就可以像其他 Go 语言库一样导入 Cobra 包并使用了。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;github.com/spf13/cobra&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="创建一个命令">
+&lt;a href="#%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aa%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
+创建一个命令
+&lt;/h3>&lt;p>假设我们要创建的命令行程序叫作 &lt;code>hugo&lt;/code>，可以编写如下代码创建一个命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// hugo/cmd/root.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">rootCmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Use&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;hugo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Short&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hugo is a very fast static site generator&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Long&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">`A Fast and Flexible Static Site Generator built with
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> love by spf13 and friends in Go.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> Complete documentation is available at https://gohugo.io`&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Run&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">cmd&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">args&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;run hugo...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Execute&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Execute&lt;/span>&lt;span class="p">();&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Exit&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>cobra.Command&lt;/code> 是一个结构体，代表一个命令，其各个属性含义如下：&lt;/p>
+&lt;p>&lt;code>Use&lt;/code> 是命令的名称。指定使用信息，即命令怎么被调用，格式为&lt;code>name arg1 [arg2]&lt;/code>。&lt;code>name&lt;/code>为命令名，后面的&lt;code>arg1&lt;/code>为必填参数，&lt;code>arg3&lt;/code>为可选参数，参数可以多个。参数一般用在子命令上。&lt;/p>
+&lt;p>&lt;code>Short&lt;/code> 代表当前命令的简短描述。&lt;/p>
+&lt;p>&lt;code>Long&lt;/code> 表示当前命令的完整描述。&lt;/p>
+&lt;p>&lt;code>Run&lt;/code> 属性是一个函数，当执行命令时会调用此函数。&lt;/p>
+&lt;p>&lt;code>rootCmd.Execute()&lt;/code> 是命令的执行入口，其内部会解析 &lt;code>os.Args[1:]&lt;/code> 参数列表（默认情况下是这样，也可以通过 &lt;code>Command.SetArgs&lt;/code> 方法设置参数），然后遍历命令树，为命令找到合适的匹配项和对应的标志。&lt;/p>
+&lt;h3 id="创建-maingo">
+&lt;a href="#%e5%88%9b%e5%bb%ba-maingo" class="header-anchor">#&lt;/a>
+创建 &lt;code>main.go&lt;/code>
+&lt;/h3>&lt;p>按照编写 Go 程序的惯例，我们要为 &lt;code>hugo&lt;/code> 程序编写一个 &lt;code>main.go&lt;/code> 文件，作为程序的启动入口。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// hugo/main.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;hugo/cmd&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">cmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Execute&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>main.go&lt;/code> 代码实现非常简单，只在 &lt;code>main&lt;/code> 函数中调用了 &lt;code>cmd.Execute()&lt;/code> 函数，来执行命令。&lt;/p>
+&lt;h3 id="编译并运行命令">
+&lt;a href="#%e7%bc%96%e8%af%91%e5%b9%b6%e8%bf%90%e8%a1%8c%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
+编译并运行命令
+&lt;/h3>&lt;p>现在，我们就可以编译并运行这个命令行程序了。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 编译&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ go build -o hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 执行&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ ./hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">run hugo...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>笔记：示例代码里没有打印 &lt;code>Run&lt;/code> 函数的 &lt;code>args&lt;/code> 参数内容，你可以自行打印看看结果（提示：&lt;code>args&lt;/code> 为命令行参数列表）。&lt;/p>
+&lt;/blockquote>
+&lt;p>以上我们编译并执行了 &lt;code>hugo&lt;/code> 程序，输出内容正是 &lt;code>cobra.Command&lt;/code> 结构体中 &lt;code>Run&lt;/code> 函数内部代码的执行结果。&lt;/p>
+&lt;p>我们还可以使用 &lt;code>--help&lt;/code> 查看这个命令行程序的使用帮助。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ./hugo --help
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">A Fast and Flexible Static Site Generator built with
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> love by spf13 and friends in Go.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Complete documentation is available at https://gohugo.io
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Usage:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> hugo &lt;span class="o">[&lt;/span>flags&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Flags:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -h, --help &lt;span class="nb">help&lt;/span> &lt;span class="k">for&lt;/span> hugo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这里打印了 &lt;code>cobra.Command&lt;/code> 结构体中 &lt;code>Long&lt;/code> 属性的内容，如果 &lt;code>Long&lt;/code> 属性不存在，则打印 &lt;code>Short&lt;/code> 属性内容。&lt;/p>
+&lt;p>&lt;code>hugo&lt;/code> 命令用法为 &lt;code>hugo [flags]&lt;/code>，如 &lt;code>hugo --help&lt;/code>。&lt;/p>
+&lt;p>这个命令行程序自动支持了 &lt;code>-h/--help&lt;/code> 标志。&lt;/p>
+&lt;p>以上就是使用 Cobra 编写一个命令行程序最常见的套路，这也是 Cobra 推荐写法。&lt;/p>
+&lt;p>当前项目目录结构如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ tree hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── cmd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ └── root.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── go.mod
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── go.sum
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└── main.go
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Cobra 程序目录结构基本如此，&lt;code>main.go&lt;/code> 作为命令行程序的入口，不要写过多的业务逻辑，所有命令都应该放在 &lt;code>cmd/&lt;/code> 目录下，以后不管编写多么复杂的命令行程序都可以这么来设计。&lt;/p>
+&lt;hr>
+&lt;h2 id="添加子命令">
+&lt;a href="#%e6%b7%bb%e5%8a%a0%e5%ad%90%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
+添加子命令
+&lt;/h2>&lt;p>与定义 &lt;code>rootCmd&lt;/code> 一样，我们可以使用 &lt;code>cobra.Command&lt;/code> 定义其他命令，并通过 &lt;code>rootCmd.AddCommand()&lt;/code> 方法将其添加为 &lt;code>rootCmd&lt;/code> 的一个子命令。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">versionCmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Use&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;version&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Short&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Print the version number of Hugo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Long&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">`All software has versions. This is Hugo&amp;#39;s`&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Run&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">cmd&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">args&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hugo Static Site Generator v0.9 -- HEAD&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddCommand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">versionCmd&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>现在重新编译并运行命令行程序。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go build -o hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ ./hugo version
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Hugo Static Site Generator v0.9 -- HEAD
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以发现 &lt;code>version&lt;/code> 命令已经被加入进来了。&lt;/p>
+&lt;p>再次查看帮助信息：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ./hugo -h
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">A Fast and Flexible Static Site Generator built with
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> love by spf13 and friends in Go.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Complete documentation is available at https://gohugo.io
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Usage:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> hugo &lt;span class="o">[&lt;/span>flags&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> hugo &lt;span class="o">[&lt;/span>command&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Available Commands:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> completion Generate the autocompletion script &lt;span class="k">for&lt;/span> the specified shell
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">help&lt;/span> Help about any &lt;span class="nb">command&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> version Print the version number of Hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Flags:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -h, --help &lt;span class="nb">help&lt;/span> &lt;span class="k">for&lt;/span> hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Use &lt;span class="s2">&amp;#34;hugo [command] --help&amp;#34;&lt;/span> &lt;span class="k">for&lt;/span> more information about a command.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这次的帮助信息更为丰富，除了可以使用 &lt;code>hugo [flags]&lt;/code> 语法，由于子命令的加入，又多了一个 &lt;code>hugo [command]&lt;/code> 语法可以使用，如 &lt;code>hugo version&lt;/code>。&lt;/p>
+&lt;p>现在有三个可用命令：&lt;/p>
+&lt;p>&lt;code>completion&lt;/code> 可以为指定的 Shell 生成自动补全脚本，将在 &lt;a class="link" href="https://jianghushinian.cn/2023/05/08/go-modern-command-line-framework-cobra-details/#Shell-%e8%a1%a5%e5%85%a8" target="_blank" rel="noopener"
+>Shell 补全&lt;/a> 小节进行讲解。&lt;/p>
+&lt;p>&lt;code>help&lt;/code> 用来查看帮助，同 &lt;code>-h/--help&lt;/code> 类似，可以使用 &lt;code>hugo help command&lt;/code> 语法查看 &lt;code>command&lt;/code> 命令的帮助信息。&lt;/p>
+&lt;p>&lt;code>version&lt;/code> 为新添加的子命令。&lt;/p>
+&lt;p>查看子命令帮助信息：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ./hugo &lt;span class="nb">help&lt;/span> version
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">All software has versions. This is Hugo&lt;span class="err">&amp;#39;&lt;/span>s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Usage:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> hugo version &lt;span class="o">[&lt;/span>flags&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Flags:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -h, --help &lt;span class="nb">help&lt;/span> &lt;span class="k">for&lt;/span> version
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="使用命令行标志">
+&lt;a href="#%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
+使用命令行标志
+&lt;/h2>&lt;p>Cobra 完美适配 &lt;a class="link" href="https://github.com/spf13/pflag" target="_blank" rel="noopener"
+>pflag&lt;/a>，结合 pflag 可以更灵活的使用标志功能。&lt;/p>
+&lt;blockquote>
+&lt;p>提示：对 pflag 不熟悉的读者可以参考我的另一篇文章&lt;a class="link" href="https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/" target="_blank" rel="noopener"
+>《Go解析命令行参数之第三方库pflag》&lt;/a>。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="持久标志">
+&lt;a href="#%e6%8c%81%e4%b9%85%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
+持久标志
+&lt;/h3>&lt;p>如果一个标志是&lt;code>持久的&lt;/code>，则意味着该标志将可用于它所分配的命令以及该命令下的&lt;strong>所有子命令&lt;/strong>。&lt;/p>
+&lt;p>对于全局标志，可以定义在根命令 &lt;code>rootCmd&lt;/code> 上。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// hugo/cmd/root.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">Verbose&lt;/span> &lt;span class="kt">bool&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">PersistentFlags&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">BoolVarP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">Verbose&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;verbose&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Verbose output&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="本地标志">
+&lt;a href="#%e6%9c%ac%e5%9c%b0%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
+本地标志
+&lt;/h3>&lt;p>标志也可以是&lt;code>本地的&lt;/code>，这意味着它只适用于&lt;strong>该指定命令&lt;/strong>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// hugo/cmd/root.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">Source&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Flags&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">StringVarP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">Source&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;source&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Source directory to read from&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="父命令的本地标志">
+&lt;a href="#%e7%88%b6%e5%91%bd%e4%bb%a4%e7%9a%84%e6%9c%ac%e5%9c%b0%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
+父命令的本地标志
+&lt;/h3>&lt;p>默认情况下，Cobra 仅解析目标命令上的本地标志，忽略父命令上的本地标志。通过在父命令上启用 &lt;code>Command.TraverseChildren&lt;/code> 属性，Cobra 将在执行目标命令之前解析每个命令的本地标志。(在执行子命令之前解析所有父级上的标志。)&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">rootCmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Use&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;hugo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">TraverseChildren&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>提示：如果你不理解，没关系，继续往下看，稍后会有示例代码演示讲解。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="必选标志">
+&lt;a href="#%e5%bf%85%e9%80%89%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
+必选标志
+&lt;/h3>&lt;p>默认情况下，标志是可选的。我们可以将其标记为必选，如果运行目标命令时没有提供，则会报错。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">Verbose&lt;/span> &lt;span class="kt">bool&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">Source&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">Region&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// hugo/cmd/root.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">PersistentFlags&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">BoolVarP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">Verbose&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;verbose&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Verbose output&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Flags&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">StringVarP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">Source&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;source&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Source directory to read from&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Flags&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">StringVarP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">Region&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;region&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;r&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;AWS region (required)&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">_&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">MarkFlagRequired&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;region&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>定义好以上几个标志后，为了展示效果，我们对 &lt;code>rootCmd.Run&lt;/code> 方法做些修改，分别打印 &lt;code>Verbose&lt;/code>、&lt;code>Source&lt;/code>、&lt;code>Region&lt;/code> 几个变量。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">rootCmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Use&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;hugo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Run&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">cmd&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">args&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;run hugo...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Verbose: %v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Verbose&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Source: %v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Source&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Region: %v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Region&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>另外，为了测试启用 &lt;code>Command.TraverseChildren&lt;/code> 的效果，我又添加了一个 &lt;code>print&lt;/code> 子命令。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">printCmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Use&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;print [OPTIONS] [COMMANDS]&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Run&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">cmd&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">cobra&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Command&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">args&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;run print...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;printFlag: %v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">printFlag&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Source: %v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Source&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">printFlag&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 本地标志
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">printCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Flags&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">StringVarP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">printFlag&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;flag&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;f&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;print flag for local&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rootCmd&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddCommand&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">printCmd&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>现在，我们重新编译并运行 &lt;code>hugo&lt;/code>，来对上面添加的这几个标志进行测试。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">build&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="nx">o&lt;/span> &lt;span class="nx">hugo&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="p">.&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">hugo&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="nx">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">A&lt;/span> &lt;span class="nx">Fast&lt;/span> &lt;span class="nx">and&lt;/span> &lt;span class="nx">Flexible&lt;/span> &lt;span class="nx">Static&lt;/span> &lt;span class="nx">Site&lt;/span> &lt;span class="nx">Generator&lt;/span> &lt;span class="nx">built&lt;/span> &lt;span class="nx">with&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">love&lt;/span> &lt;span class="nx">by&lt;/span> &lt;span class="nx">spf13&lt;/span> &lt;span class="nx">and&lt;/span> &lt;span class="nx">friends&lt;/span> &lt;span class="nx">in&lt;/span> &lt;span class="nx">Go&lt;/span>&lt;span class="p">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Complete&lt;/span> &lt;span class="nx">documentation&lt;/span> &lt;span class="nx">is&lt;/span> &lt;span class="nx">available&lt;/span> &lt;span class="nx">at&lt;/span> &lt;span class="nx">https&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="c1">//gohugo.io
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Usage&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">hugo&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nx">flags&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">hugo&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nx">command&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Available&lt;/span> &lt;span class="nx">Commands&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">completion&lt;/span> &lt;span class="nx">Generate&lt;/span> &lt;span class="nx">the&lt;/span> &lt;span class="nx">autocompletion&lt;/span> &lt;span class="nx">script&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="nx">the&lt;/span> &lt;span class="nx">specified&lt;/span> &lt;span class="nx">shell&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">help&lt;/span> &lt;span class="nx">Help&lt;/span> &lt;span class="nx">about&lt;/span> &lt;span class="nx">any&lt;/span> &lt;span class="nx">command&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">print&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">version&lt;/span> &lt;span class="nx">Print&lt;/span> &lt;span class="nx">the&lt;/span> &lt;span class="nx">version&lt;/span> &lt;span class="nx">number&lt;/span> &lt;span class="nx">of&lt;/span> &lt;span class="nx">Hugo&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Flags&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">-&lt;/span>&lt;span class="nx">h&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="nx">help&lt;/span> &lt;span class="nx">help&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="nx">hugo&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">-&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="nx">region&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="nx">AWS&lt;/span> &lt;span class="nf">region&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">required&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">-&lt;/span>&lt;span class="nx">s&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="nx">source&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="nx">Source&lt;/span> &lt;span class="nx">directory&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="nx">read&lt;/span> &lt;span class="nx">from&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">-&lt;/span>&lt;span class="nx">v&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">--&lt;/span>&lt;span class="nx">verbose&lt;/span> &lt;span class="nx">verbose&lt;/span> &lt;span class="nx">output&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">Use&lt;/span> &lt;span class="s">&amp;#34;hugo [command] --help&amp;#34;&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="nx">more&lt;/span> &lt;span class="nx">information&lt;/span> &lt;span class="nx">about&lt;/span> &lt;span class="nx">a&lt;/span> &lt;span class="nx">command&lt;/span>&lt;span class="p">.&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以上帮助信息清晰明了，我就不过多解释了。&lt;/p>
+&lt;p>执行 &lt;code>hugo&lt;/code> 命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ./hugo -r test-region
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">run hugo...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Verbose: &lt;span class="nb">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Source:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Region: test-region
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>现在 &lt;code>-r/--region&lt;/code> 为必选标志，不传将会得到 &lt;code>Error: required flag(s) &amp;quot;region&amp;quot; not set&lt;/code> 报错。&lt;/p>
+&lt;p>执行 &lt;code>print&lt;/code> 子命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ./hugo print -f test-flag
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">run print...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">printFlag: test-flag
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Source:
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以上执行结果可以发现，父命令的标志 &lt;code>Source&lt;/code> 内容为空。&lt;/p>
+&lt;p>现在使用如下命令执行 &lt;code>print&lt;/code> 子命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ./hugo -s test-source print -f test-flag
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">run print...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">printFlag: test-flag
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Source: test-source
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在 &lt;code>print&lt;/code> 子命令前，我们指定了 &lt;code>-s test-source&lt;/code> 标志，&lt;code>-s/--source&lt;/code> 是父命令 &lt;code>hugo&lt;/code> 的标志，也能够被正确解析，这就是启用 &lt;code>Command.TraverseChildren&lt;/code> 的效果。&lt;/p>
+&lt;p>如果我们将 &lt;code>rootCmd&lt;/code> 的 &lt;code>TraverseChildren&lt;/code> 属性置为 &lt;code>false&lt;/code>，则会得到 &lt;code>Error: unknown shorthand flag: 's' in -s&lt;/code> 报错。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 指定 rootCmd.TraverseChildren = false 后，重新编译程序&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ go build -o hugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 执行同样的命令，现在会得到报错&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ ./hugo -s test-source print -f test-flag
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Error: unknown shorthand flag: &lt;span class="s1">&amp;#39;s&amp;#39;&lt;/span> in -s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Usage:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> hugo print &lt;span class="o">[&lt;/span>OPTIONS&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>COMMANDS&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>flags&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Flags:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -f, --flag string print flag &lt;span class="k">for&lt;/span> &lt;span class="nb">local&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -h, --help &lt;span class="nb">help&lt;/span> &lt;span class="k">for&lt;/span> print
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Global Flags:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -v, --verbose verbose output
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">unknown shorthand flag: &lt;span class="s1">&amp;#39;s&amp;#39;&lt;/span> in -s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>总结：在父命令上设置穿越儿童为true，运行子命令时会解析父命令的本地选项，反之，只解析子命令的本地选项以及持久选项。&lt;/p>
+&lt;h2 id="处理配置">
+&lt;a href="#%e5%a4%84%e7%90%86%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
+处理配置
+&lt;/h2>&lt;p>除了将命令行标志的值绑定到变量，我们也可以将标志绑定到 &lt;a class="link" href="https://github.com/spf13/viper" target="_blank" rel="noopener"
+>Viper&lt;/a>，这样就可以使用 &lt;code>viper.Get()&lt;/code> 来获取标志的值了。&lt;/p></description></item><item><title>Go解析命令行参数之第三方库pflag</title><link>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/</link><pubDate>Thu, 02 May 2024 15:21:19 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/</guid><description>&lt;hr>
 &lt;blockquote>
 &lt;p>在使用 Go 进行开发的过程中，命令行参数解析是我们经常遇到的需求。尽管 Go 标准库提供了 flag 包用于实现命令行参数解析，但只能满足基本需要，不支持高级特性。于是 Go 社区中出现了一个叫 pflag 的第三方包，功能更加全面且足够强大。在本文中，我们将学习并掌握如何使用 pflag。&lt;/p>
 &lt;/blockquote>
@@ -852,7 +1537,7 @@ NoOptDefVal
 &lt;li>&lt;a class="link" href="https://jianghushinian.cn/2023/03/27/use-of-go-command-line-parameter-parsing-tool-pflag/" target="_blank" rel="noopener"
 >Go 命令行参数解析工具 pflag 使用&lt;/a>&lt;/li>
 &lt;/ol>
-&lt;/blockquote></description></item><item><title>Go解析命令行选项之第三方库go-flags</title><link>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/</link><pubDate>Wed, 01 May 2024 21:50:22 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/</guid><description>&lt;hr>
+&lt;/blockquote></description></item><item><title>Go解析命令行参数之第三方库go-flags</title><link>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/</link><pubDate>Wed, 01 May 2024 21:50:22 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/</guid><description>&lt;hr>
 &lt;h2 id="简介">
 &lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
 简介
