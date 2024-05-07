@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Open Source on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/open-source/</link><description>Recent content in Open Source on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</copyright><lastBuildDate>Mon, 06 May 2024 23:22:29 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/open-source/index.xml" rel="self" type="application/rss+xml"/><item><title>Open Source License Introduction</title><link>https://arlettebrook.github.io/p/open-source-license-introduction/</link><pubDate>Mon, 06 May 2024 23:22:29 +0800</pubDate><guid>https://arlettebrook.github.io/p/open-source-license-introduction/</guid><description>&lt;hr>
+&lt;blockquote>
+&lt;p>开源协议(开源许可证)是每一个想要做开源软件的开发者都需要了解的，即使你不想做开源软件，那么当你使用他人开源的软件时也需要了解一些开源协议相关的内容，这样能够尽量避免一些不必要的麻烦。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="什么是开源">
+&lt;a href="#%e4%bb%80%e4%b9%88%e6%98%af%e5%bc%80%e6%ba%90" class="header-anchor">#&lt;/a>
+什么是开源
+&lt;/h2>&lt;p>开源即开放源代码，是 &lt;a class="link" href="https://opensource.org/" target="_blank" rel="noopener"
+>OSI (Open Source Initiative)&lt;/a> 这个组织提出来的。而被开源的软件，我们通常称为开源软件。你可能还见到过 &lt;code>Free Software&lt;/code> 一词，它代表 &lt;code>自由软件&lt;/code> 而非 &lt;code>免费软件&lt;/code>，是开源软件的前身。&lt;/p>
+&lt;p>开源软件 = 开放源代码 + 开源协议，一份没有添加开源协议的开源代码，并不是真正的开源软件，也就不能随意使用。&lt;/p>
+&lt;blockquote>
+&lt;p>注意：如果你在 GitHub 上创建了一个没有开源协议的公共代码仓库，其他用户仍然有权查看并为其创建分支，这是由 GitHub 的&lt;a class="link" href="https://docs.github.com/zh/site-policy/github-terms/github-terms-of-service#4-license-grant-to-us" target="_blank" rel="noopener"
+>服务条款&lt;/a>决定的。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="开源许可证">
+&lt;a href="#%e5%bc%80%e6%ba%90%e8%ae%b8%e5%8f%af%e8%af%81" class="header-anchor">#&lt;/a>
+开源许可证
+&lt;/h2>&lt;p>开源协议是指开源软件所携带的一份声明协议，这份协议也叫开源许可证。开源许可证声明了开源协议的内容，规定了&lt;strong>原作者和使用者的权利以及义务&lt;/strong>。&lt;/p>
+&lt;p>&lt;strong>开源许可证是开源软件生态系统的基础，可以促进软件的协同开发&lt;/strong>。&lt;/p>
+&lt;p>开源许可证是具有法律效力的，并且需要得到 OSI 这个组织的认证，目前 OSI 共计认证了 &lt;a class="link" href="https://opensource.org/licenses/category" target="_blank" rel="noopener"
+>110+&lt;/a> 个开源许可证，这些被认证的开源许可证都必须遵循 &lt;a class="link" href="https://opensource.org/osd" target="_blank" rel="noopener"
+>OSD (Open Source Definition)&lt;/a> 规则。&lt;/p>
+&lt;p>虽然开源许可证非常多，但常用的就那么几种。常见的开源许可证主要有 Apache、MIT、BSD、GPL、LGPL、MPL、SSPL 等。&lt;/p>
+&lt;p>开源许可证分成两大类：宽松型许可证（Permissive Licenses）、著作权型许可证（反版权许可证）（Copyleft Licenses）。&lt;/p>
+&lt;p>​ 宽松型许可证（Permissive Licenses）是一种对软件的使用、修改、传播等方式采用最低限制的自由软件许可协议条款类型。这种类型的软件许可协议将不保证原作品的派生作品会继续保持与原作品完全相同的相关限制条件，从而为原作品的自由使用、修改和传播等提供更大的空间。&lt;/p>
+&lt;p>​ 著作权型许可证（Copyleft Licenses）是经原作者许可在有限空间内的自由使用、修改和传播，且不得违背原作品的限制条款。如果一款软件使用 Copyleft 类型许可协议规定软件不得用于&lt;strong>商业用途&lt;/strong>，且不得&lt;strong>闭源&lt;/strong>，那么后续的衍生子软件也必须得遵循该条款。&lt;/p>
+&lt;p>&lt;strong>两者最大的差别在于&lt;/strong>：在软件被修改并再发行时， Copyleft License 仍然强制要求公开源代码（衍生软件需要开源），而 Permissive licence 不要求公开源代码（衍生软件可以变为专有软件）。&lt;/p>
+&lt;p>其中，Apache、MIT、BSD 都是宽松型许可证，GPL 是典型的著作权型（copyleft ）许可证，LGPL、MPL 是弱著作权型（copyleft ）许可证。SSPL 则是近年来 MongoDB 创建的一个新许可证，存在较大争议，开放源代码促进会 OSI 甚至认为 SSPL 就不是开源许可协议。&lt;/p>
+&lt;p>此外，还有一类是 Creative Commons（CC）知识共享协议。严格意义上说该协议并不能说是真正的开源协议，它们大多是被使用于设计类的工程上。CC 协议种类繁多，每一种都授权特定的权利。大多数的比较严格的 CC 协议会声明 “署名权，非商业用途，禁止衍生” 条款，这意味着你可以自由的分享这个作品，但你不能改变它和对其收费，而且必须声明作品的归属。这个许可协议非常的有用，它可以让你的作品传播出去，但又可以对作品的使用保留部分或完全的控制。最少限制的 CC 协议类型当属 “署名” 协议，这意味着只要人们能维护你的名誉，他们对你的作品怎么使用都行。&lt;/p>
+&lt;p>下面就主要介绍下几种常见开源许可证。&lt;/p>
+&lt;h3 id="宽松型许可证permissive-licenses">
+&lt;a href="#%e5%ae%bd%e6%9d%be%e5%9e%8b%e8%ae%b8%e5%8f%af%e8%af%81permissive-licenses" class="header-anchor">#&lt;/a>
+宽松型许可证（Permissive Licenses）
+&lt;/h3>&lt;p>顾名思义，这类开源许可证比较宽松，限制更少。常见宽松开源许可证有：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://opensource.org/licenses/BSD-2-Clause" target="_blank" rel="noopener"
+>BSD (2-Clause)&lt;/a> (Berkeley Software Distribution，伯克利软件发行版)&lt;/p>
+&lt;p>源代码或二进制形式的重新分发，必须保留原始的许可证声明。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://opensource.org/licenses/BSD-3-Clause" target="_blank" rel="noopener"
+>BSD (3-Clause)&lt;/a>&lt;/p>
+&lt;p>在 BSD(2-Clause) 基础上增加了一条，禁止使用原始作者的名字为衍生软件进行促销。&lt;/p>
+&lt;p>Go 语言就在使用 BSD (3-Clause) 开源许可证。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener"
+>MIT&lt;/a> (Massachusetts Institute of Technology，麻省理工学院许可证)&lt;/p>
+&lt;p>免费授予任何人该软件及相关文档的权限，包括但不限于使用、复制、修改、合并、发表、分发、再授权、出售软件的副本。分发软件时，必须保留原始的许可证声明。&lt;/p>
+&lt;p>MIT 是最为宽松的开源许可证，所以这也使得它成为最流行的开源许可证，如目前在前端领域非常有名的 Vue.js 就在使用它。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://opensource.org/licenses/Apache-2.0" target="_blank" rel="noopener"
+>Apache-2.0&lt;/a> (Apache 软件基金会发布的许可证)&lt;/p>
+&lt;p>Apache 许可证内容非常多，不过可以简单的总结几点：&lt;/p>
+&lt;p>分发软件时，必须保留原始的许可证声明。&lt;/p>
+&lt;p>所有修改过的文件，必须加以说明告知用户此文件已被更改。&lt;/p>
+&lt;p>没有修改过的文件，不得修改许可证。&lt;/p>
+&lt;p>云原生领域著名软件 Kubernetes 使用的正是 Apache-2.0 开源许可证。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="著作权型许可证copyleft-licenses">
+&lt;a href="#%e8%91%97%e4%bd%9c%e6%9d%83%e5%9e%8b%e8%ae%b8%e5%8f%af%e8%af%81copyleft-licenses" class="header-anchor">#&lt;/a>
+著作权型许可证（Copyleft Licenses）
+&lt;/h3>&lt;p>Copyleft 一词由 理查德·斯托曼 发明，表示 Copyright (版权) 的反义词。Copyleft 表示不经许可，用户无权复制，商业软件开发人员通过 Copyleft剥夺了用户的自由。Copyright 则表示不经许可，用户有权复制，Copyright使用版权来给予用户自由。&lt;/p>
+&lt;p>因此Copyleft 类的许可证要比 Permissive 许可证限制更多。注意：不一定要经过原作者许可。常见 Copyleft 开源许可证有：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://opensource.org/licenses/gpl-license" target="_blank" rel="noopener"
+>GPL&lt;/a> (GNU General Public License)&lt;/p>
+&lt;p>GPL 有两个版本，GPL-2.0 和 GPL-3，同 BSD 一样，更高版本会带来更多的限制。GPL 协议内容也非常多，我们最需要关注的一点是：使用了 GPL 协议的开源软件，其衍生软件如果需要分发，就必须开源并且同样要使用此协议。&lt;/p>
+&lt;p>由于这条规定的存在，有人甚至把 GPL 协议称为 “GPL 病毒”，因为它具有跟病毒一样的传染性。不过 GPL 仍然是非常流行的开源许可证，比如大名鼎鼎的 Linux 就采用了 GPL 协议。&lt;/p>
+&lt;p>GPL 是流行开源许可证中最为严格的，所以对于使用开源软件所衍化的商业化软件就不够友好了。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://opensource.org/licenses/lgpl-license" target="_blank" rel="noopener"
+>LGPL&lt;/a> (GNU Library General Public License)&lt;/p>
+&lt;p>算是 GPL 的一个变种，主要为类库使用而设计的开源协议。&lt;/p>
+&lt;p>商用软件如果采用类库方式引用使用了 LGPL 协议的开源软件，则可以不用开源。&lt;/p>
+&lt;p>如果是修改或衍生软件需要分发，则必须开源并且同样要使用此协议。这点与 GPL 协议一样。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank" rel="noopener"
+>AGPL&lt;/a> (GNU Affero General Public License)&lt;/p>
+&lt;p>除了 AGPL 许可证，上面介绍的其他许可证的限制条件都是只有在分发时才需要遵守。而 SaaS 软件作为一项云服务则不构成分发，所以可以不遵守这些许可证条款。&lt;/p>
+&lt;p>为了解决这些早期发布的许可证对 SaaS 软件无效的尴尬，GNU 又发布了 AGPL 许可证，它规定如果 SaaS 用到的代码是该许可证，那么其云服务的代码也必须开源。&lt;/p>
+&lt;p>国产开源时序数据库 TDengine 为了阻止云厂商免费使用其开源版本，就采用了 AGPL 协议。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://opensource.org/licenses/MPL-2.0" target="_blank" rel="noopener"
+>MPL-2.0&lt;/a> (Mozilla Public License 2.0，Mozilla 基金会发布的许可证)&lt;/p>
+&lt;p>MPL 融合了 BSD 开源许可证 和 GPL 开源许可证 的特性，力争在专有软件和开源软件开发者之间寻求平衡。是比 BSD 更严格，比 GPL 更宽松的开源许可证。&lt;/p>
+&lt;p>MPL 允许新增的独立代码文件闭源，但在 MPL 授权下的代码文件必须保持 MPL 授权且开源。这使得 MPL 既不像 MIT 和 BSD 那样允许派生作品完全转化为闭源，也不像 GPL 那样要求所有的派生作品，包括新的组件在内，必须全部保持使用 GPL。&lt;/p>
+&lt;p>Mozilla 自家的 Firefox 浏览器就使用此开源许可证。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>以上介绍的开源许可证都是较为常见的许可证，另外还有两个不太常见但却值得一提的许可证。&lt;/p>
+&lt;p>一个是 &lt;a class="link" href="https://opensource.org/license/unlicense/" target="_blank" rel="noopener"
+>Unlicense&lt;/a> 许可证，翻译过来叫「零约束许可证」，可以说是被 OSI 认证的最开放的许可证了。根据名字也能看出来，Unlicense 是一个不包含任何约束条件的许可证，专用于贡献作品到公共领域。任何人都可以对开源软件进行自由复制、修改、发布、使用、编译、出售等，并且可用于任何商业或非商业目的。&lt;/p>
+&lt;p>另外，在 OSI 官网公布的开源许可证列表中，还有一个叫「&lt;a class="link" href="https://opensource.org/licenses/MulanPSL-2.0" target="_blank" rel="noopener"
+>木兰（Mulan PSL2）&lt;/a>」的开源许可证，它是中国本土唯一获得 OSI 认可的开源许可证。Mulan PSL2 以中英文双语表述，中英文版本具有同等法律效力。如果中英文版本存在任何冲突不一致，以中文版为准。&lt;/p>
+&lt;p>「木兰」并不是一个许可证，而是一系列许可证，它包含木兰宽松许可证、木兰公共许可证、木兰开放作品许可协议。其中木兰宽松许可证第 2 版（Mulan PSL2）在 2020 年 2 月 14 日通过 OSI 批准。&lt;/p>
+&lt;p>如果你想使用一个中文的开源许可证，那么 Mulan PSL2 目前是你唯一的选择。&lt;/p>
+&lt;hr>
+&lt;h2 id="使用开源许可证">
+&lt;a href="#%e4%bd%bf%e7%94%a8%e5%bc%80%e6%ba%90%e8%ae%b8%e5%8f%af%e8%af%81" class="header-anchor">#&lt;/a>
+使用开源许可证
+&lt;/h2>&lt;p>以 MIT 为例，我们来学习下如何在自己的开源项目中使用开源许可证：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>首先我们需要在自己的开源项目根目录下创建一个叫 &lt;code>LICENSE&lt;/code> 的文本文件，注意文件名不包含任何后缀。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>然后去到 OSI 官网找到 &lt;a class="link" href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener"
+>MIT&lt;/a> 开源许可证模板，内容如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">Copyright &amp;lt;YEAR&amp;gt; &amp;lt;COPYRIGHT HOLDER&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files &lt;span class="o">(&lt;/span>the “Software”&lt;span class="o">)&lt;/span>, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to &lt;span class="k">do&lt;/span> so, subject to the following conditions:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>将开源许可证模板内容复制到 &lt;code>LICENSE&lt;/code> 文本文件中，并将第一行 &lt;code>Copyright&lt;/code> 后面的 &lt;code>&amp;lt;YEAR&amp;gt;&lt;/code> 替换为当前年份，将 &lt;code>&amp;lt;COPYRIGHT HOLDER&amp;gt;&lt;/code> 替换为自己的名字。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>当开放项目源代码时，将此文件一同开放出去即可。如果你使用 GitHub 开放源码，则只需要将此 &lt;code>LICENSE&lt;/code> 加入到 git 管理即可。&lt;/p>
+&lt;ol>
+&lt;li>如果你是在 GitHub 上新建开源项目，在创建项目界面，有一个 &lt;code>Choose a license&lt;/code> 按钮可以很方便的选择一款开源协议，并且 GitHub 会自动替换许可证模板中的年份、作者等信息。&lt;/li>
+&lt;li>另外，我们在开放源代码时，其实可以不使用 OSI 认证的开源许可证，而是选择自己写一份许可证，用来声明版权。这同样是具有法律效力的，不过这份许可证就不能叫做开源许可证了。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="如何选择开源许可证">
+&lt;a href="#%e5%a6%82%e4%bd%95%e9%80%89%e6%8b%a9%e5%bc%80%e6%ba%90%e8%ae%b8%e5%8f%af%e8%af%81" class="header-anchor">#&lt;/a>
+如何选择开源许可证
+&lt;/h2>&lt;p>乌克兰程序员 Paul Bagwell 画了&lt;a class="link" href="https://web.archive.org/web/20110503183702/http://pbagwl.com/post/5078147450/description-of-popular-software-licenses" target="_blank" rel="noopener"
+>一张图&lt;/a>在网上很是流行，阮一峰老师将其翻译成了&lt;a class="link" href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html" target="_blank" rel="noopener"
+>中文&lt;/a>，如下：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/free_software_licenses.png"
+width="1600"
+height="1000"
+srcset="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/free_software_licenses_hu62a26bd1b1b1f60a529ae1edd7e8dcc3_117471_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/free_software_licenses_hu62a26bd1b1b1f60a529ae1edd7e8dcc3_117471_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="How to choose a license?"
+class="gallery-image"
+data-flex-grow="160"
+data-flex-basis="384px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>注：&lt;/p>
+&lt;ol>
+&lt;li>关于什么是许可证兼容性可以参考：&lt;a class="link" href="https://arlettebrook.github.io/docs/%e5%bc%80%e6%ba%90%e8%ae%b8%e5%8f%af%e8%af%81%e5%85%bc%e5%ae%b9%e6%80%a7%e6%8c%87%e5%8d%97.docx" >《开源许可证兼容性指南.docx》&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;p>从上图中可以看出，大体上左边的许可证比较严格，右边的许可证较为宽松。此图虽然不够严谨，胜在方便理解。在开源自己的项目时，可以根据此图快速选择出适合自己的开源许可证。&lt;/p>
+&lt;p>更多&lt;a class="link" href="https://www.runoob.com/wp-content/uploads/2018/03/61590003177751b9d5bd.jpg" target="_blank" rel="noopener"
+>参考&lt;/a>图：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/image-20240507181208566.png"
+width="1670"
+height="732"
+srcset="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/image-20240507181208566_hud15a19a3cadf380d55c54b52e5e9de59_702194_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/image-20240507181208566_hud15a19a3cadf380d55c54b52e5e9de59_702194_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="How to choose a license?"
+class="gallery-image"
+data-flex-grow="228"
+data-flex-basis="547px"
+>&lt;/p>
+&lt;hr>
+&lt;h2 id="知识共享许可证creative-commonscc">
+&lt;a href="#%e7%9f%a5%e8%af%86%e5%85%b1%e4%ba%ab%e8%ae%b8%e5%8f%af%e8%af%81creative-commonscc" class="header-anchor">#&lt;/a>
+知识共享许可证Creative Commons（CC）
+&lt;/h2>&lt;p>有时候，我们想要开源的并不是一款软件，而是一套开源的教程或者书籍等，此时严格来讲并不能使用上面所介绍的开源许可证。&lt;/p>
+&lt;p>在 &lt;a class="link" href="https://opensource.org/osd" target="_blank" rel="noopener"
+>OSD 第 2 条&lt;/a>中有规定：开源软件是必须要包含源代码的。&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/source-code.png"
+width="2220"
+height="346"
+srcset="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/source-code_hua833ceec382ec66138cd84613b0a4c66_105215_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/source-code_hua833ceec382ec66138cd84613b0a4c66_105215_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="source-code.png"
+class="gallery-image"
+data-flex-grow="641"
+data-flex-basis="1539px"
+>&lt;/p>
+&lt;p>也就是说，教程或者书籍等没有源代码，并不能作为开源软件，也就不能使用开源许可证。&lt;/p>
+&lt;p>此类项目想要开源，应该使用「知识共享许可证」（creative commons licenses），通常也叫 CC 许可证。&lt;/p>
+&lt;p>CC 许可证由 &lt;a class="link" href="https://creativecommons.org/" target="_blank" rel="noopener"
+>Creative Commons 基金会&lt;/a>提出，虽然没有得到 OSI 的认可，但他仍具有法律效力，并且应用广泛。&lt;/p>
+&lt;p>上面提到的「木兰开放作品许可协议」就是对标知识共享许可证的。同木兰许可证类似，知识共享许可证也是一系列许可证，目前最新的知识共享许可证为 4.0 版本，常见的许可证有 6 种：&lt;/p>
+&lt;ul>
+&lt;li>CC BY 4.0 (Attribution 4.0 International，署名 4.0 国际)&lt;/li>
+&lt;li>CC BY-SA 4.0 (Attribution-ShareAlike 4.0 International，署名-相同方式共享 4.0 国际)&lt;/li>
+&lt;li>CC BY-ND 4.0 (Attribution-NoDerivatives 4.0 International，署名-禁止演绎 4.0 国际)&lt;/li>
+&lt;li>CC BY-NC 4.0 (Attribution-NonCommercial 4.0 International，署名-非商业性使用 4.0 国际)&lt;/li>
+&lt;li>CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike 4.0 International，署名-非商业性使用-相同方式共享 4.0 国际)&lt;/li>
+&lt;li>CC BY-NC-ND 4.0 (Attribution-NonCommercial-NoDerivatives 4.0 International，署名-非商业性使用-禁止演绎 4.0 国际)&lt;/li>
+&lt;/ul>
+&lt;p>可以发现，CC 许可证命名方式就是它的权利简拼组合。以下是对其中出现的几个名词的解释：&lt;/p>
+&lt;p>​ 署名：必须给出原作者的署名，提供指向本许可协议的链接，同时标明是否对原始作品作了修改。&lt;/p>
+&lt;p>​ 非商业性使用：您不得将本作品用于商业目的。不得用于盈利性目的。&lt;/p>
+&lt;p>​ 相同方式共享：在任何媒介以任何形式复制、发行本作品时必须采用相同的许可证。&lt;/p>
+&lt;p>​ 禁止演绎：禁止修改、转换或以本作品为基础进行创作。&lt;/p>
+&lt;p>之所以每个许可证后面都带有国际两个字，是因为这系列许可证发布了不同的地域版，不过国际版更为通用。&lt;/p>
+&lt;p>需要注意 CC 系列许可证一旦发布，就不可收回，只要你遵守许可协议条款，许可人就无法收回你的这些权利。&lt;/p>
+&lt;p>如需使用 CC 许可证，可以参考示例。&lt;/p>
+&lt;p>​ 本教程采用&lt;a class="link" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="noopener"
+>知识共享 署名-相同方式共享 4.0国际协议&lt;/a>。&lt;/p>
+&lt;p>​ 博客内容遵循 &lt;a class="link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener"
+>知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议&lt;/a>&lt;/p>
+&lt;p>或参考&lt;a class="link" href="https://creativecommons.org/licenses/" target="_blank" rel="noopener"
+>官网&lt;/a>自行组合。&lt;/p>
+&lt;p>注意：&lt;strong>协议链接并不必须指定&lt;/strong>，但在使用知识共享协议时，提供协议链接是一个很好的做法，因为它可以帮助其他人方便地访问并了解你所使用的具体协议内容。&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/image-20240507193827642.png"
+width="820"
+height="138"
+srcset="https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/image-20240507193827642_hu9ccdd84b4ee4ed681b3d8e138c5b0446_19113_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/open-source-license-introduction/open-source-license-introduction.assets/image-20240507193827642_hu9ccdd84b4ee4ed681b3d8e138c5b0446_19113_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="cc协议示例"
+class="gallery-image"
+data-flex-grow="594"
+data-flex-basis="1426px"
+>&lt;/p>
+&lt;hr>
+&lt;h2 id="开源案例">
+&lt;a href="#%e5%bc%80%e6%ba%90%e6%a1%88%e4%be%8b" class="header-anchor">#&lt;/a>
+开源案例
+&lt;/h2>&lt;p>介绍完了开源协议，我们再来看一个开源案例：&lt;/p>
+&lt;h3 id="中国首例因违反-gpl-协议致侵害计算机软件著作权纠纷">
+&lt;a href="#%e4%b8%ad%e5%9b%bd%e9%a6%96%e4%be%8b%e5%9b%a0%e8%bf%9d%e5%8f%8d-gpl-%e5%8d%8f%e8%ae%ae%e8%87%b4%e4%be%b5%e5%ae%b3%e8%ae%a1%e7%ae%97%e6%9c%ba%e8%bd%af%e4%bb%b6%e8%91%97%e4%bd%9c%e6%9d%83%e7%ba%a0%e7%ba%b7" class="header-anchor">#&lt;/a>
+中国首例因违反 GPL 协议致侵害计算机软件著作权纠纷
+&lt;/h3>&lt;p>2021-06-30 在中国裁判文书网上公布了一则民事判决书，标题为：「济宁市罗盒网络科技有限公司诉被告福建风灵创景科技有限公司(以下简称福建风灵公司)、被告北京风灵创景科技有限公司(以下简称北京风灵公司)、被告深圳市腾讯计算机系统有限公司(以下简称腾讯公司)侵害计算机软件著作权纠纷一审民事判决书」。案件概况如下：&lt;/p>
+&lt;p>原告济宁市罗盒网络科技有限公司独立开「罗盒（VirtualApp）」从 2016 年 7 月 8 日的版本开始引入开源协议，起初为 LGPL3.0 协议，从 2016 年 8 月 12 日开始更换为 GPL3.0 协议。2017 年 10 月 29 日开始删除适用 GPL3.0 协议的表述，但英文介绍中仍保留&lt;code>openplatform&lt;/code> 的表述。&lt;/p>
+&lt;p>2018 年 9 月，原告调查发现名为「点心桌面」的软件使用了 VirtualApp 的代码，将两个软件源代码进行分析比对，两者间 421 个可比代码中有 308 个代码具有实质相似性，有 27 个代码具有高度相似性，有 78 个代码具有一般相似性。因此，被诉侵权软件与涉案软件构成实质相似。&lt;/p>
+&lt;p>经查，被诉「点心桌面」中使用了原告采用 GPL3.0 协议发布的 VirtualApp，被告对此亦予以确认。&lt;/p>
+&lt;p>原告申请赔偿 2000 万，最终，法院酌情确定赔偿数额为 50 万元。原告为制止本案侵权行为所支出的合理费用，计算在赔偿损失数额范围之内。&lt;/p>
+&lt;p>更多细节可以&lt;a class="link" href="https://arlettebrook.github.io/docs/%e5%ae%81%e5%b8%82%e7%bd%97%e7%9b%92%e7%bd%91%e7%bb%9c%e7%a7%91%e6%8a%80%e6%9c%89%e9%99%90%e5%85%ac%e5%8f%b8%e8%af%89%e8%a2%ab%e5%91%8a%e7%a6%8f%e5%bb%ba%e9%a3%8e%e7%81%b5%e5%88%9b%e6%99%af%e7%a7%91%e6%8a%80%e6%9c%89%e9%99%90%e5%85%ac%e5%8f%b8%e4%bb%a5%e4%b8%8b%e7%ae%80%e7%a7%b0%e7%a6%8f%e5%bb%ba%e9%a3%8e%e7%81%b5%e5%85%ac%e5%8f%b8%e8%a2%ab%e5%91%8a%e5%8c%97%e4%ba%ac%e9%a3%8e%e7%81%b5%e5%88%9b%e6%99%af%e7%a7%91%e6%8a%80%e6%9c%89%e9%99%90....docx" >点击下载&lt;/a>查看。&lt;/p>
+&lt;p>该案例给开源软件使用者敲响一记警钟，使用开源软件一定要查看并遵循开源许可证。&lt;/p>
+&lt;hr>
+&lt;h2 id="总结">
+&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
+总结
+&lt;/h2>&lt;p>本文带大家一起认识了什么是开源协议，并且还对常用开源协议进行了分析，以及如何使用开源协议。同时讲解了针对书籍等开源作品使用的知识共享许可协议和使用方式。最终分享了一个开源软件纠纷案例，以说明了解开源协议的重要性。&lt;/p>
+&lt;p>此文仅为作者本人学习并整理的开源协议相关知识，即不够全面，也不够严谨，不能作为法律依据。希望你能通过本篇文章认识并重视开源协议，学习和书写本篇文章时间有限，难免出现表达不够准确或错误的地方，欢迎批评指正。&lt;/p>
+&lt;p>最后，想提醒大家，身为一名开发者，掌握开源协议是有必要的。不过开源协议的内容非常多且专业，想要完全了解也是一项繁重的工作，毕竟这不是我们的专业领域，如果遇到无法确定的问题，可以寻求身边的专业法务帮忙。&lt;/p>
+&lt;hr>
+&lt;h2 id="参考">
+&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
+参考
+&lt;/h2>&lt;blockquote>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://www.runoob.com/w3cnote/open-source-license.html" target="_blank" rel="noopener"
+>各种开源协议介绍&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://cn.pingcap.com/blog/introduction-of-open-source-license/" target="_blank" rel="noopener"
+>一文看懂开源许可证丨开源知识科普&lt;/a>&lt;/li>
+&lt;li>原文：&lt;a class="link" href="https://jianghushinian.cn/2023/01/15/open-source-license-introduction/" target="_blank" rel="noopener"
+>开源协议简介&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html" target="_blank" rel="noopener"
+>如何选择开源许可证？&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/blockquote></description></item></channel></rss>
