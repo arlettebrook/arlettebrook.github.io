@@ -1371,7 +1371,8 @@ Hooks
 &lt;li>单条日志条目信息都保存在Entry结构体中。如，创建时间、日志级别、日志消息等。&lt;/li>
 &lt;/ol>
 &lt;p>&lt;code>logrus&lt;/code>也内置了一个&lt;code>syslog&lt;/code>的钩子，将日志输出到系统日志&lt;code>syslog&lt;/code>中。它不适用用windows的系统日志。&lt;/p>
-&lt;p>Logrus 内置 Hooks 列表：https://github.com/sirupsen/logrus/tree/master/hooks&lt;/p>
+&lt;p>Logrus 内置 Hooks 列表： &lt;a class="link" href="https://github.com/sirupsen/logrus/tree/master/hooks" target="_blank" rel="noopener"
+>https://github.com/sirupsen/logrus/tree/master/hooks&lt;/a>&lt;/p>
 &lt;h3 id="自定义hook">
 &lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89hook" class="header-anchor">#&lt;/a>
 自定义Hook
