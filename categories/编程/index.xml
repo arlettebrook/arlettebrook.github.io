@@ -1,4 +1,1898 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/%E7%BC%96%E7%A8%8B/</link><description>Recent content in 编程 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</copyright><lastBuildDate>Wed, 08 May 2024 15:49:50 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>Fsnotify Introduction</title><link>https://arlettebrook.github.io/p/fsnotify-introduction/</link><pubDate>Wed, 08 May 2024 15:49:50 +0800</pubDate><guid>https://arlettebrook.github.io/p/fsnotify-introduction/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/%E7%BC%96%E7%A8%8B/</link><description>Recent content in 编程 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</copyright><lastBuildDate>Thu, 09 May 2024 10:31:23 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>Logrus Introduction</title><link>https://arlettebrook.github.io/p/logrus-introduction/</link><pubDate>Thu, 09 May 2024 10:31:23 +0800</pubDate><guid>https://arlettebrook.github.io/p/logrus-introduction/</guid><description>&lt;hr>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://github.com/sirupsen/logrus" target="_blank" rel="noopener"
+>Logrus&lt;/a> 是目前 GitHub 上 Star 数量最多的 Go 日志库。尽管目前 Logrus 处于维护模式，不再引入新功能，但这并不意味着它已经死了。Logrus 仍将继续维护，以确保安全性、错误修复和提高性能。作为 Go 社区中最受欢迎的日志库之一，Logrus 最大的贡献是推动了 Go 社区广泛使用结构化（如JSON格式)的日志记录。著名的 Docker 项目就在使用 Logrus 记录日志，这进一步证明了其在实际应用中的可靠性和实用性。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="特点">
+&lt;a href="#%e7%89%b9%e7%82%b9" class="header-anchor">#&lt;/a>
+特点
+&lt;/h2>&lt;p>Logrus 具有如下特点：&lt;/p>
+&lt;ul>
+&lt;li>与 Go log 标准库 API 完全兼容，这意味着任何使用 log 标准库的代码都可以将日志库无缝切换到 Logrus。&lt;/li>
+&lt;li>支持七种日志级别：&lt;code>Trace&lt;/code>、&lt;code>Debug&lt;/code>、&lt;code>Info&lt;/code>、&lt;code>Warn&lt;/code>、&lt;code>Error&lt;/code>、&lt;code>Fatal&lt;/code>、&lt;code>Panic&lt;/code>。&lt;/li>
+&lt;li>支持结构化日志记录（key-value 形式，容易被程序解析，如 JSON 格式），通过 Filed 机制进行结构化的日志记录。&lt;/li>
+&lt;li>支持自定义日志格式，内置两种格式 &lt;code>JSONFormatter&lt;/code>（JSON 格式） 和 &lt;code>TextFormatter&lt;/code>（文本格式），并允许用户通过实现 &lt;code>Formatter&lt;/code> 接口来自定义日志格式。&lt;/li>
+&lt;li>支持可扩展的 Hooks 机制，可以为不同级别的日志添加 Hooks 将日志记录到不同位置，例如将 &lt;code>Error&lt;/code>、&lt;code>Fatal&lt;/code> 和 &lt;code>Panic&lt;/code> 级别的错误日志发送到 logstash、kafka 等。&lt;/li>
+&lt;li>支持在控制台输出带有不同颜色的日志。&lt;/li>
+&lt;li>并发安全。&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="快速使用">
+&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+快速使用
+&lt;/h2>&lt;p>第三方库需要先安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go get -u github.com/sirupsen/logrus
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>后使用：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TraceLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Trace&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;trace msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;debug msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;warn msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;error msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;fatal msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;panic msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>logrus&lt;/code>的使用非常简单，与标准库&lt;code>log&lt;/code>类似。&lt;code>logrus&lt;/code>支持更多的日志级别：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Panic&lt;/code>：记录日志，然后&lt;code>panic&lt;/code>。&lt;/li>
+&lt;li>&lt;code>Fatal&lt;/code>：致命错误，出现错误时程序无法正常运转。输出日志后，程序退出；&lt;/li>
+&lt;li>&lt;code>Error&lt;/code>：错误日志，需要查看原因；&lt;/li>
+&lt;li>&lt;code>Warn&lt;/code>：警告信息，提醒程序员注意；&lt;/li>
+&lt;li>&lt;code>Info&lt;/code>：关键操作，核心流程的日志；&lt;/li>
+&lt;li>&lt;code>Debug&lt;/code>：一般程序中输出的调试信息；&lt;/li>
+&lt;li>&lt;code>Trace&lt;/code>：很细粒度的信息，一般用不到；&lt;/li>
+&lt;/ul>
+&lt;p>日志级别从上向下依次减小，&lt;code>Trace&lt;/code>最小，&lt;code>Panic&lt;/code>最大。&lt;code>logrus&lt;/code>有一个日志级别，低于这个级别的日志不会输出。 默认的级别为&lt;code>InfoLevel&lt;/code>。所以为了能看到&lt;code>Trace&lt;/code>和&lt;code>Debug&lt;/code>日志，我们在&lt;code>main&lt;/code>函数第一行设置日志级别为&lt;code>TraceLevel&lt;/code>。&lt;/p>
+&lt;p>运行程序，非标准TTY输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T11:31:42+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>trace &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;trace msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T11:31:42+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>debug &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;debug msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T11:31:42+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;info msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T11:31:42+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>warning &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;warn msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T11:31:42+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>error &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;error msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T11:31:42+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>fatal &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;fatal msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">exit&lt;/span> status &lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>logrus默认输出到标准错误。格式是文本格式，即默认的Formatter是TextFormatter。&lt;/p>
+&lt;p>还有默认情况下，&lt;code>log.SetFormatter(&amp;amp;log.TextFormatter{})&lt;/code>（即默认的TextFormatter）未连接 TTY 时，输出与 &lt;a class="link" href="http://godoc.org/github.com/kr/logfmt" target="_blank" rel="noopener"
+>logfmt&lt;/a>格式兼容（就是上面输出的格式）。当连接TTY时,会对输出的日志进行颜色编码，参考官方图片:&lt;img src="https://camo.githubusercontent.com/3177c4e5657f79815e562c79c07469374a68b837e0e7fee919675adcd7f499e6/687474703a2f2f692e696d6775722e636f6d2f505937714d77642e706e67"
+loading="lazy"
+alt="连接终端"
+>&lt;/p>
+&lt;p>为了确保即使连接了 TTY 也能实现不带颜色输出，请按如下方式设置格式化程序：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">DisableColors&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果连接了TTY没有实现颜色输出（原因之一：非标准TTY、自定义的Formatter等)，需要颜色输出，请按如下方式设置格式化程序：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ForceColors&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 强制输出颜色，原理：绕过TTY检查。
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">FullTimestamp&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 显示完整的时间戳
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>当绕过TTY检查时会丢失日期时间，添加&lt;code>FullTimestamp: true,&lt;/code>即可正常显示。&lt;/p>
+&lt;p>后面会介绍更多格式化器。&lt;/p>
+&lt;p>由于&lt;code>logrus.Fatal&lt;/code>会导致程序退出，下面的&lt;code>logrus.Panic&lt;/code>不会执行到。&lt;/p>
+&lt;p>另外，我们观察到输出中有三个关键信息，&lt;code>time&lt;/code>、&lt;code>level&lt;/code>和&lt;code>msg&lt;/code>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>time&lt;/code>：输出日志的时间；为本地区标准时间。
+&lt;ul>
+&lt;li>补充：+08:00为北京标准时间，改为Z为UTC（世界标准时间，零时区时间）&lt;/li>
+&lt;li>T为日期与时间的分隔符。是ISO定制的一种标准日期时间的表示方式。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>level&lt;/code>：日志级别；&lt;/li>
+&lt;li>&lt;code>msg&lt;/code>：日志信息。&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="使用">
+&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+使用
+&lt;/h2>&lt;h3 id="替代-go-log-标准库">
+&lt;a href="#%e6%9b%bf%e4%bb%a3-go-log-%e6%a0%87%e5%87%86%e5%ba%93" class="header-anchor">#&lt;/a>
+替代 Go log 标准库
+&lt;/h3>&lt;p>在&lt;a class="link" href="https://arlettebrook.github.io/p/%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%a9%b6-go-log-%e6%a0%87%e5%87%86%e5%ba%93/" target="_blank" rel="noopener"
+>深入探究 Go log 标准库&lt;/a>一文中举过一个使用 Go log 标准库的简单&lt;a class="link" href="https://arlettebrook.github.io/p/%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%a9%b6-go-log-%e6%a0%87%e5%87%86%e5%ba%93/#%e4%bd%bf%e7%94%a8" target="_blank" rel="noopener"
+>示例&lt;/a>，现在可以将其无缝切换到 Logrus，只需要把 &lt;code>import &amp;quot;log&amp;quot;&lt;/code> 改成 &lt;code>import log &amp;quot;github.com/sirupsen/logrus&amp;quot;&lt;/code> 即可实现：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 替代 import &amp;#34;log&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Print&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Printf: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;print&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Println&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Fatal&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Fatalf: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;fatal&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalln&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Fatalln&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Panic&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panicf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Panicf: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;panic&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panicln&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Panicln&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>执行以上代码，得到如下输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T14:13:43+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>Print
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T14:13:43+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;Printf: print&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T14:13:43+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>Println
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T14:13:43+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>fatal &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>Fatal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">exit&lt;/span> status &lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>虽然输出格式与使用 Go log 标准库表现略有不同，但程序执行并不会报错，说明二者完全兼容。&lt;/p>
+&lt;h3 id="基本使用">
+&lt;a href="#%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+基本使用
+&lt;/h3>&lt;h4 id="修改日志级别">
+&lt;a href="#%e4%bf%ae%e6%94%b9%e6%97%a5%e5%bf%97%e7%ba%a7%e5%88%ab" class="header-anchor">#&lt;/a>
+修改日志级别
+&lt;/h4>&lt;p>调用&lt;code>logrus.SetLevel(level Level)&lt;/code>，就可以修改日志级别。&lt;/p>
+&lt;p>logrus默认的text记录器日志级别是InfoLevel。要想要输出info以下级别的日志，就必须修改。&lt;/p>
+&lt;p>如&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TraceLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>level&lt;/code>可选择类型：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// logrus/logrus.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">const&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// PanicLevel level, highest level of severity. Logs and then calls panic with the
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// message passed to Debug, Info, ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">PanicLevel&lt;/span> &lt;span class="nx">Level&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">iota&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// FatalLevel level. Logs and then calls `logger.Exit(1)`. It will exit even if the
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// logging level is set to Panic.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">FatalLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ErrorLevel level. Logs. Used for errors that should definitely be noted.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// Commonly used for hooks to send errors to an error tracking service.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">ErrorLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// WarnLevel level. Non-critical entries that deserve eyes.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">WarnLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// InfoLevel level. General operational entries about what&amp;#39;s going on inside the
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// application.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">InfoLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// DebugLevel level. Usually only enabled when debugging. Very verbose logging.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">DebugLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// TraceLevel level. Designates finer-grained informational events than the Debug.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">TraceLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="输出调用信息">
+&lt;a href="#%e8%be%93%e5%87%ba%e8%b0%83%e7%94%a8%e4%bf%a1%e6%81%af" class="header-anchor">#&lt;/a>
+输出调用信息
+&lt;/h4>&lt;p>调用&lt;code>logrus.SetReportCaller(true)&lt;/code>，会在输出日志中添加方法、文件以及行号信息：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetReportCaller&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>输出多了两个字段：&lt;code>func&lt;/code>为函数名，&lt;code>file&lt;/code>为调用&lt;code>logrus&lt;/code>相关方法的文件名以及行号：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T14:26:00+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;info msg&amp;#34;&lt;/span> &lt;span class="nv">func&lt;/span>&lt;span class="o">=&lt;/span>main.main &lt;span class="nv">file&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;F:/GoProject/learn
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">/main.go:10&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="添加字段">
+&lt;a href="#%e6%b7%bb%e5%8a%a0%e5%ad%97%e6%ae%b5" class="header-anchor">#&lt;/a>
+添加字段
+&lt;/h4>&lt;p>Logrus 鼓励用户通过日志字段记录结构化日志，可以使用 &lt;code>WithFields&lt;/code> 和 &lt;code>WithField&lt;/code> 两种形式，并且可以链式调用。&lt;/p>
+&lt;p>尽量别用&lt;code>logrus.Fatalf(&amp;quot;Failed to send event %s to topic %s with key %d&amp;quot;)&lt;/code> 这种纯文本形式，因为结构化日志有利于工具提取并分析日志。&lt;/p>
+&lt;p>有时候需要在输出中添加一些字段，可以通过调用&lt;code>logrus.WithField&lt;/code>（接收单个字段）和&lt;code>logrus.WithFields&lt;/code>（接收多个字段）实现。 &lt;code>logrus.WithFields&lt;/code>接受一个&lt;code>logrus.Fields&lt;/code>类型的参数，其底层实际上为&lt;code>map[string]interface{}&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// github.com/sirupsen/logrus/logrus.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">type&lt;/span> &lt;span class="nx">Fields&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kd">interface&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>二者都可以链式调用，会返回一个指向Entry类型的结构体（日志条目logrus.Entry），该结构体绑定了各种级别的日志方法：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">WithField&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">WithField&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;age&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">18&lt;/span>&lt;span class="p">).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;WithFiled&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithFields&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Fields&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;age&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">18&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}).&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;WithFields&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">run&lt;/span> &lt;span class="nx">main&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">go&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-09T15:22:24+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">info&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">WithFiled&lt;/span> &lt;span class="nx">age&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="mi">18&lt;/span> &lt;span class="nx">name&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-09T15:22:24+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">info&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">WithFields&lt;/span> &lt;span class="nx">age&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="mi">18&lt;/span> &lt;span class="nx">name&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>默认字段&lt;/strong>：如果在一个函数中的所有日志都需要添加某些字段，可以使用&lt;code>WithFields&lt;/code>的返回的*Entry替换logrus。这样后续输出都会包含指定字段：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">withFieldsLog&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithFields&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Fields&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;age&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">18&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">withFieldsLog&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;error msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">withFieldsLog&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">run&lt;/span> &lt;span class="nx">main&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">go&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-09T15:37:56+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="kt">error&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;error msg&amp;#34;&lt;/span> &lt;span class="nx">age&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="mi">18&lt;/span> &lt;span class="nx">name&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-09T15:37:56+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">info&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span> &lt;span class="nx">age&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="mi">18&lt;/span> &lt;span class="nx">name&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用同一个&lt;code>logrus.Entry&lt;/code>调不同级别的日志方法，即可实现携带相同的字段（&lt;strong>默认字段&lt;/strong>）。&lt;/p>
+&lt;p>注意：默认字段也支持链式调用。&lt;/p>
+&lt;h4 id="重定向输出">
+&lt;a href="#%e9%87%8d%e5%ae%9a%e5%90%91%e8%be%93%e5%87%ba" class="header-anchor">#&lt;/a>
+重定向输出
+&lt;/h4>&lt;p>默认情况下，日志输出到&lt;code>io.Stderr&lt;/code>。可以调用&lt;code>logrus.SetOutput&lt;/code>传入一个&lt;code>io.Writer&lt;/code>参数。后续调用相关方法日志将写到&lt;code>io.Writer&lt;/code>中。 现在，我们就能像介绍&lt;a class="link" href="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/" target="_blank" rel="noopener"
+>log&lt;/a>时一样，可以搞点事情了。传入一个&lt;code>io.MultiWriter&lt;/code>， 同时将日志写到&lt;code>bytes.Buffer&lt;/code>、标准输出和文件中：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;bytes&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;io&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;os&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">writer1&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">bytes&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewBuffer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kc">nil&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">writer2&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Stdout&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">writer3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">OpenFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;./log.txt&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">O_WRONLY&lt;/span>&lt;span class="p">|&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">O_CREATE&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mo">0755&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">writer3&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">File&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">writer3&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Close&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}(&lt;/span>&lt;span class="nx">writer3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;create file log.txt failed: %v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetOutput&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">io&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">MultiWriter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">writer1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">writer2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">writer3&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Buffer:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">writer1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">String&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行，会在文件&lt;code>log.txt&lt;/code>和控制台输出日志。&lt;/p>
+&lt;h3 id="处理不同环境">
+&lt;a href="#%e5%a4%84%e7%90%86%e4%b8%8d%e5%90%8c%e7%8e%af%e5%a2%83" class="header-anchor">#&lt;/a>
+处理不同环境
+&lt;/h3>&lt;p>Logrus 并没有像 &lt;a class="link" href="https://github.com/uber-go/zap" target="_blank" rel="noopener"
+>zap&lt;/a> 那样提供现成的 API 来支持在不同的环境下使用（Production 和 Development），如果你想在生产和测试环境使用不同的格式输出日志，则需要通过代码判断在不同环境设置不同的 &lt;code>Formatter&lt;/code> 来实现。示例如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;os&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">nested&lt;/span> &lt;span class="s">&amp;#34;github.com/antonfisher/nested-logrus-formatter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 假设环境变量APP_ENV已经被设置
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">env&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Getenv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;APP_ENV&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 根据环境设置日志级别
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">switch&lt;/span> &lt;span class="nx">env&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="s">&amp;#34;development&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 在开发环境中显示所有日志
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DebugLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">nested&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Formatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="s">&amp;#34;testing&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 在测试环境中只显示警告和错误日志
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">WarnLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="s">&amp;#34;production&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 在生产环境中只显示错误日志
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ErrorLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">default&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 默认情况下，显示所有日志
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DebugLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">nested&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Formatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 你还可以设置日志格式、输出位置等
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;error log&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;warn log&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info log&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;debug log&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:31:46.122 &lt;span class="o">[&lt;/span>ERRO&lt;span class="o">]&lt;/span> error log
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:31:46.168 &lt;span class="o">[&lt;/span>WARN&lt;span class="o">]&lt;/span> warn log
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:31:46.168 &lt;span class="o">[&lt;/span>INFO&lt;span class="o">]&lt;/span> info log
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:31:46.169 &lt;span class="o">[&lt;/span>DEBU&lt;span class="o">]&lt;/span> debug log
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">app_env&lt;/span>&lt;span class="o">=&lt;/span>production go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;error&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;error log&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-11T15:31:53+08:00&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ &lt;span class="nv">app_env&lt;/span>&lt;span class="o">=&lt;/span>development go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:32:05.563 &lt;span class="o">[&lt;/span>ERRO&lt;span class="o">]&lt;/span> error log
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:32:05.609 &lt;span class="o">[&lt;/span>WARN&lt;span class="o">]&lt;/span> warn log
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:32:05.609 &lt;span class="o">[&lt;/span>INFO&lt;span class="o">]&lt;/span> info log
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:32:05.609 &lt;span class="o">[&lt;/span>DEBU&lt;span class="o">]&lt;/span> debug log
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="测试">
+&lt;a href="#%e6%b5%8b%e8%af%95" class="header-anchor">#&lt;/a>
+测试
+&lt;/h3>&lt;p>如果你的单元测试程序中需要测试日志内容，Logrus 提供了 &lt;code>test.NewNullLogger&lt;/code> 日志记录器，它只会记录日志，不输出任何内容。使用示例如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;testing&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus/hooks/test&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/stretchr/testify/assert&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">TestLogrus&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logger&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">hook&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">test&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewNullLogger&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logger&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello error&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Equal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">hook&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Entries&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Equal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ErrorLevel&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">hook&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LastEntry&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nx">Level&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Equal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Hello error&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">hook&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LastEntry&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nx">Message&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">hook&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Reset&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Nil&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">hook&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LastEntry&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>第二个返回值是一个结构体:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Hook&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Entries is an array of all entries that have been received by this hook.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// For safe access, use the AllEntries() method, rather than reading this
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// value directly.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Entries&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Entry&lt;/span> &lt;span class="c1">// 条目切片
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">mu&lt;/span> &lt;span class="nx">sync&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">RWMutex&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>方法&lt;code>LastEntry()&lt;/code>返回&lt;code>Entries&lt;/code>的最后一条日志条目对象。&lt;/p>
+&lt;p>运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go &lt;span class="nb">test&lt;/span> -run TestLogrus -v
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">===&lt;/span> RUN TestLogrus
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--- PASS: TestLogrus &lt;span class="o">(&lt;/span>0.07s&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PASS
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ok github.com/arlettebrook/learn 0.643s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="自定义-logger">
+&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89-logger" class="header-anchor">#&lt;/a>
+自定义 Logger
+&lt;/h3>&lt;p>除了通过 &lt;code>logrus.Info(&amp;quot;Info msg&amp;quot;)&lt;/code> 这种开箱即用的方式使用 Logrus 默认的 &lt;code>Logger&lt;/code>，我们还可以自定义 &lt;code>Logger&lt;/code>。&lt;/p>
+&lt;p>**实际上，考虑到易用性，库一般会使用默认值创建一个对象，包最外层的方法一般都是操作这个默认对象。**用到的设计模式是&lt;a class="link" href="https://arlettebrook.github.io/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" target="_blank" rel="noopener"
+>单例模式&lt;/a>。&lt;/p>
+&lt;p>我们之前好几篇文章都提到过这点：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>flag&lt;/code>标准库中的&lt;code>CommandLine&lt;/code>对象；&lt;/li>
+&lt;li>&lt;code>log&lt;/code>标准库中的&lt;code>std&lt;/code>对象。&lt;/li>
+&lt;/ul>
+&lt;p>这个技巧应用在很多库的开发中，&lt;code>logrus&lt;/code>也是如此：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// github.com/sirupsen/logrus/exported.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// std is the name of the standard logger in stdlib `log`
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">std&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nf">New&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">New&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Logger&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">Logger&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Out&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Stderr&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Formatter&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">new&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Hooks&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">LevelHooks&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Level&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">InfoLevel&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ExitFunc&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Exit&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ReportCaller&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">StandardLogger&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Logger&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">std&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// SetOutput sets the standard logger output.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">SetOutput&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">out&lt;/span> &lt;span class="nx">io&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Writer&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">std&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetOutput&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">out&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// SetFormatter sets the standard logger formatter.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">formatter&lt;/span> &lt;span class="nx">Formatter&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">std&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">formatter&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// SetReportCaller sets whether the standard logger will include the calling
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// method as a field.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">SetReportCaller&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">include&lt;/span> &lt;span class="kt">bool&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">std&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetReportCaller&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">include&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// SetLevel sets the standard logger level.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">level&lt;/span> &lt;span class="nx">Level&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">std&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">level&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>首先，使用默认配置定义一个&lt;code>Logger&lt;/code>对象&lt;code>std&lt;/code>，&lt;code>SetOutput/SetFormatter/SetReportCaller/SetLevel&lt;/code>这些方法都是调用&lt;code>std&lt;/code>对象的对应方法！&lt;/p>
+&lt;p>我们当然也可以创建自己的&lt;code>Logger&lt;/code>对象，使用方式与直接调用&lt;code>logrus&lt;/code>的方法类似：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">New&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 用自定义logger
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DebugLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;debug msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>New()&lt;/code>函数创建的logger与默认的logger相同。运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">run&lt;/span> &lt;span class="nx">main&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">go&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-09T22:55:30+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">info&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;level&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s">&amp;#34;debug&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s">&amp;#34;debug msg&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s">&amp;#34;time&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s">&amp;#34;2024-05-09T22:55:30+08:00&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过创建的logger对象可以直接赋值修改Level、Out、Formatter等，不用调对应的Set方法。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">New&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Logger&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">Logger&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Out&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Stderr&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Formatter&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">new&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Hooks&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">LevelHooks&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Level&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">InfoLevel&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ExitFunc&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Exit&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ReportCaller&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>示例修改如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Out&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Stdout&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DebugLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Formatter&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们还可以通过&lt;code>FieldMap&lt;/code>属性修改默认字段的键名&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">FieldMap&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nx">fieldKey&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">fieldKey&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>支持重命名的默认字段&lt;code>fieldKey&lt;/code>如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-GO" data-lang="GO">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">const&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">defaultTimestampFormat&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">RFC3339&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldKeyMsg&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldKeyLevel&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;level&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldKeyTime&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;time&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldKeyLogrusError&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;logrus_error&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldKeyFunc&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;func&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldKeyFile&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;file&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>实例如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">New&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Formatter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">DisableColors&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldMap&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">FieldMap&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">FieldKeyMsg&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 将msg改成message
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Level&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DebugLevel&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Formatter&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{&lt;/span> &lt;span class="c1">// 会覆盖TextFormatter
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">FieldMap&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">FieldMap&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">FieldKeyTime&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;TIME&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="c1">// 将 time改成TIME
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;debug msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T23:23:53+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">message&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;info msg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;TIME&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-09T23:23:53+08:00&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;debug&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;debug msg&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="修改日志格式">
+&lt;a href="#%e4%bf%ae%e6%94%b9%e6%97%a5%e5%bf%97%e6%a0%bc%e5%bc%8f" class="header-anchor">#&lt;/a>
+修改日志格式
+&lt;/h4>&lt;p>调用&lt;code>logrus.SetFormatter(formatter Formatter)&lt;/code>，即可修改日志格式。&lt;/p>
+&lt;p>&lt;code>logrus&lt;/code>支持两种日志格式，文本和 JSON，默认为文本格式。可以通过&lt;code>logrus.SetFormatter&lt;/code>设置日志格式：&lt;/p>
+&lt;p>Logrus 提供了 &lt;code>JSONFormatter&lt;/code> 和 &lt;code>TextFormatter&lt;/code> 来分别实现 JSON 和 Text 格式的日志输出，它们的&lt;strong>指针类型&lt;/strong>都实现了 &lt;code>Formatter&lt;/code> 接口。除此之外，这里还有一个第三方实现的 &lt;code>Formatter&lt;/code> &lt;a class="link" href="https://github.com/sirupsen/logrus#formatters" target="_blank" rel="noopener"
+>列表&lt;/a>可供选择，如果这些依然无法满足你的需求，则可以自己实现 &lt;code>Formatter&lt;/code> 接口对象定制日志格式。&lt;/p>
+&lt;p>使用如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;default formatter:TextFormatter&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">//text
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;JSONFormatter&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">//json
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;default formatter:TextFormatter&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">//text
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>logrus默认的Formatter是TextFormatter。在非标准TTY中运行输出结果（不带颜色输出）如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T22:06:29+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;default formatter:TextFormatter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;info&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;JSONFormatter&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-09T22:06:29+08:00&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T22:06:29+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;default formatter:TextFormatter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h5 id="使用第三方格式">
+&lt;a href="#%e4%bd%bf%e7%94%a8%e7%ac%ac%e4%b8%89%e6%96%b9%e6%a0%bc%e5%bc%8f" class="header-anchor">#&lt;/a>
+使用第三方格式
+&lt;/h5>&lt;p>除了内置的&lt;code>TextFormatter&lt;/code>和&lt;code>JSONFormatter&lt;/code>，还有不少第三方格式支持。我们这里介绍一个&lt;a class="link" href="https://github.com/antonfisher/nested-logrus-formatter" target="_blank" rel="noopener"
+>nested-logrus-formatter&lt;/a>。&lt;/p>
+&lt;p>先安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go get -u github.com/antonfisher/nested-logrus-formatter
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>后使用：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;time&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">nested&lt;/span> &lt;span class="s">&amp;#34;github.com/antonfisher/nested-logrus-formatter&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 非标准TTY，强制输出颜色
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ForceColors&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FullTimestamp&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">TimestampFormat&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DateTime&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithFields&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Fields&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;age&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">18&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}).&lt;/span>&lt;span class="nf">Warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;user info&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;----------------&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">nested&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Formatter&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">HideKeys&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">TimestampFormat&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DateTime&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithFields&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Fields&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;age&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">18&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}).&lt;/span>&lt;span class="nf">Warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;user info&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>程序运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO&lt;span class="o">[&lt;/span>2024-05-09 22:33:40&lt;span class="o">]&lt;/span> info msg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">WARN&lt;span class="o">[&lt;/span>2024-05-09 22:33:41&lt;span class="o">]&lt;/span> user info &lt;span class="nv">age&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">18&lt;/span> &lt;span class="nv">username&lt;/span>&lt;span class="o">=&lt;/span>arlettebro
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ok
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">----------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-05-09 22:33:41 &lt;span class="o">[&lt;/span>INFO&lt;span class="o">]&lt;/span> info msg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024-05-09 22:33:41 &lt;span class="o">[&lt;/span>WARN&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>18&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>arlettebrook&lt;span class="o">]&lt;/span> user info
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>没有截图，参考的是官方对比图片：&lt;img src="https://raw.githubusercontent.com/antonfisher/nested-logrus-formatter/docs/images/demo.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>&lt;code>nested&lt;/code>格式提供了多个字段用来定制行为：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-golang" data-lang="golang">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// github.com/antonfisher/nested-logrus-formatter/formatter.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">type&lt;/span> &lt;span class="nx">Formatter&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">FieldsOrder&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">TimestampFormat&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">HideKeys&lt;/span> &lt;span class="kt">bool&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">NoColors&lt;/span> &lt;span class="kt">bool&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">NoFieldsColors&lt;/span> &lt;span class="kt">bool&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ShowFullLevel&lt;/span> &lt;span class="kt">bool&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">TrimMessages&lt;/span> &lt;span class="kt">bool&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>默认，&lt;code>logrus&lt;/code>输出日志中字段是&lt;code>key=value&lt;/code>这样的形式。使用&lt;code>nested&lt;/code>格式，我们可以通过设置&lt;code>HideKeys&lt;/code>为&lt;code>true&lt;/code>隐藏键，只输出值；&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>如果不隐藏键，程序输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">2024-05-09 22:40:09 &lt;span class="o">[&lt;/span>WARN&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>age:18&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>username:arlettebrook&lt;span class="o">]&lt;/span> user info
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>默认，&lt;code>logrus&lt;/code>是按键的字母序输出字段，可以设置&lt;code>FieldsOrder&lt;/code>定义输出字段顺序；string类型的切片指定顺序。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>通过设置&lt;code>TimestampFormat&lt;/code>设置日期格式。如&lt;code>time.RFC3339&lt;/code>、&lt;code>time.DateTime&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>通过实现接口&lt;code>logrus.Formatter&lt;/code>可以实现自己的格式。&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-golang" data-lang="golang">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// github.com/sirupsen/logrus/formatter.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">type&lt;/span> &lt;span class="nx">Formatter&lt;/span> &lt;span class="kd">interface&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Format&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="nx">Entry&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">([]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="hooks">
+&lt;a href="#hooks" class="header-anchor">#&lt;/a>
+Hooks
+&lt;/h2>&lt;blockquote>
+&lt;p>Hooks本质是一些函数或方法，用于不修改原代码，&lt;strong>扩展程序&lt;/strong>。&lt;/p>
+&lt;/blockquote>
+&lt;p>Logrus 最令人心动的两个功能，一个是结构化日志，另一个就是 Hooks 了。&lt;/p>
+&lt;p>Hooks 为 Logrus 提供了极大的灵活性，通过 Hooks 可以实现各种扩展功能。比如可以通过 Hooks 实现：&lt;code>Error&lt;/code> 以上级别日志&lt;strong>发送邮件通知&lt;/strong>、&lt;strong>重要日志告警&lt;/strong>、&lt;strong>日志切割&lt;/strong>、&lt;strong>程序优雅退出等&lt;/strong>，非常实用。&lt;/p>
+&lt;p>Logrus 提供了 &lt;code>Hook&lt;/code> 接口，只要我们实现了这个接口，并将其注册到 Logrus 中，就可以使用 Hooks 的强大能力了。&lt;code>Hook&lt;/code> 接口定义如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Hook&lt;/span> &lt;span class="kd">interface&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Levels&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="nx">Level&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Fire&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="nx">Entry&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="kt">error&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>Levels&lt;/code> 方法返回一个日志级别切片，Logrus 记录的日志级别如果存在于切片中，则会触发 Hooks，即调用 &lt;code>Fire&lt;/code> 方法。&lt;/p>
+&lt;p>为&lt;code>logrus&lt;/code>设置钩子（Hooks），符合&lt;code>[]Level&lt;/code>的日志输出前都会执行钩子的特定方法（&lt;code>Fire&lt;/code> 方法）。所以，我们可以实现添加输出字段、根据级别将日志输出到不同的目的地。&lt;/p>
+&lt;p>并且hook函数会在输出日志之前执行。&lt;/p>
+&lt;p>Entry是当前日志条目（当前输出日志对象）。是结构体类型，定义如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Entry&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Logger&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Logger&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Contains all the fields set by the user.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Data&lt;/span> &lt;span class="nx">Fields&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Time at which the log entry was created
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Time&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Time&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Level the log entry was logged at: Trace, Debug, Info, Warn, Error, Fatal or Panic
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// This field will be set on entry firing and the value will be equal to the one in Logger struct field.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Level&lt;/span> &lt;span class="nx">Level&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Calling method, with package name
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Caller&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">runtime&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Frame&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Message passed to Trace, Debug, Info, Warn, Error, Fatal or Panic
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Message&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// When formatter is called in entry.log(), a Buffer may be set to entry
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Buffer&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">bytes&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Buffer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Contains the context set by the user. Useful for hook processing etc.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Context&lt;/span> &lt;span class="nx">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// err may contain a field formatting error
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>常用的属性是：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>Data Fields&lt;/code>是日志条目中所有的字段，Fields类型是&lt;code>type Fields map[string]interface{}&lt;/code>。&lt;/li>
+&lt;li>&lt;code>Logger *Logger&lt;/code>记录该日志条目的logger。&lt;/li>
+&lt;li>单条日志条目信息都保存在Entry结构体中。如，创建时间、日志级别、日志消息等。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;code>logrus&lt;/code>也内置了一个&lt;code>syslog&lt;/code>的钩子，将日志输出到系统日志&lt;code>syslog&lt;/code>中。它不适用用windows的系统日志。&lt;/p>
+&lt;p>Logrus 内置 Hooks 列表：https://github.com/sirupsen/logrus/tree/master/hooks&lt;/p>
+&lt;h3 id="自定义hook">
+&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89hook" class="header-anchor">#&lt;/a>
+自定义Hook
+&lt;/h3>&lt;h4 id="利用hook添加字段">
+&lt;a href="#%e5%88%a9%e7%94%a8hook%e6%b7%bb%e5%8a%a0%e5%ad%97%e6%ae%b5" class="header-anchor">#&lt;/a>
+利用Hook添加字段
+&lt;/h4>&lt;p>这里我们实现一个钩子，在输出的日志中增加一个&lt;code>app=awesome-web&lt;/code>字段。&lt;/p>
+&lt;p>示例代码如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">AppHook&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">AppName&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">h&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">AppHook&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Levels&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Level&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AllLevels&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">h&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">AppHook&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Fire&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">entry&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Entry&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">entry&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Data&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s">&amp;#34;app&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">h&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AppName&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="kc">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">h&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">AppHook&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">AppName&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;awesome-web&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddHook&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">h&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithField&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;user info&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>非标准TTY运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">run&lt;/span> &lt;span class="nx">main&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">go&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-10T22:58:42+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">info&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span> &lt;span class="nx">app&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">awesome&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nx">web&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-10T22:58:42+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">warning&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;user info&amp;#34;&lt;/span> &lt;span class="nx">app&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">awesome&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nx">web&lt;/span> &lt;span class="nx">username&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">arlettebro&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">ok&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>总结：添加钩子（hook），只需要创建一个结构体实现&lt;code>Hook&lt;/code>接口，在Levels方法中设置触发hook函数的条件（日志级别），在Fire方法中定义hook函数行为。然后创建对象，利用&lt;code>AddHook(hook Hook)&lt;/code>将hook注册到logger当中。&lt;/p>
+&lt;h4 id="利用hook模拟邮件发送">
+&lt;a href="#%e5%88%a9%e7%94%a8hook%e6%a8%a1%e6%8b%9f%e9%82%ae%e4%bb%b6%e5%8f%91%e9%80%81" class="header-anchor">#&lt;/a>
+利用Hook模拟邮件发送
+&lt;/h4>&lt;p>代码如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddHook&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">EmailHook&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">EmailHook&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span> &lt;span class="nx">EmailHook&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Levels&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Level&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AllLevels&lt;/span> &lt;span class="c1">// 所有日志都发送到邮件
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span> &lt;span class="nx">EmailHook&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Fire&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">entry&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Entry&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 添加一个邮箱字段标识
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">entry&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Data&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s">&amp;#34;app&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;email&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 获取日志条目
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">entry&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">String&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 模拟发送邮件
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;fakeSendEmail: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="kc">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;info msg&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithField&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;user info&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fakeSendEmail: &lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;app&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;email&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;info&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;info msg&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-10T23:22:13+08:00&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;app&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;email&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;info&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;info msg&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-10T23:22:13+08:00&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fakeSendEmail: &lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;app&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;email&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;warning&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;user info&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-10T23:22:13+08:0
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">0&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;username&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;app&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;email&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;warning&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;user info&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-10T23:22:13+08:00&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;username&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">arlettebrook&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以发现，在打印每条日志之前，都会执行Hook函数，也就是实现了发送邮件。&lt;/p>
+&lt;h3 id="第三方hook">
+&lt;a href="#%e7%ac%ac%e4%b8%89%e6%96%b9hook" class="header-anchor">#&lt;/a>
+第三方Hook
+&lt;/h3>&lt;p>&lt;code>logrus&lt;/code>的第三方 Hook 有很多，我们可以使用一些现成的 Hook 。如：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/weekface/mgorus" target="_blank" rel="noopener"
+>mgorus&lt;/a>：将日志发送到 mongodb；&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/rogierlommers/logrus-redis-hook" target="_blank" rel="noopener"
+>logrus-redis-hook&lt;/a>：将日志发送到 redis；&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/vladoatanasov/logrus_amqp" target="_blank" rel="noopener"
+>logrus-amqp&lt;/a>：将日志发送到 ActiveMQ。&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/orandin/lumberjackrus" target="_blank" rel="noopener"
+>lumberjackrus&lt;/a> ：实现了日志切割和归档功能，并且能够将不同级别的日志输出到不同文件。&lt;code>lumberjackrus&lt;/code> 是专门为 Logrus 而打造的文件日志 Hooks，其官方介绍为 &lt;code>local filesystem hook for Logrus&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;p>更多过内容请参考官方提供的&lt;a class="link" href="https://github.com/sirupsen/logrus/wiki/Hooks" target="_blank" rel="noopener"
+>第三方开发的 Hooks 列表&lt;/a>。&lt;/p>
+&lt;h4 id="lumberjackrus">
+&lt;a href="#lumberjackrus" class="header-anchor">#&lt;/a>
+lumberjackrus
+&lt;/h4>&lt;p>&lt;a class="link" href="https://github.com/orandin/lumberjackrus" target="_blank" rel="noopener"
+>lumberjackrus&lt;/a> ：实现了日志切割和归档功能，并且能够将不同级别的日志输出到不同文件。&lt;code>lumberjackrus&lt;/code> 是专门为 Logrus 而打造的文件日志 Hooks，其官方介绍为 &lt;code>local filesystem hook for Logrus&lt;/code>。&lt;/p>
+&lt;p>用于记录到本地文件系统的钩子（使用 logrotate 和可以将不同的日志级保存到一个文件）&lt;/p>
+&lt;p>lumberjackrus是一个第三方包，使用要先安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">get&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="nx">u&lt;/span> &lt;span class="nx">github&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">com&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">orandin&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">lumberjackrus&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>示例如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/orandin/lumberjackrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">TextFormatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetLevel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DebugLevel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">hook&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">lumberjackrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewHook&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">lumberjackrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">LogFile&lt;/span>&lt;span class="p">{&lt;/span> &lt;span class="c1">// 未指定级别的日志保存的文件，属性都是optional
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Filename&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;./tmp/general.log&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 路径+文件名，默认当前目录名字&amp;lt;processName&amp;gt;-lumberjack.log
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">MaxSize&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 文件最大占用，单位MB，默认100MB
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">MaxBackups&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 文件最大备份数，默认不限制
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">MaxAge&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 备份文件保存的天数，默认永久
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">Compress&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 是否压缩，默认false
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">LocalTime&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 文件启用本地时间，默认utc，
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">InfoLevel&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// 定义写入文件的日志级别
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{},&lt;/span> &lt;span class="c1">// 日志格式Formatter
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">lumberjackrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">LogFileOpts&lt;/span>&lt;span class="p">{&lt;/span> &lt;span class="c1">// 根据日志级别指定保存位置
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">InfoLevel&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">lumberjackrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">LogFile&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Filename&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;./tmp/info/info.log&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">MaxSize&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">MaxBackups&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">MaxAge&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Compress&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">LocalTime&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ErrorLevel&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">lumberjackrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">LogFile&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Filename&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;./tmp/error/error.log&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">panic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddHook&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">hook&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Debug&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Debug message&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// It is not written to a file (because debug level &amp;lt; minLevel)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Info message&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// Written in ./tmp/info.log
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Warn&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Warn message&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// Written in ./tmp/general.log
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Error message&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// Written in ./tmp/error.log
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行，在非标准TTY中输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">run&lt;/span> &lt;span class="nx">main&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">go&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-11T10:49:22+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">debug&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;Debug message&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-11T10:49:22+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">info&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;Info message&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-11T10:49:22+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="nx">warning&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;Warn message&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">time&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;2024-05-11T10:49:22+08:00&amp;#34;&lt;/span> &lt;span class="nx">level&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="kt">error&lt;/span> &lt;span class="nx">msg&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s">&amp;#34;Error message&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>并且还会再当前目录下生成&lt;code>tmp/general.log, tmp/info, tmp/error&lt;/code>,里面的格式为json。debug日志没有写入文件。&lt;code>info.log&lt;/code>文件内容如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>&lt;span class="nt">&amp;#34;level&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;info&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="nt">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;Info message&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="nt">&amp;#34;time&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;2024-05-11T10:49:22+08:00&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>至此，我们使用&lt;code>lumberjackrus&lt;/code>实现了&lt;strong>日志轮询&lt;/strong>以及&lt;strong>分级别保存&lt;/strong>。这个钩子，实现日志轮询是基于&lt;code>lumberjack&lt;/code>库实现的。&lt;/p>
+&lt;p>使用这个钩子，我们只需要利用&lt;code>NewHook(defaultLogger *LogFile, minLevel logrus.Level, formatter logrus.Formatter, opts *LogFileOpts) (*Hook, error)&lt;/code>创建对象，将对象添加logger中即可使用。代码中有对参数的介绍。最后一个参数（本质是map类型）如果为&lt;code>nil&lt;/code>或者为空map，那么日志将不会分级别保存，都会保存到&lt;code>defaultLogger&lt;/code>指定的文件中。&lt;/p>
+&lt;h4 id="logrus-redis-hook">
+&lt;a href="#logrus-redis-hook" class="header-anchor">#&lt;/a>
+logrus-redis-hook
+&lt;/h4>&lt;p>下面演示利用hook将日志发送到redis，我们用到的包是&lt;a class="link" href="https://github.com/rogierlommers/logrus-redis-hook" target="_blank" rel="noopener"
+>logrus-redis-hook&lt;/a>, 先安装&lt;code>logrus-redis-hook&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go get -u github.com/rogierlommers/logrus-redis-hook
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>默认你已经安装好了redis并且启动了它，如果你想了解redis，可以参考我的另一篇文章&lt;a class="link" href="https://arlettebrook.github.io/p/redis-introduction/" target="_blank" rel="noopener"
+>《Redis Introduction》&lt;/a>。&lt;/p>
+&lt;p>然后编写程序：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;io&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logredis&lt;/span> &lt;span class="s">&amp;#34;github.com/rogierlommers/logrus-redis-hook&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/sirupsen/logrus&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetFormatter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">JSONFormatter&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">hookConfig&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">logredis&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">HookConfig&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Host&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;192.168.245.130&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Password&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;123456&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Key&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;demo_log&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Format&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;v0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">App&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;awesome_demo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Port&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">6379&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Hostname&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;localhost&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// will be sent to field @source_host
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">DB&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">// optional
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">TTL&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">3600&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">hook&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">logredis&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewHook&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">hookConfig&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddHook&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">hook&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Errorf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;logredis error: %q&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// when hook is injected successfully, logs will be sent to redis server
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;just some info logging...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// we also support log.WithFields()
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithFields&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Fields&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;animal&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;walrus&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;foo&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;bar&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;this&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;that&amp;#34;&lt;/span>&lt;span class="p">}).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;additional fields are being logged as well&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// If you want to disable writing to stdout, use setOutput
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetOutput&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">io&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Discard&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">logrus&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Info&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;This will only be sent to Redis&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意：请连接你自己的redis。&lt;/p>
+&lt;p>运行程序后，终端输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;info&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;just some info logging...&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-11T11:56:17+08:00&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;animal&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;walrus&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;foo&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;bar&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;info&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;additional fields are being logged as well&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">this&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;that&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;time&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-11T11:56:17+08:00&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们使用&lt;code>redis-cli&lt;/code>查看：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">127.0.0.1:6379&lt;span class="o">[&lt;/span>1&lt;span class="o">]&lt;/span>&amp;gt; lrange demo_log &lt;span class="m">0&lt;/span> -1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">1&lt;span class="o">)&lt;/span> &lt;span class="s2">&amp;#34;{\&amp;#34;@fields\&amp;#34;:{\&amp;#34;application\&amp;#34;:\&amp;#34;awesome_demo\&amp;#34;,\&amp;#34;level\&amp;#34;:\&amp;#34;info\&amp;#34;},\&amp;#34;@message\&amp;#34;:\&amp;#34;just some info logging...\&amp;#34;,\&amp;#34;@source_host\&amp;#34;:\&amp;#34;localhost\&amp;#34;,\&amp;#34;@timestamp\&amp;#34;:\&amp;#34;2024-05-11T03:56:17.867867Z\&amp;#34;}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2&lt;span class="o">)&lt;/span> &lt;span class="s2">&amp;#34;{\&amp;#34;@fields\&amp;#34;:{\&amp;#34;animal\&amp;#34;:\&amp;#34;walrus\&amp;#34;,\&amp;#34;application\&amp;#34;:\&amp;#34;awesome_demo\&amp;#34;,\&amp;#34;foo\&amp;#34;:\&amp;#34;bar\&amp;#34;,\&amp;#34;level\&amp;#34;:\&amp;#34;info\&amp;#34;,\&amp;#34;this\&amp;#34;:\&amp;#34;that\&amp;#34;},\&amp;#34;@message\&amp;#34;:\&amp;#34;additional fields are being logged as well\&amp;#34;,\&amp;#34;@source_host\&amp;#34;:\&amp;#34;localhost\&amp;#34;,\&amp;#34;@timestamp\&amp;#34;:\&amp;#34;2024-05-11T03:56:17.933777Z\&amp;#34;}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">3&lt;span class="o">)&lt;/span> &lt;span class="s2">&amp;#34;{\&amp;#34;@fields\&amp;#34;:{\&amp;#34;application\&amp;#34;:\&amp;#34;awesome_demo\&amp;#34;,\&amp;#34;level\&amp;#34;:\&amp;#34;info\&amp;#34;},\&amp;#34;@message\&amp;#34;:\&amp;#34;This will only be sent to Redis\&amp;#34;,\&amp;#34;@source_host\&amp;#34;:\&amp;#34;localhost\&amp;#34;,\&amp;#34;@timestamp\&amp;#34;:\&amp;#34;2024-05-11T03:56:17.9351074Z\&amp;#34;}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们看到&lt;code>demo_log&lt;/code>是一个&lt;code>list&lt;/code>，每过来一条日志，就在&lt;code>list&lt;/code>后新增一项。&lt;/p>
+&lt;p>默认的logger是输出到stderr，但修改为discard，将不会输出到任何地方，但是钩子依然执行。因为钩子里面指定发送到的是redis，不受影响。&lt;/p>
+&lt;hr>
+&lt;h2 id="总结">
+&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
+总结
+&lt;/h2>&lt;p>本文介绍了 Logrus 的基本特点，以及如何使用。&lt;/p>
+&lt;p>Logrus 完全兼容 log 标准库，所以可以实现无缝替换。其 API 设计思路跟 log 标准库的风格也有很多相似之处，都提供了一个默认的 &lt;code>std&lt;/code> 日志对象达到开箱即用的效果。Logrus 最实用的两个功能，一个是支持结构化日志，一个是支持 Hooks 机制，这极大的提升了可用性和灵活性，也使得 Logrus 成为最受欢迎的 Go 日志库。&lt;/p>
+&lt;hr>
+&lt;h2 id="参考">
+&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
+参考
+&lt;/h2>&lt;blockquote>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://github.com/sirupsen/logrus" target="_blank" rel="noopener"
+>logrus&lt;/a> GitHub 仓库&lt;/li>
+&lt;li>&lt;a class="link" href="https://darjun.github.io/2020/02/07/godailylib/logrus/" target="_blank" rel="noopener"
+>Go 每日一库之 logrus&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://jianghushinian.cn/2023/03/15/use-of-logrus-in-go-third-party-log-library/" target="_blank" rel="noopener"
+>Go 第三方 log 库之 logrus 使用&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/blockquote></description></item><item><title>Fsnotify Introduction</title><link>https://arlettebrook.github.io/p/fsnotify-introduction/</link><pubDate>Wed, 08 May 2024 15:49:50 +0800</pubDate><guid>https://arlettebrook.github.io/p/fsnotify-introduction/</guid><description>&lt;blockquote>
 &lt;p>Viper 可以监听文件修改进而自动重新加载。 其内部使用的就是&lt;code>fsnotify&lt;/code>这个库，它是跨平台的。&lt;code>fs&lt;/code>是filesystem的缩写，翻译过来就是文件系统通知。能够监听文件的修改，进而发送通知。今天我们就来介绍一下&lt;a class="link" href="https://github.com/fsnotify/fsnotify" target="_blank" rel="noopener"
 >fsnotify&lt;/a>。&lt;/p>
 &lt;/blockquote>
