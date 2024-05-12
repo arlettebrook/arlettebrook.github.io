@@ -1,0 +1,697 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Go第三方库之从.env文件加载环境变量。"><title>Godotenv Introduction</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/godotenv-introduction/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Godotenv Introduction"><meta property='og:description' content="Go第三方库之从.env文件加载环境变量。"><meta property='og:url' content='https://arlettebrook.github.io/p/godotenv-introduction/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go第三方库'><meta property='article:published_time' content='2024-05-12T14:29:33+08:00'><meta property='article:modified_time' content='2024-05-12T14:29:33+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Godotenv Introduction"><meta name=twitter:description content="Go第三方库之从.env文件加载环境变量。"><link rel="shortcut icon" href=/img/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#简介>简介</a></li><li><a href=#快速使用>快速使用</a></li><li><a href=#基本使用>基本使用</a><ol><li><a href=#自动加载>自动加载</a></li><li><a href=#加载自定义文件>加载自定义文件</a></li><li><a href=#注释>注释</a></li><li><a href=#yaml>YAML</a></li><li><a href=#不存入环境变量>不存入环境变量</a><ol><li><a href=#从文件读取>从文件读取</a></li><li><a href=#从string-byte中读取配置>从<code>string, byte</code>中读取配置</a></li><li><a href=#从ioreader获取配置>从<code>io.Reader</code>获取配置</a></li></ol></li></ol></li><li><a href=#生成env文件or字符串>生成<code>.env</code>文件or字符串</a></li><li><a href=#命令行模式>命令行模式</a></li><li><a href=#指定环境启动>指定环境启动</a></li><li><a href=#一点源码>一点源码</a></li><li><a href=#总结>总结</a></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#f97300;color:#fff>Go
+</a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#41b06e;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/godotenv-introduction/>Godotenv Introduction</a></h2><h3 class=article-subtitle>Go第三方库之从.env文件加载环境变量。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 12, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 8 分钟</time></div></footer></div></header><section class=article-content><hr><h2 id=简介><a href=#%e7%ae%80%e4%bb%8b class=header-anchor>#</a>
+简介</h2><p><a class=link href=https://12factor.net/ target=_blank rel=noopener>twelve-factor</a>应用提倡将配置存储在环境变量中。任何从开发环境切换到生产环境时需要修改的东西都从代码抽取到环境变量里。 但是在实际开发中，如果同一台机器运行多个项目，设置环境变量容易冲突，不实用。<a class=link href=https://github.com/joho/godotenv target=_blank rel=noopener>godotenv</a>库从<code>.env</code>文件中读取配置， 然后存储到程序的环境变量中。在代码中可以使用读取非常方便。<code>godotenv</code>源于一个 Ruby 的开源项目<a class=link href=https://github.com/bkeepers/dotenv target=_blank rel=noopener>dotenv</a>。</p><hr><h2 id=快速使用><a href=#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+快速使用</h2><p>第三方库需要先安装：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go get -u github.com/joho/godotenv
+</span></span></code></pre></td></tr></table></div></div><p>后使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Load</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name：&#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;name&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;age：&#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;AGE&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>然后在可执行程序相同目录下，添加一个<code>.env</code>文件（可以给ide安装插件，检查<code>.env</code>文件语法，安装用的人多的。如GoLand：.env files support）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nv>NAME</span><span class=o>=</span>arlettebrook
+</span></span><span class=line><span class=cl><span class=nv>AGE</span><span class=o>=</span><span class=m>18</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行程序，输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go                                 
+</span></span><span class=line><span class=cl>name： arlettebrook
+</span></span><span class=line><span class=cl>age： <span class=m>18</span>
+</span></span></code></pre></td></tr></table></div></div><p>可见，使用非常方便。默认情况下，<code>godotenv</code>读取项目根目录下的<code>.env</code>文件，文件中使用<code>key=value</code>的格式，每行一个键值对。 调用<code>godotenv.Load()</code>即可加载，可直接调用<code>os.Getenv("key")</code>读取,<code>os.Getenv</code>是用来读取环境变量的：windows上不区分大小写，但环境变量通常都是大写，建议用大写。没找到返回空字符串。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;GOPATH&#34;</span><span class=p>))</span> <span class=c1>// 会返回GOPAHT环境变量的值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=基本使用><a href=#%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+基本使用</h2><h3 id=自动加载><a href=#%e8%87%aa%e5%8a%a8%e5%8a%a0%e8%bd%bd class=header-anchor>#</a>
+自动加载</h3><p>如果你有程序员的优良传统——懒，你可能连<code>Load</code>方法都不想自己调用。没关系，<code>godotenv</code>给你懒的权力！</p><p>导入<code>github.com/joho/godotenv/autoload</code>，配置会自动读取：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>_</span> <span class=s>&#34;github.com/joho/godotenv/autoload&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;NAME&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;age: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;AGE&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意，由于代码中没有显式用到<code>godotenv</code>库，需要使用空导入，即导入时包名前添加一个<code>_</code>。作用：自动调用<code>init</code>函数。</p><p>看<code>autoload</code>包的源码，其实就是库帮你调用了<code>Load</code>方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>autoload</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    You can just read the .env file on import just by doing
+</span></span></span><span class=line><span class=cl><span class=cm>
+</span></span></span><span class=line><span class=cl><span class=cm>       import _ &#34;github.com/joho/godotenv/autoload&#34;
+</span></span></span><span class=line><span class=cl><span class=cm>
+</span></span></span><span class=line><span class=cl><span class=cm>    And bob&#39;s your mother&#39;s brother
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>init</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Load</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>仔细看注释，程序员的恶趣味😂！</p><hr><h3 id=加载自定义文件><a href=#%e5%8a%a0%e8%bd%bd%e8%87%aa%e5%ae%9a%e4%b9%89%e6%96%87%e4%bb%b6 class=header-anchor>#</a>
+加载自定义文件</h3><p>默认情况下，加载的是项目根目录下的<code>.env</code>文件。当然我们可以加载任意名称的文件，文件也不必以<code>.env</code>为后缀：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Load</span><span class=p>(</span><span class=s>&#34;common&#34;</span><span class=p>,</span> <span class=s>&#34;.env.production&#34;</span><span class=p>,</span> <span class=s>&#34;.env.development&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;NAME&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;VERSION&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;database: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;DATABASE&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>common</code>文件内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nv>NAME</span><span class=o>=</span>awesome web
+</span></span><span class=line><span class=cl><span class=nv>VERSION</span><span class=o>=</span>0.0.1
+</span></span></code></pre></td></tr></table></div></div><p><code>.env.development</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nv>DATABASE</span><span class=o>=</span>sqlite
+</span></span></code></pre></td></tr></table></div></div><p><code>.env.production</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nv>DATABASE</span><span class=o>=</span>mysql
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>name:  awesome web
+</span></span><span class=line><span class=cl>version:  0.0.1
+</span></span><span class=line><span class=cl>database:  mysql
+</span></span></code></pre></td></tr></table></div></div><p>注意事项：</p><ol><li><code>Load</code>接收多个文件名作为参数，如果不传入文件名，默认读取<code>.env</code>文件的内容。</li><li>当指定了环境变量文件，默认的<code>.env</code>文件会失效，除非你加进去。</li><li>如果多个文件中存在同一个键，那么先出现的优先，后出现的不生效。所以，上面输出的<code>database</code>是mysql。<ol><li>原因：先出现的已经加载到环境变量中了，默认不会覆盖环境变量中的值。</li></ol></li><li>使用<code>Load</code>方法加载的环境变量不会覆盖默认的环境变量，要覆盖请用<code>Overload</code>方法。<ol><li>使用这个加载，上面输出的<code>database</code>是sqlite。不信你可以试试&mldr;</li></ol></li><li>以上两种方法都会对环境变量的副本，进行添加或修改。后面会介绍，<a class=link href=#%e4%b8%8d%e5%ad%98%e5%85%a5%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f>不存入环境变量</a>。</li></ol><hr><h3 id=注释><a href=#%e6%b3%a8%e9%87%8a class=header-anchor>#</a>
+注释</h3><p><code>.env</code>文件中可以添加注释，注释以<code>#</code>开始，直到该行结束。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=err>#</span> <span class=nx>app</span> <span class=nx>name</span>
+</span></span><span class=line><span class=cl><span class=nx>NAME</span><span class=p>=</span><span class=nx>awesome</span> <span class=nx>web</span>
+</span></span><span class=line><span class=cl><span class=err>#</span> <span class=nx>current</span> <span class=nx>version</span>
+</span></span><span class=line><span class=cl><span class=nx>VERSION</span><span class=p>=</span><span class=mf>0.0.1</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h3 id=yaml><a href=#yaml class=header-anchor>#</a>
+YAML</h3><p><code>.env</code>文件还可以使用 YAML 格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>NAME</span><span class=p>:</span> <span class=err>&#39;</span><span class=nx>awesome</span> <span class=nx>web</span><span class=err>&#39;</span>
+</span></span><span class=line><span class=cl><span class=nx>VERSION</span><span class=p>:</span> <span class=mf>0.0.1</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>_</span> <span class=s>&#34;github.com/joho/godotenv/autoload&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;NAME&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;VERSION&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>name:  awesome web
+</span></span><span class=line><span class=cl>version:  0.0.1
+</span></span></code></pre></td></tr></table></div></div><p>注意：yaml格式不支持嵌套。官方解释：支持 YAML(ish) 风格。</p><hr><h3 id=不存入环境变量><a href=#%e4%b8%8d%e5%ad%98%e5%85%a5%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f class=header-anchor>#</a>
+不存入环境变量</h3><h4 id=从文件读取><a href=#%e4%bb%8e%e6%96%87%e4%bb%b6%e8%af%bb%e5%8f%96 class=header-anchor>#</a>
+从文件读取</h4><p><code>godotenv</code>允许不将<code>.env</code>文件内容存入环境变量，使用<code>godotenv.Read()</code>返回一个<code>map[string]string</code>，可直接使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>myEnv</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Read</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>myEnv</span><span class=p>[</span><span class=s>&#34;NAME&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>myEnv</span><span class=p>[</span><span class=s>&#34;VERSION&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意：</p><ol><li>环境配置文件中的键值对，会保存在返回的<code>map[string]string</code>中，键名与配置键必须同名。</li><li>直接操作<code>map</code>，简单直接！</li><li>这样就不会将环境配置文件中的变量存入环境变量。</li><li><code>Read</code>可以接收文件路径，用于指定配置文件。默认<code>./.env</code>,与<code>Load</code>一致。</li></ol><h4 id=从string-byte中读取配置><a href=#%e4%bb%8estring-byte%e4%b8%ad%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae class=header-anchor>#</a>
+从<code>string, byte</code>中读取配置</h4><p>除了读取文件，还可以从<code>string</code>中读取配置，它不会修改环境：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>stringContent</span> <span class=o>:=</span> <span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>name: awesome web
+</span></span></span><span class=line><span class=cl><span class=s>version: 0.0.1
+</span></span></span><span class=line><span class=cl><span class=s>`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>byteContent</span> <span class=o>:=</span> <span class=p>[]</span><span class=nb>byte</span><span class=p>(</span><span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>name: awesome web byte
+</span></span></span><span class=line><span class=cl><span class=s>version: 1.0.1`</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>myEnvWithString</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Unmarshal</span><span class=p>(</span><span class=nx>stringContent</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>myEnvWithByte</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>UnmarshalBytes</span><span class=p>(</span><span class=nx>byteContent</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>myEnvWithString</span><span class=p>[</span><span class=s>&#34;name&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>myEnvWithString</span><span class=p>[</span><span class=s>&#34;version&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;--------UnmarshalBytes--------&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>myEnvWithByte</span><span class=p>[</span><span class=s>&#34;name&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>myEnvWithByte</span><span class=p>[</span><span class=s>&#34;version&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ol><li>通过<code>Unmarshal</code>方法，可以从字符串中读取env文件。存储在返回值map[string]string类型中。</li><li>通过<code>UnmarshalBytes</code>方法，可以从字节切片中读取env文件。也是存储在map中。</li></ol><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>name:  awesome web
+</span></span><span class=line><span class=cl>version:  0.0.1
+</span></span><span class=line><span class=cl>--------UnmarshalBytes--------
+</span></span><span class=line><span class=cl>name:  awesome web byte
+</span></span><span class=line><span class=cl>version:  1.0.1
+</span></span></code></pre></td></tr></table></div></div><h4 id=从ioreader获取配置><a href=#%e4%bb%8eioreader%e8%8e%b7%e5%8f%96%e9%85%8d%e7%bd%ae class=header-anchor>#</a>
+从<code>io.Reader</code>获取配置</h4><p>除了以上方法外，还可以从<code>io.Reader</code>中读取env文件。这个也不会修改环境。</p><p>只要实现了<code>io.Reader</code>接口，就能作为数据源。可以从文件（<code>os.File</code>），网络（<code>net.Conn</code>），<code>bytes.Buffer</code>等多种来源读取：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bytes&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>file</span><span class=p>,</span> <span class=nx>_</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Open</span><span class=p>(</span><span class=s>&#34;.env&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>myEnv</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>myEnv</span><span class=p>[</span><span class=s>&#34;NAME&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>myEnv</span><span class=p>[</span><span class=s>&#34;VERSION&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span> <span class=o>:=</span> <span class=nx>bytes</span><span class=p>.</span><span class=nf>NewBuffer</span><span class=p>([]</span><span class=kt>byte</span><span class=p>{})</span>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=s>&#34;name: awesome web @buffer&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span><span class=p>.</span><span class=nf>Write</span><span class=p>([]</span><span class=kt>byte</span><span class=p>{</span><span class=sc>&#39;\n&#39;</span><span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=s>&#34;version: 0.0.1 @buffer&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>myEnv</span><span class=p>,</span> <span class=nx>err</span> <span class=p>=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>buf</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>myEnv</span><span class=p>[</span><span class=s>&#34;name&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>myEnv</span><span class=p>[</span><span class=s>&#34;version&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ol><li>通过<code>Parse</code>方法，可以中io中读取env文件。从字符串中读取是<code>Unmarshal</code>方法，二者不一样。</li><li>读取的配置都保存在map中，没有存入环境变量。map键与配置键必须同名。通过<code>os.Getenv</code>指定的可以不区分大小写，但建议大写。</li></ol><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>name:  awesome web
+</span></span><span class=line><span class=cl>version:  0.0.1
+</span></span><span class=line><span class=cl>name:  awesome web @buffer
+</span></span><span class=line><span class=cl>version:  0.0.1 @buffer
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=生成env文件or字符串><a href=#%e7%94%9f%e6%88%90env%e6%96%87%e4%bb%b6or%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-anchor>#</a>
+生成<code>.env</code>文件or字符串</h2><p>可以通过程序生成一个<code>.env</code>文件的内容，可以直接写入到文件中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bytes&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span> <span class=o>:=</span> <span class=nx>bytes</span><span class=p>.</span><span class=nf>NewBuffer</span><span class=p>([]</span><span class=kt>byte</span><span class=p>{})</span>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=s>&#34;NAME=awesome web @write&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span><span class=p>.</span><span class=nf>WriteByte</span><span class=p>(</span><span class=sc>&#39;\n&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>buf</span><span class=p>.</span><span class=nf>WriteString</span><span class=p>(</span><span class=s>&#34;VERSION=0.0.1 @write&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>envMap</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>buf</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Write</span><span class=p>(</span><span class=nx>envMap</span><span class=p>,</span> <span class=s>&#34;./write.env&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>stringEnv</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Marshal</span><span class=p>(</span><span class=nx>envMap</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>stringEnv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ol><li>通过<code>Write</code>方法，可以将map中的环境变量，写入到指定文件中。</li><li>通过<code>Marshal</code>方法，可以将map中的环境变量，序列化成字符串</li></ol><p>运行会在当前目录下生成<code>write.env</code>文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-toml data-lang=toml><span class=line><span class=cl><span class=nx>NAME</span><span class=p>=</span><span class=s2>&#34;awesome web @write&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>VERSION</span><span class=p>=</span><span class=s2>&#34;0.0.1 @write&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>TTY输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl><span class=nv>NAME</span><span class=o>=</span><span class=s2>&#34;awesome web @write&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>VERSION</span><span class=o>=</span><span class=s2>&#34;0.0.1 @write&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=命令行模式><a href=#%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%a8%a1%e5%bc%8f class=header-anchor>#</a>
+命令行模式</h2><p><code>godotenv</code>还提供了一个命令行的模式。要使用它，先要确保命令安装到<code>$GOPATH/bin</code>目录下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go install github.com/joho/godotenv/cmd/godotenv@latest
+</span></span></code></pre></td></tr></table></div></div><p>这个命令行程序，源码很简单，在<code>github.com/joho/godotenv/cmd/godotenv</code>路径下,用<code>flag</code>库解析的命令行参数。作用是读取env文件，写入环境变量中，<strong>不用在程序中调用godotenv</strong>。最后是通过<code>Exec</code>方法调用<code>Load</code>方法实现的。感兴趣的可以自己去看一下。</p><p>安装后之后可以查看帮助信息，大致为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ godotenv -h
+</span></span><span class=line><span class=cl>godotenv <span class=o>[</span>-o<span class=o>]</span> <span class=o>[</span>-f ENV_FILE_PATHS<span class=o>]</span> COMMAND_ARGS
+</span></span></code></pre></td></tr></table></div></div><ul><li>-o：是否覆盖环境变量，默认false</li><li>-f：字段env文件，默认./.env</li><li>剩余参数：启动的程序</li></ul><p>示例如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;NAME&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;VERSION&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;USERNAME&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>./.env</code>文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>NAME: <span class=s1>&#39;awesome web&#39;</span>
+</span></span><span class=line><span class=cl>VERSION: 0.0.1
+</span></span><span class=line><span class=cl>USERNAME: arlettebrook
+</span></span></code></pre></td></tr></table></div></div><p>使用godotenv命令启动程序,演示如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ godotenv go run main.go
+</span></span><span class=line><span class=cl>awesome web
+</span></span><span class=line><span class=cl>0.0.1
+</span></span><span class=line><span class=cl>Lenovo
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ godotenv -o go run main.go
+</span></span><span class=line><span class=cl>awesome web
+</span></span><span class=line><span class=cl>0.0.1
+</span></span><span class=line><span class=cl>arlettebrook
+</span></span></code></pre></td></tr></table></div></div><p>第一次没有覆盖USERNAME,第二次覆盖了。</p><p>通过godotenv命令行程序，我们可以不用再自己的程序中调用godotenv读取env文件。</p><hr><h2 id=指定环境启动><a href=#%e6%8c%87%e5%ae%9a%e7%8e%af%e5%a2%83%e5%90%af%e5%8a%a8 class=header-anchor>#</a>
+指定环境启动</h2><p>实践中，一般会根据<code>APP_ENV</code>环境变量的值加载不同的文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/joho/godotenv&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>env</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;LEARN_ENV&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>env</span> <span class=o>==</span> <span class=s>&#34;&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>env</span> <span class=p>=</span> <span class=s>&#34;development&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=o>:=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Load</span><span class=p>(</span><span class=s>&#34;.env.&#34;</span> <span class=o>+</span> <span class=nx>env</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>godotenv</span><span class=p>.</span><span class=nf>Load</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;name: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;NAME&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;version: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;VERSION&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;database: &#34;</span><span class=p>,</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Getenv</span><span class=p>(</span><span class=s>&#34;DATABASE&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>我们先读取环境变量<code>LEARN_ENV</code>，然后读取对应的<code>.env.</code> + env，最后读取默认的<code>.env</code>文件。</p><p>前面也提到过，先读取到的优先。我们可以在默认的<code>.env</code>文件中配置基础信息和一些默认的值， 如果在开发/测试/生产环境需要修改，那么在对应的<code>.env.development/.env.test/.env.production</code>文件中再配置一次即可。</p><p><code>.env</code>文件内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-YAML data-lang=YAML><span class=line><span class=cl><span class=nt>NAME</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;awesome web&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>VERSION</span><span class=p>:</span><span class=w> </span><span class=m>0.0.1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>DATABASE</span><span class=p>:</span><span class=w> </span><span class=l>mongodb</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><code>.env.development</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-SHELL data-lang=SHELL><span class=line><span class=cl><span class=nv>DATABASE</span><span class=o>=</span>sqlite
+</span></span></code></pre></td></tr></table></div></div><p><code>.env.production</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-YAML data-lang=YAML><span class=line><span class=cl><span class=l>DATABASE=mysql</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>运行输出演示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 默认是开发环境</span>
+</span></span><span class=line><span class=cl>$ go run main.go
+</span></span><span class=line><span class=cl>name:  awesome web
+</span></span><span class=line><span class=cl>version:  0.0.1
+</span></span><span class=line><span class=cl>database:  sqlite  <span class=c1># 用Load不会覆盖，所以表示mongodb</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 设置为生成环境</span>
+</span></span><span class=line><span class=cl>$ <span class=nv>LEARN_ENV</span><span class=o>=</span>production go run main.go
+</span></span><span class=line><span class=cl>name:  awesome web
+</span></span><span class=line><span class=cl>version:  0.0.1
+</span></span><span class=line><span class=cl>database:  mysql
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=一点源码><a href=#%e4%b8%80%e7%82%b9%e6%ba%90%e7%a0%81 class=header-anchor>#</a>
+一点源码</h2><p>(其实你应该提前看一下源码~)</p><p><code>godotenv</code>读取文件内容，为什么可以使用<code>os.Getenv</code>访问：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// github.com/joho/godotenv/godotenv.go
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>loadFile</span><span class=p>(</span><span class=nx>filename</span> <span class=kt>string</span><span class=p>,</span> <span class=nx>overload</span> <span class=kt>bool</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>envMap</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nf>readFile</span><span class=p>(</span><span class=nx>filename</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=k>return</span> <span class=nx>err</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>currentEnv</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>bool</span><span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>rawEnv</span> <span class=o>:=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Environ</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>rawEnvLine</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>rawEnv</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>key</span> <span class=o>:=</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>Split</span><span class=p>(</span><span class=nx>rawEnvLine</span><span class=p>,</span> <span class=s>&#34;=&#34;</span><span class=p>)[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>       <span class=nx>currentEnv</span><span class=p>[</span><span class=nx>key</span><span class=p>]</span> <span class=p>=</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=nx>key</span><span class=p>,</span> <span class=nx>value</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>envMap</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=k>if</span> <span class=p>!</span><span class=nx>currentEnv</span><span class=p>[</span><span class=nx>key</span><span class=p>]</span> <span class=o>||</span> <span class=nx>overload</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>_</span> <span class=p>=</span> <span class=nx>os</span><span class=p>.</span><span class=nf>Setenv</span><span class=p>(</span><span class=nx>key</span><span class=p>,</span> <span class=nx>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>因为<code>godotenv</code>调用<code>os.Setenv</code>将键值对设置到环境变量中了。就是在运行的时候修改了环境变量。</p><hr><h2 id=总结><a href=#%e6%80%bb%e7%bb%93 class=header-anchor>#</a>
+总结</h2><p>本文介绍了<code>godotenv</code>库的基础和高级用法。<code>godotenv</code>的源码也比较好读，有时间，有兴趣的童鞋建议一看~</p><hr><h2 id=参考><a href=#%e5%8f%82%e8%80%83 class=header-anchor>#</a>
+参考</h2><blockquote><ol><li>godotenv GitHub 仓库： <a class=link href=https://github.com/joho/godotenv target=_blank rel=noopener>https://github.com/joho/godotenv</a></li><li>原文：<a class=link href=https://darjun.github.io/2020/02/12/godailylib/godotenv/ target=_blank rel=noopener>Go 每日一库之 godotenv</a></li></ol></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/>Go第三方库</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/cast-introduction/><div class=article-details><h2 class=article-title>Cast Introduction</h2></div></a></article><article><a href=/p/logrus-introduction/><div class=article-details><h2 class=article-title>Logrus Introduction</h2></div></a></article><article><a href=/p/fsnotify-introduction/><div class=article-details><h2 class=article-title>Fsnotify Introduction</h2></div></a></article><article><a href=/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/><div class=article-details><h2 class=article-title>Go配置管理之第三方库viper</h2></div></a></article><article><a href=/p/go%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93cobra/><div class=article-details><h2 class=article-title>Go构建命令行程序之第三方库cobra</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2024 <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-hans target=_blank rel=noopener>博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
