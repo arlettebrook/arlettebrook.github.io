@@ -20,6 +20,11 @@ loading="lazy"
 &lt;p align='center'>
 &lt;a href='https://github.com/Arlettebrook/arlettebrook'>&lt;img src="https://arlettebrook.github.io/icon/GITHey.gif" width="50px" alt="Olaf" />&lt;/a>
 &lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/lowlighter/metrics" target="_blank" rel="noopener"
+>&lt;img src="https://raw.githubusercontent.com/arlettebrook/arlettebrook/main/github-metrics.svg"
+loading="lazy"
+alt="Stats"
+>&lt;/a>&lt;/p>
 &lt;p align="center">
 &lt;a href='https://github.com/arlettebrook'>
 &lt;img src="https://github-readme-stats.vercel.app/api?username=arlettebrook&amp;show_icons=true&amp;theme=onedark&amp;show=reviews,discussions_started,discussions_answered,prs_merged,prs_merged_percentage&amp;PAT_1"> &lt;/a>
@@ -35,12 +40,12 @@ loading="lazy"
 &lt;table align="center" border="0" cellspacing="5" cellpadding="0">
 &lt;tr>
 &lt;td>
-&lt;a href='https://github.com/arlettebrook/autoCheck-in'>
+&lt;a href='https://github.com/arlettebrook/arlettebrook'>
 &lt;img src='https://github-readme-stats.vercel.app/api/pin/?username=arlettebrook&amp;repo=autoCheck-in&amp;show_owner=true&amp;theme=buefy&amp;PAT_1'>
 &lt;/a>
 &lt;/td>
 &lt;td>
-&lt;a href='https://github.com/arlettebrook/arlettebrook'>
+&lt;a href='https://github.com/arlettebrook/my-blog'>
 &lt;img src='https://github-readme-stats.vercel.app/api/pin/?username=arlettebrook&amp;repo=arlettebrook&amp;show_owner=true&amp;theme=buefy&amp;PAT_1'>
 &lt;/a>
 &lt;/td>
@@ -48,7 +53,7 @@ loading="lazy"
 &lt;!-- 添加更多图片链接 -->
 &lt;tr>
 &lt;td>
-&lt;a href='https://github.com/arlettebrook/tencentVideoSign-in'>
+&lt;a href='https://github.com/arlettebrook/autoCheck-in'>
 &lt;img src='https://github-readme-stats.vercel.app/api/pin/?username=arlettebrook&amp;repo=tencentVideoSign-in&amp;show_owner=true&amp;theme=buefy&amp;PAT_1'>
 &lt;/a>
 &lt;/td>
