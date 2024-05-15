@@ -185,4 +185,348 @@ ln
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">localhost demo $
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>注意：测试环境是在Linux中，&lt;code>ln&lt;/code>命令并不适用于windows环境。创建的文件链接无效。&lt;/p></description></item></channel></rss>
+&lt;/div>&lt;p>注意：测试环境是在Linux中，&lt;code>ln&lt;/code>命令并不适用于windows环境。创建的文件链接无效。&lt;/p>
+&lt;hr>
+&lt;h2 id="curl">
+&lt;a href="#curl" class="header-anchor">#&lt;/a>
+curl
+&lt;/h2>&lt;p>&lt;code>curl&lt;/code>命令是一个利用URL规则在命令行下工作的文件传输工具，它支持文件的上传和下载，因此被视为综合传输工具，但传统上习惯称其为下载工具。curl支持包括HTTP、HTTPS、FTP等众多协议，并具备多种特性，如POST、cookies、认证、从指定偏移处下载部分文件、用户代理字符串、限速、文件大小、进度条等。这些特性使得curl在处理网页处理流程和数据检索自动化方面非常有用。&lt;/p>
+&lt;p>总结：用于发送网络请求，可以下载和上传文件。而&lt;code>wget&lt;/code>只能用于下载文件，但&lt;a class="link" href="#wget" >wget&lt;/a>下载文件的功能比&lt;code>curl&lt;/code>强大。&lt;/p>
+&lt;p>安装：&lt;/p>
+&lt;ol>
+&lt;li>linux系统：根据你的Linux发行版，使用相应的包管理器来安装curl。
+&lt;ul>
+&lt;li>对于Debian/Ubuntu系统，使用apt-get命令安装：&lt;code>sudo apt install curl&lt;/code>&lt;/li>
+&lt;li>对于CentOS/Fedora系统，使用yum命令安装：&lt;code>sudo yum install curl&lt;/code>&lt;/li>
+&lt;li>对于Arch Linux系统，使用pacman命令安装：&lt;code>sudo pacman -S curl&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>windows系统：
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://curl.se/download.html" target="_blank" rel="noopener"
+>官网&lt;/a>下载对应版本，添加一个CURL_HOME环境变量名，指向的是curl.exe文件所在路径。并将其添加到path环境变量中。&lt;/li>
+&lt;li>或者安装&lt;a class="link" href="https://www.msys2.org/" target="_blank" rel="noopener"
+>msys2&lt;/a>利用pacman包管理器安装。&lt;/li>
+&lt;li>或者安装&lt;a class="link" href="https://www.mingw-w64.org/downloads/#mingw-builds" target="_blank" rel="noopener"
+>Mingw&lt;/a>自带curl，Mingw也可以用msys2来安装。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>MacOS系统自带。&lt;/li>
+&lt;/ol>
+&lt;p>基本使用：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>curl命令的基本语法格式为：&lt;code>curl [选项] URL&lt;/code>。其中，URL是要请求的目标地址，而选项则用于指定各种参数和功能。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-X&lt;/code> 或 &lt;code>--request&lt;/code>：用于指定HTTP请求方法，如GET、POST、PUT、DELETE等。&lt;/p>
+&lt;ul>
+&lt;li>默认发送get请求。&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-SHELL" data-lang="SHELL">&lt;span class="line">&lt;span class="cl">curl -X POST http://example.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-H&lt;/code> 或 &lt;code>--header&lt;/code>: 添加自定义的 HTTP 头信息。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-SHELL" data-lang="SHELL">&lt;span class="line">&lt;span class="cl">curl -H &lt;span class="s2">&amp;#34;Content-Type: application/json&amp;#34;&lt;/span> http://example.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-d&lt;/code> 或 &lt;code>--data&lt;/code>: 发送 POST 请求时，将数据作为请求体发送。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-SHELL" data-lang="SHELL">&lt;span class="line">&lt;span class="cl">curl -d &lt;span class="s2">&amp;#34;param1=value1&amp;amp;param2=value2&amp;#34;&lt;/span> http://example.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对于 JSON 数据：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">curl -d &lt;span class="s1">&amp;#39;{&amp;#34;key1&amp;#34;:&amp;#34;value1&amp;#34;, &amp;#34;key2&amp;#34;:&amp;#34;value2&amp;#34;}&amp;#39;&lt;/span> -H &lt;span class="s2">&amp;#34;Content-Type: application/json&amp;#34;&lt;/span> http://example.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-F&lt;/code> 或 &lt;code>--form&lt;/code>: 用于发送 multipart/form-data 格式的数据，通常用于文件上传。&lt;/p>
+&lt;ul>
+&lt;li>参数&lt;code>&amp;quot;文件名=@path&amp;quot;&lt;/code>,还可以指定类型&lt;code>&amp;quot;文件名=@path;type=MIME&amp;quot;&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">curl -F &lt;span class="s2">&amp;#34;file=@filename.txt&amp;#34;&lt;/span> http://example.com/upload
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-o&lt;/code> 或 &lt;code>--output&lt;/code>: 将响应输出到文件，而不是显示在终端上。默认当前目录&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">curl -o output.html http://example.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>-O&lt;/code>: 将响应保存到本地文件，文件名与远程文件的文件名相同。在当前目录&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">curl -O http://example.com/file.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-s&lt;/code> 或 &lt;code>--silent&lt;/code>: 静默模式，不显示进度或错误消息。常用S组合使用，显示错误消息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-v&lt;/code> 或 &lt;code>--verbose&lt;/code>: 详细模式，显示详细的通信过程，包括请求头和响应头。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-i&lt;/code>: 显示响应头信息以及返回的内容 body。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-I&lt;/code>: 只显示响应头信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-u&lt;/code> 用户名:密码: 指定用户名和密码进行身份验证。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">curl -u username:password http://example.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-L&lt;/code>: 跟随重定向。当 HTTP 响应是一个重定向时，curl 会自动获取重定向后的内容。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-k&lt;/code> 或 &lt;code>--insecure&lt;/code>: 允许连接到不安全的 SSL 站点，即忽略 SSL 证书验证。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>常用组合：&lt;code>curl -fsSL&lt;/code>，默认get请求。&lt;/p>
+&lt;ul>
+&lt;li>f不显示客户端错误。&lt;/li>
+&lt;li>s不显示进度、错误消息。配合S显示错误消息&lt;/li>
+&lt;li>L接受重定向。&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="wget">
+&lt;a href="#wget" class="header-anchor">#&lt;/a>
+wget
+&lt;/h2>&lt;p>&lt;code>wget&lt;/code> 是一个在 Unix 和 Linux 系统上常用的命令行工具，用于从网络上下载文件。&lt;/p>
+&lt;p>优点：&lt;/p>
+&lt;ul>
+&lt;li>支持断点续传：如果下载过程中连接中断，可以在之后从断点处继续下载。&lt;/li>
+&lt;li>支持递归下载：可以下载网页上的所有链接文件，并重建目录结构。&lt;/li>
+&lt;li>强大的重试机制：在下载过程中如果网络出现问题，&lt;code>wget&lt;/code> 会自动重试，直到下载完成。&lt;/li>
+&lt;li>后台执行：支持在后台运行下载任务，用户无需保持登录状态。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a class="link" href="#curl" >curl&lt;/a>没有以上优点，但它支持更多的协议。wget只支持HTTP、HTTPS和FTP协议。curl使用更广泛。&lt;/p>
+&lt;p>安装：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>linux系统：根据你的Linux发行版，使用相应的包管理器来安装wget。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>对于Debian/Ubuntu系统，使用apt-get命令安装：&lt;code>sudo apt install wget&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>对于CentOS/Fedora系统，使用yum命令安装：&lt;code>sudo yum install wget&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>对于Arch Linux系统，使用pacman命令安装：&lt;code>sudo pacman -S wget&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>windows系统：&lt;/p>
+&lt;ul>
+&lt;li>官网&lt;a class="link" href="https://www.gnu.org/software/wget/" target="_blank" rel="noopener"
+>GNU Wget&lt;/a>下载安装或其他可靠的软件下载，然后路径添加到环境变量path中。&lt;/li>
+&lt;li>或者安装&lt;a class="link" href="https://www.msys2.org/" target="_blank" rel="noopener"
+>msys2&lt;/a>利用pacman包管理器安装。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>macos系统：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>对于macOS，使用&lt;a class="link" href="https://github.com/Homebrew/brew" target="_blank" rel="noopener"
+>Homebrew&lt;/a>包管理器来安装wget。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">brew&lt;/span> &lt;span class="nx">install&lt;/span> &lt;span class="nx">wget&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>基本使用：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>-b, &amp;ndash;background&lt;/strong>：在后台执行下载任务。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-c, &amp;ndash;continue&lt;/strong>：继续下载之前未完成的文件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-r, &amp;ndash;recursive&lt;/strong>：递归下载，下载指定 URL 中的所有链接。可以下载整个目录及其子目录。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">wget -r http://www.example.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意：在使用递归下载时，建议加上 &lt;code>-np&lt;/code> 和 &lt;code>-nH&lt;/code> 选项，以避免下载过多的不必要文件和创建复杂的目录结构。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-np, &amp;ndash;no-parent&lt;/strong>：不递归下载上级目录。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-nH, &amp;ndash;no-host-directories&lt;/strong>：不创建主机目录，将文件保存在当前目录。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-P DIRECTORY, &amp;ndash;directory-prefix=DIRECTORY&lt;/strong>：将下载的文件保存到指定的目录。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">wget -P /tmp http://www.example.com/file.zip
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-O FILE, &amp;ndash;output-document=FILE&lt;/strong>：将下载的文件保存为指定的文件名。如果存在会覆盖。&lt;code>-N&lt;/code>（时间戳检查），如果旧会覆盖，反之不会。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">wget -O new_file.zip http://www.example.com/file.zip
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-nc, &amp;ndash;no-clobber&lt;/strong>：如果文件已经存在，不覆盖原有文件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-nv, &amp;ndash;no-verbose&lt;/strong>：下载时只显示更新和出错信息，不显示详细的执行过程。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-v, &amp;ndash;verbose&lt;/strong>：详细模式，增加输出信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-q, &amp;ndash;quiet&lt;/strong>：静默模式，减少输出信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&amp;ndash;no-check-certificate&lt;/strong>：下载 HTTPS 网站资源时，跳过证书检测过程。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-t NUM 或 &amp;ndash;tries=NUM&lt;/strong>：指定最大尝试次数。如果下载失败，wget 会尝试重新下载指定的次数。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-U AGENT 或 &amp;ndash;user-agent=AGENT&lt;/strong>：指定 User-Agent 字符串。这可以用来伪装为不同的浏览器或客户端。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-N 或 &amp;ndash;timestamping&lt;/strong>：如果本地文件存在且时间戳较新，则不重新下载文件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-T SEC 或 &amp;ndash;timeout=SEC&lt;/strong>：指定超时时间（以秒为单位）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-A TYPES 或 &amp;ndash;accept=TYPES&lt;/strong>：指定下载文件的类型。例如，&lt;code>-A jpg,png,gif&lt;/code> 表示只下载 jpg、png 和 gif 文件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>-d 或 &amp;ndash;debug&lt;/strong>：打印调试输出。这会在标准错误上输出大量信息，通常用于诊断问题。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>常用组合：&lt;/p>
+&lt;p>&lt;code>wget -O-&lt;/code>:O表示指定文件名，后面-表示没有指定文件名，内容将输出到TTY。&lt;/p>
+&lt;p>通常配合&lt;code>bash -c &amp;quot;$(wget -O- url)&amp;quot;&lt;/code>运行脚本。url为脚本地址。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>其中$()表示在当前TTY中运行子命令，下载脚本。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[bash -c](#bash -c)表示将下载的字符串做为命令执行。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="bash--c">
+&lt;a href="#bash--c" class="header-anchor">#&lt;/a>
+bash -c
+&lt;/h3>&lt;p>&lt;code>bash -c&lt;/code> 命令用于在 Bash shell 中执行一个字符串作为命令。&lt;/p>
+&lt;p>基本语法：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">bash -c &lt;span class="s1">&amp;#39;command_string&amp;#39;&lt;/span> &lt;span class="o">[&lt;/span>arg0 &lt;span class="o">[&lt;/span>arg1 ...&lt;span class="o">]]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;code>command_string&lt;/code> 是你想要执行的命令字符串。&lt;/li>
+&lt;li>&lt;code>arg0&lt;/code>、&lt;code>arg1&lt;/code> 等是可选的，它们会被用作 &lt;code>$0&lt;/code>、&lt;code>$1&lt;/code>、&lt;code>$2&lt;/code> 等 shell 变量在 &lt;code>command_string&lt;/code> 内部。
+&lt;ul>
+&lt;li>注意这里的$0并不是脚本名或终端名，而是第一个参数。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>字符串可以用&lt;code>&amp;quot;&amp;quot;/''&lt;/code>，区别在于双引号会转义特殊字符，单引号不会。执行脚本时建议双引号。&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ bash -c &lt;span class="s1">&amp;#39;echo Hello, World!&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Hello, World!
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ bash -c &lt;span class="s1">&amp;#39;echo $0 $1&amp;#39;&lt;/span> bash &lt;span class="nb">test&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">bash &lt;span class="nb">test&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># bash -c &amp;#34;$(wget -O- https://gist.githubusercontent.com/lss233/2fdd75be3f0724739368d0dcd9d1367d/raw/62a790da4a391af096074b3355c2c2b7ecab3c28/chatgpt-mirai-installer-gocqhttp.sh)&amp;#34; chatgpt-qq-bot安装脚本&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr></description></item></channel></rss>
