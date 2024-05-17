@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/</link><description>Recent content in 技术 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</copyright><lastBuildDate>Wed, 08 May 2024 19:24:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Common Commands</title><link>https://arlettebrook.github.io/p/linux-common-commands/</link><pubDate>Wed, 08 May 2024 19:24:26 +0800</pubDate><guid>https://arlettebrook.github.io/p/linux-common-commands/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/</link><description>Recent content in 技术 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Wed, 08 May 2024 19:24:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Common Commands</title><link>https://arlettebrook.github.io/p/linux-common-commands/</link><pubDate>Wed, 08 May 2024 19:24:26 +0800</pubDate><guid>https://arlettebrook.github.io/p/linux-common-commands/</guid><description>&lt;blockquote>
 &lt;p>Linux常用命令有很多，本文不会逐个介绍。以下命令是我在后期使用中遇到的，算是我对Linux常用命令的补充、回顾、总结。本篇文章阅读需要一定的Linux基础。更多常见命令可参考：&lt;a class="link" href="https://wiki.deepin.org/zh/04_%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98FAQ/600%E6%9D%A1Linux%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93" target="_blank" rel="noopener"
 >600条Linux命令总结&lt;/a>。&lt;/p>
 &lt;p>&lt;strong>持续更新中&amp;hellip;&lt;/strong>&lt;/p>
@@ -1559,6 +1559,55 @@ go modules模块导入
 &lt;p>还是与语义化版本规范有关，v0属于开发初始阶段，其公共api不被视为稳定版，当版本到达v1，其公共api基本确定，在此之后如果不出现不兼容api的修改，是不会修改主版本号的。后续的次版本、修订号会向下兼容。这是官方所鼓励的。当api做了不兼容的修改，主版本号就会修改。&lt;strong>为了不出现冲突就会加上主版本标识&lt;/strong>。&lt;/p>
 &lt;/li>
 &lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="gopkgin介绍">
+&lt;a href="#gopkgin%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
+gopkg.in介绍
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>gopkg.in&lt;/code>是旧go包管理工具中的一个，并不是官方包管理工具。作用是下载时重定向到相应github仓库。优点是： URL 更干净、更短、导入路径稳定、易于使用、支持版本控制。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>浏览器打开链接，会提供对应包的godoc在线链接以及github仓库链接。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>gopkg.in/ini.v1&lt;/code>对应github仓库为&lt;code>githu.com/go-ini/ini&lt;/code>，当没有指定用户名时，用户名默认为&lt;code>go-包名&lt;/code>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">gopkg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">in&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">pkg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">v3&lt;/span> &lt;span class="err">→&lt;/span> &lt;span class="nx">github&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">com&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="k">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nx">pkg&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nf">pkg&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">branch&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">tag&lt;/span> &lt;span class="nx">v3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">v3&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">N&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">or&lt;/span> &lt;span class="nx">v3&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">N&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">M&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">gopkg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">in&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">pkg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">v3&lt;/span> &lt;span class="err">→&lt;/span> &lt;span class="nx">github&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">com&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nf">pkg&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">branch&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">tag&lt;/span> &lt;span class="nx">v3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">v3&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">N&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">or&lt;/span> &lt;span class="nx">v3&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">N&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">M&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>版本控制用&lt;code>.vNumber&lt;/code>表示.。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>与&lt;code>go modules&lt;/code>的区别：&lt;/p>
+&lt;ul>
+&lt;li>v1&lt;code>gopkg.in&lt;/code>必须指定。&lt;code>go mod&lt;/code>不用。&lt;/li>
+&lt;li>&lt;code>gopkg.in&lt;/code>分隔符是&lt;code>.&lt;/code>（&lt;code>go mod&lt;/code>是&lt;code>/&lt;/code>）。&lt;/li>
+&lt;li>v0为开发版、不稳定版，不指定默认为开发版，&lt;code>go mod&lt;/code>不指定默认为v0或v1。&lt;/li>
+&lt;li>&lt;code>gopkg.in&lt;/code>主版本为1就要指定主版本标识。&lt;code>go mod&lt;/code>主版本为2才需要指定。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>如何让&lt;code>gopkg.in&lt;/code>收录自己的模块：&lt;/p>
+&lt;ul>
+&lt;li>与&lt;code>go mod&lt;/code>一样，当我们使用&lt;code>go get&lt;/code>下载已经存在的版本仓库时，会自动同步到在线的&lt;a class="link" href="https://pkg.go.dev/" target="_blank" rel="noopener"
+>godoc&lt;/a>中。&lt;/li>
+&lt;li>建议仓库名与用户名关系是&lt;code>pkg&lt;/code>与&lt;code>go-pkg&lt;/code>，推荐&lt;code>gopkg.in&lt;/code>。当然也可以直接使用github仓库路径。&lt;/li>
+&lt;li>其他情况可以使用&lt;code>go mod&lt;/code>。并通过像 &lt;code>proxy.golang.org&lt;/code> 这样的代理服务器来分发你的模块。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>gopkg.in&lt;/code>版本控制同样遵循[语义化版本控制](#Go Module 语义化版本规范)。&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;hr>
