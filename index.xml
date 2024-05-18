@@ -24330,16 +24330,137 @@ ssh-keygen
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">opengraph&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">twitter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Your Twitter username&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">site&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">JinliCyou&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">site&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">arlettebrook&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Available values: summary, summary_large_image&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">card&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">summary_large_image&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这样，Hugo在生成和部署网站时就会在网页HTML文件中自动嵌入OG标签。&lt;/p>
+&lt;h4 id="谷歌搜索优化">
+&lt;a href="#%e8%b0%b7%e6%ad%8c%e6%90%9c%e7%b4%a2%e4%bc%98%e5%8c%96" class="header-anchor">#&lt;/a>
+谷歌搜索优化
+&lt;/h4>&lt;p>在将我们的站点信息提交给谷歌时，谷歌需要验证我们对网站的所有权。验证方式有好几种，例如&lt;/p>
+&lt;ul>
+&lt;li>在网站根目录下放一个谷歌生成的验证文件&lt;/li>
+&lt;li>在网页HTML文件头部嵌入谷歌生成的特定标签&lt;/li>
+&lt;li>使用谷歌分析的Tracking ID（或者Measurement ID）&lt;/li>
+&lt;/ul>
+&lt;p>由于stack主题集成了对谷歌分析的支持，这里我们使用第三种验证方式。&lt;/p>
+&lt;h5 id="开启谷歌分析">
+&lt;a href="#%e5%bc%80%e5%90%af%e8%b0%b7%e6%ad%8c%e5%88%86%e6%9e%90" class="header-anchor">#&lt;/a>
+开启谷歌分析
+&lt;/h5>&lt;p>&lt;a class="link" href="https://analytics.google.com/analytics/web/provision/#/provision" target="_blank" rel="noopener"
+>谷歌分析&lt;/a>（Google Analytics）是一个分析网站流量的工具，用它可以统计网站的访问量等信息。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>首先前往谷歌分析官网注册谷歌分析的账号，也可以直接用已有的谷歌账号登录。现在的谷歌分析一般是谷歌分析4（Google Analytics 4），使用Measurement ID而非之前的Tracking ID来跟踪网站。&lt;/p>
+&lt;p>参考：&lt;a class="link" href="https://www.yundianseo.com/how-to-use-google-analytics/" target="_blank" rel="noopener"
+>谷歌分析（Google Analytics）最新使用教程&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>获取Measurement ID。具体可参见谷歌分析的&lt;a class="link" href="https://support.google.com/analytics/answer/9539598" target="_blank" rel="noopener"
+>帮助文档&lt;/a>。下面是具体操作：&lt;/p>
+&lt;ul>
+&lt;li>在用户首页找到“Admin“选项，新建一个“Property”，按照说明填入必要的信息。&lt;/li>
+&lt;li>然后点击“Property”这一列中的“Data Streams”选项。&lt;/li>
+&lt;li>点击“Add stream”，选择“Web”，填入你的网站域名和网站名字。&lt;/li>
+&lt;li>再在“Property”页面点击刚添加的stream，就能看到一个以“G-”开头的Measurement ID。记录下你的网站的Measurement ID。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>在网站根目录下的&lt;code>config/_default/config.yaml&lt;/code>配置文件中找到“googleAnalytics&amp;quot;配置项，填入你的Measurement ID。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">#&lt;/span> &lt;span class="nx">GA&lt;/span> &lt;span class="nx">Tracking&lt;/span> &lt;span class="nx">ID&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">googleAnalytics&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">G&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nx">measuremntID&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h5 id="提交站点地图">
+&lt;a href="#%e6%8f%90%e4%ba%a4%e7%ab%99%e7%82%b9%e5%9c%b0%e5%9b%be" class="header-anchor">#&lt;/a>
+提交站点地图
+&lt;/h5>&lt;p>站点地图（Site Map）是一个存储有站点网页信息的XML数据文件，通常命名为&lt;code>sitemap.xml&lt;/code>，将它提交给搜索引擎，搜索引擎将可以获取我们网站的网页信息。&lt;/p>
+&lt;p>Hugo会在生成和部署网站时在&lt;code>public&lt;/code>文件夹下自动生成&lt;code>sitemap.xml&lt;/code>文件。&lt;/p>
+&lt;p>我们把站点地图提交到谷歌搜索，具体说明可参见谷歌站长页面的&lt;a class="link" href="https://developers.google.com/search/docs/beginner/get-started" target="_blank" rel="noopener"
+>说明&lt;/a>，下面是具体操作：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>登录谷歌搜索控制台（Google Search Console）https://search.google.com/search-console，可以使用在谷歌分析注册的账号。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>点击左上角的“Add property”，选择右侧的“URL prefix”方式，输入以https开头的网站网址。在验证所有权的选项中选择“Google Analytics”，点击验证。如果你在上一步开启谷歌分析后使用Hugo重新部署了网站的话，就可以直接验证通过。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>提交站点地图文件&lt;code>sitemap.xml&lt;/code>。在左侧菜单栏点击“Sitemaps”选项，然后在添加站点地图的页面填入&lt;code>sitemap.xml&lt;/code>所在的URL。例如对于本站，由于是双语站点，Hugo在部署网站时会生成3个&lt;code>sitemap.xml&lt;/code>文件，分别是&lt;code>/public/sitemap.xml&lt;/code>、&lt;code>/public/zh-cn/sitemap.xml&lt;/code>以及&lt;code>/public/en/sitemap.xml&lt;/code>。&lt;/p>
+&lt;p>注意，添加sitemap时不要漏了路径开头的斜杠&lt;code>/&lt;/code>，即使网站域名后面已经有一个斜杠了，也不能省略。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>提交成功之后“status”会显示“success”。&lt;/p>
+&lt;p>Hugo生成的3个站点地图中，&lt;code>/public/sitemap.xml&lt;/code>中的内容其实是指向&lt;code>/public/zh-cn/sitemap.xml&lt;/code>和&lt;code>/public/en/sitemap.xml&lt;/code>的，所以我们只提交一个&lt;code>/public/sitemap.xml&lt;/code>就可以。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>一般在站点地图成功提交之后大约1到2天后，就可以看到自己的网站已经被谷歌收录了。可以在谷歌搜索框中输入&lt;code>site:xxx.com&lt;/code>来查看某个网站是否被谷歌搜索收录。&lt;/p>
+&lt;h4 id="百度搜索优化">
+&lt;a href="#%e7%99%be%e5%ba%a6%e6%90%9c%e7%b4%a2%e4%bc%98%e5%8c%96" class="header-anchor">#&lt;/a>
+百度搜索优化
+&lt;/h4>&lt;p>针对百度搜索的优化是在&lt;a class="link" href="https://ziyuan.baidu.com/" target="_blank" rel="noopener"
+>百度资源搜索平台&lt;/a>上完成的。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>前往&lt;a class="link" href="https://ziyuan.baidu.com/" target="_blank" rel="noopener"
+>百度资源搜索平台&lt;/a>，登录百度账号。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>点击“链接提交”，然后点击&amp;quot;添加站点&amp;quot;。输入你的网站域名，同样需要验证站点的所有权，这里选择下载验证文件，然后把验证文件放在网站&lt;code>static&lt;/code>文件夹内，在上传到Github。最后点击“验证”即可。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>然后点击左侧菜单栏“资源提交”中的“普通收录”，在资源提交的页面下选择“sitemap”，输入&lt;code>sitemap.xml&lt;/code>所在的URL就可以了。&lt;/p>
+&lt;p>不过在百度提交sitemap有两个限制：&lt;/p>
+&lt;ul>
+&lt;li>不允许提交索引型sitemap&lt;/li>
+&lt;li>对新账号每天只允许提交一个sitemap文件&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h4 id="其他平台收录">
+&lt;a href="#%e5%85%b6%e4%bb%96%e5%b9%b3%e5%8f%b0%e6%94%b6%e5%bd%95" class="header-anchor">#&lt;/a>
+其他平台收录
+&lt;/h4>&lt;p>其他平台收录就不仔细讲解了，提供一下链接供大家参考。都差不多一样的验证方式。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>搜狗收录&lt;/p>
+&lt;p>搜狗收录不支持站点地图提交，需要你列出所有的url批量提交，每次提交20条，所以没有其他平台那么智能。每次新加新的网页还需要自己主动提交。&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhanzhang.sogou.com/index.php/sitelink/index" target="_blank" rel="noopener"
+>搜狗搜索资源平台&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Bing收录&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bing.com/webmasters/home" target="_blank" rel="noopener"
+>Microsoft Bing Webmaster Tools&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>360提交入口： &lt;a class="link" href="https://info.so.com/site_submit.html" target="_blank" rel="noopener"
+>https://info.so.com/site_submit.html&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Backdata 搜索引擎网址提交入口： &lt;a class="link" href="https://backdata.net/submit-site.html" target="_blank" rel="noopener"
+>https://backdata.net/submit-site.html&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
 &lt;blockquote>
-&lt;p>参考：&lt;a class="link" href="https://jinli.io/p/%e4%b8%aa%e4%ba%ba%e7%bd%91%e7%ab%99%e7%9a%84%e5%bb%ba%e7%ab%8b%e8%bf%87%e7%a8%8b%e5%9b%9b%e7%bd%91%e7%ab%99%e7%9a%84%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo/" target="_blank" rel="noopener"
->个人网站的建立过程（四）：网站的搜索引擎优化（SEO）&lt;/a>&lt;/p>
+&lt;p>参考：&lt;/p>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://jinli.io/p/%e4%b8%aa%e4%ba%ba%e7%bd%91%e7%ab%99%e7%9a%84%e5%bb%ba%e7%ab%8b%e8%bf%87%e7%a8%8b%e5%9b%9b%e7%bd%91%e7%ab%99%e7%9a%84%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo/" target="_blank" rel="noopener"
+>个人网站的建立过程（四）：网站的搜索引擎优化（SEO）&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/597182079" target="_blank" rel="noopener"
+>从零开始搭建个人博客网站系列 五、让搜索引擎收录你的个人博客网站&lt;/a>&lt;/li>
+&lt;/ol>
 &lt;/blockquote>
 &lt;h2 id="额外的一些知识">
 &lt;a href="#%e9%a2%9d%e5%a4%96%e7%9a%84%e4%b8%80%e4%ba%9b%e7%9f%a5%e8%af%86" class="header-anchor">#&lt;/a>
