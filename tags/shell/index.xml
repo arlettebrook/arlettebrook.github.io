@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Shell on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/shell/</link><description>Recent content in Shell on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Mon, 27 May 2024 15:17:13 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml"/><item><title>Terminal And Shell Introduction</title><link>https://arlettebrook.github.io/p/terminal-and-shell-introduction/</link><pubDate>Mon, 27 May 2024 15:17:13 +0800</pubDate><guid>https://arlettebrook.github.io/p/terminal-and-shell-introduction/</guid><description>&lt;hr>
+&lt;h2 id="概念">
+&lt;a href="#%e6%a6%82%e5%bf%b5" class="header-anchor">#&lt;/a>
+概念
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>终端&lt;/strong>：命令行&lt;strong>交互界面&lt;/strong>。如：
+&lt;ul>
+&lt;li>windows terminal、windterm、FinalShell。PowerShell。&lt;/li>
+&lt;li>控制台：一种特殊的终端。范围更广，既可以指硬件也可以指软件工具，常用于&lt;strong>系统管理&lt;/strong>和&lt;strong>监控&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>TTY&lt;/strong>：终端的&lt;strong>文本输入输出接口&lt;/strong>。可以理解为就是终端。不深入了解😂。&lt;/li>
+&lt;li>&lt;strong>Shell&lt;/strong>：命令行&lt;strong>解释器&lt;/strong>。如：
+&lt;ul>
+&lt;li>Bash、Zsh、PowerShell、git bash。&lt;/li>
+&lt;li>终端通过TTY与Shell通信。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>推荐文章：&lt;a class="link" href="https://prinsss.github.io/the-difference-between-cli-terminal-shell-tty/" target="_blank" rel="noopener"
+>命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="zsh安装">
+&lt;a href="#zsh%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
+zsh安装
+&lt;/h2>&lt;p>Bash是Linux系统内置的shell，提供了强大的命令行编辑、脚本编写和命令历史功能，广泛用于 Linux 和 macOS 系统中。是目前最流行的 Shell 之一。&lt;/p>
+&lt;p>而&lt;strong>Zsh&lt;/strong> 是一个功能强大的 Shell，具有比 Bash 更多的特性，如更高级的自动补全、更强大的脚本能力和更丰富的配置选项，还提供了诸如共享历史、拼写校正、主题支持和插件系统等&lt;strong>增强功能&lt;/strong>，使其成为高级用户和开发者的首选。&lt;/p>
+&lt;p>接下来介绍如何安装：&lt;/p>
+&lt;h3 id="windows上安装">
+&lt;a href="#windows%e4%b8%8a%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
+windows上安装
+&lt;/h3>&lt;blockquote>
+&lt;p>注意：windows上安装zsh是建立在git bash基础上的。&lt;/p>
+&lt;p>所以只有安装了git，我们才能在windows上使用zsh。&lt;/p>
+&lt;p>安装git：&lt;a class="link" href="https://git-scm.com/downloads" target="_blank" rel="noopener"
+>git官网&lt;/a>。&lt;/p>
+&lt;p>个人体验：利用上面方法在windows上使用zsh，效果不是特别好，不知道是不是我电脑配置低的原因：每次利用git bash启动zsh都很慢。所以windows上我用的shell一直都是git bash。&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>
+&lt;p>下载zsh对应的windows版本，官方并没有提供，由MSYS2提供。（官方下载需要用包管理工具）&lt;/p>
+&lt;ol>
+&lt;li>&lt;em>MSYS2&lt;/em> 是针对Windows 的软件分发和构建平台。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>windows上如果没有包管理工具，只能去这里下载：&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://packages.msys2.org/package/zsh?repo=msys&amp;amp;variant=x86_64" target="_blank" rel="noopener"
+>地址&lt;/a>、&lt;a class="link" href="https://arlettebrook.github.io/docs/zsh-5.9-2-x86_64.pkg.tar.zst" >备用&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211226752.png"
+width="1805"
+height="1004"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211226752_hub9924f94a57f81d5a3f9ba3704840859_162646_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211226752_hub9924f94a57f81d5a3f9ba3704840859_162646_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318211226752"
+class="gallery-image"
+data-flex-grow="179"
+data-flex-basis="431px"
+>&lt;/p>
+&lt;p>后续教程是以文件下载为例。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>下载完成之后将压缩包解压，用rar就可以解压。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将解压的内容全部剪切到git的安装目录。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>需要权限的话就授权（可能需要多次授权），重名的话直接覆盖。&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211742512.png"
+width="1123"
+height="569"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211742512_hu0d0d9fcf86c988e4e9d5ae9475f1bc04_305509_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211742512_hu0d0d9fcf86c988e4e9d5ae9475f1bc04_305509_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="zsh安装"
+class="gallery-image"
+data-flex-grow="197"
+data-flex-basis="473px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打开 &lt;code>Git Bash&lt;/code> 标签页或者直接右键打开 &lt;code>Git bash&lt;/code> 输入 &lt;code>zsh&lt;/code>，出现下图则安装成功：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211859689.png"
+width="1464"
+height="619"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211859689_hu888a0765c6558b2f5b304f38d42d14d9_183280_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318211859689_hu888a0765c6558b2f5b304f38d42d14d9_183280_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="zsh安装成功"
+class="gallery-image"
+data-flex-grow="236"
+data-flex-basis="567px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>暂时先不进行其他设置，直接输入 &lt;code>0&lt;/code> 结束并生成 &lt;code>.zshrc&lt;/code> 配置文件即可。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>该文件在当前用户的家目录，win+r输入.回车进入就是。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>由于现在没有安装 &lt;code>zsh&lt;/code> 主题，可以这样区分 &lt;code>bash&lt;/code> 和 &lt;code>zsh&lt;/code>，&lt;code>bash&lt;/code>的光标在第二行，&lt;code>zsh&lt;/code>的光标在同一行：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318212921004.png"
+width="1122"
+height="353"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318212921004_huaa3a3d2a895f8ba462c747670bfa2bbe_107053_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318212921004_huaa3a3d2a895f8ba462c747670bfa2bbe_107053_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318212921004"
+class="gallery-image"
+data-flex-grow="317"
+data-flex-basis="762px"
+>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>设置默认启动&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>每次打开 &lt;code>Git Bash&lt;/code> 终端，你会发现默认还是 &lt;code>Bash&lt;/code> ，而不是 &lt;code>Zsh&lt;/code>，可以通过编辑 &lt;code>Bash&lt;/code> 终端的配置文件 &lt;code>.bashrc&lt;/code> 来实现默认使用 &lt;code>Zsh&lt;/code>，在 &lt;code>Git Bash&lt;/code> 终端中输入命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vim ~/.bashrc
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>Vim&lt;/code> 默认是命令模式，你可以直接用文本编辑器打开将配置内容粘贴进去：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> -t &lt;span class="m">1&lt;/span> &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span> &lt;span class="c1">#1表示标准输出，用于判断标准输出是否连接到终端（tty），如果是，则执行 zsh 命令来切换为 Zsh Shell。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">exec&lt;/span> zsh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318213908476.png"
+width="512"
+height="81"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318213908476_hu1e5990fd6da39c6510ea70d89bf2b8f4_6754_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318213908476_hu1e5990fd6da39c6510ea70d89bf2b8f4_6754_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318213908476"
+class="gallery-image"
+data-flex-grow="632"
+data-flex-basis="1517px"
+>&lt;/p>
+&lt;p>后面是vim的常用命令，&lt;code>a、shift+insert、esc、+:wq&lt;/code>最后按回车键，保存退出&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318214206109.png"
+width="688"
+height="574"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318214206109_hu931784de102814e41646c4d584a25f97_58094_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318214206109_hu931784de102814e41646c4d584a25f97_58094_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318214206109"
+class="gallery-image"
+data-flex-grow="119"
+data-flex-basis="287px"
+>&lt;/p>
+&lt;p>注意：注释（#）调这三行代码，启动git bash时就不会启用zsh。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>之后再打开 &lt;code>Git Bash&lt;/code> 终端，默认就会使用 &lt;code>Zsh&lt;/code> 了。第一次可能有一个警告：大概是找不到 &lt;code>~/bash_profile&lt;/code> 等一些文件，可以忽略，以后不会再出现了。&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318214357006.png"
+width="1354"
+height="303"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318214357006_hufd137b992942db01eb4ba2ae0522f34e_39071_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318214357006_hufd137b992942db01eb4ba2ae0522f34e_39071_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318214357006"
+class="gallery-image"
+data-flex-grow="446"
+data-flex-basis="1072px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>至此windows上安装zsh完成。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="linux上安装">
+&lt;a href="#linux%e4%b8%8a%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
+Linux上安装
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>准备：&lt;/p>
+&lt;p>查看当前 shell&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-SHELL" data-lang="SHELL">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$SHELL&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$0&lt;/span> &lt;span class="c1"># or&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318234623575.png"
+width="504"
+height="94"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318234623575_hu6eabb1d7bd44ae1fe519b45cc99cdfaf_10368_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318234623575_hu6eabb1d7bd44ae1fe519b45cc99cdfaf_10368_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318234623575"
+class="gallery-image"
+data-flex-grow="536"
+data-flex-basis="1286px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>安装 zsh&lt;/p>
+&lt;p>CentOS：要管理员身份&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">yum install -y zsh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Ubuntu：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sudo apt install -y zsh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318235111316.png"
+width="1449"
+height="636"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318235111316_hu2bed67af52d98caf3d11136dc6de7739_97734_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318235111316_hu2bed67af52d98caf3d11136dc6de7739_97734_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318235111316"
+class="gallery-image"
+data-flex-grow="227"
+data-flex-basis="546px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;em>将zsh替换为默认shell&lt;/em>&lt;/p>
+&lt;ol>
+&lt;li>为 root 设置默认 shell&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">chsh -s /bin/zsh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>返回结果如下，表示切换完成（下载安装 oh-my-zsh 成功后也会提示切换）&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318235425237-1710777267767-1.png"
+width="837"
+height="139"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318235425237-1710777267767-1_huf140ac723ea08623c53dd917a2bbf634_32603_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318235425237-1710777267767-1_huf140ac723ea08623c53dd917a2bbf634_32603_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318235425237"
+class="gallery-image"
+data-flex-grow="602"
+data-flex-basis="1445px"
+>&lt;/p>
+&lt;ol start="2">
+&lt;li>
+&lt;p>为特定用户设置默认 shell&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sudo chsh -s /bin/zsh &amp;lt;username&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># &amp;lt;username&amp;gt; 替换为实际用户名&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;em>在 CentOS 8 中可能报错 Command not found，执行&lt;/em> &lt;code>sudo dnf install util-linux-user&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>重新登录shell之后，默认就是zsh&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319000037682.png"
+width="1055"
+height="150"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319000037682_hu41e05cc99389c4a9c4d54b707fa6ef54_27255_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319000037682_hu41e05cc99389c4a9c4d54b707fa6ef54_27255_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240319000037682"
+class="gallery-image"
+data-flex-grow="703"
+data-flex-basis="1688px"
+>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>至此Linux安装zsh完成。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="安装-oh-my-zsh">
+&lt;a href="#%e5%ae%89%e8%a3%85-oh-my-zsh" class="header-anchor">#&lt;/a>
+安装 Oh My Zsh
+&lt;/h3>&lt;blockquote>
+&lt;blockquote>
+&lt;p>成功安装了zsh，还需要安装Oh My Zsh，它对zsh进行了扩展，这也是为什么要使用zsh了，而不是bash的原因。&lt;/p>
+&lt;/blockquote>
+&lt;p>注意：以下方法同适用于安装了zsh的环境，如Linux。&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>
+&lt;p>在安装好 &lt;code>Zsh&lt;/code> 终端之后，看起来跟 &lt;code>Bash&lt;/code> 终端并无太大的区别，我们也没有进行设置。而 &lt;code>Oh My Zsh&lt;/code> 可以用于管理 &lt;code>Zsh&lt;/code>配置。它捆绑了数千个有用的功能、助手、插件、主题等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>官方： &lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh" target="_blank" rel="noopener"
+>https://github.com/ohmyzsh/ohmyzsh&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在命令行输入命令并按回车执行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sh -c &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>这条命令国内需要开代理，且模式为Tun终端才能访问。官方有提供国内的下载地址，失败多试几次。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sh -c &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>curl -fsSL https://install.ohmyz.sh/&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>还需要有curl以及git工具，我MinGW默认安装了curl命令，如果失败可以下载ohmyzsh安装脚本本地运行。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sh ./install.sh &lt;span class="c1">#离线安装,注意要进入脚本的下载位置&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>出现下图的内容就是安装成功了，如果出现错误，或长时间没有响应，多试几次即可：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318223757028.png"
+width="1139"
+height="591"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318223757028_huad0b7df38215d3d38bab2d1533fb0332_323810_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318223757028_huad0b7df38215d3d38bab2d1533fb0332_323810_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="windows成功安装ohmyzsh"
+class="gallery-image"
+data-flex-grow="192"
+data-flex-basis="462px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>最后一行的 &lt;code>ERROR&lt;/code> 可以忽略，windows正常，Linux没有&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+&lt;p>​ &lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319000513971.png"
+width="1453"
+height="680"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319000513971_huabb79a28aae75544a980d294d720869d_182993_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319000513971_huabb79a28aae75544a980d294d720869d_182993_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Linux成功安装ohmyzsh"
+class="gallery-image"
+data-flex-grow="213"
+data-flex-basis="512px"
+>&lt;/p>
+&lt;h4 id="配置-zsh">
+&lt;a href="#%e9%85%8d%e7%bd%ae-zsh" class="header-anchor">#&lt;/a>
+配置 zsh
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>Zsh&lt;/code>的配置文件在用户的家目录，文件名是 &lt;code>.zshrc&lt;/code>，编辑配置文件，可以对 &lt;code>Zsh&lt;/code>进行一些定制化配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vim ~/.zshrc
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>编辑并保存配置文件之后，并不会立即生效，可以关闭所有终端重新打开，或者使用命令让配置生效：&lt;/p>
+&lt;p>source可以替换成.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">source&lt;/span> ~/.zshrc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">. ~/.zshrc &lt;span class="c1"># or&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h5 id="配置主题">
+&lt;a href="#%e9%85%8d%e7%bd%ae%e4%b8%bb%e9%a2%98" class="header-anchor">#&lt;/a>
+&lt;strong>配置主题&lt;/strong>
+&lt;/h5>&lt;ol>
+&lt;li>
+&lt;p>就是对.zshrc配置&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>Oh My Zsh&lt;/code> 安装默之后，默认使用主题是 &lt;code>robbyrussell&lt;/code>，可以修改 &lt;code>.zshrc&lt;/code> 配置中的 &lt;code>ZSH_THEME&lt;/code> 字段，所有可用主题可参考&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes" target="_blank" rel="noopener"
+>ohmyzsh官方主题页面&lt;/a>，这里先配置一下我个人比较喜欢的主题：gentoo or eastwood or daveverwer or bira&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318225618165.png"
+width="1416"
+height="645"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318225618165_huef769454bc107dc852ce76255764dbbe_224565_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318225618165_huef769454bc107dc852ce76255764dbbe_224565_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="修改主题"
+class="gallery-image"
+data-flex-grow="219"
+data-flex-basis="526px"
+>&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/bira.jpg"
+width="1650"
+height="1110"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/bira_hu1442ac57ea79dc6d09823129d334f3f8_101939_480x0_resize_q75_box.jpg 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/bira_hu1442ac57ea79dc6d09823129d334f3f8_101939_1024x0_resize_q75_box.jpg 1024w"
+loading="lazy"
+alt="bira主题"
+class="gallery-image"
+data-flex-grow="148"
+data-flex-basis="356px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>注意：&lt;code>ZSH_THEME&lt;/code>只能修改为官方提供的主题名，然后重新加载&lt;code>.zshrc&lt;/code>文件，就能修改为指定的主题。&lt;/p>
+&lt;ol>
+&lt;li>官方提供的主题都保存在&lt;code>~/.oh-my-zsh/themes&lt;/code>目录，你也可以自定义主题。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h5 id="配置插件">
+&lt;a href="#%e9%85%8d%e7%bd%ae%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
+&lt;strong>配置插件&lt;/strong>
+&lt;/h5>&lt;ol>
+&lt;li>
+&lt;p>插件Oh My Zsh 附带了大量插件供您使用。您可以查看&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins" target="_blank" rel="noopener"
+>插件&lt;/a>目录和/或&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins" target="_blank" rel="noopener"
+>wiki&lt;/a>，了解当前可用的内容。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>通过使用插件，可以让 &lt;code>Zsh&lt;/code> 的功能更加强大，&lt;code>Zsh&lt;/code> 和 &lt;code>Oh My Zsh&lt;/code> 自带了一些实用的插件，也可以下载其他的插件。 如 &lt;code>Zsh&lt;/code> 自带 &lt;code>Git&lt;/code> 插件，可以在命令行显示 &lt;code>Git&lt;/code> 相关的信息，并提供了一些操作 &lt;code>Git&lt;/code> 的别名：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">gaa&lt;/span> &lt;span class="o">=&lt;/span> git add --all
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">gcmsg&lt;/span> &lt;span class="o">=&lt;/span> git commit -m
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">ga&lt;/span> &lt;span class="o">=&lt;/span> git add
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">gst&lt;/span> &lt;span class="o">=&lt;/span> git status
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">gp&lt;/span> &lt;span class="o">=&lt;/span> git push
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318230853061.png"
+width="1005"
+height="193"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318230853061_hu25160011d60cf4d886eefedb303c67fd_51614_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318230853061_hu25160011d60cf4d886eefedb303c67fd_51614_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318230853061"
+class="gallery-image"
+data-flex-grow="520"
+data-flex-basis="1249px"
+>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h6 id="自动补全">
+&lt;a href="#%e8%87%aa%e5%8a%a8%e8%a1%a5%e5%85%a8" class="header-anchor">#&lt;/a>
+&lt;strong>自动补全&lt;/strong>
+&lt;/h6>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>zsh-autosuggestions&lt;/code> 插件，可以在你历史指令中找到与你当前输入指令匹配的记录，并高亮显示，如果想直接使用，可以直接通过右方向键补全。 安装插件，在终端分别执行下面两条命令：官方&lt;a class="link" href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="noopener"
+>zsh-autosuggestions&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> ~/.oh-my-zsh/custom/plugins
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#指定了克隆的位置，就是什么切换的地方&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions &lt;span class="si">${&lt;/span>&lt;span class="nv">ZSH_CUSTOM&lt;/span>&lt;span class="k">:-&lt;/span>&lt;span class="p">~/.oh-my-zsh/custom&lt;/span>&lt;span class="si">}&lt;/span>/plugins/zsh-autosuggestions
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>插件下载完成之后，编辑 &lt;code>~/.zshrc&lt;/code> 配置文件，修改插件相关配置项：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vim ~/.zshrc
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>插件下载完成之后，编辑 &lt;code>~/.zshrc&lt;/code> 配置文件，修改插件相关配置项：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vim ~/.zshrc
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232212520.png"
+width="1030"
+height="276"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232212520_hu60e5cfc85ad4aa44992b56b8a46f4def_60716_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232212520_hu60e5cfc85ad4aa44992b56b8a46f4def_60716_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318232212520"
+class="gallery-image"
+data-flex-grow="373"
+data-flex-basis="895px"
+>&lt;/p>
+&lt;p>&lt;em>请注意，插件由空格（空格、制表符、换行符&amp;hellip;）分隔。&lt;strong>请勿&lt;/strong>在它们之间使用逗号，否则会损坏。&lt;/em>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>保存退出之后，记得使用命令 &lt;code>source ~/.zshrc&lt;/code> 重载配置。该插件生效之后，在使用命令的时候，就会匹配我们使用的命令，右键可以直接补全：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232512528.png"
+width="719"
+height="65"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232512528_hu33a13ebc7a5392d3e95df131e5ca4c30_6189_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232512528_hu33a13ebc7a5392d3e95df131e5ca4c30_6189_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318232512528"
+class="gallery-image"
+data-flex-grow="1106"
+data-flex-basis="2654px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果你不喜欢提示默认的浅灰色，可以在 &lt;code>~/.zshrc&lt;/code> 中修改（没有配置项就添加），更多配置可以参考&lt;a class="link" href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fzsh-users%2Fzsh-autosuggestions%23suggestion-highlight-style" target="_blank" rel="noopener"
+>zsh-autosuggestions官方文档&lt;/a>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;fg=#9fc5e8&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h6 id="目录跳转">
+&lt;a href="#%e7%9b%ae%e5%bd%95%e8%b7%b3%e8%bd%ac" class="header-anchor">#&lt;/a>
+&lt;strong>目录跳转&lt;/strong>
+&lt;/h6>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>Zsh&lt;/code> 自带有一个插件 &lt;code>z&lt;/code>，可以让我们在访问过的目录中快速跳转，将该插件配置到 &lt;code>~/.zshrc&lt;/code> 文件中即可使用：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232841685.png"
+width="827"
+height="417"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232841685_hu52be7fb4b48f942c9e20043399c70353_68900_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318232841685_hu52be7fb4b48f942c9e20043399c70353_68900_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318232841685"
+class="gallery-image"
+data-flex-grow="198"
+data-flex-basis="475px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>保存退出之后，重载配置，随意进入一些目录，之后再使用命令 &lt;code>z&lt;/code> 就可以实现快速跳转，支持模糊匹配：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318233202252.png"
+width="985"
+height="194"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318233202252_hu1605e0b8e4c38e2a71d1cb2b9776b308_70157_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318233202252_hu1605e0b8e4c38e2a71d1cb2b9776b308_70157_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318233202252"
+class="gallery-image"
+data-flex-grow="507"
+data-flex-basis="1218px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>或许相比于 &lt;code>z&lt;/code>，更多人会选择使用 &lt;code>autojump&lt;/code>，如果是 &lt;code>Mac&lt;/code> 或者 &lt;code>Linux&lt;/code> 没什么问题，&lt;code>Windows&lt;/code> 就不太建议折腾了。&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+&lt;h6 id="其他插件">
+&lt;a href="#%e5%85%b6%e4%bb%96%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
+&lt;strong>其他插件&lt;/strong>
+&lt;/h6>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>zsh-syntax-highlighting&lt;/code>：这个插件可以识别的 &lt;code>shell&lt;/code> 命令并高亮显示&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git clone https://github.com/zsh-users/zsh-syntax-highlighting.git &lt;span class="si">${&lt;/span>&lt;span class="nv">ZSH_CUSTOM&lt;/span>&lt;span class="k">:-&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">ZSH&lt;/span>&lt;span class="k">:-&lt;/span>&lt;span class="p">~/.oh-my-zsh&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">/custom&lt;/span>&lt;span class="si">}&lt;/span>/plugins/zsh-syntax-highlighting
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319002900060.png"
+width="1010"
+height="455"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319002900060_hu53735137fd792790a8c7ae0e70edb371_83209_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319002900060_hu53735137fd792790a8c7ae0e70edb371_83209_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240319002900060"
+class="gallery-image"
+data-flex-grow="221"
+data-flex-basis="532px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a class="link" href="https://github.com/zsh-users/zsh-completions" target="_blank" rel="noopener"
+>zsh-completions&lt;/a>：额外的自动补全功能，用于补充 zsh 中尚不支持的命令补全，该项目将在完善时合并到 zsh。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> git clone https://github.com/zsh-users/zsh-completions &lt;span class="si">${&lt;/span>&lt;span class="nv">ZSH_CUSTOM&lt;/span>&lt;span class="k">:-&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">ZSH&lt;/span>&lt;span class="k">:-&lt;/span>&lt;span class="p">~/.oh-my-zsh&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">/custom&lt;/span>&lt;span class="si">}&lt;/span>/plugins/zsh-completions
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后在&lt;code>.zshrc&lt;/code>文件里面的&lt;code>source &amp;quot;$ZSH/oh-my-zsh.sh&amp;quot;&lt;/code>这一行前添加以下代码&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">fpath&lt;/span>&lt;span class="o">+=&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">ZSH_CUSTOM&lt;/span>&lt;span class="k">:-&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">ZSH&lt;/span>&lt;span class="k">:-&lt;/span>&lt;span class="p">~/.oh-my-zsh&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">/custom&lt;/span>&lt;span class="si">}&lt;/span>/plugins/zsh-completions/src
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319004250240.png"
+width="1342"
+height="553"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319004250240_huf5e790ff3f5b1ccb45b3ad89c80b769a_128207_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240319004250240_huf5e790ff3f5b1ccb45b3ad89c80b769a_128207_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240319004250240"
+class="gallery-image"
+data-flex-grow="242"
+data-flex-basis="582px"
+>&lt;/p>
+&lt;p>Note: adding it as a regular Oh My ZSH! plugin will not work properly (see &lt;a class="link" href="https://github.com/zsh-users/zsh-completions/issues/603" target="_blank" rel="noopener"
+>#603&lt;/a>).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Incremental completion on zsh：增强的实时自动命令补全插件：&lt;a class="link" href="https://mimosa-pudica.net/zsh-incremental.html" target="_blank" rel="noopener"
+>Incremental completion on zsh&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>*该插件对性能似乎有一点点影响，请根据需要启用。*其实使用默认的自动补齐（tab）够用了。&lt;/p>
+&lt;/blockquote>
+&lt;p>作用如图：&lt;/p>
+&lt;p>​ &lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/zsh.gif"
+width="404"
+height="204"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/zsh_hu5636cf9d5e0f936b681997f757b3864e_42534_480x0_resize_box_1.gif 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/zsh_hu5636cf9d5e0f936b681997f757b3864e_42534_1024x0_resize_box_1.gif 1024w"
+loading="lazy"
+alt="incr"
+class="gallery-image"
+data-flex-grow="198"
+data-flex-basis="475px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>配置别名&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;code>Zsh&lt;/code> 的 &lt;code>alias&lt;/code> 配置项可以自定义命令别名，在使用一些比较复杂的命令时，使用别名可以提高效率，这里举例添加一个 &lt;code>Git&lt;/code> 日志的别名：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">gli&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;git log --color --graph --pretty=format:&amp;#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&amp;lt;%an&amp;gt;%Creset&amp;#39; --abbrev-commit&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>注意等号两边不要有空格&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="shell使用">
+&lt;a href="#shell%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+Shell使用
+&lt;/h2>&lt;p>在不同的终端中我们可以指定不同的Shell来使用。如：&lt;/p>
+&lt;ol>
+&lt;li>在&lt;a class="link" href="#Linux%e4%b8%8a%e5%ae%89%e8%a3%85" >Linux安装zsh&lt;/a>中我们就指定了Linux终端的默认Shell为zsh。&lt;/li>
+&lt;li>在稍后介绍的[Windows Terminal](#Windows Terminal)中，也会指定Windows Terminal终端的默认Shell为Git bash。&lt;/li>
+&lt;li>下面介绍在IDE终端中设置自己的Shell。&lt;/li>
+&lt;/ol>
+&lt;h3 id="设置ide终端的shell为git-bash">
+&lt;a href="#%e8%ae%be%e7%bd%aeide%e7%bb%88%e7%ab%af%e7%9a%84shell%e4%b8%bagit-bash" class="header-anchor">#&lt;/a>
+设置IDE终端的Shell为git bash
+&lt;/h3>&lt;p>如果你按照上面的教程成功在windows上安装了zsh，那么设置Shell为git bash，也就是设置为zsh。&lt;/p>
+&lt;p>注意：没有安装zsh的情况下也能设置为git bash。&lt;strong>优点：高亮、个人爱好&lt;/strong>。&lt;/p>
+&lt;p>这里以goland开发工具为例，jetBrains全系列差不多：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>进入设置找到终端&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318220456766.png"
+width="800"
+height="471"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318220456766_huf6661fe7348dbc56cdcf4082cea67043_42129_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318220456766_huf6661fe7348dbc56cdcf4082cea67043_42129_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318220456766"
+class="gallery-image"
+data-flex-grow="169"
+data-flex-basis="407px"
+>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318220625318.png"
+width="1472"
+height="1069"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318220625318_hu2734f748d7e96269c0f105fe59f8f0bc_156571_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318220625318_hu2734f748d7e96269c0f105fe59f8f0bc_156571_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318220625318"
+class="gallery-image"
+data-flex-grow="137"
+data-flex-basis="330px"
+>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Shell path为git安装路径里面的&lt;code>bin\bash.exe&lt;/code>,&lt;strong>注意不是git-bash&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>注意：还需要为&lt;code>bash.exe&lt;/code>命令指定启动参数&lt;code>--login -i&lt;/code>：&lt;/p>
+&lt;p>图中没有加入，后期发现的问题。&lt;/p>
+&lt;p>意思是启动登录Shell，并且交互运行。&lt;/p>
+&lt;p>作用：这个环境下git bash不会出现乱码，文件、目录高亮。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>最后应用即可。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>其他类似的IDE配置差不多：&lt;/p>
+&lt;ol>
+&lt;li>vscode&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318221601747.png"
+width="1907"
+height="577"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318221601747_huf882f54ccc6ea14d13611a8e87d42e56_61223_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318221601747_huf882f54ccc6ea14d13611a8e87d42e56_61223_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318221601747"
+class="gallery-image"
+data-flex-grow="330"
+data-flex-basis="793px"
+>&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318221642366.png"
+width="1220"
+height="320"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318221642366_hucdeb05991bdd3b9b060ad7f96779cb43_53500_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318221642366_hucdeb05991bdd3b9b060ad7f96779cb43_53500_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318221642366"
+class="gallery-image"
+data-flex-grow="381"
+data-flex-basis="915px"
+>&lt;/p>
+&lt;p>vscode默认为git bash设置了启动参数，很方便。&lt;/p>
+&lt;hr>
+&lt;h2 id="terminal使用">
+&lt;a href="#terminal%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+Terminal使用
+&lt;/h2>&lt;h3 id="windows-terminal">
+&lt;a href="#windows-terminal" class="header-anchor">#&lt;/a>
+Windows Terminal
+&lt;/h3>&lt;p>&lt;strong>Windows Terminal&lt;/strong>可以理解为：是cmd窗口和PowerShell终端的增强版，它将windows环境下的终端（cmd、PowerShell）都集成在了一起。我们只需要指定对应的Shell（cmd、PowerShell、git bash），即可使用。&lt;a class="link" href="https://learn.microsoft.com/zh-cn/windows/terminal/" target="_blank" rel="noopener"
+>官方文档&lt;/a>。&lt;/p>
+&lt;p>&lt;strong>主要特性&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>多选项卡支持&lt;/strong>：
+&lt;ul>
+&lt;li>一个窗口管理多个Shell。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>丰富的自定义选项&lt;/strong>：
+&lt;ul>
+&lt;li>提供了多种自定义选项，包括更改背景颜色、字体、透明度、主题等，允许用户根据个人喜好定制界面。&lt;/li>
+&lt;li>同一套配置应用于不同Shell。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>GPU 加速的文本渲染&lt;/strong>：
+&lt;ul>
+&lt;li>利用 DirectWrite 和 DirectX 提供 GPU 加速的文本渲染，确保快速、流畅的文本显示和滚动体验。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>支持多种命令行工具和 Shell&lt;/strong>：
+&lt;ul>
+&lt;li>支持 PowerShell、CMD（Command Prompt）、Windows Subsystem for Linux（WSL）以及任何其他你喜欢的命令行工具。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Unicode 和 UTF-8 字符支持&lt;/strong>:
+&lt;ul>
+&lt;li>完整支持 Unicode 和 UTF-8 字符集，包括 emoji 和复杂字符。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>JSON 配置文件&lt;/strong>：
+&lt;ul>
+&lt;li>使用 JSON 文件进行配置，允许用户灵活地定义设置，如启动命令、默认 Shell、外观等。
+&lt;ul>
+&lt;li>当然也提供了图形化界面修改配置(没有需要在Microsoft Store中升级到最新版)。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>可扩展性和第三方工具支持&lt;/strong>：
+&lt;ul>
+&lt;li>可以通过扩展和插件进一步增强功能，支持第三方工具集成。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="安装">
+&lt;a href="#%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
+安装
+&lt;/h4>&lt;p>Win11系统自带Windows Terminal终端，并且从Windows 11 22H2 版本开始，Windows Terminal 将&lt;a class="link" href="https://devblogs.microsoft.com/commandline/windows-terminal-is-now-the-default-in-windows-11/" target="_blank" rel="noopener"
+>正式成为&lt;/a> Windows 11 的&lt;strong>默认终端&lt;/strong>。&lt;/p>
+&lt;p>对于Win10系统需要额外安装，最低要求是Windows 10 2004（内部版本 19041）或更高版本。&lt;/p>
+&lt;p>安装方法：&lt;/p>
+&lt;ul>
+&lt;li>推荐从Microsoft Store中下载安装。会自动更新。&lt;/li>
+&lt;li>如果无法从 Microsoft Store 安装 Windows Terminal，可以从&lt;a class="link" href="https://github.com/microsoft/terminal" target="_blank" rel="noopener"
+>github仓库&lt;/a>的&lt;a class="link" href="https://github.com/microsoft/terminal/releases" target="_blank" rel="noopener"
+>发布页面&lt;/a>手动下载已发布的版本。
+&lt;ul>
+&lt;li>可以下载MSIX Bundle 文件，双击安装。这种方式不能指定安装位置。&lt;/li>
+&lt;li>或者根据自己的操作系统选择对应的压缩包，一般x64。
+&lt;ul>
+&lt;li>解压到哪里就安装到哪里，需要手动配置path环境变量，值为安装目录。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>启动：在运行框中输入&lt;code>wt&lt;/code>，能正常启动，证明安装成功。&lt;/p>
+&lt;p>在安装成功之后，建议将Windows Terminal设置为默认的终端应用程序。由Windows决定，一般启动的也是wt。&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240530144500889.png"
+width="1670"
+height="884"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240530144500889_hu5c28ba441e20ef93d783c5969675f06c_104476_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240530144500889_hu5c28ba441e20ef93d783c5969675f06c_104476_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="Windows Terminal"
+class="gallery-image"
+data-flex-grow="188"
+data-flex-basis="453px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>推荐文章：&lt;a class="link" href="https://blog.csdn.net/2201_75372778/article/details/131342522" target="_blank" rel="noopener"
+>Windows终端（windows terminal）从下载到运行&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="修改默认shell为git-bash">
+&lt;a href="#%e4%bf%ae%e6%94%b9%e9%bb%98%e8%ae%a4shell%e4%b8%bagit-bash" class="header-anchor">#&lt;/a>
+修改默认Shell为Git Bash
+&lt;/h4>&lt;p>可以根据自己的爱好判断是否修改。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>每次打开 &lt;code>Windows Terminal&lt;/code> 默认使用的是 &lt;code>Windows PowerShell&lt;/code>，要改为默认使用 &lt;code>Git Bash&lt;/code>，在设置里面进行设置即可。在更多选项中点击设置，或者右键标题栏空白处再点击设置。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>滚动到底部，点击添加新配置文件——新建空配置文件，然后填入你的git bash所在位置。示例：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527215848919.png"
+width="1670"
+height="884"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527215848919_hue33feb461e1b62e1666cdf423128b31a_100869_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527215848919_hue33feb461e1b62e1666cdf423128b31a_100869_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="git bash"
+class="gallery-image"
+data-flex-grow="188"
+data-flex-basis="453px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>注意：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>指定的git bash是&lt;code>bin&lt;/code>目录下的bash.exe。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>并且需要指定启动参数&lt;code>--login -i&lt;/code>&lt;/p>
+&lt;p>意思是启动登录Shell，并且交互运行。&lt;/p>
+&lt;p>作用：这个环境下git bash不会出现乱码，文件、目录高亮。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>最后，在启动选项卡中设置 &lt;code>Git Bash&lt;/code> 为默认终端并保存配置：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318215555385.png"
+width="1134"
+height="574"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318215555385_hu06bad4b213c0bb8ac286672d2aa6ada1_171583_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240318215555385_hu06bad4b213c0bb8ac286672d2aa6ada1_171583_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240318215555385"
+class="gallery-image"
+data-flex-grow="197"
+data-flex-basis="474px"
+>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h4 id="美化">
+&lt;a href="#%e7%be%8e%e5%8c%96" class="header-anchor">#&lt;/a>
+美化
+&lt;/h4>&lt;p>我在windows环境下使用的Shell一般是git bash，可定制化并不高，配置的zsh也没有使用，不过对我来说够用了。&lt;/p>
+&lt;p>效果如下：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527230837406.png"
+width="1920"
+height="1080"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527230837406_hu46ee813704bb24e925e0f9e86ec4586f_1485751_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527230837406_hu46ee813704bb24e925e0f9e86ec4586f_1485751_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="image-20240527230837406"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;p>这里就不详细介绍如何实现的了，Windows Terminal都提供了图形化配置。&lt;/p>
+&lt;p>我遇到的问题：总结一下：Windows terminal集成git-bash，删除到头的时候窗口总是闪烁：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>解决办法：新建一个~/.inputrc 文件，输入set bell-style none（可以什么都不写也起作用），保存；重启terminal，问题解决。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>.inputrc&lt;/code>是控制命令行界面（终端）行为的配置文件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>神奇的是我只要创建了这个空文件，Windows terminal的git bash，删除到头之后就不会闪烁了。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>set bell-style none&lt;/code>：关闭终端提示音。&lt;/li>
+&lt;li>&lt;code>set bell-style visible&lt;/code>：使用可见提示而不是声音。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>set editing-mode vi&lt;/code>：将编辑模式设置为 Vi 模式。默认为： Emacs 模式。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>终端的编辑模式主要有vi和emacs两种模式，区别就是快捷键不同。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>如果你会vim，强烈建议修改为vi模式。&lt;/p>
+&lt;blockquote>
+&lt;p>推荐文章：&lt;a class="link" href="https://arlettebrook.github.io/p/vim-common-commands/" target="_blank" rel="noopener"
+>vim-common-commands&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>修改之后在insert模式下Emacs模式的部分快捷键&lt;strong>依然可以使用&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Emacs模式常用命令：&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>注意：&lt;strong>不同终端部分快捷键可用。&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>光标移动&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>Ctrl + A&lt;/code>：移动到行首&lt;/li>
+&lt;li>&lt;code>Ctrl + E&lt;/code>：移动到行尾&lt;/li>
+&lt;li>&lt;code>Ctrl + B&lt;/code>：向左移动一个字符&lt;/li>
+&lt;li>&lt;code>Ctrl + F&lt;/code>：向右移动一个字符&lt;/li>
+&lt;li>&lt;code>Alt + B&lt;/code>：向左移动一个词&lt;/li>
+&lt;li>&lt;code>Alt + F&lt;/code>：向右移动一个词&lt;/li>
+&lt;li>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>文本编辑&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>Ctrl + K&lt;/code>：删除从光标位置到行尾的文本&lt;/li>
+&lt;li>&lt;code>Ctrl + U&lt;/code>：删除从光标位置到行首的文本&lt;/li>
+&lt;li>&lt;code>Ctrl + W&lt;/code>：删除光标位置之前的一个词&lt;/li>
+&lt;li>&lt;code>Alt + D&lt;/code>：删除光标位置之后的一个词&lt;/li>
+&lt;li>&lt;code>Ctrl + Y&lt;/code>：粘贴（恢复）上次删除的文本&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>其他操作&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>Ctrl + L&lt;/code>：清屏并重新显示当前行&lt;/li>
+&lt;li>&lt;code>Ctrl + R&lt;/code>：搜索命令历史&lt;/li>
+&lt;li>&lt;code>esc+backspace&lt;/code>：删除一个单词。&lt;/li>
+&lt;li>&lt;code>ctrl+P&lt;/code>：上一条历史命令&lt;/li>
+&lt;li>&lt;code>ctrl+n&lt;/code>:下一条历史命令&lt;/li>
+&lt;li>&lt;code>ctrl+j&lt;/code>：回车&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>这里就不详细介绍控制终端行为的选项了。能配置终端的编辑模式、提示音、补缺行为、快捷键等。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>此外如果你喜欢使用PowerShell也可以使用&lt;a class="link" href="https://ohmyposh.dev/" target="_blank" rel="noopener"
+>Oh My Posh&lt;/a>美化它，跟前面介绍的Oh My Zsh差不多。&lt;/p>
+&lt;p>推荐文章：&lt;a class="link" href="https://blog.sunguoqi.com/posts/oh-my-posh/" target="_blank" rel="noopener"
+>Oh My Posh | Windows Terminal 美化指南&lt;/a>&lt;/p>
+&lt;h3 id="windterm">
+&lt;a href="#windterm" class="header-anchor">#&lt;/a>
+WindTerm
+&lt;/h3>&lt;p>&lt;a class="link" href="https://github.com/kingToolbox/WindTerm" target="_blank" rel="noopener"
+>WindTerm&lt;/a>是一款跨平台的终端应用，同时也是 SSH/Telnet/Serial/Shell/Sftp 客户端。通常用于&lt;strong>远程连接&lt;/strong>。类似于FinalShell，它有的功能，WindTerm同样支持，并且拥有更多的配色方案，直接上图：&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm-dark.png"
+width="2560"
+height="1520"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm-dark_huab2f69f062de70eaa15c1469f0e2930e_435465_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm-dark_huab2f69f062de70eaa15c1469f0e2930e_435465_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="WindTerm-dark"
+class="gallery-image"
+data-flex-grow="168"
+data-flex-basis="404px"
+>&lt;/p>
+&lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm_DigeWhite_Theme.png"
+width="2560"
+height="1520"
+srcset="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm_DigeWhite_Theme_hu7fdcaec243e45adecf0edd95a0d6522f_339075_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm_DigeWhite_Theme_hu7fdcaec243e45adecf0edd95a0d6522f_339075_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="WindTerm_DigeWhite_Theme"
+class="gallery-image"
+data-flex-grow="168"
+data-flex-basis="404px"
+>&lt;/p>
+&lt;h4 id="安装-1">
+&lt;a href="#%e5%ae%89%e8%a3%85-1" class="header-anchor">#&lt;/a>
+安装
+&lt;/h4>&lt;p>WindTerm是一款部分开源的软件，现目前(2024/5/28)仍存在部分小问题，不过不影响正常使用。&lt;/p>
+&lt;p>安装可以从&lt;a class="link" href="https://github.com/kingToolbox/WindTerm" target="_blank" rel="noopener"
+>github仓库&lt;/a>的&lt;a class="link" href="https://github.com/kingToolbox/WindTerm/releases" target="_blank" rel="noopener"
+>发布页面&lt;/a>根据自己的操作系统手动下载已发布的版本。&lt;/p>
+&lt;h4 id="使用">
+&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+使用
+&lt;/h4>&lt;p>使用WindTerm也很简单，语言支持中文。花点时间就能学会。&lt;/p>
+&lt;p>WindTerm在windows环境下建议将默认的shell修改为git bash。个人爱好。&lt;/p>
+&lt;p>Windows Terminal和WindTerm两款终端应用都建议安装，各有各的优点和用图。不过我一般使用WindTerm多一点，因为Windows Terminal有的功能WindTerm都有，并且后者有更好的配色方案，支持文件传输，内置远程连接。&lt;/p>
+&lt;p>安装Windows Terminal主要是因为Windows Terminal集成了Win10的cmd、PowerShell终端。&lt;/p>
+&lt;hr>
+&lt;h2 id="参考">
+&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
+参考
+&lt;/h2>&lt;blockquote>
+&lt;ul>
+&lt;li>原文地址: &lt;a class="link" href="https://juejin.cn/post/7229507721795993661" target="_blank" rel="noopener"
+>https://juejin.cn/post/7229507721795993661&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item></channel></rss>

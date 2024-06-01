@@ -1,4 +1,1998 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go第三方库 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/</link><description>Recent content in Go第三方库 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Wed, 15 May 2024 22:26:10 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Go-ini Introduction</title><link>https://arlettebrook.github.io/p/go-ini-introduction/</link><pubDate>Wed, 15 May 2024 22:26:10 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-ini-introduction/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go第三方库 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/</link><description>Recent content in Go第三方库 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Tue, 21 May 2024 17:58:00 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Gin Introduction</title><link>https://arlettebrook.github.io/p/gin-introduction/</link><pubDate>Tue, 21 May 2024 17:58:00 +0800</pubDate><guid>https://arlettebrook.github.io/p/gin-introduction/</guid><description>&lt;hr>
+&lt;h2 id="介绍">
+&lt;a href="#%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
+介绍
+&lt;/h2>&lt;p>Gin 是一个用 Golang编写的高性能的web 框架, 由于&lt;a class="link" href="https://github.com/julienschmidt/httprouter" target="_blank" rel="noopener"
+>http路由&lt;/a>的优化，运行速度非常快，速度提高了近 40 倍。 Gin的特点就是封装优雅、API友好。&lt;/p>
+&lt;p>Gin 最擅长的就是API接口的高并发，如果项目的规模不大，业务相对简单，这个时候我们也推荐您使用 Gin。&lt;/p>
+&lt;p>当某个接口的性能遭到较大挑战的时候，这个还是可以考虑使用 Gin 重写接口。&lt;/p>
+&lt;p>Gin 也是一个流行的 golang Web 框架，Github Strat 量已经超过了 75k[2024/05/21]。&lt;/p>
+&lt;p>Gin的一些特性：&lt;/p>
+&lt;ul>
+&lt;li>快速
+基于 Radix 树的路由，小内存占用。没有反射。可预测的 API 性能。&lt;/li>
+&lt;li>支持中间件
+传入的 HTTP 请求可以由一系列中间件和最终操作来处理。 例如：Logger，Authorization，GZIP，最终操作 DB。&lt;/li>
+&lt;li>Crash 处理
+Gin 可以 catch 一个发生在 HTTP 请求中的 panic 并 recover 它。这样，你的服务器将始终可用。例如，你可以向 Sentry 报告这个 panic！&lt;/li>
+&lt;li>JSON 验证
+Gin 可以解析并验证请求的 JSON，例如检查所需值的存在。&lt;/li>
+&lt;li>路由组
+更好地组织路由。是否需要授权，不同的 API 版本…… 此外，这些组可以无限制地嵌套而不会降低性能。&lt;/li>
+&lt;li>错误管理
+Gin 提供了一种方便的方法来收集 HTTP 请求期间发生的所有错误。最终，中间件可以将它们写入日志文件，数据库并通过网络发送。&lt;/li>
+&lt;li>内置渲染
+Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。&lt;/li>
+&lt;li>可扩展性
+新建一个中间件非常简单。&lt;/li>
+&lt;/ul>
+&lt;p>Gin 的官网：https://gin-gonic.com/zh-cn/
+Gin Github 地址：https://github.com/gin-gonic/gin&lt;/p>
+&lt;hr>
+&lt;h2 id="快速使用">
+&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+快速使用
+&lt;/h2>&lt;p>下载并安装 gin：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="err">$&lt;/span> &lt;span class="k">go&lt;/span> &lt;span class="nx">get&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="nx">u&lt;/span> &lt;span class="nx">github&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">com&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nx">gonic&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">gin&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意：go版本要 1.6 及以上。&lt;/p>
+&lt;p>快速使用示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 导入gin包
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 入口函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 初始化一个http服务对象，创建一个默认的路由引擎对象
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 配置路由
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 设置一个get请求的路由，url为/ping, 处理函数（或者叫控制器函数、回调函数）是一个闭包函数。
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/ping&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 通过请求上下文对象Context, 直接往客户端返回一个json
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">200&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;pong&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Run&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 启动 HTTP 服务，默认在 0.0.0.0:8080 启动服务
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">panic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Http serve start error:&amp;#34;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行命令&lt;code>go run main.go&lt;/code>，即可启动http服务。然后就可以通过localhost:8080/ping 访问了。会返回如下内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nt">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;pong&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意：如果不期望在测试的时候，每次都弹出防火墙警告，可将监听地址、端口改为&lt;code>localhost:8080&lt;/code>。生产环境应该为&lt;code>:port&lt;/code>，省略地址，默认为&lt;code>0.0.0.0&lt;/code>。&lt;/p>
+&lt;h3 id="gin框架热重载">
+&lt;a href="#gin%e6%a1%86%e6%9e%b6%e7%83%ad%e9%87%8d%e8%bd%bd" class="header-anchor">#&lt;/a>
+Gin框架热重载
+&lt;/h3>&lt;p>所谓热重载就是当我们对代码进行修改时，程序能够自动重新加载并执行，这在我们开发中是非常便利的，可以快速进行代码测试，省去了每次手动重新编译。&lt;/p>
+&lt;p>Gin框架并没有提供热重载的功能，这个时候我们要实现热重载就要借助第三方的工具。&lt;/p>
+&lt;p>这里推荐一个使用最多的gin框架热重载工具：&lt;strong>&lt;a class="link" href="https://github.com/cosmtrek/air/" target="_blank" rel="noopener"
+>air&lt;/a>&lt;/strong>。它是在 &lt;a class="link" href="https://github.com/pilu/fresh" target="_blank" rel="noopener"
+>fresh&lt;/a> 的基础上诞生的。&lt;/p>
+&lt;p>特性：&lt;/p>
+&lt;ul>
+&lt;li>彩色的日志输出&lt;/li>
+&lt;li>自定义构建或必要的命令&lt;/li>
+&lt;li>支持外部子目录&lt;/li>
+&lt;li>在 Air 启动之后，允许监听新创建的路径&lt;/li>
+&lt;li>&lt;strong>更棒的构建过程&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>原理大致是：监听到文件系统修改通知后，重新构建应用程序。&lt;/p>
+&lt;h4 id="air基本使用">
+&lt;a href="#air%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+air基本使用
+&lt;/h4>&lt;p>安装：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">go install github.com/cosmtrek/air@latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意：go版本要1.22 或更高。&lt;/p>
+&lt;p>安装成功之后，就可以在gin项目根目录下直接运行&lt;code>air&lt;/code>命令，就可以启动gin项目，实现热重载。&lt;/p>
+&lt;p>air默认情况下使用默认配置启动服务。如果要修改默认配置，可以运行&lt;code>air init&lt;/code>生成默认的配置文件&lt;code>.air.toml&lt;/code>，修改之后，运行&lt;code>air&lt;/code>即可使用修改的配置启动服务，注意：如果修改了配置文件名，需要用&lt;code>-c&lt;/code>选项指定新的配置文件。否则将使用默认的&lt;code>.air.toml&lt;/code>启动服务。&lt;/p>
+&lt;p>一般使用默认配置就够用了。可修改的内容如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">root&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">testdata_dir&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;testdata&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">tmp_dir&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;tmp&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">build&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">args_bin&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">bin&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;tmp\\main.exe&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">cmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;go build -o ./tmp/main.exe .&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">delay&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">1000&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">exclude_dir&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;assets&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;tmp&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;vendor&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;testdata&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">exclude_file&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">exclude_regex&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;_test.go&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">exclude_unchanged&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">follow_symlink&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">full_bin&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">include_dir&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">include_ext&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;go&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;tpl&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;tmpl&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;html&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">include_file&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">kill_delay&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;0s&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;build-errors.log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">poll&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">poll_interval&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">post_cmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">pre_cmd&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rerun&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rerun_delay&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">500&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">send_interrupt&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">stop_on_error&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">color&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">app&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">build&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;yellow&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">main&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;magenta&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">runner&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;green&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">watcher&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s2">&amp;#34;cyan&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">main_only&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">time&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">misc&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">clean_on_exit&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">proxy&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">app_port&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">enabled&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">proxy_port&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">screen&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">clear_on_rebuild&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">keep_scroll&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>基本使用如上，更多内容参考&lt;a class="link" href="https://github.com/cosmtrek/air/" target="_blank" rel="noopener"
+>air官方&lt;/a>。&lt;/p>
+&lt;h3 id="项目结构">
+&lt;a href="#%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84" class="header-anchor">#&lt;/a>
+项目结构
+&lt;/h3>&lt;p>实际项目业务功能和模块会很多，我们不可能把所有代码都写在一个go文件里面或者写在一个main入口函数里面；我们需要对项目结构做一些规划，方便维护代码以及扩展。&lt;/p>
+&lt;blockquote>
+&lt;p>Gin框没有对项目结构做出限制，我们可以根据自己项目需要自行设计。&lt;/p>
+&lt;/blockquote>
+&lt;p>这里给出一个典型的MVC框架大致的项目结构的例子，大家可以参考下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">├── conf &lt;span class="c1">#项目配置文件目录&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ └── config.toml &lt;span class="c1">#大家可以选择自己熟悉的配置文件管理工具包例如：toml、xml等等&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── controllers &lt;span class="c1">#控制器目录，按模块存放控制器（或者叫控制器函数），必要的时候可以继续划分子目录。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ ├── food.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ └── user.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── main.go &lt;span class="c1">#项目入口，这里负责Gin框架的初始化，注册路由信息，关联控制器函数等。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── models &lt;span class="c1">#模型目录，负责项目的数据存储部分，例如各个模块的Mysql表的读写模型。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ ├── food.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ └── user.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── static &lt;span class="c1">#静态资源目录，包括Js，css，jpg等等，可以通过Gin框架配置，直接让用户访问。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ ├── css
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ ├── images
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ └── js
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── logs &lt;span class="c1">#日志文件目录，主要保存项目运行过程中产生的日志。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└── views &lt;span class="c1">#视图模板目录，存放各个模块的视图模板，当然有些项目只有api，是不需要视图部分，可以忽略这个目录&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └── index.html
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> routes
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="gin框架运行模式">
+&lt;a href="#gin%e6%a1%86%e6%9e%b6%e8%bf%90%e8%a1%8c%e6%a8%a1%e5%bc%8f" class="header-anchor">#&lt;/a>
+Gin框架运行模式
+&lt;/h3>&lt;p>为方便调试，Gin 框架在运行的时候默认是debug模式，在控制台默认会打印出很多调试日志，上线的时候我们需要关闭&lt;code>debug&lt;/code>模式，改为&lt;code>release&lt;/code>模式。&lt;/p>
+&lt;p>设置Gin框架运行模式：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>通过环境变量设置&lt;code>GIN_MODE&lt;/code>，如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">GIN_MODE&lt;/span>&lt;span class="o">=&lt;/span>release
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>GIN_MODE环境变量，可以设置为debug或者release，默认为debug。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>通过代码设置:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 在main函数，初始化gin框架的时候执行下面代码
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 设置 release模式
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetMode&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ReleaseMode&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 或者 设置debug模式
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetMode&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DebugMode&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h2 id="路由与控制器">
+&lt;a href="#%e8%b7%af%e7%94%b1%e4%b8%8e%e6%8e%a7%e5%88%b6%e5%99%a8" class="header-anchor">#&lt;/a>
+路由与控制器
+&lt;/h2>&lt;p>Gin框架中的&lt;strong>路由&lt;/strong>是指通过HTTP请求的路径找到对应的控制器函数（也可以叫处理器函数）。Gin框架的路由是基于&lt;a class="link" href="https://github.com/julienschmidt/httprouter" target="_blank" rel="noopener"
+>httprouter&lt;/a>包实现的。&lt;/p>
+&lt;p>&lt;strong>控制器函数&lt;/strong>主要负责处理http请求和响应请求。&lt;/p>
+&lt;p>一个简单的例子：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 创建默认的路由引擎对象
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 配置路由：post请求, uri路径为：/user/login, 绑定doLogin控制器函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/user/login&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">doLogin&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 控制器函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">doLogin&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 获取post请求参数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">username&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">PostForm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">password&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">PostForm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;password&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 通过请求上下文对象Context, 直接往客户端返回一个字符串
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">String&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">200&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;username=%s,password=%s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">username&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="nx">password&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="路由规则">
+&lt;a href="#%e8%b7%af%e7%94%b1%e8%a7%84%e5%88%99" class="header-anchor">#&lt;/a>
+路由规则
+&lt;/h3>&lt;p>一条路由规则由三部分组成：&lt;/p>
+&lt;ul>
+&lt;li>http请求方法&lt;/li>
+&lt;li>url路径&lt;/li>
+&lt;li>控制器函数&lt;/li>
+&lt;/ul>
+&lt;h4 id="http请求方法">
+&lt;a href="#http%e8%af%b7%e6%b1%82%e6%96%b9%e6%b3%95" class="header-anchor">#&lt;/a>
+http请求方法
+&lt;/h4>&lt;p>常用的http请求方法有下面4种:&lt;/p>
+&lt;ul>
+&lt;li>GET：查Read-select&lt;/li>
+&lt;li>POST：增Create-insert&lt;/li>
+&lt;li>PUT：改Update-update&lt;/li>
+&lt;li>DELETE: 删Delete-delete&lt;/li>
+&lt;/ul>
+&lt;p>目前常用的API风格是RESTful风格。&lt;/p>
+&lt;p>在RESTful风格中，每个路径表示不同的资源，通过不同的请求方式访问相同的路径表示执行不同的操作（CRUD)。&lt;/p>
+&lt;p>RESTful CRUD示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">POST /users &lt;span class="c1"># 创建一个新用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">GET /users/1 &lt;span class="c1"># 获取ID为1的用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PUT /users/1 &lt;span class="c1"># 更新ID为1的用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DELETE /users/1 &lt;span class="c1"># 删除ID为1的用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 注意：1是路径参数&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="url路径">
+&lt;a href="#url%e8%b7%af%e5%be%84" class="header-anchor">#&lt;/a>
+url路径
+&lt;/h4>&lt;p>Gin框架中，url路径有三种写法：&lt;/p>
+&lt;ul>
+&lt;li>静态url路径&lt;/li>
+&lt;li>带路径参数的url路径&lt;/li>
+&lt;li>带星号（*）模糊匹配参数的url路径&lt;/li>
+&lt;/ul>
+&lt;p>下面看下各种url路由的例子&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">// 例子1， 静态Url路径, 即不带任何参数的url路径
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/users/center
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/user/111
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/food/12
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">// 例子2，带路径参数的url路径，url路径上面带有参数,参数由冒号（:）跟着一个字符串定义。
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">// 路径参数值可以是数值，也可以是字符串
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//定义参数:id， 可以匹配/user/1, /user/899 /user/xiaoli 这类Url路径
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/user/:id
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//定义参数:id， 可以匹配/food/2, /food/100 /food/apple 这类Url路径
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/food/:id
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//定义参数:type和:page， 可以匹配/foods/2/1, /food/100/25 /food/apple/30 这类Url路径
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/foods/:type/:page
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">// 例子3. 带星号（*）模糊匹配参数的url路径
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">// 星号代表匹配任意路径的意思, 必须在*号后面指定一个参数名，后面可以通过这个参数获取*号匹配的内容。
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//以/foods/ 开头的所有路径都匹配
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//匹配：/foods/1， /foods/200, /foods/1/20, /foods/apple/1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/foods/*path
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//可以通过path参数获取*号匹配的内容。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="控制器函数">
+&lt;a href="#%e6%8e%a7%e5%88%b6%e5%99%a8%e5%87%bd%e6%95%b0" class="header-anchor">#&lt;/a>
+控制器函数
+&lt;/h4>&lt;p>控制器函数定义：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">type HandlerFunc func(*Context)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>控制器函数接受一个上下文参数。
+可以通过上下文参数，获取http请求参数，响应http请求。&lt;/p>
+&lt;h3 id="配置路由示例">
+&lt;a href="#%e9%85%8d%e7%bd%ae%e8%b7%af%e7%94%b1%e7%a4%ba%e4%be%8b" class="header-anchor">#&lt;/a>
+配置路由示例
+&lt;/h3>&lt;p>配置路由就是利用路由规则定义路由：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//实例化gin实例对象。创建默认的路由引擎对象。
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 配置路由
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//定义post请求, url路径为：/users, 绑定saveUser控制器函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/users&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">saveUser&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//定义get请求，url路径为：/users/:id （:id是参数，例如: /users/10, 会匹配这个url模式），绑定getUser控制器函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/users/:id&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">getUser&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//定义put请求
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">PUT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/users/:id&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">updateUser&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//定义delete请求
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">DELETE&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/users/:id&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">deleteUser&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//控制器函数实现
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">saveUser&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>&lt;span class="nx">忽略实现&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">getUser&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>&lt;span class="nx">忽略实现&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">updateUser&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>&lt;span class="nx">忽略实现&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">deleteUser&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">...&lt;/span>&lt;span class="nx">忽略实现&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>提示：实际项目开发中不要把路由定义和控制器函数都写在一个go文件，不方便维护，可以参考第一章的项目结构，规划自己的业务模块。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="路由分组">
+&lt;a href="#%e8%b7%af%e7%94%b1%e5%88%86%e7%bb%84" class="header-anchor">#&lt;/a>
+&lt;strong>路由分组&lt;/strong>
+&lt;/h3>&lt;p>在做api开发的时候，如果要支持多个api版本，我们可以通过分组路由来实现api版本处理。&lt;/p>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">router&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 创建v1组
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">v1&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">router&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Group&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/v1&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 在v1这个分组下，注册路由
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">v1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/login&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">loginEndpoint&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">v1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/submit&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">submitEndpoint&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">v1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/read&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">readEndpoint&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 创建v2组
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">v2&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">router&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Group&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/v2&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 在v2这个分组下，注册路由
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">v2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/login&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">loginEndpoint&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">v2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/submit&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">submitEndpoint&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">v2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/read&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">readEndpoint&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">router&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Run&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;:8080&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>上面的例子将会注册下面的路由信息：&lt;/p>
+&lt;ul>
+&lt;li>/v1/login&lt;/li>
+&lt;li>/v1/submit&lt;/li>
+&lt;li>/v1/read&lt;/li>
+&lt;li>/v2/login&lt;/li>
+&lt;li>/v2/submit&lt;/li>
+&lt;li>/v2/read&lt;/li>
+&lt;/ul>
+&lt;p>路由分组，其实就是设置了同一类&lt;strong>路由的url前缀&lt;/strong>。&lt;/p>
+&lt;p>利用路由分组，我们可以实现将需要授权和不需要授权的API进行分组管理(后面介绍）。同时也能够将他们&lt;strong>分文件保存&lt;/strong>。&lt;/p>
+&lt;p>示例如下：&lt;/p>
+&lt;p>&lt;code>routers/router.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">routers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// registerRouterGroupFunc 定义类型别名，用于注册路由组的函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">type&lt;/span> &lt;span class="nx">registerRouterGroupFunc&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Engine&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 存储所有需要注册的路由组函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">var&lt;/span> &lt;span class="nx">routerGroups&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="nx">registerRouterGroupFunc&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 添加路由组函数到路由组列表中
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">addRouterGroup&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="nx">registerRouterGroupFunc&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">r&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">routerGroups&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">routerGroups&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 注册所有路由组到主路由组中
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">registerRoutes&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Engine&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="nx">_&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">register&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="k">range&lt;/span> &lt;span class="nx">routerGroups&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">register&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 加载所有路由组
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">loadRouterGroups&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">loadDefaultRouter&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">loadManageRouter&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// InitRouter 初始化主路由器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">InitRouter&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 创建默认的 Gin 路由器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 加载并注册所有路由组
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nf">loadRouterGroups&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">registerRoutes&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 启动服务器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Run&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;localhost:8080&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Start http serve error:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>routers/defaultRouter.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">routers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/arlettebrook/learn/controllers&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 加载所有默认的路由组
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 这里控制器函数没有分组保存
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">loadDefaultRouter&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">addRouterGroup&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Engine&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// defaultRouter := r.group(&amp;#34;/&amp;#34;) 可以省略
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// defaultRouter.Get(...) 与下面等效
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hello, world!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>routers/manageRouter.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">routers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/arlettebrook/learn/controllers&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 加载所有管理路由组
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">loadManageRouter&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">addRouterGroup&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Engine&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">manageRouter&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Group&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/manage&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">manageRouter&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/addUser&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Add user&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在main.go中调用&lt;code>routers.InitRouter()&lt;/code>即可启动gin框架。浏览器中访问 http://localhost:8080/manage/addUser、 http://localhost:8080/就可以访问注册的两条路由。&lt;/p>
+&lt;p>注意：默认路由组,在&lt;code>/&lt;/code>,意思就是：&lt;code>r.Group(&amp;quot;/&amp;quot;)&lt;/code>与&lt;code>r.Get(&amp;quot;/&amp;quot;,...)&lt;/code>属于同一组。&lt;/p>
+&lt;h3 id="控制器函数分组">
+&lt;a href="#%e6%8e%a7%e5%88%b6%e5%99%a8%e5%87%bd%e6%95%b0%e5%88%86%e7%bb%84" class="header-anchor">#&lt;/a>
+控制器函数分组
+&lt;/h3>&lt;p>当我们的项目比较大的时候有必要对我们的控制器进行分组。&lt;/p>
+&lt;p>参考&lt;a class="link" href="#%e8%b7%af%e7%94%b1%e5%88%86%e7%bb%84" >路由分组&lt;/a>示例，使用控制器函数分组可修改为：&lt;/p>
+&lt;p>&lt;code>routers/defaultRouter.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">routers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/arlettebrook/learn/controllers&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">loadDefaultRouter&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">addRouterGroup&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Engine&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">defaultController&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">controllers&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DefaultController&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">defaultController&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Index&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>routers/manageRouter.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">routers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/arlettebrook/learn/controllers&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">loadManageRouter&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">addRouterGroup&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Engine&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">manageRouter&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Group&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/manage&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">manageController&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">controllers&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ManageController&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">manageRouter&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/addUser&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">manageController&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">AddUser&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>添加的控制器分组：&lt;/p>
+&lt;p>&lt;code>controllers/defaultController.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">controllers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">DefaultController&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">d&lt;/span> &lt;span class="nx">DefaultController&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Index&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hello, world!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>controllers/manageController.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">controllers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">ManageController&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">m&lt;/span> &lt;span class="nx">ManageController&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">AddUser&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Add user&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>注意：为什么要在控制器里面定义对应的结构体对象呢？&lt;/p>
+&lt;ul>
+&lt;li>防止在同一个包下出现同名方法。&lt;/li>
+&lt;li>更加语义化，方便调用。&lt;/li>
+&lt;li>可以实现&lt;strong>控制器继承&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h4 id="控制器继承">
+&lt;a href="#%e6%8e%a7%e5%88%b6%e5%99%a8%e7%bb%a7%e6%89%bf" class="header-anchor">#&lt;/a>
+控制器继承
+&lt;/h4>&lt;p>控制器继承，可以将一些共用的控制器函数封装出来，实现代码优化。&lt;/p>
+&lt;p>示例：&lt;/p>
+&lt;p>&lt;code>controllers/baseController.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">controllers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">BaseController&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">b&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">BaseController&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Ok&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ctx&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Success!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">b&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">BaseController&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Fail&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ctx&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Fail!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>controllers/defaultController.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">controllers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">DefaultController&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">BaseController&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">d&lt;/span> &lt;span class="nx">DefaultController&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Index&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hello, world!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>routers/defaultRouter.go&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">routers&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/arlettebrook/learn/controllers&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">loadDefaultRouter&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">addRouterGroup&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Engine&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">defaultController&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">controllers&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">DefaultController&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">defaultController&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Index&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/extend/s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">defaultController&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Ok&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/extend/f&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">defaultController&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Fail&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>所以，我们只需要对应的控制器继承&lt;code>BaseController&lt;/code>，那么该控制器就有对应的公有控制器函数。&lt;/p>
+&lt;p>TODO: 利用控制器，还能实现更多的操作，未完待续&amp;hellip;&lt;/p>
+&lt;hr>
+&lt;h2 id="获取请求参数">
+&lt;a href="#%e8%8e%b7%e5%8f%96%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
+获取请求参数
+&lt;/h2>&lt;p>本章介绍Gin框架获取请求参数的方式。&lt;/p>
+&lt;h3 id="获取查询参数">
+&lt;a href="#%e8%8e%b7%e5%8f%96%e6%9f%a5%e8%af%a2%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
+获取查询参数
+&lt;/h3>&lt;p>查询（query）参数是url路径中&lt;code>?&lt;/code>后面的所有键值对，他们用&lt;code>&amp;amp;&lt;/code>符合连接。url例子：/query?id=1234&amp;amp;name=Manu&amp;amp;value=111&lt;/p>
+&lt;p>Gin框架获取查询参数的&lt;strong>常用函数&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>func&lt;/strong> (c *Context) &lt;strong>Query&lt;/strong>(key string) string
+&lt;ul>
+&lt;li>键不存在返回空字符串。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>func&lt;/strong> (c *Context) &lt;strong>DefaultQuery&lt;/strong>(key, defaultValue string) string
+&lt;ul>
+&lt;li>键不存在，使用默认值。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>func&lt;/strong> (c *Context) &lt;strong>GetQuery&lt;/strong>(key string) (string, bool)
+&lt;ul>
+&lt;li>键存在返回值和true。键不存在返回空字符串和false。键的值为空字符串也返回空字符串和false。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>注意：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>获取的查询参数类型都为string。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>通常情况下查询参数出现在GET请求当中，因为GET请求参数会出现在url路径中。当然在POST请求中也能够获取查询参数。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：/user?uid=20&amp;amp;page=1&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">router&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/user&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">uid&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Query&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;uid&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">page&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">DefaultQuery&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;page&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">String&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">200&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;uid=%v page=%v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">uid&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">page&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="获取路径参数">
+&lt;a href="#%e8%8e%b7%e5%8f%96%e8%b7%af%e5%be%84%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
+获取路径参数
+&lt;/h3>&lt;p>路径（param）参数是包含在url路径中的参数，通常在url中不容易区分，只有在绑定路径参数的地方才能正确判断。&lt;/p>
+&lt;p>绑定路径参数的语法是&lt;code>/:+参数名&lt;/code>，如&lt;code>/user/:id&lt;/code>，就是在user路径下绑定一个id参数，那么/user/1, /user/2&amp;hellip;, user后面的一级都是路径参数。&lt;/p>
+&lt;p>当然路径参数也支持嵌套，如：/user/:id/:name/:age, /user/001/jack/18&lt;/p>
+&lt;p>获取路径参数常用函数：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>func&lt;/strong> (c *Context) &lt;strong>Param&lt;/strong>(key string) string
+&lt;ul>
+&lt;li>获取路径中指定位置的参数，键不存在，返回空字符串。&lt;/li>
+&lt;li>注意：键名要与绑定的路径参数名一直，没有冒号。位置要一一对应，否则请求会404.&lt;/li>
+&lt;li>通常获取GET请求中的路径参数，但也能获取POST请求中的路径参数。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：域名/user/20&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/user/:uid&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">uid&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Param&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;uid&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">String&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">200&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;userID=%s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">uid&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="获取表单参数">
+&lt;a href="#%e8%8e%b7%e5%8f%96%e8%a1%a8%e5%8d%95%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
+获取表单参数
+&lt;/h3>&lt;p>表单参数是位于请求体中的，所以只适用于POST请求。&lt;/p>
+&lt;p>所以一般说获取表单参数就是获取POST请求参数。&lt;/p>
+&lt;p>获取Post请求参数的常用函数：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>func&lt;/strong> (c *Context) &lt;strong>PostForm&lt;/strong>(key string) string
+&lt;ul>
+&lt;li>从请求体（表单）中获取指定键的值，不存在返回空字符串。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>func&lt;/strong> (c *Context) &lt;strong>DefaultPostForm&lt;/strong>(key, defaultValue string) string
+&lt;ul>
+&lt;li>键不存在，指定默认值。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>func&lt;/strong> (c *Context) &lt;strong>GetPostForm&lt;/strong>(key string) (string, bool)
+&lt;ul>
+&lt;li>键不存在返回空字符串和false，存在返回值和true。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>注意：
+&lt;ul>
+&lt;li>获取的参数类型但是string。&lt;/li>
+&lt;li>以上方法不能获取请求体中的json、xml等原始数据。只能获取表单数据。
+&lt;ul>
+&lt;li>获取原始数据，可以通过&lt;a class="link" href="#%e5%b0%86%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0%e7%bb%91%e5%ae%9a%e5%88%b0%e7%bb%93%e6%9e%84%e4%bd%93%e5%af%b9%e8%b1%a1" >参数与结构体对象绑定&lt;/a>获取。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/doAddUser&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">username&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">PostForm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">password&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">PostForm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;password&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">age&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">DefaultPostForm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;age&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;20&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">200&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;usernmae&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">username&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;password&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">password&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;age&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">age&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="将请求参数绑定到结构体对象">
+&lt;a href="#%e5%b0%86%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0%e7%bb%91%e5%ae%9a%e5%88%b0%e7%bb%93%e6%9e%84%e4%bd%93%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
+将请求参数绑定到结构体对象
+&lt;/h3>&lt;p>前面获取参数的方式都是一个个参数的读取，比较麻烦，Gin框架支持根据请求参数类型自动绑定到一个struct对象。&lt;/p>
+&lt;p>用到的方法是&lt;code>Bind&lt;/code>和&lt;code>ShouldBind&lt;/code>：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>二者会根据请求参数的类型自动选择对应的绑定引擎进行绑定&lt;/p>
+&lt;ul>
+&lt;li>根据请求头的MIME类型判断。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>支持查询、表单、请求体原始数据（常用：xml、json）参数，&lt;strong>不支持路径参数&lt;/strong>。&lt;/p>
+&lt;ul>
+&lt;li>如果需要将路径参数绑定到结构体，需要指定绑定引擎为&lt;code>XxxUri&lt;/code>，并且用&lt;code>uri&lt;/code>标签指定字段。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>都可指定对应的绑定引擎就行绑定，如：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>BindQuery&lt;/code>、&lt;code>ShouldBindQuery&lt;/code>。&lt;/li>
+&lt;li>&lt;code>BindJSON&lt;/code>、&lt;code>ShouldBindJSON&lt;/code>。&lt;/li>
+&lt;li>&lt;code>BindUri&lt;/code>、&lt;code>ShouldBindUri&lt;/code>。
+&lt;ul>
+&lt;li>绑定路径参数，注意需要用&lt;code>uri&lt;/code>标签指定字段。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&amp;hellip;&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>绑定的结构体字段需要与参数的键一直，才能绑定成功。如果不一致需要用结构体标签指明。格式为&lt;code>参数类型:键名&lt;/code>，常用的绑定标签：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>form&lt;/code>: 指定表单参数和查询参数的键。&lt;/li>
+&lt;li>&lt;code>json&lt;/code>：指定json参数的键。&lt;/li>
+&lt;li>&lt;code>xml&lt;/code>：指定xml参数的键。&lt;/li>
+&lt;li>&lt;code>uri&lt;/code>：指定路径参数的键。&lt;/li>
+&lt;li>&lt;code>binding&lt;/code>：指定&lt;strong>绑定验证&lt;/strong>，如果验证失败，绑定会失败。多个属性用&lt;code>,&lt;/code>分隔。常用属性：
+&lt;ul>
+&lt;li>必填字段（&lt;code>required&lt;/code>）：确保字段在请求中必须存在且不能为空。&lt;/li>
+&lt;li>最小长度（&lt;code>min&lt;/code>）: 确保字符串或数组的长度不小于指定值。&lt;/li>
+&lt;li>最大长度（&lt;code>max&lt;/code>）: 确保字符串或数组的长度不大于指定值。&lt;/li>
+&lt;li>正则表达式（&lt;code>regexp&lt;/code>）: 确保字符串符合指定的正则表达式。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">User&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Id&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="s">`form:&amp;#34;id&amp;#34; json:&amp;#34;id&amp;#34; xml:&amp;#34;id&amp;#34; uri:&amp;#34;id&amp;#34; binding:&amp;#34;required&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Name&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`form:&amp;#34;name&amp;#34; json:&amp;#34;name&amp;#34; xml:&amp;#34;name&amp;#34; uri:&amp;#34;name&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Id字段在表单和查询参数中的键是id，json数据中的键是id，xml数据中的键是id，路径参数中的键是id，并且该字段在请求参数中必须存在且不为空，才能绑定成功。Name字段同理。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>binding&lt;/code> 标签通常与其他标签（如 &lt;code>json&lt;/code>、&lt;code>form&lt;/code> 等）结合使用，以指定键名和绑定验证。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>二者区别：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Bind&lt;/code>绑定结构体失败，会自动响应错误400：Bad Request&lt;/li>
+&lt;li>&lt;code>ShouldBind&lt;/code>绑定失败不会自动响应错误，需要手动处理响应错误。&lt;/li>
+&lt;li>一般推荐使用&lt;code>ShouldBind&lt;/code>，更容易定制化。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">User&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Username&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`json:&amp;#34;username&amp;#34; binding:&amp;#34;required,min=3,max=20&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Password&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`json:&amp;#34;password&amp;#34; binding:&amp;#34;required,min=8&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Email&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`json:&amp;#34;email&amp;#34; binding:&amp;#34;required,email&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Age&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="s">`json:&amp;#34;age&amp;#34; binding:&amp;#34;required,min=18,max=65&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">POST&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/register&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">user&lt;/span> &lt;span class="nx">User&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ShouldBindJSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">user&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusBadRequest&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;error&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">()})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;registration successful&amp;#34;&lt;/span>&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Run&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;:8080&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在这个示例中：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Username&lt;/code> 字段必须存在且长度在 3 到 20 之间。&lt;/li>
+&lt;li>&lt;code>Password&lt;/code> 字段必须存在且长度至少为 8。&lt;/li>
+&lt;li>&lt;code>Email&lt;/code> 字段必须存在且符合 email 格式。&lt;/li>
+&lt;li>&lt;code>Age&lt;/code> 字段必须存在且值在 18 到 65 之间。&lt;/li>
+&lt;/ul>
+&lt;h3 id="gin如何获取客户ip">
+&lt;a href="#gin%e5%a6%82%e4%bd%95%e8%8e%b7%e5%8f%96%e5%ae%a2%e6%88%b7ip" class="header-anchor">#&lt;/a>
+Gin如何获取客户ip
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/ip&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 获取用户IP
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">ip&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ClientIP&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">remoteIP&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">RemoteIP&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>ClientIP&lt;/code>方法会&lt;strong>尽力&lt;/strong>返回客户端真实ip。会考虑代理的情况。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>RemoteIP&lt;/code>方法返回与服务器直接连接的ip，不考虑代理的情况。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>区别（了解）：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>数据来源&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>RemoteIP()&lt;/code> 直接从 &lt;code>c.Request.RemoteAddr&lt;/code> 获取 IP 地址。&lt;/li>
+&lt;li>&lt;code>ClientIP()&lt;/code> 优先从请求头（如 &lt;code>X-Forwarded-For&lt;/code>、&lt;code>X-Real-IP&lt;/code> 等）中获取 IP 地址，如果请求头中没有这些字段，则退回到 &lt;code>RemoteAddr&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>使用场景&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>RemoteIP()&lt;/code> 更适用于需要获取直接连接到服务器的客户端 IP 地址的场景。&lt;/li>
+&lt;li>&lt;code>ClientIP()&lt;/code> 更适用于需要获取经过代理服务器后的客户端真实 IP 地址的场景，适用于有反向代理或负载均衡器的环境。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>处理代理&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>RemoteIP()&lt;/code> 不考虑代理的情况，只返回直接连接的客户端 IP。&lt;/li>
+&lt;li>&lt;code>ClientIP()&lt;/code> 考虑代理的情况，优先从请求头获取客户端的真实 IP，适用于处理经过多个代理的请求。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="响应请求参数">
+&lt;a href="#%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
+响应请求参数
+&lt;/h2>&lt;p>本章介绍处理完http请求后如何响应请求，Gin框架支持以字符串、json、xml、文件等格式响应请求。&lt;/p>
+&lt;p>gin.Context上下文对象支持多种返回处理结果，下面分别介绍不同的响应方式。&lt;/p>
+&lt;h3 id="以字符串格式响应请求">
+&lt;a href="#%e4%bb%a5%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
+以字符串格式响应请求
+&lt;/h3>&lt;p>通过String方法返回字符串。&lt;/p>
+&lt;p>方法定义：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">String&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">code&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">format&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">values&lt;/span> &lt;span class="o">...&lt;/span>&lt;span class="kd">interface&lt;/span>&lt;span class="p">{})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>参数说明：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">参数&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">code&lt;/td>
+&lt;td style="text-align:left">http状态码&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">format&lt;/td>
+&lt;td style="text-align:left">返回结果，支持类似Sprintf函数一样的字符串格式定义，例如,%d 代表插入整数，%s代表插入字符串&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">values&lt;/td>
+&lt;td style="text-align:left">任意个format参数定义的字符串格式参数&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/news&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">aid&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Query&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;aid&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">String&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;aid=%s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">aid&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>提示： net/http包定义了多种常用的状态码常量，例如：http.StatusOK == 200， http.StatusMovedPermanently == 301， http.StatusNotFound == 404, http.StatusBadRequest == 400等，具体可以参考net/http包&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="以json格式响应请求">
+&lt;a href="#%e4%bb%a5json%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
+以json格式响应请求
+&lt;/h3>&lt;p>我们开发api接口的时候常用的格式就是json。&lt;/p>
+&lt;p>通过&lt;code>JSON&lt;/code>方法返回json数据。&lt;/p>
+&lt;p>方法定义：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-GO" data-lang="GO">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">code&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">obj&lt;/span> &lt;span class="nx">any&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>参数说明：&lt;/p>
+&lt;ul>
+&lt;li>code：响应的http状态码。&lt;/li>
+&lt;li>obj：响应的json数据。类型是可以序列化为json类型的数据，如：结构体对象、map[string]any。Gin框架会自动将它们序列化为JSON数据，并将它们放在请求体当中。
+&lt;ul>
+&lt;li>Gin框架为方便将map数据作为json响应，提供了一个快捷类型：&lt;code>type H map[string]any&lt;/code>，&lt;code>gin.H&lt;/code>是&lt;code>map[string]any&lt;/code>类型。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">User&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Id&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="s">`form:&amp;#34;id&amp;#34; json:&amp;#34;id&amp;#34; xml:&amp;#34;id&amp;#34; uri:&amp;#34;id&amp;#34; binding:&amp;#34;required&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Name&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`form:&amp;#34;name&amp;#34; json:&amp;#34;name&amp;#34; xml:&amp;#34;name&amp;#34; uri:&amp;#34;name&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// gin.H 是 map[string]interface{}的缩写
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/someJSON&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 方式一：自己拼接 JSON
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hello world!&amp;#34;&lt;/span>&lt;span class="p">})&lt;/span> &lt;span class="c1">// {&amp;#34;messgae&amp;#34;:&amp;#34;Hello world!&amp;#34;}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/moreJSON&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 方法二：使用结构体
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">u&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">models&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">User&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">Id&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">123&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Name&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Marry&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">u&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// {&amp;#34;id&amp;#34;:123,&amp;#34;name&amp;#34;:&amp;#34;Marry&amp;#34;}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Run&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;localhost:8080&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="以带填充的json格式响应请求了解">
+&lt;a href="#%e4%bb%a5%e5%b8%a6%e5%a1%ab%e5%85%85%e7%9a%84json%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82%e4%ba%86%e8%a7%a3" class="header-anchor">#&lt;/a>
+以带填充的json格式响应请求（了解）
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>用到的方法是&lt;code>JSONP&lt;/code>，英文名为：JSON with Padding，中文大概：带填充的json。&lt;/p>
+&lt;ul>
+&lt;li>只有当请求中指定查询参数&lt;code>callback&lt;/code>时，才会响应带填充的json，否则，只响应json。&lt;/li>
+&lt;li>示例：
+&lt;ul>
+&lt;li>请求：&lt;code>http://localhost:8080/get?callback=abc&lt;/code>，响应：&lt;code>abc({json数据})&lt;/code>。
+&lt;ul>
+&lt;li>&lt;code>Content-Type：application/javascript; charset=utf-8&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>请求：&lt;code>http://localhost:8080/get&lt;/code>，响应：&lt;code>{json数据}&lt;/code>。
+&lt;ul>
+&lt;li>&lt;code>Content-Type：application/json; charset=utf-8&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>作用：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>JSONP&lt;/strong> 是一种&lt;strong>古老的跨域请求解决方案&lt;/strong>，通过 &lt;code>&amp;lt;script&amp;gt;&lt;/code> 标签加载和执行 JavaScript 代码来实现数据传输，因此只适用于 &lt;code>GET&lt;/code> 请求的简单跨域场景。
+&lt;ul>
+&lt;li>因为要配合script标签的src属性使用，它只能发送GET请求。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>具体使用：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>在前端定义好回调函数名。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>通过&lt;code>&amp;lt;script&amp;gt;&lt;/code> 标签的 src 属性指向跨域的服务器，并包含一个查询参数 callback，其值是一个回调函数的名字。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>服务器收到请求后，将数据包装在回调函数中，生成一段 JavaScript 代码，并返回给客户端。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>浏览器加载并执行返回的 JavaScript 代码，从而调用回调函数，回调函数接收数据并处理。&lt;/strong>&lt;/p>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/get&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">data&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kd">interface&lt;/span>&lt;span class="p">{}{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hello, World!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;success&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSONP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;data&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>http://localhost:8080/get?callback=abc&lt;/code>响应：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">abc&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;data&amp;#34;&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;Hello, World!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;success&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>http://localhost:8080/get&lt;/code>响应：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;data&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Hello, World!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;success&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>注意事项：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>存在数据安全问题&lt;/strong>：由于 JSONP 是通过执行返回的 JavaScript 代码来实现数据传输的，如果不对返回的数据进行验证，可能会执行恶意代码。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>支持有限&lt;/strong>：JSONP 只支持 &lt;code>GET&lt;/code> 请求，不支持其他 HTTP 方法（如 &lt;code>POST&lt;/code>、&lt;code>PUT&lt;/code>、&lt;code>DELETE&lt;/code> 等）。因此，它只适用于获取数据的场景。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>推荐使用&lt;strong>现代跨域解决方案&lt;/strong>：CORS（Cross-Origin Resource Sharing）跨域资源共享，允许浏览器向跨域服务器发送请求并接受响应。&lt;strong>通过设置适当的 HTTP 头，服务器可以指示浏览器允许跨域请求，不受同源策略控制，报错。&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>就是设置对应的响应头（跨域资源共享头cors头），告诉浏览器允许跨域请求&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>主要的 CORS 头部：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>Access-Control-Allow-Origin&lt;/strong>：指定允许的源。 &lt;code>*&lt;/code> 表示允许所有源。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Access-Control-Allow-Methods&lt;/strong>：指定允许的 HTTP 方法。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Access-Control-Allow-Headers&lt;/strong>：指定允许的请求头。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Access-Control-Allow-Credentials&lt;/strong>：指示是否允许发送凭证。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Access-Control-Expose-Headers&lt;/strong>：指定可以暴露的响应头。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Access-Control-Max-Age&lt;/strong>：指定预检请求结果的缓存时间。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>注意：以上头都只有在跨域请求中才会进行校验。&lt;/p>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/gin-gonic/gin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;net/http&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">CORSMiddleware&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">HandlerFunc&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Writer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Header&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">Set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Access-Control-Allow-Origin&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;*&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Writer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Header&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">Set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Access-Control-Allow-Methods&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;GET, POST, OPTIONS&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Writer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Header&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">Set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Access-Control-Allow-Headers&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Origin, Content-Type, Accept&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Request&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Method&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s">&amp;#34;OPTIONS&amp;#34;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AbortWithStatus&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusNoContent&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Next&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Use&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nf">CORSMiddleware&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/data&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">data&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kd">interface&lt;/span>&lt;span class="p">{}{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hello, World!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;success&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">JSON&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Run&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;:8080&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>本文后面会介绍&lt;a class="link" href="#%e4%b8%ad%e9%97%b4%e4%bb%b6" >Gin中间件&lt;/a>。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>在Gin框架中，Gin 官方推荐使用 &lt;code>gin-contrib/cors&lt;/code> 中间件来设置 CORS 头部。&lt;/p>
+&lt;ol>
+&lt;li>不出意外的话，后面会出一篇关于cors详细介绍以及&lt;a class="link" href="https://github.com/gin-contrib/cors" target="_blank" rel="noopener"
+>gin-contrib/cors&lt;/a>使用的文章：&lt;a class="link" href="https://arlettebrook.github.io/p/cors-introduction" target="_blank" rel="noopener"
+>Cors Introduction&lt;/a>。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="以xml格式响应请求">
+&lt;a href="#%e4%bb%a5xml%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
+以xml格式响应请求
+&lt;/h3>&lt;p>通过&lt;code>XML&lt;/code>方法返回xml数据&lt;/p>
+&lt;p>方法定义：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-GO" data-lang="GO">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">XML&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">code&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">obj&lt;/span> &lt;span class="nx">any&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>该方法与&lt;code>JSON&lt;/code>方法类似。&lt;/p>
+&lt;p>参数说明：&lt;/p>
+&lt;ul>
+&lt;li>code：响应的http状态码。&lt;/li>
+&lt;li>obj：响应的xml数据。类型是能够序列化成xml数据的类型，如map[string]any、结构体对象。&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">User&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Id&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="s">`form:&amp;#34;id&amp;#34; json:&amp;#34;id&amp;#34; xml:&amp;#34;id&amp;#34; uri:&amp;#34;id&amp;#34; binding:&amp;#34;required&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Name&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="s">`form:&amp;#34;name&amp;#34; json:&amp;#34;name&amp;#34; xml:&amp;#34;name&amp;#34; uri:&amp;#34;name&amp;#34;`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Default&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// gin.H 是 map[string]interface{}的缩写
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/someXML&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">XML&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">H&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Hello world!&amp;#34;&lt;/span>&lt;span class="p">})&lt;/span> &lt;span class="c1">// &amp;lt;map&amp;gt;&amp;lt;message&amp;gt;Hello world!&amp;lt;/message&amp;gt;&amp;lt;/map&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GET&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/moreXML&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">gin&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Context&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 方法二：使用结构体
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">u&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">models&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">User&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">Id&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">123&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Name&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Marry&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">c&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">XML&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">StatusOK&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">u&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// &amp;lt;User&amp;gt;&amp;lt;id&amp;gt;123&amp;lt;/id&amp;gt;&amp;lt;name&amp;gt;Marry&amp;lt;/name&amp;gt;&amp;lt;/User&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Run&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;localhost:8080&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="以文件格式响应请求">
+&lt;a href="#%e4%bb%a5%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
+以文件格式响应请求
+&lt;/h3>&lt;p>下面介绍gin框架如何响应一个文件，可以用来做文件下载。&lt;/p>
+&lt;p>响应文件用&lt;code>File&lt;/code>或&lt;code>FileAttachment&lt;/code>方法：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>File&lt;/code>方法：
+&lt;ul>
+&lt;li>直接响应文件，Gin框架会自动根据文件类型设置MIME类型，浏览器会自动根据MEM类型I处理文件（显示文件）。&lt;/li>
+&lt;li>只接收一个参数：为响应文件的本地系统路径。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>FileAttachment&lt;/code>方法：
+&lt;ul>
+&lt;li>直接下载文件，会弹出下载框。文件名默认为第二个参数。&lt;/li>
+&lt;li>有两个参数：第一个参数与&lt;code>File&lt;/code>的参数一直，第二个参数：指定文件下载的名称。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>原理：&lt;code>FileAttachment&lt;/code>会比&lt;code>File&lt;/code>多设置一个响应头&lt;code>Content-Disposition:attachment; filename=&amp;quot;filename&amp;quot;&lt;/code>，告诉浏览器将文件作为附加下载。&lt;/p>
+&lt;h3 id="设置http响应头设置header">
+&lt;a href="#%e8%ae%be%e7%bd%aehttp%e5%93%8d%e5%ba%94%e5%a4%b4%e8%ae%be%e7%bd%aeheader" class="header-anchor">#&lt;/a>
+设置http响应头（设置Header）
+&lt;/h3>&lt;p>在Gin框架中：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>获取请求头的方法是&lt;code>func (c *Context) GetHeader(key string)&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将请求头与结构体绑定的方法是&lt;code>BindHeader&lt;/code>或&lt;code>ShouldBindHeader&lt;/code>。&lt;/p>
+&lt;ul>
+&lt;li>二者区别是：&lt;code>BindHeader&lt;/code>绑定失败，会自动响应400错误，而&lt;code>ShouldBind&lt;/code>不会，需要手动响应错误。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>设置响应头的方法是&lt;code>func (c *Context) Header(key, value string)&lt;/code>：&lt;/p>
+&lt;ul>
+&lt;li>支持反复设置响应头。&lt;/li>
+&lt;li>若键的值为空，将删除该响应头。&lt;/li>
+&lt;li>设置响应头应该在响应前设置，响应后设置无效。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="html模板渲染">
+&lt;a href="#html%e6%a8%a1%e6%9d%bf%e6%b8%b2%e6%9f%93" class="header-anchor">#&lt;/a>
+HTML模板渲染
+&lt;/h2>&lt;p>前面详细介绍了gin框架响应不同类型的参数，其实还漏掉了响应html模板渲染。因为涉及到go模板渲染，就单独拿出来介绍。&lt;/p></description></item><item><title>Go-ini Introduction</title><link>https://arlettebrook.github.io/p/go-ini-introduction/</link><pubDate>Wed, 15 May 2024 22:26:10 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-ini-introduction/</guid><description>&lt;hr>
 &lt;h2 id="简介">
 &lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
 简介

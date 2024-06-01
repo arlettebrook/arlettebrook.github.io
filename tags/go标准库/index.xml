@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go标准库 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</link><description>Recent content in Go标准库 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Sat, 27 Apr 2024 16:54:38 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>深入探究 Go log 标准库</title><link>https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/</link><pubDate>Sat, 27 Apr 2024 16:54:38 +0800</pubDate><guid>https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go标准库 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</link><description>Recent content in Go标准库 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Sun, 26 May 2024 14:00:53 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Template Introduction</title><link>https://arlettebrook.github.io/p/template-introduction/</link><pubDate>Sun, 26 May 2024 14:00:53 +0800</pubDate><guid>https://arlettebrook.github.io/p/template-introduction/</guid><description>&lt;hr>
+&lt;blockquote>
+&lt;p>模板渲染是指根据特定的&lt;strong>模板语法&lt;/strong>，将这些模板渲染成文本，通常用于生成 &lt;strong>HTML&lt;/strong>、&lt;strong>邮件&lt;/strong>、&lt;strong>配置文件&lt;/strong>等。在Go语言中提供了两个标准库来渲染模板，它们都具有相同的模板语法，分别是&lt;code>text/template&lt;/code> 和 &lt;code>html/template&lt;/code> ，接下来将介绍这两个标准库如何使用。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="快速使用">
+&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+快速使用
+&lt;/h2>&lt;h2 id="template介绍">
+&lt;a href="#template%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
+template介绍
+&lt;/h2>&lt;p>在 Go 语言中，&lt;code>text/template&lt;/code> 和 &lt;code>html/template&lt;/code> 都是用于模板处理的包，它们在功能上有许多相似之处，但也有重要的区别，尤其是在处理 HTML 时。&lt;/p>
+&lt;p>共同点:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>模板解析&lt;/strong>：两个包都使用类似的语法来解析模板，支持条件语句、循环、自定义函数等。&lt;/li>
+&lt;li>&lt;strong>数据绑定&lt;/strong>：都可以将结构体、映射等数据绑定到模板中，从而生成动态内容。&lt;/li>
+&lt;li>&lt;strong>模板执行&lt;/strong>：都使用 &lt;code>Execute&lt;/code> 和 &lt;code>ExecuteTemplate&lt;/code> 方法来执行模板，将结果输出到 &lt;code>io.Writer&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;p>不同点：&lt;/p>
+&lt;p>主要区别：&lt;/p>
+&lt;ul>
+&lt;li>在模板中插入用户提供的数据时，&lt;code>html/template&lt;/code> 会自动对这些数据进行 &lt;strong>HTML 转义&lt;/strong>，确保生成的 HTML 是安全的。而&lt;code>text/template&lt;/code>包不会。&lt;/li>
+&lt;/ul></description></item><item><title>深入探究 Go log 标准库</title><link>https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/</link><pubDate>Sat, 27 Apr 2024 16:54:38 +0800</pubDate><guid>https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/</guid><description>&lt;hr>
 &lt;blockquote>
 &lt;p>Go 语言标准库中的 log 包设计简洁明了，易于上手，可以轻松记录程序运行时的信息、调试错误以及跟踪代码执行过程中的问题等。使用 log 包无需繁琐的配置即可直接使用。本文旨在深入探究 log 包的使用和原理，帮助读者更好地了解和掌握它。&lt;/p>
 &lt;/blockquote>

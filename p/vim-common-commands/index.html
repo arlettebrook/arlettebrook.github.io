@@ -1,0 +1,530 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Vim常用命令总结。"><title>Vim Common Commands</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/vim-common-commands/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Vim Common Commands"><meta property='og:description' content="Vim常用命令总结。"><meta property='og:url' content='https://arlettebrook.github.io/p/vim-common-commands/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='vim'><meta property='article:published_time' content='2024-05-27T00:43:37+08:00'><meta property='article:modified_time' content='2024-05-27T00:43:37+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Vim Common Commands"><meta name=twitter:description content="Vim常用命令总结。"><link rel="shortcut icon" href=/img/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-9MKLLVPEER"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9MKLLVPEER")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#简介>简介</a><ol><li><a href=#史上最好用的文本编辑器vim>史上最好用的文本编辑器VIM</a></li></ol></li><li><a href=#vim常用命令总结>vim常用命令总结</a><ol><li><a href=#第一级--存活>第一级 – 存活</a></li><li><a href=#第二级--感觉良好>第二级 – 感觉良好</a></li><li><a href=#第三级--更好更强更快>第三级 – 更好，更强，更快</a></li><li><a href=#第四级--vim-超能力>第四级 – Vim 超能力</a><ol><li><a href=#标记>标记</a></li><li><a href=#寄存器>寄存器</a></li><li><a href=#宏录制>宏录制</a></li><li><a href=#分屏>分屏</a></li></ol></li><li><a href=#结束语>结束语</a></li></ol></li><li><a href=#扩展>扩展</a><ol><li><a href=#目录操作>目录操作</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/linux/ style=background-color:#4636fc;color:#fff>Linux
+</a><a href=/categories/%E6%8A%80%E6%9C%AF/ style=background-color:#c73659;color:#fff>技术</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/vim-common-commands/>Vim Common Commands</a></h2><h3 class=article-subtitle>Vim常用命令总结。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 27, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 27 分钟</time></div></footer></div></header><section class=article-content><hr><h2 id=简介><a href=#%e7%ae%80%e4%bb%8b class=header-anchor>#</a>
+简介</h2><p>Vim是一个高度可配置的文本编辑器，主要用于编写和编辑文本和源代码。它最初由Bram Moolenaar在1991年发布，至今已经成为了许多程序员和系统管理员的首选工具。</p><p>Vim的特点包括：</p><ol><li><p>高度可配置：Vim具有大量的命令和选项，可以根据用户的需求进行定制。</p></li><li><p>命令模式（COMMAND)：Vim在默认情况下处于命令模式，用户需要通过键盘输入命令来进行文本编辑。</p></li><li><p>插入模式(INSERT)：在插入模式下，用户可以输入文本内容。</p></li><li><p>普通模式(NORMAL)：普通模式是Vim的默认模式，可以进行光标移动、删除字符等操作。</p></li><li><p>（<strong>补充</strong>）可视模式（VISUAL)：允许用户以可视方式选择和操作文本。Visual 模式有三种类型：</p><ol><li><strong>字符模式（Visual mode）</strong>：用于选择字符。<code>v</code>命令进入。</li><li><strong>行模式（Visual Line mode）</strong>：用于选择整行。<code>V</code>命令进入。</li><li><strong>块模式（Visual Block mode）</strong>：用于选择文本块（矩形区域）。<code>ctrl+v</code>命令进入。</li><li>可以与<code>p, y, d, c, r, &lt;, >, ~, gU, gu</code>等命令组合使用。</li></ol></li><li><p>大量快捷键：Vim具有大量的快捷键，可以提高编辑效率。</p></li><li><p>宏记录：Vim支持宏记录，可以录制一系列键盘操作并重复执行。</p></li><li><p>插件支持：Vim支持大量的插件，可以扩展其功能。</p></li></ol><p>在Linux和Unix系统中，Vim通常已经预装。Windows系统则需要手动安装。对于初次使用Vim的用户，建议先学习一些基础操作命令，并通过互联网上的资源来深入了解它的使用方法和高级功能。</p><blockquote><p>提示：</p><ul><li><p>阅读本文需要<strong>有一定的vim了解</strong>，还要拥有vim环境，并且你应该一边阅读，<strong>一边实操</strong>。</p></li><li><p>如果你觉得本教程啰嗦，你可以运行<code>vimtutor</code>学习官方提供的tutor教程。有的vim版本是中文教程。如果你的不是可以网上搜索。<a class=link href=/docs/vimtutor.txt>备用(1.7中文版）</a>（下载之后用vim打开阅读）。</p></li><li><p>当然强烈建议你学习完本教程之后去过一边<code>vimtutor</code>，它可以让你边学边练。</p></li></ul></blockquote><h3 id=史上最好用的文本编辑器vim><a href=#%e5%8f%b2%e4%b8%8a%e6%9c%80%e5%a5%bd%e7%94%a8%e7%9a%84%e6%96%87%e6%9c%ac%e7%bc%96%e8%be%91%e5%99%a8vim class=header-anchor>#</a>
+史上最好用的文本编辑器VIM</h3><p>对于vi/vim只是点评一点：这是一个你不需要使用鼠标，不需使用小键盘，只需要使用大键盘就可以完成很多复杂功能文本编辑的编辑器。不然主流IDE也不会有vim插件，如：jetbrains全系列都支持的<a class=link href=https://github.com/JetBrains/ideavim target=_blank rel=noopener>ideavim插件</a>。</p><ul><li><p>学习 <a class=link href=http://www.vim.org/ target=_blank rel=noopener>vim</a> 并且其会成为你最后一个使用的文本编辑器。没有比这个更好的文本编辑器了，非常地难学，但是却不可思议地好用。</p></li><li><p>vim的学习曲线相当的大（参看<a class=link href=http://coolshell.cn/articles/3125.html target=_blank rel=noopener>各种文本编辑器的学习曲线</a>），所以，如果你一开始看到的是一大堆VIM的命令分类，你一定会对这个编辑器失去兴趣的。</p></li><li><p>下面的文章翻译自《<a class=link href=http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/ target=_blank rel=noopener>Learn Vim Progressively</a>》，我觉得这是给新手最好的VIM的升级教程了，没有列举所有的命令，只是列举了那些最有用的命令。非常不错。</p></li><li><p>警告：</p><ul><li>学习vim在开始时是痛苦的。</li><li>需要时间</li><li>需要不断地练习，就像你学习一个乐器一样。</li><li>不要期望你能在3天内把vim练得比别的编辑器更有效率。</li><li>事实上，你需要2周时间的苦练，而不是3天。</li></ul></li><li><p>将常用命令总结为四个步骤：</p><ol><li>存活</li><li>感觉良好</li><li>觉得更好，更强，更快</li><li>使用VIM的超能力</li></ol><p>当你走完这篇文章，你会成为一个vim的 superstar。</p></li></ul><hr><div align=center style=color:red>——————————正文开始——————————</div><h2 id=vim常用命令总结><a href=#vim%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4%e6%80%bb%e7%bb%93 class=header-anchor>#</a>
+vim常用命令总结</h2><h3 id=第一级--存活><a href=#%e7%ac%ac%e4%b8%80%e7%ba%a7--%e5%ad%98%e6%b4%bb class=header-anchor>#</a>
+第一级 – 存活</h3><p>在Normal模式下【用vim正常打开的文件都会进入该普通模式】的常用命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>i <span class=c1>#进入Insert 模式，按 ESC 回到 Normal 模式，光标处插入</span>
+</span></span><span class=line><span class=cl>	<span class=c1># I: 行首插入</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>a <span class=c1>#进入Insert 模式，按 ESC 回到 Normal 模式，光标后插入</span>
+</span></span><span class=line><span class=cl>	<span class=c1># A：行尾插入</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>x <span class=c1>#删除光标后的一个字符，并将删除的存到剪切板里</span>
+</span></span><span class=line><span class=cl>	<span class=c1># X：删除光标前的一个字符，并将删除的存到剪切板里</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>dd <span class=c1>#删除光标所在行，并将删除的存到剪切板里</span>
+</span></span><span class=line><span class=cl>	<span class=c1># D：删除光标后面的所有字符，并将删除的存到剪切板里</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>p <span class=c1>#粘贴剪切板，在光标后粘贴，P：光标处粘贴。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>:q！ <span class=c1># 强制退出vim。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>esc <span class=c1># 退出命令、回到normal模式。输入的命令没效果，就点它，直到起作用为止。与ctrl+c等效。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#推荐</span>
+</span></span><span class=line><span class=cl>hjkl <span class=c1>#强例推荐使用其移动光标，但不必需，你也可以使用光标键 (←↓↑→). 注: j 就像下箭头。</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意：</p><ul><li><p>块光标，所在的位置由头部决定。头部就是光标所在位置。</p></li><li><p>光标后是指隔一个字符，就是块光标的尾部。</p></li><li><p>删除命令都会将删除的存到剪切板里，但<strong>只有vim命令删除的，粘贴p命令才能粘贴（与vim版本有关）。</strong></p><ul><li>如果要粘贴系统的剪切板内容用<code>shift+insert</code>：将在光标处粘贴系统剪切板内容。<ul><li>其他可能终端需要进入INSERT模式。</li><li>注意不同的终端启动不同的vim版本，p粘贴命令效果可能不一样。删除命令有的会进剪切板，有的不会，但是p能粘贴。</li></ul></li><li>我的环境：ideavim插件。</li><li>补充：（后面学习之后知道：粘贴效果是与默认<a class=link href=#%e5%af%84%e5%ad%98%e5%99%a8>寄存器</a>有关系）</li></ul></li><li><p>粘贴命令在粘贴一行内容时（ideavim）：</p><ul><li>如果光标所在位置是空行，将粘贴到该行。p与P效果一样</li><li>如果光标所以位置不为空行，p将粘贴到下一行，P将粘贴到上一行。</li><li>也就是以行为单位：p：在光标后粘贴，P：光标处粘贴。</li></ul></li><li><p>Windows版本vim粘贴命令行，无论是不是空行，p会粘贴到下一行，P会粘贴到上一行。</p></li></ul><p>你能在vim幸存下来只需要上述的那几个命令，你就可以编辑文本了，你一定要把这些命令练成一种下意识的状态。于是你就可以开始进阶到第二级了。</p><p>在命令模式【输入<code>:</code>进入该模式，输入的命令都需要敲回车】下的常用命令（扩展）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 使用vim提供的在线帮助系统</span>
+</span></span><span class=line><span class=cl>:help &lt;command&gt; <span class=c1># 显示相关命令的帮助。你也可以就输入 :help 而不跟命令。或者键盘上的HELP。或者F1。</span>
+</span></span><span class=line><span class=cl><span class=c1># 如果打开的是vim内置的帮助文档，可以用ctrl+w w在文档和vim编辑窗口之间跳转。不起作用多点几下。其实是分屏切换快捷键。后续介绍。</span>
+</span></span><span class=line><span class=cl><span class=c1># 选中帮助文档:q退出。选择编辑窗口:q!将会关闭所有窗口</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>:q <span class=c1># 只退出命令，可以退出未修改的文件、退出帮助等退出作用。</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=第二级--感觉良好><a href=#%e7%ac%ac%e4%ba%8c%e7%ba%a7--%e6%84%9f%e8%a7%89%e8%89%af%e5%a5%bd class=header-anchor>#</a>
+第二级 – 感觉良好</h3><p>vim常用命令（难度一下就上来了）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#1.各种插入模式</span>
+</span></span><span class=line><span class=cl>	o <span class=c1>#在光标所在行后插入一个空行，从Normal模式进入Insert模式。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	O <span class=c1>#在光标所在行前插入一个空行，从Normal模式进入Insert模式。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	cw <span class=c1>#向后剪切光标所在字符的同类型字符。可以是一个字符串，或者一串标点符号，并从Normal模式进入Insert模式。</span>
+</span></span><span class=line><span class=cl>	s <span class=c1># 该命令与x命令功能一样，区别：会进入insert模式</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#2.简单的移动光标</span>
+</span></span><span class=line><span class=cl>	<span class=m>0</span> <span class=c1>#数字0到所在行头</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	$ <span class=c1>#到所在行尾</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	^ <span class=c1>#到所在行首不是空白的地方</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	g_ <span class=c1>#到所在行尾不是空白的地方</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl><span class=c1># 匹配搜索跳转	</span>
+</span></span><span class=line><span class=cl>	/pattern <span class=c1>#回车搜索 pattern 的字符串,如果搜索出多个匹配，可按n键到下一个，N上一个。匹配之后一直存在。</span>
+</span></span><span class=line><span class=cl>	?pattern <span class=c1># 逆向搜索跳转到指定字符，ctrl+o相对于大写的N</span>
+</span></span><span class=line><span class=cl>	:set hls <span class=c1># 开启高亮显示：have light search。默认关闭</span>
+</span></span><span class=line><span class=cl>	:set hlsearch <span class=c1># 开启高亮显示</span>
+</span></span><span class=line><span class=cl>	:set nohls <span class=c1># 关闭高亮显示</span>
+</span></span><span class=line><span class=cl>	:nohlsearch <span class=c1># 临时关闭高亮显示</span>
+</span></span><span class=line><span class=cl>	:nohls <span class=c1>#临时关闭高亮显示，在次搜索或者n会出现高亮显示</span>
+</span></span><span class=line><span class=cl>	:set incsearch <span class=c1># 动态显示搜索结果，通常配合高亮使用。默认关闭</span>
+</span></span><span class=line><span class=cl>	:set is <span class=c1># 动态显示搜索结果，通常配合高亮使用。</span>
+</span></span><span class=line><span class=cl>	:set noincsearch <span class=c1># 关闭动态显示搜索结果，通常配合高亮使用。</span>
+</span></span><span class=line><span class=cl>	:set nois <span class=c1># 关闭动态显示搜索结果，通常配合高亮使用。</span>
+</span></span><span class=line><span class=cl>	:set hls is
+</span></span><span class=line><span class=cl>    :set nohls nois
+</span></span><span class=line><span class=cl>    <span class=c1># 可以将set命令保存到vim的配置文件中让其永久生效。</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=c1># 匹配的时候：默认没有有忽略大小写。</span>
+</span></span><span class=line><span class=cl>	:set ic <span class=c1># ignore case</span>
+</span></span><span class=line><span class=cl>	:set noic <span class=c1># no ignore case 不忽略大小写</span>
+</span></span><span class=line><span class=cl>	/搜索的字符<span class=se>\c</span> <span class=c1># 临时忽略大小写</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl><span class=c1>#3.拷贝/粘贴</span>
+</span></span><span class=line><span class=cl>	p <span class=c1>#光标后粘贴</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	P <span class=c1>#光标出粘贴</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	yy <span class=c1>#复制光标所在行</span>
+</span></span><span class=line><span class=cl>	Y <span class=c1># 与yy等效。</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#4.撤销/恢复</span>
+</span></span><span class=line><span class=cl>	u <span class=c1>#撤销 相对于ctrl+z</span>
+</span></span><span class=line><span class=cl>	ctrl+r <span class=c1># 恢复撤销，相对于ctrl+shift+z</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl><span class=c1>#5.打开/保存/退出/另存为/清空</span>
+</span></span><span class=line><span class=cl>	:e &lt;path/to/file&gt; <span class=c1>#打开指定文件，不存在会创建，e是edit的缩写。ideavim版本不存在打不开。</span>
+</span></span><span class=line><span class=cl>	:e! <span class=c1># 放弃所有的更改，重新加载当前文件。</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	:bn <span class=c1>#你可以同时打开很多文件，使用这两个命令来切换下一个或上一个文件</span>
+</span></span><span class=line><span class=cl>    	
+</span></span><span class=line><span class=cl>    	:bp <span class=c1>#上一个文件</span>
+</span></span><span class=line><span class=cl>    		<span class=c1>#冒号后可以加数字，:2bn表示下2个文件</span>
+</span></span><span class=line><span class=cl>    		
+</span></span><span class=line><span class=cl>    		
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	:w <span class=c1>#保存，w死write的缩写</span>
+</span></span><span class=line><span class=cl>		<span class=c1>#指定文件名就是另存为，后面加!: 强制保存</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>		:sav &lt;path/to/file&gt;
+</span></span><span class=line><span class=cl>		<span class=c1>#二者区别：后者将修改保存到指定文件，并打开指定文件，可以继续编辑</span>
+</span></span><span class=line><span class=cl>		<span class=c1># 旧文件的修改会被抛弃掉，sav是saveas的缩写。</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	:wq <span class=c1>#保存退出，随便那个都行。</span>
+</span></span><span class=line><span class=cl>	:wq! <span class=c1># 强制保存并退出</span>
+</span></span><span class=line><span class=cl>	:wa <span class=c1># 保存所有打开的文件</span>
+</span></span><span class=line><span class=cl>	:wqa <span class=c1># 保存所有打开的文件并退出</span>
+</span></span><span class=line><span class=cl>	<span class=c1># 后面加！都是强制</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>		:x <span class=c1>#保存退出</span>
+</span></span><span class=line><span class=cl>		ZZ <span class=c1>#保存退出，效果一样</span>
+</span></span><span class=line><span class=cl>		zz <span class=c1># 如果可能，将该行水平居中。等于与M。m是标记。</span>
+</span></span><span class=line><span class=cl>			
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>    :q <span class=c1>#退出</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    :q! <span class=c1>#强制退出</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    	:qa! <span class=c1>#强行退出所有的正在编辑的文件，就算别的文件有更改。</span>
+</span></span><span class=line><span class=cl>    	
+</span></span><span class=line><span class=cl>    	
+</span></span><span class=line><span class=cl>  	
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	:%d <span class=c1>#删除文件所有内容</span>
+</span></span></code></pre></td></tr></table></div></div><p>很好，花点时间熟悉一下上面的命令，一旦你掌握他们了，你就几乎可以干其它编辑器都能干的事了。但是到现在为止，你还是觉得使用vim还是有点笨拙，不过没关系，你可以进阶到第三级了。</p><p>注意：</p><ol><li><p><code>c</code>命令是一个组合命令，与d命令类似，都是删除命令，区别是c命令使用之后会<strong>进入insert模式</strong>：</p><ul><li><code>C</code>与<code>D</code>命令一样，从光标位置删除到行尾部，区别D不会进入insert模式。</li><li><code>cc</code>清空光标所在行并进入insert，与<code>dd</code>区别：不会删除该行，只是清空到剪切板。</li><li><code>w</code>光标移动到不同类字符的头部（对空格字符会忽略，<strong>就是移动到下一个单词的开头</strong>），<ul><li>有大写命令，移动字符范围更广。就是对同类型字符判断更广。</li><li><code>cw</code>从光标处<strong>删除到不同类字符的头部</strong>（不会忽略空格字符）。<code>dw</code>会忽略空格。<ul><li>推荐使用<code>de</code>。</li></ul></li><li><code>ciw</code>删除光标所在的同类字符，并进入insert模式。<code>diw</code>不会进入insert模式。<ul><li><code>caw</code>删除光标所在的同类字符，并删除后面的所以空格。</li><li><strong>这种类型</strong>，都是删除一个单词，但是不能与e组合。如cae。三个的不能与e组合，用w。</li></ul></li></ul></li><li><code>e</code>移动到不同类字符的尾部（忽略空格字符），如果自身不在同类字符的尾部会先移动到尾部，在往下跳转。<ul><li>注意：尾部是指光标在同类字符的最后一个单词前面。</li><li><code>ce</code>删除单词并进入insert模式。</li></ul></li><li><code>c0</code>从光标位置删除到行头部。</li><li><code>c$</code>从光标位置删除到行尾部。<ul><li>当然也可以组合<code>c^</code>, <code>cg_</code>。</li></ul></li><li><code>ct字符</code>删除光标到第一个指定字符之间的字符（删除到指定的字符），并进入insert模式。</li><li><code>%</code>会在最近括号之间来回跳转。<ul><li><code>d%</code>光标在括号上，会删除括号及括号内的内容。</li></ul></li><li>意味着d命令也可以和上面组合，区别就是不会进入insert模式。<ul><li>前面加数字表示重复几次。<ul><li><code>2w</code>光标移动两次不同类字符。注意w命令没有其他命令组合时会忽略空格。加数字也会忽略。</li><li><code>2dd</code>类型删除两行。<code>2cc</code>删除之后进入insert模式。</li></ul></li></ul></li></ul></li><li><p><code>y</code>命令也是一个组合命令，用于与复制相关的命令。需要配合其他命令使用，如：：</p><ul><li><code>yy</code>复制光标所在行。<ul><li><code>3yy</code>表示连续复制三行。</li></ul></li><li><code>yw</code>复制到不同类字符的前面，不会忽略空格。空格属于字符（就是复制一个单词）。<ul><li><code>yiw</code>复制所在的字符，就是复制完整单词。</li><li><code>yaw</code>复制完整单词包括单词后面的空格，不包括前面的，不能与e组合。</li></ul></li><li><code>y0</code>: 从光标位置复制到行头，<code>y^</code>不包括空格。</li><li><code>y$</code>: 从光标位置复制到行尾，<code>yg_</code>不包括空格。</li><li><code>v</code>进入可视模式之后移动光标，选择文本之后，<code>y</code>命令可以复制选中的文本，自动返回normal。<code>c</code>会进入insert模式。<ul><li>意味着前面的组合命令都可以与visual模式配合使用。</li></ul></li><li><code>yt字符</code>从光标位置复制到指定字符之间的字符。</li><li><code>y%</code>如果光标在括号上，将复制括号及括号内的内容。</li></ul></li><li><p><code>u</code>命令相对于<code>ctrl+z</code>撤销命令：</p><ul><li><p><code>u</code>命令会将光标移动到最近修改的地方，如果光标所在位置正是最近修改的地方，将执行撤销操作。(与vim版本有关，有的直接撤销)</p></li><li><p><code>U</code>撤销对当前行的所有更改,以行为单位，<strong>撤销到insert之前的状态</strong>。部分vim版本不能使用。</p></li><li><p><code>ctrl+u</code>：</p><ul><li>normal模式下：光标向上移动半页。</li><li>insert模式下：与Emacs模式一样。</li><li>command模式下：与Emacs模式一样，但是不会删除<code>:</code>。</li></ul></li></ul></li></ol><h3 id=第三级--更好更强更快><a href=#%e7%ac%ac%e4%b8%89%e7%ba%a7--%e6%9b%b4%e5%a5%bd%e6%9b%b4%e5%bc%ba%e6%9b%b4%e5%bf%ab class=header-anchor>#</a>
+第三级 – 更好，更强，更快</h3><p>先恭喜你！你干的很不错。我们可以开始一些更为有趣的事了。</p><p>这里你将会学到以下常用vim常用命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>#1.重复命令【更好】</span>
+</span></span><span class=line><span class=cl>	. <span class=c1>#重复上一次命令</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	N&lt;command&gt; <span class=c1>#数字N重复后面的命令N词</span>
+</span></span><span class=line><span class=cl>		
+</span></span><span class=line><span class=cl>	<span class=c1>#演示：</span>
+</span></span><span class=line><span class=cl>		2dd <span class=c1>#删除两行</span>
+</span></span><span class=line><span class=cl>		3p <span class=c1>#粘贴剪切板3次</span>
+</span></span><span class=line><span class=cl>		10iide <span class=o>[</span>Esc<span class=o>]</span> <span class=c1>#光标所在字符前插入10个ide字符串，可以换成a就是后面，效果更好</span>
+</span></span><span class=line><span class=cl>		. <span class=c1>#重复上一次插入10ide命令</span>
+</span></span><span class=line><span class=cl>		3. <span class=c1>#插入3个ide，这里不是30个ide，要注意。</span>
+</span></span><span class=line><span class=cl>		
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#2.光标移动【更强】：你要让你的光标移动更有效率，你一定要了解下面的这些命令，千万别跳过。</span>
+</span></span><span class=line><span class=cl>	:N <span class=c1>#光标到数字N行</span>
+</span></span><span class=line><span class=cl>		NG <span class=c1>#同理光标到数字N行，等同于Ngg</span>
+</span></span><span class=line><span class=cl>		ctrl+g <span class=c1># 显示文件的信息，包括行号，百分比，部分vim版本起作用。</span>
+</span></span><span class=line><span class=cl>    gg <span class=c1>#光标到第一行</span>
+</span></span><span class=line><span class=cl>    G <span class=c1>#光标到最后一行</span>
+</span></span><span class=line><span class=cl>    w <span class=c1>#光标移动到下一个不同类型的字符的开头，就是移动到不同类型的字符前，忽略空格字符。就是跳转到下一个单词前。</span>
+</span></span><span class=line><span class=cl>    e <span class=c1>#光标移动到 当前 或者 下一个 不同类型的最后一个字符上。效果：移动到当前同类型字符的末尾 或者 移动到下一个不同类型字符的末尾。【跳过单词】忽略空格字符。就是跳转到本单词或下一个单词末尾。</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 他们的大写命令，移动范围更广，就是对同类型字符判断更广。</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>#最强的光标移动</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    % <span class=c1>#匹配括号移动，自己体会，超级好用。支持(, {, [。</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    * <span class=c1># 匹配光标当前所在的单词，移动到下一个单词</span>
+</span></span><span class=line><span class=cl>    <span class=se>\#</span> <span class=c1># 匹配光标当前所在的单词，移动到上一个单词，实际\没有，这里是转义作用。</span>
+</span></span><span class=line><span class=cl>    	<span class=c1>#二者匹配之后都可以重复使用，起到切换的作用，n下一个同理</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl><span class=c1>#更快</span>
+</span></span><span class=line><span class=cl>&lt;start position&gt;&lt;command&gt;&lt;end position&gt; <span class=c1>#光标的移动与命令的联动，组合命令通常与光标移动命令组合使用，官方解释是操作加动作。</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#演示</span>
+</span></span><span class=line><span class=cl>		0y$ <span class=c1>#拷贝当前行，一般用yy，0行首，y拷贝，$行尾</span>
+</span></span><span class=line><span class=cl>		ye <span class=c1>#拷贝当前同类型字符的末尾，y拷贝，e跳到同类型字符末尾，与yw效果一样</span>
+</span></span><span class=line><span class=cl>			<span class=c1># 注意这两个要考虑光标的位置，光标必须在单词的头部。</span>
+</span></span><span class=line><span class=cl>			<span class=c1># 用yiw,无论光标在哪里，只要在单词上，就能复制整个单词。</span>
+</span></span><span class=line><span class=cl>			<span class=c1># yaw复制完整单词包括单词后面的空格，不包括前面的，不能与e组合。</span>
+</span></span><span class=line><span class=cl>		dw <span class=c1>#删除当前同类型字符</span>
+</span></span><span class=line><span class=cl>		d$ <span class=c1>#从当前删除到行尾</span>
+</span></span><span class=line><span class=cl>		d0 <span class=c1>#从当前删除到行首</span>
+</span></span><span class=line><span class=cl>		dgg <span class=c1>#从当前删除到文件开头</span>
+</span></span><span class=line><span class=cl>		dG <span class=c1>#从当前删除到文件末尾</span>
+</span></span><span class=line><span class=cl>		:%d <span class=c1># 清空整个文件内容。</span>
+</span></span><span class=line><span class=cl>		:e! <span class=c1># 忽略所有修改，重新加载当前文件。</span>
+</span></span><span class=line><span class=cl>		
+</span></span><span class=line><span class=cl>		
+</span></span><span class=line><span class=cl>	<span class=c1>#更多可组合命令d (删除 )、v (可视化的选择)、gU (变大写)、gu (变小写)、y（复制）、c（删除进入insert）等等</span>
+</span></span><span class=line><span class=cl>	<span class=c1># 示例：</span>
+</span></span><span class=line><span class=cl>	y2/apple <span class=c1># 复制两个apple之间的内容，不包括最后一个apple。</span>
+</span></span><span class=line><span class=cl>	gUiw <span class=c1># 将光标所在单词转大写。</span>
+</span></span><span class=line><span class=cl>	diw <span class=c1># 删除当前光标所在单词</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#d上面演示了</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#可视化选择是一个很有意思的命令，你可以先按v，然后移动光标，你就会看到文本被选择，然后，你可能d，也可y，也可以变大写等</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#注意变大小写要有对象才能变，不然出错。</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>	
+</span></span></code></pre></td></tr></table></div></div><p><strong>补充</strong>（这部分可以最后在看，或看vimtutor在来）：</p><ol><li><p><code>r字符</code>：替换光标后的字符为指定字符。</p><ol><li><code>R</code>连续替换光标后的字符。esc退出。</li><li><code>:r 输入流</code>可以提取文件（指定路径），或者输入流的内容到光标位置后面，如：<code>:r !ls</code>：将在光标后插入<code>ls</code>命令的输出。<ol><li>用于提取文件内容到光标后</li></ol></li></ol></li><li><p>输入 <strong>:s/old/new/g</strong> 可以替换光标所在行的old字符串为new字符串。g表示替换区全部，没有只替换第一个</p><p>要替换两行之间出现的每个匹配串，请
+输入 :#,#s/old/new/g 其中 #,# 代表的是替换操作的若干行中首尾两行的行号。
+输入 :%s/old/new/g 则是替换整个文件中的每个匹配串。
+输入 :%s/old/new/gc 会找到整个文件中的每个匹配串，并且对每个匹配串提示是否进行替换。</p></li><li><p><code>:!外部命令</code>执行外部命令，如<code>:!ls</code>，支持所有的外部命令。</p></li><li><p>vim支持保存一个文件的部分内容：</p><ol><li>进入可视模式之后，选中要保存的部分，然后按 : 字符。将看到屏幕底部会出现 :&rsquo;&lt;,&rsquo;> 。在后面输入另存为文件命令即可<code>w 文件名</code>。</li></ol></li><li><p>在命令模式下，可以使用<code>tab</code>键补全命令，<code>ctrl+d</code>显示能补全的命令。</p><ol><li><code>ctrl+u</code>清空光标前的字符，除了<code>:</code>。</li></ol></li><li><p><code>f字符</code>光标向前移动到指定字符前。<code>F字符</code>反向。</p><ol><li><code>t字符</code>光标向前移动到指定字符的前一个字符前。<code>T字符</code>反向。</li><li>在使用这个两个命令之后<code>;</code>光标跳转到下一个相同字符，<code>,</code>上一个。</li></ol></li><li><p><code>gf</code>将光标所在行文本内容作为文件打开，会自动光标当前文件（前提已经保存）。</p></li><li><p><code>H</code>光标移动到光标去过的屏幕最高行，<code>L</code>屏幕的最低行。（与版本有关）</p><ol><li><code>J</code>删除末尾的换行符，<code>ctrl-j</code>换行、回车的意思，（重要）寄存器中用<code>^J</code>表示。</li><li><code>K</code>查看光标所在单词的<code>man</code>页面。（ideavim不支持）</li></ol></li><li><p><code>b</code>与<code>w</code>命令反向。<code>B</code>范围更广。</p><ol><li><code>ge</code>与<code>e</code>命令反向。</li></ol></li><li><p><code>ctrl+u</code>normal模式下光标<strong>向上移动半页</strong>。</p></li><li><p><code>ctrl+b</code>光标<strong>向上移动差不多一页</strong>。</p></li><li><p><code>ctrl+f</code><strong>向下移动一页</strong>。</p></li><li><p><code>ctrl+d</code><strong>向下移动半页</strong>。</p></li><li><p><code>M</code>光标移动到屏幕中间。</p></li><li><p><code>{</code>向上移动一个段落。</p></li><li><p><code>}</code>向下移动一个段落。</p></li><li><p><code>>></code>向后缩进光标所在行。</p><ol><li><code>&lt;&lt;</code>反向缩进</li><li><code>.</code>命令重复上一次命令。（部分命令不可重复：如<code>2j</code>)</li></ol></li><li><p><code>gU移动光标命令</code>选中的字符转大写。</p><ol><li><code>gu移动光标命令</code>选中的字符转小写</li><li><code>~</code>将光标后的字符大小写互转，可以选中多个互转。</li></ol></li><li><p>在insert模式下<code>ctrl-o</code>会临时进入Normal模式，执行别的命令之后会，自动返回insert模式。</p><ol><li>可用于删除光标后的单词继续编辑：如：<code>ctrl-o de</code></li><li>vi模式中不可以使用。</li></ol></li><li><p>在insert模式下：</p><ol><li><p><code>ctrl-w</code>向光标前删除到同类字符。忽略空格，就是删除一个单词。</p><ol><li><code>ctrl-u</code>全部删除。</li></ol></li><li><p><code>ctrl-h</code>等同于退格键。</p></li><li><p>vim在insert模式下没有提供向后删除字符的命令</p></li></ol></li></ol><h3 id=第四级--vim-超能力><a href=#%e7%ac%ac%e5%9b%9b%e7%ba%a7--vim-%e8%b6%85%e8%83%bd%e5%8a%9b class=header-anchor>#</a>
+第四级 – Vim 超能力</h3><p>你只需要掌握前面的命令，你就可以很舒服的使用VIM了。但是，现在，我们向你介绍的是VIM杀手级的功能。下面这些功能是我只用vim的原因。</p><p>其实是对上面的命令再次复习😂（不在解释其作用，如果你还看不懂，证明练得还不够。）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=m>0</span>
+</span></span><span class=line><span class=cl>^
+</span></span><span class=line><span class=cl>$
+</span></span><span class=line><span class=cl>g_
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>f</span><span class=o>=</span> <span class=c1># F</span>
+</span></span><span class=line><span class=cl>, or <span class=p>;</span>
+</span></span><span class=line><span class=cl>t， <span class=c1># T</span>
+</span></span><span class=line><span class=cl>, or <span class=p>;</span>
+</span></span><span class=line><span class=cl>3f,
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>dt,
+</span></span><span class=line><span class=cl>ct,
+</span></span><span class=line><span class=cl>df<span class=p>;</span>
+</span></span><span class=line><span class=cl>cf<span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ye
+</span></span><span class=line><span class=cl>yy
+</span></span><span class=line><span class=cl>yt<span class=p>;</span>
+</span></span><span class=line><span class=cl>yf<span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>dw
+</span></span><span class=line><span class=cl>dd
+</span></span><span class=line><span class=cl>dt<span class=p>;</span>
+</span></span><span class=line><span class=cl>df<span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>cc
+</span></span><span class=line><span class=cl>ce
+</span></span><span class=line><span class=cl>cf<span class=p>;</span>
+</span></span><span class=line><span class=cl>ct<span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>p
+</span></span><span class=line><span class=cl>P
+</span></span><span class=line><span class=cl>diw
+</span></span><span class=line><span class=cl>daw
+</span></span><span class=line><span class=cl>ciw
+</span></span><span class=line><span class=cl>caw
+</span></span><span class=line><span class=cl>yiw
+</span></span><span class=line><span class=cl>yaw
+</span></span><span class=line><span class=cl><span class=c1># 如果你搞不明白上面的复杂组合命令，可以看v模式选择的是那个部分。</span>
+</span></span><span class=line><span class=cl>viw
+</span></span><span class=line><span class=cl>vaw
+</span></span></code></pre></td></tr></table></div></div><p><strong>补充</strong>：</p><ol><li><p><code>&lt;motion>i&lt;option></code>、<code>&lt;motion>a&lt;object></code>根据动作（motion）、范围（i、a）操作对象（object）。</p><ul><li><p>motion动作：常用：d, c, v, y,</p><ul><li><p>i与a的区别：</p><ul><li>对于空格i会忽略，a会保留<strong>后面</strong>的使用空格。</li><li>其他字符：i不包括，a包括。</li></ul></li><li><p>object：操作对象，常用：</p><ul><li>w：一个单词。</li><li>s：一个句子（不包括缩进、前后空白）。</li><li>p：一个段落（包括缩进，前后空白）。</li><li>其他字符：<code>", ', (, ), {, }, [, ].</code></li></ul></li></ul></li><li><p>注意：是向后搜索包裹光标的对象。没有，只有<code>"</code>对象会向内查找。</p></li></ul><ol><li><p>示例：假设你有一个字符串 <code>(map (+) ("foo"))</code>.</p><ul><li><p>而光标键在第一个 <code>o </code>的位置：</p><ul><li><p><code>vi"</code> → 会选择 <code>foo</code>.</p><ul><li><code>va"</code> → 会选择 <code>"foo"</code>.</li></ul></li><li><p><code>vi)</code> → 会选择 <code>"foo"</code>.</p><ul><li><code>va(</code> → 会选择<code>("foo")</code>.</li></ul></li><li><p><code>v2i)</code> → 会选择 <code>map (+) ("foo")</code></p><ul><li><code>v2a)</code> → 会选择 <code>(map (+) ("foo"))</code></li></ul></li><li><p>光标在<code>a</code>位置：</p><ul><li><p><code>vi"</code> → 会选择 <code>foo</code>.</p></li><li><p><code>va"</code> → 会选择 <code>"foo"</code>.</p></li></ul></li><li><p><code>vi)</code> → 会选择 <code>map (+) ("foo")</code></p><ul><li><code>va(</code> → 会选择 <code>(map (+) ("foo"))</code>.</li><li><code>v2i)</code>、<code>v2a)</code>两个无法选中，不会向内查找。只有<code>"</code>会。</li></ul></li></ul></li></ul></li><li><p>可视（VISUAL)模式操作：</p><ul><li><code>ctrl+v</code>进入可视模式的块模式（Windows占用，用<code>ctrl+q</code>代替）。<code>v</code>字符模式，<code>V</code>行模式。</li><li>以上模式可以配合其他移动动作使用，如<code>0</code>, <code>ctrl+f</code> , <code>$</code>方便选择。如：<ul><li>选择多行，<code>J</code>命令批量<strong>移除选择行的换行符</strong>。</li><li>向后缩进<code>></code>选中的文本，<code>&lt;</code>向前。<ul><li>选中之后<code>=</code>自动给缩进。</li></ul></li></ul></li><li>块模式还可以批量修改多行。典型的操作，如：<ul><li><strong>添加注释</strong>： <code>0 ctrl+v ctrl+d 选中要注释的 I # ESC</code><ul><li>注释只能用行首插入。</li></ul></li><li>末尾添加分号：<code>$ ctrl+v ctrl+d 选择要修改的 A ; esc</code></li></ul></li><li>注意：只有块模式可以批量修改。并且只有在块头或者块尾可以修改。</li></ul></li><li><p><strong>自动补全</strong>：</p><ul><li>在insert模式下，输入一个词的开头，然后按<code>ctrl+n</code>or<code>ctrl+p</code>自动补全就出现了。</li><li>如果有多个，n是下一个，p是上一个。</li><li>在ideavim中是代码提示。</li><li>选中之后，继续输入，不用回车确定。ideavim代码中需要回车确定。</li><li>具体看情况。</li></ul></li></ol></li></ol><h4 id=标记><a href=#%e6%a0%87%e8%ae%b0 class=header-anchor>#</a>
+标记</h4><p>在 Vim 中，<code>m</code> 命令用于设置标记（mark）。标记是 Vim 提供的一种功能，用于在文件中记住特定的位置，以便以后快速跳转到这些位置。标记可以是局部标记（仅在当前文件中有效）或全局标记（在所有文件中有效）。以下是 <code>m</code> 命令的详细使用方法：</p><p><strong>设置标记</strong>：</p><ol><li><strong>设置局部标记</strong>：<ul><li>操作：在普通模式下，按 <code>m</code> 然后按一个小写字母（例如 <code>a</code>）。</li><li>例子：按 <code>ma</code> 在当前光标位置设置标记 <code>a</code>。</li></ul></li><li><strong>设置全局标记</strong>：<ul><li>操作：在普通模式下，按 <code>m</code> 然后按一个大写字母（例如 <code>A</code>）。</li><li>例子：按 <code>mA</code> 在当前光标位置设置全局标记 <code>A</code>。</li><li>在ideavim中会有高亮。</li><li>0-9字符也表示全局标记。</li></ul></li><li><code>m</code>命令是<code>:mark 标记字符</code>的快捷键。<ol><li>区别是<code>m</code>会记录光标的列位置，<code>:mark</code>不会，它的列号始终为0。</li><li>所以<code>:mark</code>跳转只会到标记行的头部。不会跳转到标记行光标的位置。</li><li>一般使用<code>m</code>。</li></ol></li><li>注意：<ol><li>标记字符只有一个。<ol><li>标记字符常用的字母、数字。其他的部分能用。不用考虑。</li></ol></li><li>标记信息包括标记字符、光标的行号、列号以及行的文本内容。</li><li>后续设置存在的标记会覆盖。</li></ol></li></ol><p><strong>跳转到标记</strong>：</p><ul><li><p><code>' 标记字符</code>：自动跳转到标记行的行头。</p></li><li><p>`` 标记字符`：自动跳转到标记行的光标位置。</p></li><li><p><code>'a</code>：跳转到局部标记a的行头。</p></li><li><p>``A`跳转到全局标记A所在行光标的位置。</p></li><li><p>跳转标记的开头如何有空格，都会忽略。</p></li></ul><p><strong>查看标记</strong>：</p><ul><li><code>:marks</code>：显示所有已设置的标记及其光标位置、行文本内容。</li><li>使用<code>:mark</code>标记的行，光标的列号为0。所以`` `也只能跳到标记行头。</li></ul><p><strong>删除标记</strong>：</p><ol><li><p>删除指定标记：<code>:delmarks ...标记字符</code></p><ol><li>后面可以跟多个标记字符，用不用空格隔开都行。如： <code>:delmarks ab</code> 删除标记 <code>a</code> 和 <code>b</code>。</li><li>还可以删除范围内标记：如： <code>:delmarks a-d</code> 删除标记 <code>a</code> 到 <code>d</code>。</li></ol></li><li><p>删除所有标记：<code>:delmarks!</code></p><ol><li><p>注意该命令只能删除用户设置的所有本地标记，并且内置的特殊标记、全局标记不能删除。如<code>', &lt;, ></code>。（我快崩溃了😭）</p><ol><li><p>上面的三个内置特殊标记，不建议用来做标记。他们具有特殊的含义。</p></li><li><p>他们是动态生成的内置特殊标记，无法删除。</p></li><li><p>含义如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=s1>&#39;&lt; # 可表示上次visual模式选择的行头。还可表示标记的行头。
+</span></span></span><span class=line><span class=cl><span class=s1>&#39;</span>&gt; <span class=c1># 可表示上次visual模式选择的末尾的行头。还可以表示标记的行头。</span>
+</span></span><span class=line><span class=cl><span class=sb>`</span>&lt; <span class=c1># 可表示上次visual模式选择开始的位置。还可表示标记行鼠标的位置。</span>
+</span></span><span class=line><span class=cl><span class=sb>`</span>&gt; <span class=c1># 可表示上次visual模式选择的末尾。还可表示标记行鼠标的位置。</span>
+</span></span><span class=line><span class=cl>不用他们做标记。通常用在visual模式中，会动态自动生成。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>例子：
+</span></span><span class=line><span class=cl>:<span class=s1>&#39;&lt;,&#39;</span>&gt;y 复制上次选择的内容。
+</span></span><span class=line><span class=cl>:<span class=s1>&#39;&lt;,&#39;</span>&gt;d 删除上次选择的内容。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s1>&#39;&#39;</span> <span class=c1># 跳到光标上次所在的行头。</span>
+</span></span><span class=line><span class=cl>配合标记可以实现来回两个标记行头之间跳转
+</span></span><span class=line><span class=cl><span class=sb>``</span> <span class=c1># 跳转到光标上次所在的确切位置（行和列）。</span>
+</span></span><span class=line><span class=cl>配合标记可以实现来回两个标记光标确切位置之间跳转
+</span></span><span class=line><span class=cl>意味着：<span class=sb>`</span> <span class=err>&#39;</span> 做的标记会随时改变。不用他们做标记，会动态自动生成。
+</span></span></code></pre></td></tr></table></div></div><p>类似命令：</p><ul><li><code>Ctrl-o</code>：跳转到上一个位置。</li><li><code>Ctrl-i</code>：跳转到下一个位置。</li></ul></li></ol></li><li><p>全局标记需要指定标记字符才能删除。</p></li></ol></li><li><p>Vim 内置的特殊标记是 Vim 自动管理的，用于记录特定的编辑位置和选择范围。这些标记不能手动删除，因为它们是为特定功能设计的，并且在相应操作时会动态更新。用户可以删除自己设置的标记，但不能删除这些内置特殊标记。</p></li></ol><h4 id=寄存器><a href=#%e5%af%84%e5%ad%98%e5%99%a8 class=header-anchor>#</a>
+寄存器</h4><p>在 Vim 中，寄存器（register）是一个<strong>临时存储位置</strong>，用于<strong>存储和检索文本、命令、宏等</strong>。寄存器的使用可以大大提高编辑效率。以下是对寄存器的详细介绍和使用方法：</p><p><strong>寄存器的分类</strong>：</p><p>Vim 中有多种类型的寄存器，每种类型都有特定的用途：</p><ol><li><strong>无名寄存器</strong>（<code>"</code>）Unnamed Register：<ul><li>默认寄存器，所有的删除（<code>d</code>）、复制（<code>y</code>）、粘贴（<code>p</code>）操作都与此寄存器关联。<strong>缓存最后一次操作内容</strong>。</li></ul></li><li><strong>具名寄存器</strong>（<code>a</code> 到 <code>z</code> 和 <code>A</code> 到 <code>Z</code>）Named Register：<ul><li>用于存储用户指定的文本或宏。</li><li>小写字母（<code>a</code> 到 <code>z</code>）：<strong>覆盖存储</strong>。</li><li>大写字母（<code>A</code> 到 <code>Z</code>）：<strong>追加存储</strong>。</li></ul></li><li><strong>剪贴板寄存器</strong>（<code>*</code> 或 <code>+</code>）selection and drop：<ul><li>用于与系统剪贴板交互。二者可以画等号，区别：</li><li><code>*</code>：与选择剪贴板（primary selection）交互（在 X Window 系统中）。</li><li><code>+</code>：与系统剪贴板（clipboard）交互。</li></ul></li><li><strong>数字寄存器</strong>（<code>0</code> 到 <code>9</code>）numbered：<ul><li>自动存储最近的删除文本。</li><li><code>0</code>：最近的复制（<code>yank</code>）操作。</li><li><code>1</code> 到 <code>9</code>：最近的删除（<code>delete</code>）操作，<code>1</code> 是最新的，<code>9</code> 是最旧的。</li></ul></li><li><strong>读取（命令）寄存器</strong>（<code>:</code>）：<ul><li>存储最近的命令行输入。</li></ul></li><li><strong>搜索寄存器</strong>（<code>/</code>）last search pattern：<ul><li>存储最近的搜索模式。</li></ul></li><li><strong>小删除寄存器</strong>（<code>-</code>）small delete：<ul><li>用于存储小于一行的删除操作。</li></ul></li><li><strong>黑洞寄存器</strong>（<code>_</code>）black hole：<ul><li>丢弃写入其中的任何内容，不对其进行存储。</li></ul></li><li><strong>表达式寄存器</strong>（<code>=</code>）expression：<ul><li>允许你输入数学运算进行计算。</li><li>只能在Insert和Command模式使用，且部分版本不支持。</li><li>如：insert模式下：<code>ctrl-r =2+2 enter</code>结果为4。</li></ul></li><li><strong>只读寄存器</strong>read only：<ul><li>命令寄存器<code>:</code></li><li>点寄存器<code>.</code>：上次insert模式插入的文本内容。</li><li>搜索寄存器<code>/</code></li><li>当前文件名寄存器<code>%</code></li><li>上一个文件名寄存器<code>#</code></li><li>这些寄存器都只能读。</li></ul></li></ol><p><strong>使用寄存器</strong>：</p><ol><li><p><strong>查看寄存器内容</strong>：</p><ul><li><strong><code>:reg</code> 或 <code>:registers</code></strong>：查看所有寄存器的内容。<ul><li>例子：输入 <code>:reg</code> 查看所有寄存器的内容。</li></ul></li><li><strong><code>:reg {register}</code></strong>：查看指定寄存器的内容。<ul><li>寄存器可以有多个，用不用空格隔开都行。<code>:reg 01 2</code>查看寄存器0, 1, 2的内容。</li><li>例子：输入 <code>:reg a</code> 查看寄存器 <code>a</code> 的内容。</li></ul></li></ul></li><li><p><strong>引用寄存器</strong>：</p><ul><li>在Nomal模式下寄存器可以通过<strong>在名字前加双引号来引用</strong>。例如，我们可以通过 <code>"a</code> 来访问在 <code>a</code> 寄存器中的内容。</li><li>在Command或Insert模式下寄存器可以通过<code>ctrl-r 名字</code>来引用。<ul><li>注意在这两个模式下引用的寄存器会<strong>立即输出其存储的内容</strong>。</li></ul></li></ul></li><li><p><strong>复制到寄存器</strong>:</p><ul><li><code>"{register}y{motion}</code>：复制文本到指定寄存器。<ul><li>例子：输入 <code>"ayiw</code> 将当前单词复制到寄存器 <code>a</code> 中。</li></ul></li></ul></li><li><p><strong>粘贴寄存器内容</strong>：</p><ul><li><code>"{register}p</code> 或 <code>"{register}P</code>：粘贴寄存器内容。<ul><li><code>p</code> 在光标后粘贴，<code>P</code> 在光标前粘贴。</li><li>例子：输入 <code>"ap</code> 将寄存器 <code>a</code> 的内容粘贴到光标后。</li></ul></li></ul></li><li><p><strong>删除到寄存器</strong>：</p><ul><li><code>"{register}d{motion}</code>：删除文本并存储到指定寄存器。<ul><li>例子：输入 <code>"adiw</code> 删除当前单词并将其存储到寄存器 <code>a</code> 中。</li></ul></li></ul></li><li><p><a class=link href=#%e5%ae%8f%e5%bd%95%e5%88%b6>录制宏</a>。</p></li></ol><p>注意事项：</p><ol><li><p>无名寄存器：是默认的寄存器。d、c、s、x，y，p这些操作的文本，都在<code>""</code>无名寄存器中（<strong>存储最后一次操作内容</strong>）。除非修改默认寄存器。</p><ol><li>意味着删除的可以使用p命令粘贴，因为默认从无名寄存器取值。</li><li>默认寄存器如果是无名寄存器，p粘贴命令不能粘贴剪切板内容。要引用剪切板寄存器<code>*</code>或<code>+</code>才能粘贴。</li><li>自然在vim中复制、删除的也就不能进剪切板。需要指定剪切板寄存器。</li></ol></li><li><p>数字寄存器：用于存储最近复制、删除的内容，删除的要以行为单位才会存储，否则删除的存储到<code>-</code>寄存器。复制的不影响。</p><ul><li><p>复制用0存储。复制的只有0和无名寄存器存储。后者很快失效。</p></li><li><p>删除用1-9存储。数字越大，删除的时间越久。</p><ul><li>意味着指定寄存器，可以访问删除的内容:</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=s2>&#34;2p  # 粘贴第二条删除的内容。
+</span></span></span></code></pre></td></tr></table></div></div></li><li><p><strong>数字寄存器不可以被自定义的具名也就是字母寄存器替代。</strong></p></li><li><p><strong>具名也就是字母寄存器存在的意义是固化需要频繁剪切的内容，不会因为操作频繁被覆盖。</strong></p></li></ul></li><li><p>我们一般操作具名寄存器：复制，粘贴，删除。</p></li><li><p>寄存器只可以覆盖，不可以删除，由vim自身管理生命周期。不是永久存在。</p></li><li><p>可跨文件使用。</p></li></ol><blockquote><p><strong>寄存器的意义</strong>：</p><p>首先，寄存器是可以<strong>跨文本文件使用</strong>的，只有<strong>有删除动作都会自动记录到1-9数字寄存器</strong>，<strong>0存储复制动作</strong>，而这些寄存器是动态的，会变化的，如果操作动作很多，有一些操作是需要频繁使用的，那么，使用<strong>自定义具名寄存器会大大的提高我们的效率</strong>，因为字母寄存器是不会改变的，除非你删除了这个寄存器。</p><p>再次，我们如果有某些文件误修改了，或者有非法入侵，如果恶意闯入者没有删除所有寄存器的内容，我们有可能追踪到它的修改轨迹。</p><p>最后，多说一句，寄存器的生命周期是很长的，即使服务器重启什么的，只要能正常进入系统，寄存器里的内容都是一直存在的。</p></blockquote><p>Vim 的寄存器功能强大而灵活，通过熟练掌握寄存器的使用，可以极大地提升编辑效率。寄存器不仅可以用于基本的复制和粘贴，还可以存储宏、命令等，更好地管理和重用编辑内容。</p><h4 id=宏录制><a href=#%e5%ae%8f%e5%bd%95%e5%88%b6 class=header-anchor>#</a>
+宏录制</h4><p>在 Vim 中，宏是一组记录的<strong>按键序列</strong>，可以重复执行以自动化重复性的任务。以下是使用宏的详细步骤和相关命令：</p><p><strong>宏录制</strong>其实就是记录宏到<a class=link href=#%e5%af%84%e5%ad%98%e5%99%a8>寄存器</a>（都是在<strong>普通模式</strong>下开始、结束）：</p><ol><li><p><strong><code>q{register}</code></strong>：在Normal模式下，开始录制宏到指定寄存器。</p><ul><li>例子：按 <code>qa</code> 开始录制宏到寄存器 <code>a</code> 中。</li></ul></li><li><p>开始录制之后可以任意执行vim命令。进行你希望录制的所有按键操作。Vim 会记录这些按键。</p><ul><li>例子：输入一系列编辑命令，如插入文本、删除文本、移动光标等。</li></ul></li><li><p><strong><code>q</code></strong>：结束录制宏。</p></li><li><p><strong><code>@{register}</code></strong>：执行存储在寄存器中的宏。</p><ul><li>例子：按 <code>@a</code> 执行寄存器 <code>a</code> 中的宏。</li><li>（ideavim目前不支持执行宏）</li></ul></li><li><p><strong><code>@@</code></strong>：重复执行上一次执行的宏。</p></li><li><p>多次执行宏：</p><ul><li>操作：在普通模式下，输入一个数字，然后按 <code>@</code> 和寄存器字母键。<ul><li><code>10@@</code>执行10上次执行的宏。</li></ul></li><li>例子：按 <code>10@a</code> 将宏 <code>a</code> 执行 10 次。</li></ul></li></ol><p><strong>编辑和查看宏</strong></p><ol><li><strong>查看宏内容</strong>：<ul><li>操作：在普通模式下，输入 <code>:reg</code> 查看所有寄存器的内容，包括宏。</li><li>例子：输入 <code>:reg a</code> 查看寄存器 <code>a</code> 的内容。</li></ul></li><li><strong>编辑宏内容</strong>：<ul><li>操作：将宏内容复制到一个缓冲区进行编辑，然后将其粘贴回寄存器。</li><li>例子：<ol><li>输入 <code>:let @a='your edited macro'</code>，将 <code>'your edited macro'</code> 替换为编辑后的宏内容。</li><li>或者，先用 <code>:put a</code> 将寄存器内容粘贴到缓冲区，编辑后用 <code>:let @a=join(getline(1, "$"), "\n")</code> 保存修改。</li></ol></li></ul></li></ol><p><strong>实例1</strong>：</p><p>假设你想录制一个宏，用于在每行的末尾添加一个分号：</p><ol><li><strong>开始录制</strong>：<ul><li>按 <code>qa</code> 开始录制宏到寄存器 <code>a</code>。</li></ul></li><li><strong>进行操作</strong>：<ul><li>按 <code>$</code> 移动到行尾。</li><li>按 <code>a;</code> 在行尾插入分号。</li><li>按 <code>Esc</code> 退出插入模式。</li><li>按 <code>j</code> 移动到下一行。</li></ul></li><li><strong>结束录制</strong>：<ul><li>按 <code>q</code> 结束宏录制。</li></ul></li><li><strong>执行宏</strong>：<ul><li>按 <code>@a</code> 执行宏，在当前行末尾添加分号并移动到下一行。</li></ul></li><li><strong>多次执行宏</strong>：<ul><li>按 <code>10@a</code> 执行宏 10 次，每次在行末尾添加分号并移动到下一行。</li></ul></li></ol><p><code>ctrl-a</code>会对光标所在数字加1.</p><p>示例2：</p><p>在一个只有一行且这一行只有“1”的文本中，键入如下命令：</p><p><code>qaYp&lt;C-a>q</code></p><p>解释：</p><ul><li><code>qa</code> 开始录制。</li><li><code>Yp</code> 复制行并粘贴。</li><li><code>&lt;C-a></code> 增加1。</li><li><code>q</code> 停止录制。</li></ul><p><code>@a</code> → 在1下面写下 2</p><p><code>@@</code> → 在2 正面写下3</p><p>现在做 <code>100@@</code> 会创建新的100行，并把数据增加到 103.</p><p>通过使用宏，你可以在 Vim 中有效地自动化重复性任务，提高编辑效率。录制、执行和编辑宏的灵活性使得它们成为强大的工具，适用于各种编辑场景。</p><h4 id=分屏><a href=#%e5%88%86%e5%b1%8f class=header-anchor>#</a>
+分屏</h4><p>在 Vim 中，分屏（split screen）功能非常强大，允许你在同一个 Vim 会话中同时查看和编辑多个文件或同一个文件的不同部分。以下是 Vim 分屏操作的详细介绍：</p><p><strong>分类</strong>：</p><ul><li>水平分屏：命令：<code>:sp [file]</code>or<code>:split [file]</code>：<ul><li>指定文件水平分屏，没有指定为当前文件。</li><li>快捷键：<code>ctrl+w s</code></li></ul></li><li>垂直分屏：命令：<code>:vsp [file]</code>or <code>:vsplit [file]</code> ：<ul><li>指定文件重置分屏，没有指定默认为当前文件。</li><li>快捷键：<code>ctrl+w v</code></li></ul></li></ul><p>操作（最后一个快捷键可以分开按）：</p><ul><li>分屏窗口跟普通窗口一模一样，可以执行vim的所有的命令。<ul><li>分屏的窗口还可以继续分屏。</li></ul></li><li><strong>切换到其他窗口</strong><ul><li><code>ctrl+w w</code>不同分屏窗口之间来回切换。</li><li><code>Ctrl-w h</code>：切换到左边的窗口。</li><li><code>Ctrl-w j</code>：切换到下面的窗口。</li><li><code>Ctrl-w k</code>：切换到上面的窗口。</li><li><code>Ctrl-w l</code>：切换到右边的窗口。</li></ul></li><li><strong>调整窗口高度</strong>（部分vim版本不起作用）：<ul><li><code>Ctrl-w +</code>：增加当前窗口高度。</li><li><code>Ctrl-w -</code>：减少当前窗口高度。</li><li><code>Ctrl-w =</code>：使所有窗口等高。</li><li><code>ctrl-w _</code>：最大化当前水平窗口。</li><li><code>ctrl-w |</code>：最大化当前垂直窗口。</li></ul></li><li><strong>调整窗口宽度</strong>：<ul><li><code>Ctrl-w ></code>：增加当前窗口宽度。</li><li><code>Ctrl-w &lt;</code>：减少当前窗口宽度。</li></ul></li><li><strong>关闭当前窗口</strong>：<ul><li><code>:q</code> 或 <code>:quit</code>：关闭当前窗口。</li><li><strong>快捷键</strong>：<code>Ctrl-w c</code> 或 <code>Ctrl-w q</code>。</li></ul></li><li><strong>关闭其他窗口</strong>：<ul><li><code>:only</code>：关闭除了当前窗口之外的所有窗口。</li><li><strong>快捷键</strong>：<code>Ctrl-w o</code>。</li></ul></li><li><strong>交换窗口位置</strong>：<ul><li><code>Ctrl-w r</code>：旋转窗口布局。</li></ul></li><li><strong>拆分到标签页</strong>：<ul><li><code>:tab split</code>：在新标签页中水平分屏当前文件。</li><li><code>:tab vsplit</code>：在新标签页中垂直分屏当前文件。</li><li>我测试二者效果一样，就是将指定文件，默认当前文件拆分到标签页中。跟浏览器标签页类似。</li></ul></li><li>vim打开多个文件，默认不会分屏，是以多窗口的方式打开，可以使用<code>bn, bp</code>切换。<ul><li><code>-o[n]</code>选项:指定打开的分屏窗口数量，默认n为1个，默认水平分屏。<ul><li>可以不用指定n，根据后面的文件数来确定分屏。</li><li>如果n与文件数不等，n有几个就分几屏，多出的文件到分别一个完整的窗口中。</li><li><code>-O</code>垂直分屏。后面有几个文件，就几个垂直分屏。（n与文件数相等的情况）。不等分屏数由n决定，多的文件分别单独一个窗口。</li></ul></li></ul></li></ul><h3 id=结束语><a href=#%e7%bb%93%e6%9d%9f%e8%af%ad class=header-anchor>#</a>
+结束语</h3><ul><li><p>上面是作者最常用的90%的命令。</p></li><li><p>我建议你每天都学1到2个新的命令。</p></li><li><p>在两到三周后，你会感到vim的强大的。</p></li><li><p>有时候，学习VIM就像是在死背一些东西。</p><ul><li>官方建议：要在使用中学习，而不是在记忆中学习。</li></ul></li><li><p>幸运的是，vim有很多很不错的工具和优秀的文档。</p></li><li><p>运行vimtutor直到你熟悉了那些基本命令。</p></li><li><p>其实在线帮助文档中你应该要仔细阅读的是 <code>:help usr_02.txt</code>.</p></li><li><p>你会学习到诸如 <code>!，</code> 目录，寄存器，插件等很多其它的功能。</p></li></ul><p>学习vim就像学弹钢琴一样，一旦学会，受益无穷。</p><div align=center style=color:red>——————————正文结束——————————</div><h2 id=扩展><a href=#%e6%89%a9%e5%b1%95 class=header-anchor>#</a>
+扩展</h2><p>更多内容参考<a class=link href=https://arlettebrook.github.io/p/vim-introduction/ target=_blank rel=noopener>vim-introduction</a>。</p><h3 id=目录操作><a href=#%e7%9b%ae%e5%bd%95%e6%93%8d%e4%bd%9c class=header-anchor>#</a>
+目录操作</h3><p>Vim 自带的 <code>netrw</code> 插件提供了文件浏览器功能，可以用来<strong>浏览、操作目录和文件</strong>。</p><ul><li><p><strong>打开目录浏览</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>:Explore
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>:Ex <span class=c1># 简写</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>会关闭当前文件。</li><li>用vim移动命令移动，回车打开文件或命令。</li><li><code>:q</code>退出浏览。</li></ul></li><li><p><strong>在垂直分屏窗口中打开目录浏览器</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>:Vexplore
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>:Vex <span class=c1># 简写</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>分屏命令都可以用。</li></ul></li><li><p><strong>在水平分屏窗口中打开目录浏览器</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>:Sexplore
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>:Sex <span class=c1># 简写</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>浏览指定目录</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>:Explore /path/to/directory
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>:Vex /path/to/directory
+</span></span></code></pre></td></tr></table></div></div></li></ul><p>部分vim版本不带该目录浏览插件。</p><hr><h2 id=参考><a href=#%e5%8f%82%e8%80%83 class=header-anchor>#</a>
+参考</h2><blockquote><ol><li>原文地址<a class=link href=https://blog.csdn.net/niushuai666/article/details/7275406 target=_blank rel=noopener>Vim简明教程【CoolShell】</a></li><li><a class=link href=https://blog.51cto.com/u_15966109/6082781 target=_blank rel=noopener>vim的寄存器详解</a></li><li><a class=link href=https://segmentfault.com/a/1190000038477576 target=_blank rel=noopener>(译)Vim 寄存器：由浅入深</a></li></ol></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/vim/>Vim</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/vim-introduction/><div class=article-details><h2 class=article-title>Vim Introduction</h2></div></a></article><article><a href=/p/terminal-and-shell-introduction/><div class=article-details><h2 class=article-title>Terminal And Shell Introduction</h2></div></a></article><article><a href=/p/linux-common-commands/><div class=article-details><h2 class=article-title>Linux Common Commands</h2></div></a></article><article><a href=/p/openapi-and-swagger-introduction/><div class=article-details><h2 class=article-title>Openapi And Swagger Introduction</h2></div></a></article><article><a href=/p/open-source-license-introduction/><div class=article-details><h2 class=article-title>Open Source License Introduction</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>Copyright &copy;
+2020 -
+2024 <b><a href=https://github.com/arlettebrook target=_blank rel=noopener>@Arlettebrook</a></b></section><section class=powerby>博客内容遵循<b><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-hans target=_blank rel=noopener> 知识共享 署名-非商业性-相同方式共享4.0国际协议</a></b><br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

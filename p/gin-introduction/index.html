@@ -1,0 +1,1205 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Go第三方库之web框架gin。"><title>Gin Introduction</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/gin-introduction/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Gin Introduction"><meta property='og:description' content="Go第三方库之web框架gin。"><meta property='og:url' content='https://arlettebrook.github.io/p/gin-introduction/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go第三方库'><meta property='article:published_time' content='2024-05-21T17:58:00+08:00'><meta property='article:modified_time' content='2024-05-21T17:58:00+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Gin Introduction"><meta name=twitter:description content="Go第三方库之web框架gin。"><link rel="shortcut icon" href=/img/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-9MKLLVPEER"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9MKLLVPEER")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#介绍>介绍</a></li><li><a href=#快速使用>快速使用</a><ol><li><a href=#gin框架热重载>Gin框架热重载</a><ol><li><a href=#air基本使用>air基本使用</a></li></ol></li><li><a href=#项目结构>项目结构</a></li><li><a href=#gin框架运行模式>Gin框架运行模式</a></li></ol></li><li><a href=#路由与控制器>路由与控制器</a><ol><li><a href=#路由规则>路由规则</a><ol><li><a href=#http请求方法>http请求方法</a></li><li><a href=#url路径>url路径</a></li><li><a href=#控制器函数>控制器函数</a></li></ol></li><li><a href=#配置路由示例>配置路由示例</a></li><li><a href=#路由分组><strong>路由分组</strong></a></li><li><a href=#控制器函数分组>控制器函数分组</a><ol><li><a href=#控制器继承>控制器继承</a></li></ol></li></ol></li><li><a href=#获取请求参数>获取请求参数</a><ol><li><a href=#获取查询参数>获取查询参数</a></li><li><a href=#获取路径参数>获取路径参数</a></li><li><a href=#获取表单参数>获取表单参数</a></li><li><a href=#将请求参数绑定到结构体对象>将请求参数绑定到结构体对象</a></li><li><a href=#gin如何获取客户ip>Gin如何获取客户ip</a></li></ol></li><li><a href=#响应请求参数>响应请求参数</a><ol><li><a href=#以字符串格式响应请求>以字符串格式响应请求</a></li><li><a href=#以json格式响应请求>以json格式响应请求</a><ol><li><a href=#以带填充的json格式响应请求了解>以带填充的json格式响应请求（了解）</a></li></ol></li><li><a href=#以xml格式响应请求>以xml格式响应请求</a></li><li><a href=#以文件格式响应请求>以文件格式响应请求</a></li><li><a href=#设置http响应头设置header>设置http响应头（设置Header）</a></li></ol></li><li><a href=#html模板渲染>HTML模板渲染</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#f97300;color:#fff>Go
+</a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#41b06e;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/gin-introduction/>Gin Introduction</a></h2><h3 class=article-subtitle>Go第三方库之web框架gin。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 21, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 21 分钟</time></div></footer></div></header><section class=article-content><hr><h2 id=介绍><a href=#%e4%bb%8b%e7%bb%8d class=header-anchor>#</a>
+介绍</h2><p>Gin 是一个用 Golang编写的高性能的web 框架, 由于<a class=link href=https://github.com/julienschmidt/httprouter target=_blank rel=noopener>http路由</a>的优化，运行速度非常快，速度提高了近 40 倍。 Gin的特点就是封装优雅、API友好。</p><p>Gin 最擅长的就是API接口的高并发，如果项目的规模不大，业务相对简单，这个时候我们也推荐您使用 Gin。</p><p>当某个接口的性能遭到较大挑战的时候，这个还是可以考虑使用 Gin 重写接口。</p><p>Gin 也是一个流行的 golang Web 框架，Github Strat 量已经超过了 75k[2024/05/21]。</p><p>Gin的一些特性：</p><ul><li>快速
+基于 Radix 树的路由，小内存占用。没有反射。可预测的 API 性能。</li><li>支持中间件
+传入的 HTTP 请求可以由一系列中间件和最终操作来处理。 例如：Logger，Authorization，GZIP，最终操作 DB。</li><li>Crash 处理
+Gin 可以 catch 一个发生在 HTTP 请求中的 panic 并 recover 它。这样，你的服务器将始终可用。例如，你可以向 Sentry 报告这个 panic！</li><li>JSON 验证
+Gin 可以解析并验证请求的 JSON，例如检查所需值的存在。</li><li>路由组
+更好地组织路由。是否需要授权，不同的 API 版本…… 此外，这些组可以无限制地嵌套而不会降低性能。</li><li>错误管理
+Gin 提供了一种方便的方法来收集 HTTP 请求期间发生的所有错误。最终，中间件可以将它们写入日志文件，数据库并通过网络发送。</li><li>内置渲染
+Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。</li><li>可扩展性
+新建一个中间件非常简单。</li></ul><p>Gin 的官网：https://gin-gonic.com/zh-cn/
+Gin Github 地址：https://github.com/gin-gonic/gin</p><hr><h2 id=快速使用><a href=#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+快速使用</h2><p>下载并安装 gin：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=err>$</span> <span class=k>go</span> <span class=nx>get</span> <span class=o>-</span><span class=nx>u</span> <span class=nx>github</span><span class=p>.</span><span class=nx>com</span><span class=o>/</span><span class=nx>gin</span><span class=o>-</span><span class=nx>gonic</span><span class=o>/</span><span class=nx>gin</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意：go版本要 1.6 及以上。</p><p>快速使用示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 导入gin包
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kn>import</span> <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 入口函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 初始化一个http服务对象，创建一个默认的路由引擎对象
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 配置路由
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// 设置一个get请求的路由，url为/ping, 处理函数（或者叫控制器函数、回调函数）是一个闭包函数。
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/ping&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=c1>// 通过请求上下文对象Context, 直接往客户端返回一个json
+</span></span></span><span class=line><span class=cl><span class=c1></span>       <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=mi>200</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=s>&#34;message&#34;</span><span class=p>:</span> <span class=s>&#34;pong&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>       <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>()</span> <span class=c1>// 启动 HTTP 服务，默认在 0.0.0.0:8080 启动服务
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nb>panic</span><span class=p>(</span><span class=s>&#34;Http serve start error:&#34;</span> <span class=o>+</span> <span class=nx>err</span><span class=p>.</span><span class=nf>Error</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行命令<code>go run main.go</code>，即可启动http服务。然后就可以通过localhost:8080/ping 访问了。会返回如下内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=nt>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;pong&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意：如果不期望在测试的时候，每次都弹出防火墙警告，可将监听地址、端口改为<code>localhost:8080</code>。生产环境应该为<code>:port</code>，省略地址，默认为<code>0.0.0.0</code>。</p><h3 id=gin框架热重载><a href=#gin%e6%a1%86%e6%9e%b6%e7%83%ad%e9%87%8d%e8%bd%bd class=header-anchor>#</a>
+Gin框架热重载</h3><p>所谓热重载就是当我们对代码进行修改时，程序能够自动重新加载并执行，这在我们开发中是非常便利的，可以快速进行代码测试，省去了每次手动重新编译。</p><p>Gin框架并没有提供热重载的功能，这个时候我们要实现热重载就要借助第三方的工具。</p><p>这里推荐一个使用最多的gin框架热重载工具：<strong><a class=link href=https://github.com/cosmtrek/air/ target=_blank rel=noopener>air</a></strong>。它是在 <a class=link href=https://github.com/pilu/fresh target=_blank rel=noopener>fresh</a> 的基础上诞生的。</p><p>特性：</p><ul><li>彩色的日志输出</li><li>自定义构建或必要的命令</li><li>支持外部子目录</li><li>在 Air 启动之后，允许监听新创建的路径</li><li><strong>更棒的构建过程</strong></li></ul><p>原理大致是：监听到文件系统修改通知后，重新构建应用程序。</p><h4 id=air基本使用><a href=#air%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+air基本使用</h4><p>安装：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>go install github.com/cosmtrek/air@latest
+</span></span></code></pre></td></tr></table></div></div><p>注意：go版本要1.22 或更高。</p><p>安装成功之后，就可以在gin项目根目录下直接运行<code>air</code>命令，就可以启动gin项目，实现热重载。</p><p>air默认情况下使用默认配置启动服务。如果要修改默认配置，可以运行<code>air init</code>生成默认的配置文件<code>.air.toml</code>，修改之后，运行<code>air</code>即可使用修改的配置启动服务，注意：如果修改了配置文件名，需要用<code>-c</code>选项指定新的配置文件。否则将使用默认的<code>.air.toml</code>启动服务。</p><p>一般使用默认配置就够用了。可修改的内容如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-toml data-lang=toml><span class=line><span class=cl><span class=nx>root</span> <span class=p>=</span> <span class=s2>&#34;.&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>testdata_dir</span> <span class=p>=</span> <span class=s2>&#34;testdata&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>tmp_dir</span> <span class=p>=</span> <span class=s2>&#34;tmp&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>build</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>args_bin</span> <span class=p>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>bin</span> <span class=p>=</span> <span class=s2>&#34;tmp\\main.exe&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>cmd</span> <span class=p>=</span> <span class=s2>&#34;go build -o ./tmp/main.exe .&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>delay</span> <span class=p>=</span> <span class=mi>1000</span>
+</span></span><span class=line><span class=cl>  <span class=nx>exclude_dir</span> <span class=p>=</span> <span class=p>[</span><span class=s2>&#34;assets&#34;</span><span class=p>,</span> <span class=s2>&#34;tmp&#34;</span><span class=p>,</span> <span class=s2>&#34;vendor&#34;</span><span class=p>,</span> <span class=s2>&#34;testdata&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>exclude_file</span> <span class=p>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>exclude_regex</span> <span class=p>=</span> <span class=p>[</span><span class=s2>&#34;_test.go&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>exclude_unchanged</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>follow_symlink</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>full_bin</span> <span class=p>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>include_dir</span> <span class=p>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>include_ext</span> <span class=p>=</span> <span class=p>[</span><span class=s2>&#34;go&#34;</span><span class=p>,</span> <span class=s2>&#34;tpl&#34;</span><span class=p>,</span> <span class=s2>&#34;tmpl&#34;</span><span class=p>,</span> <span class=s2>&#34;html&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>include_file</span> <span class=p>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>kill_delay</span> <span class=p>=</span> <span class=s2>&#34;0s&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>log</span> <span class=p>=</span> <span class=s2>&#34;build-errors.log&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>poll</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>poll_interval</span> <span class=p>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>  <span class=nx>post_cmd</span> <span class=p>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>pre_cmd</span> <span class=p>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>rerun</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>rerun_delay</span> <span class=p>=</span> <span class=mi>500</span>
+</span></span><span class=line><span class=cl>  <span class=nx>send_interrupt</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>stop_on_error</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>color</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>app</span> <span class=p>=</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>build</span> <span class=p>=</span> <span class=s2>&#34;yellow&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>main</span> <span class=p>=</span> <span class=s2>&#34;magenta&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>runner</span> <span class=p>=</span> <span class=s2>&#34;green&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>watcher</span> <span class=p>=</span> <span class=s2>&#34;cyan&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>log</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>main_only</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>time</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>misc</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>clean_on_exit</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>proxy</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>app_port</span> <span class=p>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>  <span class=nx>enabled</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>proxy_port</span> <span class=p>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>screen</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=nx>clear_on_rebuild</span> <span class=p>=</span> <span class=kc>false</span>
+</span></span><span class=line><span class=cl>  <span class=nx>keep_scroll</span> <span class=p>=</span> <span class=kc>true</span>
+</span></span></code></pre></td></tr></table></div></div><p>基本使用如上，更多内容参考<a class=link href=https://github.com/cosmtrek/air/ target=_blank rel=noopener>air官方</a>。</p><h3 id=项目结构><a href=#%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84 class=header-anchor>#</a>
+项目结构</h3><p>实际项目业务功能和模块会很多，我们不可能把所有代码都写在一个go文件里面或者写在一个main入口函数里面；我们需要对项目结构做一些规划，方便维护代码以及扩展。</p><blockquote><p>Gin框没有对项目结构做出限制，我们可以根据自己项目需要自行设计。</p></blockquote><p>这里给出一个典型的MVC框架大致的项目结构的例子，大家可以参考下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>├── conf                    <span class=c1>#项目配置文件目录</span>
+</span></span><span class=line><span class=cl>│   └── config.toml         <span class=c1>#大家可以选择自己熟悉的配置文件管理工具包例如：toml、xml等等</span>
+</span></span><span class=line><span class=cl>├── controllers             <span class=c1>#控制器目录，按模块存放控制器（或者叫控制器函数），必要的时候可以继续划分子目录。</span>
+</span></span><span class=line><span class=cl>│   ├── food.go
+</span></span><span class=line><span class=cl>│   └── user.go
+</span></span><span class=line><span class=cl>├── main.go                 <span class=c1>#项目入口，这里负责Gin框架的初始化，注册路由信息，关联控制器函数等。</span>
+</span></span><span class=line><span class=cl>├── models                  <span class=c1>#模型目录，负责项目的数据存储部分，例如各个模块的Mysql表的读写模型。</span>
+</span></span><span class=line><span class=cl>│   ├── food.go
+</span></span><span class=line><span class=cl>│   └── user.go
+</span></span><span class=line><span class=cl>├── static                  <span class=c1>#静态资源目录，包括Js，css，jpg等等，可以通过Gin框架配置，直接让用户访问。</span>
+</span></span><span class=line><span class=cl>│   ├── css
+</span></span><span class=line><span class=cl>│   ├── images
+</span></span><span class=line><span class=cl>│   └── js
+</span></span><span class=line><span class=cl>├── logs                    <span class=c1>#日志文件目录，主要保存项目运行过程中产生的日志。</span>
+</span></span><span class=line><span class=cl>└── views                   <span class=c1>#视图模板目录，存放各个模块的视图模板，当然有些项目只有api，是不需要视图部分，可以忽略这个目录</span>
+</span></span><span class=line><span class=cl>    └── index.html
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    routes
+</span></span></code></pre></td></tr></table></div></div><h3 id=gin框架运行模式><a href=#gin%e6%a1%86%e6%9e%b6%e8%bf%90%e8%a1%8c%e6%a8%a1%e5%bc%8f class=header-anchor>#</a>
+Gin框架运行模式</h3><p>为方便调试，Gin 框架在运行的时候默认是debug模式，在控制台默认会打印出很多调试日志，上线的时候我们需要关闭<code>debug</code>模式，改为<code>release</code>模式。</p><p>设置Gin框架运行模式：</p><ol><li><p>通过环境变量设置<code>GIN_MODE</code>，如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>export</span> <span class=nv>GIN_MODE</span><span class=o>=</span>release
+</span></span></code></pre></td></tr></table></div></div><p>GIN_MODE环境变量，可以设置为debug或者release，默认为debug。</p></li><li><p>通过代码设置:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// 在main函数，初始化gin框架的时候执行下面代码
+</span></span></span><span class=line><span class=cl><span class=c1>// 设置 release模式
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>gin</span><span class=p>.</span><span class=nf>SetMode</span><span class=p>(</span><span class=nx>gin</span><span class=p>.</span><span class=nx>ReleaseMode</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1>// 或者 设置debug模式
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>gin</span><span class=p>.</span><span class=nf>SetMode</span><span class=p>(</span><span class=nx>gin</span><span class=p>.</span><span class=nx>DebugMode</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h2 id=路由与控制器><a href=#%e8%b7%af%e7%94%b1%e4%b8%8e%e6%8e%a7%e5%88%b6%e5%99%a8 class=header-anchor>#</a>
+路由与控制器</h2><p>Gin框架中的<strong>路由</strong>是指通过HTTP请求的路径找到对应的控制器函数（也可以叫处理器函数）。Gin框架的路由是基于<a class=link href=https://github.com/julienschmidt/httprouter target=_blank rel=noopener>httprouter</a>包实现的。</p><p><strong>控制器函数</strong>主要负责处理http请求和响应请求。</p><p>一个简单的例子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span> <span class=c1>// 创建默认的路由引擎对象
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 配置路由：post请求, uri路径为：/user/login, 绑定doLogin控制器函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>r</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/user/login&#34;</span><span class=p>,</span> <span class=nx>doLogin</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 控制器函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>doLogin</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 获取post请求参数
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>username</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>PostForm</span><span class=p>(</span><span class=s>&#34;username&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>password</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>PostForm</span><span class=p>(</span><span class=s>&#34;password&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 通过请求上下文对象Context, 直接往客户端返回一个字符串
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>c</span><span class=p>.</span><span class=nf>String</span><span class=p>(</span><span class=mi>200</span><span class=p>,</span> <span class=s>&#34;username=%s,password=%s&#34;</span><span class=p>,</span> <span class=nx>username</span><span class=p>,</span><span class=nx>password</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=路由规则><a href=#%e8%b7%af%e7%94%b1%e8%a7%84%e5%88%99 class=header-anchor>#</a>
+路由规则</h3><p>一条路由规则由三部分组成：</p><ul><li>http请求方法</li><li>url路径</li><li>控制器函数</li></ul><h4 id=http请求方法><a href=#http%e8%af%b7%e6%b1%82%e6%96%b9%e6%b3%95 class=header-anchor>#</a>
+http请求方法</h4><p>常用的http请求方法有下面4种:</p><ul><li>GET：查Read-select</li><li>POST：增Create-insert</li><li>PUT：改Update-update</li><li>DELETE: 删Delete-delete</li></ul><p>目前常用的API风格是RESTful风格。</p><p>在RESTful风格中，每个路径表示不同的资源，通过不同的请求方式访问相同的路径表示执行不同的操作（CRUD)。</p><p>RESTful CRUD示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>POST /users      <span class=c1># 创建一个新用户</span>
+</span></span><span class=line><span class=cl>GET /users/1     <span class=c1># 获取ID为1的用户</span>
+</span></span><span class=line><span class=cl>PUT /users/1     <span class=c1># 更新ID为1的用户</span>
+</span></span><span class=line><span class=cl>DELETE /users/1  <span class=c1># 删除ID为1的用户</span>
+</span></span><span class=line><span class=cl>				 <span class=c1># 注意：1是路径参数</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=url路径><a href=#url%e8%b7%af%e5%be%84 class=header-anchor>#</a>
+url路径</h4><p>Gin框架中，url路径有三种写法：</p><ul><li>静态url路径</li><li>带路径参数的url路径</li><li>带星号（*）模糊匹配参数的url路径</li></ul><p>下面看下各种url路由的例子</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>// 例子1， 静态Url路径, 即不带任何参数的url路径
+</span></span><span class=line><span class=cl>/users/center
+</span></span><span class=line><span class=cl>/user/111
+</span></span><span class=line><span class=cl>/food/12
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 例子2，带路径参数的url路径，url路径上面带有参数,参数由冒号（:）跟着一个字符串定义。
+</span></span><span class=line><span class=cl>// 路径参数值可以是数值，也可以是字符串
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//定义参数:id， 可以匹配/user/1, /user/899 /user/xiaoli 这类Url路径
+</span></span><span class=line><span class=cl>/user/:id
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//定义参数:id， 可以匹配/food/2, /food/100 /food/apple 这类Url路径
+</span></span><span class=line><span class=cl>/food/:id
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//定义参数:type和:page， 可以匹配/foods/2/1, /food/100/25 /food/apple/30 这类Url路径
+</span></span><span class=line><span class=cl>/foods/:type/:page
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 例子3. 带星号（*）模糊匹配参数的url路径
+</span></span><span class=line><span class=cl>// 星号代表匹配任意路径的意思, 必须在*号后面指定一个参数名，后面可以通过这个参数获取*号匹配的内容。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//以/foods/ 开头的所有路径都匹配
+</span></span><span class=line><span class=cl>//匹配：/foods/1， /foods/200, /foods/1/20, /foods/apple/1 
+</span></span><span class=line><span class=cl>/foods/*path
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//可以通过path参数获取*号匹配的内容。
+</span></span></code></pre></td></tr></table></div></div><h4 id=控制器函数><a href=#%e6%8e%a7%e5%88%b6%e5%99%a8%e5%87%bd%e6%95%b0 class=header-anchor>#</a>
+控制器函数</h4><p>控制器函数定义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>type HandlerFunc func(*Context)
+</span></span></code></pre></td></tr></table></div></div><p>控制器函数接受一个上下文参数。
+可以通过上下文参数，获取http请求参数，响应http请求。</p><h3 id=配置路由示例><a href=#%e9%85%8d%e7%bd%ae%e8%b7%af%e7%94%b1%e7%a4%ba%e4%be%8b class=header-anchor>#</a>
+配置路由示例</h3><p>配置路由就是利用路由规则定义路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>//实例化gin实例对象。创建默认的路由引擎对象。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl><span class=c1>// 配置路由
+</span></span></span><span class=line><span class=cl><span class=c1>//定义post请求, url路径为：/users, 绑定saveUser控制器函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>r</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/users&#34;</span><span class=p>,</span> <span class=nx>saveUser</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//定义get请求，url路径为：/users/:id  （:id是参数，例如: /users/10, 会匹配这个url模式），绑定getUser控制器函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/users/:id&#34;</span><span class=p>,</span> <span class=nx>getUser</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//定义put请求
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>r</span><span class=p>.</span><span class=nf>PUT</span><span class=p>(</span><span class=s>&#34;/users/:id&#34;</span><span class=p>,</span> <span class=nx>updateUser</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//定义delete请求
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>r</span><span class=p>.</span><span class=nf>DELETE</span><span class=p>(</span><span class=s>&#34;/users/:id&#34;</span><span class=p>,</span> <span class=nx>deleteUser</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//控制器函数实现
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>saveUser</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>...</span><span class=nx>忽略实现</span><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>getUser</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>...</span><span class=nx>忽略实现</span><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>updateUser</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>...</span><span class=nx>忽略实现</span><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>deleteUser</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>...</span><span class=nx>忽略实现</span><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>提示：实际项目开发中不要把路由定义和控制器函数都写在一个go文件，不方便维护，可以参考第一章的项目结构，规划自己的业务模块。</p></blockquote><h3 id=路由分组><a href=#%e8%b7%af%e7%94%b1%e5%88%86%e7%bb%84 class=header-anchor>#</a>
+<strong>路由分组</strong></h3><p>在做api开发的时候，如果要支持多个api版本，我们可以通过分组路由来实现api版本处理。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>router</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建v1组
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>v1</span> <span class=o>:=</span> <span class=nx>router</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/v1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=c1>// 在v1这个分组下，注册路由
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>v1</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/login&#34;</span><span class=p>,</span> <span class=nx>loginEndpoint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=nx>v1</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/submit&#34;</span><span class=p>,</span> <span class=nx>submitEndpoint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=nx>v1</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/read&#34;</span><span class=p>,</span> <span class=nx>readEndpoint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建v2组
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>v2</span> <span class=o>:=</span> <span class=nx>router</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/v2&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=c1>// 在v2这个分组下，注册路由
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>v2</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/login&#34;</span><span class=p>,</span> <span class=nx>loginEndpoint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=nx>v2</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/submit&#34;</span><span class=p>,</span> <span class=nx>submitEndpoint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=nx>v2</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/read&#34;</span><span class=p>,</span> <span class=nx>readEndpoint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>router</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;:8080&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>上面的例子将会注册下面的路由信息：</p><ul><li>/v1/login</li><li>/v1/submit</li><li>/v1/read</li><li>/v2/login</li><li>/v2/submit</li><li>/v2/read</li></ul><p>路由分组，其实就是设置了同一类<strong>路由的url前缀</strong>。</p><p>利用路由分组，我们可以实现将需要授权和不需要授权的API进行分组管理(后面介绍）。同时也能够将他们<strong>分文件保存</strong>。</p><p>示例如下：</p><p><code>routers/router.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>routers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// registerRouterGroupFunc 定义类型别名，用于注册路由组的函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>type</span> <span class=nx>registerRouterGroupFunc</span> <span class=p>=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>r</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Engine</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 存储所有需要注册的路由组函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>routerGroups</span> <span class=p>[]</span><span class=nx>registerRouterGroupFunc</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 添加路由组函数到路由组列表中
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>addRouterGroup</span><span class=p>(</span><span class=nx>r</span> <span class=nx>registerRouterGroupFunc</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>r</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>routerGroups</span> <span class=p>=</span> <span class=nb>append</span><span class=p>(</span><span class=nx>routerGroups</span><span class=p>,</span> <span class=nx>r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 注册所有路由组到主路由组中
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>registerRoutes</span><span class=p>(</span><span class=nx>r</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Engine</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>register</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>routerGroups</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nf>register</span><span class=p>(</span><span class=nx>r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 加载所有路由组
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>loadRouterGroups</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nf>loadDefaultRouter</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nf>loadManageRouter</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// InitRouter 初始化主路由器
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>InitRouter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 创建默认的 Gin 路由器
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 加载并注册所有路由组
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>loadRouterGroups</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nf>registerRoutes</span><span class=p>(</span><span class=nx>r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// 启动服务器
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;localhost:8080&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Panic</span><span class=p>(</span><span class=s>&#34;Start http serve error:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>routers/defaultRouter.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>routers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/arlettebrook/learn/controllers&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 加载所有默认的路由组
+</span></span></span><span class=line><span class=cl><span class=c1>// 这里控制器函数没有分组保存
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>loadDefaultRouter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nf>addRouterGroup</span><span class=p>(</span><span class=kd>func</span><span class=p>(</span><span class=nx>r</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Engine</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// defaultRouter := r.group(&#34;/&#34;) 可以省略
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// defaultRouter.Get(...) 与下面等效
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;msg&#34;</span><span class=p>:</span> <span class=s>&#34;Hello, world!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>})</span>
+</span></span><span class=line><span class=cl>		<span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>routers/manageRouter.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>routers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/arlettebrook/learn/controllers&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 加载所有管理路由组
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>loadManageRouter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nf>addRouterGroup</span><span class=p>(</span><span class=kd>func</span><span class=p>(</span><span class=nx>r</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Engine</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>manageRouter</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/manage&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>manageRouter</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/addUser&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=s>&#34;msg&#34;</span><span class=p>:</span> <span class=s>&#34;Add user&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=p>})</span>
+</span></span><span class=line><span class=cl>			<span class=p>})</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在main.go中调用<code>routers.InitRouter()</code>即可启动gin框架。浏览器中访问 http://localhost:8080/manage/addUser、 http://localhost:8080/就可以访问注册的两条路由。</p><p>注意：默认路由组,在<code>/</code>,意思就是：<code>r.Group("/")</code>与<code>r.Get("/",...)</code>属于同一组。</p><h3 id=控制器函数分组><a href=#%e6%8e%a7%e5%88%b6%e5%99%a8%e5%87%bd%e6%95%b0%e5%88%86%e7%bb%84 class=header-anchor>#</a>
+控制器函数分组</h3><p>当我们的项目比较大的时候有必要对我们的控制器进行分组。</p><p>参考<a class=link href=#%e8%b7%af%e7%94%b1%e5%88%86%e7%bb%84>路由分组</a>示例，使用控制器函数分组可修改为：</p><p><code>routers/defaultRouter.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>routers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/arlettebrook/learn/controllers&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>loadDefaultRouter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>addRouterGroup</span><span class=p>(</span><span class=kd>func</span><span class=p>(</span><span class=nx>r</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Engine</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>defaultController</span> <span class=o>:=</span> <span class=nx>controllers</span><span class=p>.</span><span class=nx>DefaultController</span><span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/&#34;</span><span class=p>,</span> <span class=nx>defaultController</span><span class=p>.</span><span class=nx>Index</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>routers/manageRouter.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>routers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/arlettebrook/learn/controllers&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>loadManageRouter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>addRouterGroup</span><span class=p>(</span><span class=kd>func</span><span class=p>(</span><span class=nx>r</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Engine</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>manageRouter</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/manage&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=nx>manageController</span> <span class=o>:=</span> <span class=nx>controllers</span><span class=p>.</span><span class=nx>ManageController</span><span class=p>{}</span>
+</span></span><span class=line><span class=cl>       <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>manageRouter</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/addUser&#34;</span><span class=p>,</span> <span class=nx>manageController</span><span class=p>.</span><span class=nx>AddUser</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>添加的控制器分组：</p><p><code>controllers/defaultController.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>controllers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>DefaultController</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>d</span> <span class=nx>DefaultController</span><span class=p>)</span> <span class=nf>Index</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=s>&#34;msg&#34;</span><span class=p>:</span> <span class=s>&#34;Hello, world!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>controllers/manageController.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>controllers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>ManageController</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>m</span> <span class=nx>ManageController</span><span class=p>)</span> <span class=nf>AddUser</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=s>&#34;msg&#34;</span><span class=p>:</span> <span class=s>&#34;Add user&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注意：为什么要在控制器里面定义对应的结构体对象呢？</p><ul><li>防止在同一个包下出现同名方法。</li><li>更加语义化，方便调用。</li><li>可以实现<strong>控制器继承</strong>。</li></ul></blockquote><h4 id=控制器继承><a href=#%e6%8e%a7%e5%88%b6%e5%99%a8%e7%bb%a7%e6%89%bf class=header-anchor>#</a>
+控制器继承</h4><p>控制器继承，可以将一些共用的控制器函数封装出来，实现代码优化。</p><p>示例：</p><p><code>controllers/baseController.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>controllers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>BaseController</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>b</span> <span class=o>*</span><span class=nx>BaseController</span><span class=p>)</span> <span class=nf>Ok</span><span class=p>(</span><span class=nx>ctx</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ctx</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;msg&#34;</span><span class=p>:</span> <span class=s>&#34;Success!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>b</span> <span class=o>*</span><span class=nx>BaseController</span><span class=p>)</span> <span class=nf>Fail</span><span class=p>(</span><span class=nx>ctx</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ctx</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;msg&#34;</span><span class=p>:</span> <span class=s>&#34;Fail!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>controllers/defaultController.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>controllers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>DefaultController</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>BaseController</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>d</span> <span class=nx>DefaultController</span><span class=p>)</span> <span class=nf>Index</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=s>&#34;msg&#34;</span><span class=p>:</span> <span class=s>&#34;Hello, world!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>routers/defaultRouter.go</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>routers</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/arlettebrook/learn/controllers&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>loadDefaultRouter</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>addRouterGroup</span><span class=p>(</span><span class=kd>func</span><span class=p>(</span><span class=nx>r</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Engine</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>defaultController</span> <span class=o>:=</span> <span class=nx>controllers</span><span class=p>.</span><span class=nx>DefaultController</span><span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/&#34;</span><span class=p>,</span> <span class=nx>defaultController</span><span class=p>.</span><span class=nx>Index</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/extend/s&#34;</span><span class=p>,</span> <span class=nx>defaultController</span><span class=p>.</span><span class=nx>Ok</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/extend/f&#34;</span><span class=p>,</span> <span class=nx>defaultController</span><span class=p>.</span><span class=nx>Fail</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>所以，我们只需要对应的控制器继承<code>BaseController</code>，那么该控制器就有对应的公有控制器函数。</p><p>TODO: 利用控制器，还能实现更多的操作，未完待续&mldr;</p><hr><h2 id=获取请求参数><a href=#%e8%8e%b7%e5%8f%96%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0 class=header-anchor>#</a>
+获取请求参数</h2><p>本章介绍Gin框架获取请求参数的方式。</p><h3 id=获取查询参数><a href=#%e8%8e%b7%e5%8f%96%e6%9f%a5%e8%af%a2%e5%8f%82%e6%95%b0 class=header-anchor>#</a>
+获取查询参数</h3><p>查询（query）参数是url路径中<code>?</code>后面的所有键值对，他们用<code>&</code>符合连接。url例子：/query?id=1234&amp;name=Manu&amp;value=111</p><p>Gin框架获取查询参数的<strong>常用函数</strong>：</p><ul><li><strong>func</strong> (c *Context) <strong>Query</strong>(key string) string<ul><li>键不存在返回空字符串。</li></ul></li><li><strong>func</strong> (c *Context) <strong>DefaultQuery</strong>(key, defaultValue string) string<ul><li>键不存在，使用默认值。</li></ul></li><li><strong>func</strong> (c *Context) <strong>GetQuery</strong>(key string) (string, bool)<ul><li>键存在返回值和true。键不存在返回空字符串和false。键的值为空字符串也返回空字符串和false。</li></ul></li></ul><p>注意：</p><ul><li><p>获取的查询参数类型都为string。</p></li><li><p>通常情况下查询参数出现在GET请求当中，因为GET请求参数会出现在url路径中。当然在POST请求中也能够获取查询参数。</p></li></ul><p>示例：/user?uid=20&amp;page=1</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>router</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/user&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>uid</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>Query</span><span class=p>(</span><span class=s>&#34;uid&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>page</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>DefaultQuery</span><span class=p>(</span><span class=s>&#34;page&#34;</span><span class=p>,</span> <span class=s>&#34;0&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>c</span><span class=p>.</span><span class=nf>String</span><span class=p>(</span><span class=mi>200</span><span class=p>,</span> <span class=s>&#34;uid=%v page=%v&#34;</span><span class=p>,</span> <span class=nx>uid</span><span class=p>,</span> <span class=nx>page</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=获取路径参数><a href=#%e8%8e%b7%e5%8f%96%e8%b7%af%e5%be%84%e5%8f%82%e6%95%b0 class=header-anchor>#</a>
+获取路径参数</h3><p>路径（param）参数是包含在url路径中的参数，通常在url中不容易区分，只有在绑定路径参数的地方才能正确判断。</p><p>绑定路径参数的语法是<code>/:+参数名</code>，如<code>/user/:id</code>，就是在user路径下绑定一个id参数，那么/user/1, /user/2&mldr;, user后面的一级都是路径参数。</p><p>当然路径参数也支持嵌套，如：/user/:id/:name/:age, /user/001/jack/18</p><p>获取路径参数常用函数：</p><ul><li><strong>func</strong> (c *Context) <strong>Param</strong>(key string) string<ul><li>获取路径中指定位置的参数，键不存在，返回空字符串。</li><li>注意：键名要与绑定的路径参数名一直，没有冒号。位置要一一对应，否则请求会404.</li><li>通常获取GET请求中的路径参数，但也能获取POST请求中的路径参数。</li></ul></li></ul><p>示例：域名/user/20</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/user/:uid&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>uid</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>Param</span><span class=p>(</span><span class=s>&#34;uid&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>c</span><span class=p>.</span><span class=nf>String</span><span class=p>(</span><span class=mi>200</span><span class=p>,</span> <span class=s>&#34;userID=%s&#34;</span><span class=p>,</span> <span class=nx>uid</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=获取表单参数><a href=#%e8%8e%b7%e5%8f%96%e8%a1%a8%e5%8d%95%e5%8f%82%e6%95%b0 class=header-anchor>#</a>
+获取表单参数</h3><p>表单参数是位于请求体中的，所以只适用于POST请求。</p><p>所以一般说获取表单参数就是获取POST请求参数。</p><p>获取Post请求参数的常用函数：</p><ul><li><strong>func</strong> (c *Context) <strong>PostForm</strong>(key string) string<ul><li>从请求体（表单）中获取指定键的值，不存在返回空字符串。</li></ul></li><li><strong>func</strong> (c *Context) <strong>DefaultPostForm</strong>(key, defaultValue string) string<ul><li>键不存在，指定默认值。</li></ul></li><li><strong>func</strong> (c *Context) <strong>GetPostForm</strong>(key string) (string, bool)<ul><li>键不存在返回空字符串和false，存在返回值和true。</li></ul></li><li>注意：<ul><li>获取的参数类型但是string。</li><li>以上方法不能获取请求体中的json、xml等原始数据。只能获取表单数据。<ul><li>获取原始数据，可以通过<a class=link href=#%e5%b0%86%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0%e7%bb%91%e5%ae%9a%e5%88%b0%e7%bb%93%e6%9e%84%e4%bd%93%e5%af%b9%e8%b1%a1>参数与结构体对象绑定</a>获取。</li></ul></li></ul></li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/doAddUser&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>username</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>PostForm</span><span class=p>(</span><span class=s>&#34;username&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>password</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>PostForm</span><span class=p>(</span><span class=s>&#34;password&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>age</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>DefaultPostForm</span><span class=p>(</span><span class=s>&#34;age&#34;</span><span class=p>,</span> <span class=s>&#34;20&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>	<span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=mi>200</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span> 
+</span></span><span class=line><span class=cl>        <span class=s>&#34;usernmae&#34;</span><span class=p>:</span> <span class=nx>username</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>        <span class=s>&#34;password&#34;</span><span class=p>:</span> <span class=nx>password</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>        <span class=s>&#34;age&#34;</span><span class=p>:</span> <span class=nx>age</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>    <span class=p>})</span> 
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=将请求参数绑定到结构体对象><a href=#%e5%b0%86%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0%e7%bb%91%e5%ae%9a%e5%88%b0%e7%bb%93%e6%9e%84%e4%bd%93%e5%af%b9%e8%b1%a1 class=header-anchor>#</a>
+将请求参数绑定到结构体对象</h3><p>前面获取参数的方式都是一个个参数的读取，比较麻烦，Gin框架支持根据请求参数类型自动绑定到一个struct对象。</p><p>用到的方法是<code>Bind</code>和<code>ShouldBind</code>：</p><ul><li><p>二者会根据请求参数的类型自动选择对应的绑定引擎进行绑定</p><ul><li>根据请求头的MIME类型判断。</li></ul></li><li><p>支持查询、表单、请求体原始数据（常用：xml、json）参数，<strong>不支持路径参数</strong>。</p><ul><li>如果需要将路径参数绑定到结构体，需要指定绑定引擎为<code>XxxUri</code>，并且用<code>uri</code>标签指定字段。</li></ul></li><li><p>都可指定对应的绑定引擎就行绑定，如：</p><ul><li><code>BindQuery</code>、<code>ShouldBindQuery</code>。</li><li><code>BindJSON</code>、<code>ShouldBindJSON</code>。</li><li><code>BindUri</code>、<code>ShouldBindUri</code>。<ul><li>绑定路径参数，注意需要用<code>uri</code>标签指定字段。</li></ul></li><li>&mldr;</li></ul></li><li><p>绑定的结构体字段需要与参数的键一直，才能绑定成功。如果不一致需要用结构体标签指明。格式为<code>参数类型:键名</code>，常用的绑定标签：</p><ul><li><code>form</code>: 指定表单参数和查询参数的键。</li><li><code>json</code>：指定json参数的键。</li><li><code>xml</code>：指定xml参数的键。</li><li><code>uri</code>：指定路径参数的键。</li><li><code>binding</code>：指定<strong>绑定验证</strong>，如果验证失败，绑定会失败。多个属性用<code>,</code>分隔。常用属性：<ul><li>必填字段（<code>required</code>）：确保字段在请求中必须存在且不能为空。</li><li>最小长度（<code>min</code>）: 确保字符串或数组的长度不小于指定值。</li><li>最大长度（<code>max</code>）: 确保字符串或数组的长度不大于指定值。</li><li>正则表达式（<code>regexp</code>）: 确保字符串符合指定的正则表达式。</li></ul></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Id</span>   <span class=kt>int</span>    <span class=s>`form:&#34;id&#34; json:&#34;id&#34; xml:&#34;id&#34; uri:&#34;id&#34; binding:&#34;required&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Name</span> <span class=kt>string</span> <span class=s>`form:&#34;name&#34; json:&#34;name&#34; xml:&#34;name&#34; uri:&#34;name&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Id字段在表单和查询参数中的键是id，json数据中的键是id，xml数据中的键是id，路径参数中的键是id，并且该字段在请求参数中必须存在且不为空，才能绑定成功。Name字段同理。</p><ul><li><code>binding</code> 标签通常与其他标签（如 <code>json</code>、<code>form</code> 等）结合使用，以指定键名和绑定验证。</li></ul></li><li><p>二者区别：</p><ul><li><code>Bind</code>绑定结构体失败，会自动响应错误400：Bad Request</li><li><code>ShouldBind</code>绑定失败不会自动响应错误，需要手动处理响应错误。</li><li>一般推荐使用<code>ShouldBind</code>，更容易定制化。</li></ul></li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Username</span> <span class=kt>string</span> <span class=s>`json:&#34;username&#34; binding:&#34;required,min=3,max=20&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Password</span> <span class=kt>string</span> <span class=s>`json:&#34;password&#34; binding:&#34;required,min=8&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Email</span>    <span class=kt>string</span> <span class=s>`json:&#34;email&#34; binding:&#34;required,email&#34;`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Age</span>      <span class=kt>int</span>    <span class=s>`json:&#34;age&#34; binding:&#34;required,min=18,max=65&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>POST</span><span class=p>(</span><span class=s>&#34;/register&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>user</span> <span class=nx>User</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>ShouldBindJSON</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>user</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusBadRequest</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span><span class=s>&#34;error&#34;</span><span class=p>:</span> <span class=nx>err</span><span class=p>.</span><span class=nf>Error</span><span class=p>()})</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span><span class=s>&#34;status&#34;</span><span class=p>:</span> <span class=s>&#34;registration successful&#34;</span><span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;:8080&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个示例中：</p><ul><li><code>Username</code> 字段必须存在且长度在 3 到 20 之间。</li><li><code>Password</code> 字段必须存在且长度至少为 8。</li><li><code>Email</code> 字段必须存在且符合 email 格式。</li><li><code>Age</code> 字段必须存在且值在 18 到 65 之间。</li></ul><h3 id=gin如何获取客户ip><a href=#gin%e5%a6%82%e4%bd%95%e8%8e%b7%e5%8f%96%e5%ae%a2%e6%88%b7ip class=header-anchor>#</a>
+Gin如何获取客户ip</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/ip&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取用户IP
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>ip</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>ClientIP</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nx>remoteIP</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>RemoteIP</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><p><code>ClientIP</code>方法会<strong>尽力</strong>返回客户端真实ip。会考虑代理的情况。</p></li><li><p><code>RemoteIP</code>方法返回与服务器直接连接的ip，不考虑代理的情况。</p></li></ul><p>区别（了解）：</p><ol><li><strong>数据来源</strong>：<ul><li><code>RemoteIP()</code> 直接从 <code>c.Request.RemoteAddr</code> 获取 IP 地址。</li><li><code>ClientIP()</code> 优先从请求头（如 <code>X-Forwarded-For</code>、<code>X-Real-IP</code> 等）中获取 IP 地址，如果请求头中没有这些字段，则退回到 <code>RemoteAddr</code>。</li></ul></li><li><strong>使用场景</strong>：<ul><li><code>RemoteIP()</code> 更适用于需要获取直接连接到服务器的客户端 IP 地址的场景。</li><li><code>ClientIP()</code> 更适用于需要获取经过代理服务器后的客户端真实 IP 地址的场景，适用于有反向代理或负载均衡器的环境。</li></ul></li><li><strong>处理代理</strong>：<ul><li><code>RemoteIP()</code> 不考虑代理的情况，只返回直接连接的客户端 IP。</li><li><code>ClientIP()</code> 考虑代理的情况，优先从请求头获取客户端的真实 IP，适用于处理经过多个代理的请求。</li></ul></li></ol><hr><h2 id=响应请求参数><a href=#%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0 class=header-anchor>#</a>
+响应请求参数</h2><p>本章介绍处理完http请求后如何响应请求，Gin框架支持以字符串、json、xml、文件等格式响应请求。</p><p>gin.Context上下文对象支持多种返回处理结果，下面分别介绍不同的响应方式。</p><h3 id=以字符串格式响应请求><a href=#%e4%bb%a5%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82 class=header-anchor>#</a>
+以字符串格式响应请求</h3><p>通过String方法返回字符串。</p><p>方法定义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>Context</span><span class=p>)</span> <span class=nf>String</span><span class=p>(</span><span class=nx>code</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>format</span> <span class=kt>string</span><span class=p>,</span> <span class=nx>values</span> <span class=o>...</span><span class=kd>interface</span><span class=p>{})</span>
+</span></span></code></pre></td></tr></table></div></div><p>参数说明：</p><div class=table-wrapper><table><thead><tr><th style=text-align:left>参数</th><th style=text-align:left>说明</th></tr></thead><tbody><tr><td style=text-align:left>code</td><td style=text-align:left>http状态码</td></tr><tr><td style=text-align:left>format</td><td style=text-align:left>返回结果，支持类似Sprintf函数一样的字符串格式定义，例如,%d 代表插入整数，%s代表插入字符串</td></tr><tr><td style=text-align:left>values</td><td style=text-align:left>任意个format参数定义的字符串格式参数</td></tr></tbody></table></div><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/news&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>aid</span> <span class=o>:=</span> <span class=nx>c</span><span class=p>.</span><span class=nf>Query</span><span class=p>(</span><span class=s>&#34;aid&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>c</span><span class=p>.</span><span class=nf>String</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=s>&#34;aid=%s&#34;</span><span class=p>,</span> <span class=nx>aid</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>提示： net/http包定义了多种常用的状态码常量，例如：http.StatusOK == 200， http.StatusMovedPermanently == 301， http.StatusNotFound == 404, http.StatusBadRequest == 400等，具体可以参考net/http包</p></blockquote><h3 id=以json格式响应请求><a href=#%e4%bb%a5json%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82 class=header-anchor>#</a>
+以json格式响应请求</h3><p>我们开发api接口的时候常用的格式就是json。</p><p>通过<code>JSON</code>方法返回json数据。</p><p>方法定义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-GO data-lang=GO><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>Context</span><span class=p>)</span> <span class=nf>JSON</span><span class=p>(</span><span class=nx>code</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>obj</span> <span class=nx>any</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>参数说明：</p><ul><li>code：响应的http状态码。</li><li>obj：响应的json数据。类型是可以序列化为json类型的数据，如：结构体对象、map[string]any。Gin框架会自动将它们序列化为JSON数据，并将它们放在请求体当中。<ul><li>Gin框架为方便将map数据作为json响应，提供了一个快捷类型：<code>type H map[string]any</code>，<code>gin.H</code>是<code>map[string]any</code>类型。</li></ul></li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Id</span>   <span class=kt>int</span>    <span class=s>`form:&#34;id&#34; json:&#34;id&#34; xml:&#34;id&#34; uri:&#34;id&#34; binding:&#34;required&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span> <span class=kt>string</span> <span class=s>`form:&#34;name&#34; json:&#34;name&#34; xml:&#34;name&#34; uri:&#34;name&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1>// gin.H 是 map[string]interface{}的缩写 
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/someJSON&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=c1>// 方式一：自己拼接 JSON 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span><span class=s>&#34;message&#34;</span><span class=p>:</span> <span class=s>&#34;Hello world!&#34;</span><span class=p>})</span> <span class=c1>// {&#34;messgae&#34;:&#34;Hello world!&#34;}
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>})</span> 
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/moreJSON&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=c1>// 方法二：使用结构体 
+</span></span></span><span class=line><span class=cl><span class=c1></span>       <span class=nx>u</span> <span class=o>:=</span> <span class=nx>models</span><span class=p>.</span><span class=nx>User</span><span class=p>{</span><span class=nx>Id</span><span class=p>:</span> <span class=mi>123</span><span class=p>,</span> <span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Marry&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>u</span><span class=p>)</span>  <span class=c1>// {&#34;id&#34;:123,&#34;name&#34;:&#34;Marry&#34;}
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>})</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;localhost:8080&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=以带填充的json格式响应请求了解><a href=#%e4%bb%a5%e5%b8%a6%e5%a1%ab%e5%85%85%e7%9a%84json%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82%e4%ba%86%e8%a7%a3 class=header-anchor>#</a>
+以带填充的json格式响应请求（了解）</h4><ul><li><p>用到的方法是<code>JSONP</code>，英文名为：JSON with Padding，中文大概：带填充的json。</p><ul><li>只有当请求中指定查询参数<code>callback</code>时，才会响应带填充的json，否则，只响应json。</li><li>示例：<ul><li>请求：<code>http://localhost:8080/get?callback=abc</code>，响应：<code>abc({json数据})</code>。<ul><li><code>Content-Type：application/javascript; charset=utf-8</code></li></ul></li><li>请求：<code>http://localhost:8080/get</code>，响应：<code>{json数据}</code>。<ul><li><code>Content-Type：application/json; charset=utf-8</code></li></ul></li></ul></li></ul></li><li><p>作用：</p><ul><li><strong>JSONP</strong> 是一种<strong>古老的跨域请求解决方案</strong>，通过 <code>&lt;script></code> 标签加载和执行 JavaScript 代码来实现数据传输，因此只适用于 <code>GET</code> 请求的简单跨域场景。<ul><li>因为要配合script标签的src属性使用，它只能发送GET请求。</li></ul></li></ul></li><li><p>具体使用：</p><ol><li><p>在前端定义好回调函数名。</p></li><li><p>通过<code>&lt;script></code> 标签的 src 属性指向跨域的服务器，并包含一个查询参数 callback，其值是一个回调函数的名字。</p></li><li><p>服务器收到请求后，将数据包装在回调函数中，生成一段 JavaScript 代码，并返回给客户端。</p></li><li><p><strong>浏览器加载并执行返回的 JavaScript 代码，从而调用回调函数，回调函数接收数据并处理。</strong></p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/get&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>data</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kd>interface</span><span class=p>{}{</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;message&#34;</span><span class=p>:</span> <span class=s>&#34;Hello, World!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;status&#34;</span><span class=p>:</span>  <span class=s>&#34;success&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=nx>c</span><span class=p>.</span><span class=nf>JSONP</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;data&#34;</span><span class=p>:</span> <span class=nx>data</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>})</span>
+</span></span><span class=line><span class=cl>		<span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>http://localhost:8080/get?callback=abc</code>响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=nx>abc</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;data&#34;</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=s2>&#34;message&#34;</span><span class=o>:</span> <span class=s2>&#34;Hello, World!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=s2>&#34;status&#34;</span><span class=o>:</span> <span class=s2>&#34;success&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>http://localhost:8080/get</code>响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nt>&#34;data&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nt>&#34;message&#34;</span><span class=p>:</span> <span class=s2>&#34;Hello, World!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nt>&#34;status&#34;</span><span class=p>:</span> <span class=s2>&#34;success&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol></li><li><p>注意事项：</p><ol><li><p><strong>存在数据安全问题</strong>：由于 JSONP 是通过执行返回的 JavaScript 代码来实现数据传输的，如果不对返回的数据进行验证，可能会执行恶意代码。</p></li><li><p><strong>支持有限</strong>：JSONP 只支持 <code>GET</code> 请求，不支持其他 HTTP 方法（如 <code>POST</code>、<code>PUT</code>、<code>DELETE</code> 等）。因此，它只适用于获取数据的场景。</p></li><li><p>推荐使用<strong>现代跨域解决方案</strong>：CORS（Cross-Origin Resource Sharing）跨域资源共享，允许浏览器向跨域服务器发送请求并接受响应。<strong>通过设置适当的 HTTP 头，服务器可以指示浏览器允许跨域请求，不受同源策略控制，报错。</strong></p><ol><li><p><strong>就是设置对应的响应头（跨域资源共享头cors头），告诉浏览器允许跨域请求</strong>。</p></li><li><p>主要的 CORS 头部：</p><ol><li><p><strong>Access-Control-Allow-Origin</strong>：指定允许的源。 <code>*</code> 表示允许所有源。</p></li><li><p><strong>Access-Control-Allow-Methods</strong>：指定允许的 HTTP 方法。</p></li><li><p><strong>Access-Control-Allow-Headers</strong>：指定允许的请求头。</p></li><li><p><strong>Access-Control-Allow-Credentials</strong>：指示是否允许发送凭证。</p></li><li><p><strong>Access-Control-Expose-Headers</strong>：指定可以暴露的响应头。</p></li><li><p><strong>Access-Control-Max-Age</strong>：指定预检请求结果的缓存时间。</p></li><li><p>注意：以上头都只有在跨域请求中才会进行校验。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>CORSMiddleware</span><span class=p>()</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>HandlerFunc</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nx>Writer</span><span class=p>.</span><span class=nf>Header</span><span class=p>().</span><span class=nf>Set</span><span class=p>(</span><span class=s>&#34;Access-Control-Allow-Origin&#34;</span><span class=p>,</span> <span class=s>&#34;*&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nx>Writer</span><span class=p>.</span><span class=nf>Header</span><span class=p>().</span><span class=nf>Set</span><span class=p>(</span><span class=s>&#34;Access-Control-Allow-Methods&#34;</span><span class=p>,</span> <span class=s>&#34;GET, POST, OPTIONS&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nx>Writer</span><span class=p>.</span><span class=nf>Header</span><span class=p>().</span><span class=nf>Set</span><span class=p>(</span><span class=s>&#34;Access-Control-Allow-Headers&#34;</span><span class=p>,</span> <span class=s>&#34;Origin, Content-Type, Accept&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=nx>c</span><span class=p>.</span><span class=nx>Request</span><span class=p>.</span><span class=nx>Method</span> <span class=o>==</span> <span class=s>&#34;OPTIONS&#34;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>c</span><span class=p>.</span><span class=nf>AbortWithStatus</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusNoContent</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nf>Next</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>Use</span><span class=p>(</span><span class=nf>CORSMiddleware</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/data&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>data</span> <span class=o>:=</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kd>interface</span><span class=p>{}{</span>
+</span></span><span class=line><span class=cl>            <span class=s>&#34;message&#34;</span><span class=p>:</span> <span class=s>&#34;Hello, World!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s>&#34;status&#34;</span><span class=p>:</span>  <span class=s>&#34;success&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;:8080&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>本文后面会介绍<a class=link href=#%e4%b8%ad%e9%97%b4%e4%bb%b6>Gin中间件</a>。</p></li></ol></li><li><p>在Gin框架中，Gin 官方推荐使用 <code>gin-contrib/cors</code> 中间件来设置 CORS 头部。</p><ol><li>不出意外的话，后面会出一篇关于cors详细介绍以及<a class=link href=https://github.com/gin-contrib/cors target=_blank rel=noopener>gin-contrib/cors</a>使用的文章：<a class=link href=https://arlettebrook.github.io/p/cors-introduction target=_blank rel=noopener>Cors Introduction</a>。</li></ol></li></ol></li></ol></li></ul><h3 id=以xml格式响应请求><a href=#%e4%bb%a5xml%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82 class=header-anchor>#</a>
+以xml格式响应请求</h3><p>通过<code>XML</code>方法返回xml数据</p><p>方法定义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-GO data-lang=GO><span class=line><span class=cl><span class=kd>func</span> <span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>Context</span><span class=p>)</span> <span class=nf>XML</span><span class=p>(</span><span class=nx>code</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>obj</span> <span class=nx>any</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>该方法与<code>JSON</code>方法类似。</p><p>参数说明：</p><ul><li>code：响应的http状态码。</li><li>obj：响应的xml数据。类型是能够序列化成xml数据的类型，如map[string]any、结构体对象。</li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Id</span>   <span class=kt>int</span>    <span class=s>`form:&#34;id&#34; json:&#34;id&#34; xml:&#34;id&#34; uri:&#34;id&#34; binding:&#34;required&#34;`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span> <span class=kt>string</span> <span class=s>`form:&#34;name&#34; json:&#34;name&#34; xml:&#34;name&#34; uri:&#34;name&#34;`</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1>// gin.H 是 map[string]interface{}的缩写 
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/someXML&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>c</span><span class=p>.</span><span class=nf>XML</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>gin</span><span class=p>.</span><span class=nx>H</span><span class=p>{</span><span class=s>&#34;message&#34;</span><span class=p>:</span> <span class=s>&#34;Hello world!&#34;</span><span class=p>})</span> <span class=c1>// &lt;map&gt;&lt;message&gt;Hello world!&lt;/message&gt;&lt;/map&gt;
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>})</span> 
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/moreXML&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>c</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=c1>// 方法二：使用结构体 
+</span></span></span><span class=line><span class=cl><span class=c1></span>       <span class=nx>u</span> <span class=o>:=</span> <span class=nx>models</span><span class=p>.</span><span class=nx>User</span><span class=p>{</span><span class=nx>Id</span><span class=p>:</span> <span class=mi>123</span><span class=p>,</span> <span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Marry&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nx>c</span><span class=p>.</span><span class=nf>XML</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=nx>u</span><span class=p>)</span>  <span class=c1>// &lt;User&gt;&lt;id&gt;123&lt;/id&gt;&lt;name&gt;Marry&lt;/name&gt;&lt;/User&gt;
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>})</span> 
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;localhost:8080&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=以文件格式响应请求><a href=#%e4%bb%a5%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82 class=header-anchor>#</a>
+以文件格式响应请求</h3><p>下面介绍gin框架如何响应一个文件，可以用来做文件下载。</p><p>响应文件用<code>File</code>或<code>FileAttachment</code>方法：</p><ul><li><code>File</code>方法：<ul><li>直接响应文件，Gin框架会自动根据文件类型设置MIME类型，浏览器会自动根据MEM类型I处理文件（显示文件）。</li><li>只接收一个参数：为响应文件的本地系统路径。</li></ul></li><li><code>FileAttachment</code>方法：<ul><li>直接下载文件，会弹出下载框。文件名默认为第二个参数。</li><li>有两个参数：第一个参数与<code>File</code>的参数一直，第二个参数：指定文件下载的名称。</li></ul></li></ul><p>原理：<code>FileAttachment</code>会比<code>File</code>多设置一个响应头<code>Content-Disposition:attachment; filename="filename"</code>，告诉浏览器将文件作为附加下载。</p><h3 id=设置http响应头设置header><a href=#%e8%ae%be%e7%bd%aehttp%e5%93%8d%e5%ba%94%e5%a4%b4%e8%ae%be%e7%bd%aeheader class=header-anchor>#</a>
+设置http响应头（设置Header）</h3><p>在Gin框架中：</p><ul><li><p>获取请求头的方法是<code>func (c *Context) GetHeader(key string)</code>。</p></li><li><p>将请求头与结构体绑定的方法是<code>BindHeader</code>或<code>ShouldBindHeader</code>。</p><ul><li>二者区别是：<code>BindHeader</code>绑定失败，会自动响应400错误，而<code>ShouldBind</code>不会，需要手动响应错误。</li></ul></li><li><p>设置响应头的方法是<code>func (c *Context) Header(key, value string)</code>：</p><ul><li>支持反复设置响应头。</li><li>若键的值为空，将删除该响应头。</li><li>设置响应头应该在响应前设置，响应后设置无效。</li></ul></li></ul><hr><h2 id=html模板渲染><a href=#html%e6%a8%a1%e6%9d%bf%e6%b8%b2%e6%9f%93 class=header-anchor>#</a>
+HTML模板渲染</h2><p>前面详细介绍了gin框架响应不同类型的参数，其实还漏掉了响应html模板渲染。因为涉及到go模板渲染，就单独拿出来介绍。</p></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/>Go第三方库</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/go-ini-introduction/><div class=article-details><h2 class=article-title>Go-ini Introduction</h2></div></a></article><article><a href=/p/carbon-introduction/><div class=article-details><h2 class=article-title>Carbon Introduction</h2></div></a></article><article><a href=/p/godotenv-introduction/><div class=article-details><h2 class=article-title>Godotenv Introduction</h2></div></a></article><article><a href=/p/cast-introduction/><div class=article-details><h2 class=article-title>Cast Introduction</h2></div></a></article><article><a href=/p/logrus-introduction/><div class=article-details><h2 class=article-title>Logrus Introduction</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>Copyright &copy;
+2020 -
+2024 <b><a href=https://github.com/arlettebrook target=_blank rel=noopener>@Arlettebrook</a></b></section><section class=powerby>博客内容遵循<b><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-hans target=_blank rel=noopener> 知识共享 署名-非商业性-相同方式共享4.0国际协议</a></b><br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

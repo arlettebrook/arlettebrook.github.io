@@ -1,0 +1,739 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="基于OpenAPI规范使用Swagger构建API文档。"><title>Openapi And Swagger Introduction</title>
+<link rel=canonical href=https://arlettebrook.github.io/p/openapi-and-swagger-introduction/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Openapi And Swagger Introduction"><meta property='og:description' content="基于OpenAPI规范使用Swagger构建API文档。"><meta property='og:url' content='https://arlettebrook.github.io/p/openapi-and-swagger-introduction/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='OpenAPI'><meta property='article:tag' content='Swagger'><meta property='article:published_time' content='2024-05-22T21:43:36+08:00'><meta property='article:modified_time' content='2024-05-22T21:43:36+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Openapi And Swagger Introduction"><meta name=twitter:description content="基于OpenAPI规范使用Swagger构建API文档。"><link rel="shortcut icon" href=/img/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-9MKLLVPEER"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9MKLLVPEER")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#openapi>OpenAPI</a><ol><li><a href=#什么是-openapi>什么是 OpenAPI</a></li><li><a href=#openapi-规范基本信息>OpenAPI 规范基本信息</a></li></ol></li><li><a href=#openapitools>OpenAPI.Tools</a><ol><li><a href=#文档编辑器>文档编辑器</a></li><li><a href=#mock-服务器>Mock 服务器</a></li><li><a href=#代码生成器>代码生成器</a></li></ol></li><li><a href=#swagger><strong>Swagger</strong></a><ol><li><a href=#什么是-swagger>什么是 Swagger</a></li><li><a href=#swagger-和-openapi-的关系>Swagger 和 OpenAPI 的关系</a></li></ol></li><li><a href=#以-go-语言为例讲解-openapi-在实际开发中的应用>以 Go 语言为例讲解 OpenAPI 在实际开发中的应用</a><ol><li><a href=#使用-swag-生成-swagger-文档>使用 Swag 生成 Swagger 文档</a><ol><li><a href=#安装-swag>安装 Swag</a></li><li><a href=#swag-命令行工具>Swag 命令行工具</a></li><li><a href=#在-gin-中使用-swag>在 Gin 中使用 Swag</a></li><li><a href=#将-gin-作为-swagger-ui-服务器>将 Gin 作为 Swagger UI 服务器</a></li><li><a href=#让-swag-支持多版本-api-文档>让 Swag 支持多版本 API 文档</a></li><li><a href=#swag-使用建议>Swag 使用建议</a></li></ol></li><li><a href=#使用-redoc-风格的-api-文档>使用 ReDoc 风格的 API 文档</a></li></ol></li><li><a href=#更先进的-api-工具>更先进的 API 工具</a></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#f97300;color:#fff>Go
+</a><a href=/categories/%E6%8A%80%E6%9C%AF/ style=background-color:#c73659;color:#fff>技术
+</a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#41b06e;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/openapi-and-swagger-introduction/>Openapi And Swagger Introduction</a></h2><h3 class=article-subtitle>基于OpenAPI规范使用Swagger构建API文档。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 22, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 16 分钟</time></div></footer></div></header><section class=article-content><hr><blockquote><p>作为一名开发者，往往需要编写程序的 API 文档，尤其是 Web 后端开发者，在跟前端对接 HTTP 接口的时候，一个好的 API 文档能够大大提高协作效率，降低沟通成本，本文就来聊聊如何使用 OpenAPI 构建 HTTP 接口文档。</p></blockquote><hr><h2 id=openapi><a href=#openapi class=header-anchor>#</a>
+OpenAPI</h2><h3 id=什么是-openapi><a href=#%e4%bb%80%e4%b9%88%e6%98%af-openapi class=header-anchor>#</a>
+什么是 OpenAPI</h3><p>OpenAPI 是规范化描述 API 领域应用最广泛的<strong>行业标准</strong>，由 <a class=link href=https://www.openapis.org/ target=_blank rel=noopener>OpenAPI Initiative(OAI)</a> 定义并维护，同时也是 Linux 基金会下的一个开源项目。通常我们所说的 OpenAPI 全称应该是 OpenAPI Specification(OpenAPI 规范，简称 OSA)，它使用规定的格式来描述 HTTP RESTful API 的定义，以此来规范 RESTful 服务开发过程。使用 JSON 或 YAML 来描述一个标准的、与编程语言无关的 HTTP API 接口。OpenAPI 规范最初基于 SmartBear Software 在 2015 年捐赠的 <a class=link href=https://swagger.io/resources/open-api/ target=_blank rel=noopener>Swagger 规范</a>演变而来，目前最新的版本是 <a class=link href=https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md target=_blank rel=noopener>v3.1.0</a>。</p><p>简单来说，OpenAPI 就是用来定义 HTTP 接口文档的一种规范，大家都按照同一套规范来编写接口文档，能够极大的减少沟通成本。</p><h3 id=openapi-规范基本信息><a href=#openapi-%e8%a7%84%e8%8c%83%e5%9f%ba%e6%9c%ac%e4%bf%a1%e6%81%af class=header-anchor>#</a>
+OpenAPI 规范基本信息</h3><p>OpenAPI 规范内容包含非常多的细节，本文无法一一讲解，这里仅介绍常见的基本信息，以 YAML 为例进行说明。YAML 是 JSON 的超集，在 OpenAPI 规范中定义的所有语法，两者之间是可以互相转换的，如果手动编写，建议编写 YAML 格式，更为易读。</p><p>OpenAPI 文档编写在一个 <code>.json</code> 或 <code>.yaml</code> 中，推荐将其命名为 <code>openapi.json</code> 或 <code>openapi.yaml</code>，OpenAPI 文档其实就是一个单一的 JSON 对象，其中包含符合 <a class=link href=https://spec.openapis.org/oas/latest.html target=_blank rel=noopener>OpenAPI 规范</a>中定义的结构字段。</p><p>OpenAPI 规范基本信息如下：</p><div class=table-wrapper><table><thead><tr><th>字段名</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>openapi</td><td>string</td><td>必选，必须是 OpenAPI 已发布的合法版本，如 <code>3.0.1</code>。</td></tr><tr><td>info</td><td>object</td><td>必选，此字段提供 API 相关的元数据（如描述、作者和联系信息）。</td></tr><tr><td>servers</td><td>array[object]</td><td>这是一个 Server 对象的数组，提供到服务器的连接信息。</td></tr><tr><td>paths</td><td>object</td><td>必选，API 提供的可用的路径和操作。</td></tr><tr><td>components</td><td>object</td><td>一个包含多种结构的元素，可复用组件。</td></tr><tr><td>security</td><td>array</td><td>声明 API 使用的安全认证机制，目前支持 <code>HTTP Basic Auth</code>、<code>HTTP Bearer Auth</code>、<code>ApiKey Auth</code> 以及 <code>OAuth2</code>。</td></tr><tr><td>tags</td><td>array</td><td>提供标签可以为 API 归类，每个标签名都应该是唯一的。</td></tr><tr><td>externalDocs</td><td>object</td><td>附加的文档，可以通过扩展属性来扩展文档。</td></tr></tbody></table></div><p>一个 YAML 格式的 OpenAPI 文档示例如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>openapi</span><span class=p>:</span><span class=w> </span><span class=m>3.1.0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>info</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>title</span><span class=p>:</span><span class=w> </span><span class=l>Tic Tac Toe</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=p>|</span><span class=sd>
+</span></span></span><span class=line><span class=cl><span class=sd>    This API allows writing down marks on a Tic Tac Toe board
+</span></span></span><span class=line><span class=cl><span class=sd>    and requesting the state of the board or of individual squares.</span><span class=w>    
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=m>1.0.0</span><span class=w> </span><span class=c># 此为 API 接口文档版本，与 openapi 版本无关</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>tags</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Gameplay</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>paths</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Whole board operations</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>/board</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>get</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>summary</span><span class=p>:</span><span class=w> </span><span class=l>Get the whole board</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=l>Retrieves the current state of the board and the winner.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>tags</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=l>Gameplay</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>operationId</span><span class=p>:</span><span class=w> </span><span class=l>get-board</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>responses</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=s2>&#34;200&#34;</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;OK&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>content</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>application/json</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=nt>schema</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>$ref</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;#/components/schemas/status&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Single square operations</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=l>/board/{row}/{column}:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>parameters</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>$ref</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;#/components/parameters/rowParam&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>$ref</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;#/components/parameters/columnParam&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>get</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>summary</span><span class=p>:</span><span class=w> </span><span class=l>Get a single board square</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=l>Retrieves the requested square.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>tags</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=l>Gameplay</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>operationId</span><span class=p>:</span><span class=w> </span><span class=l>get-square</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>responses</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=s2>&#34;200&#34;</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;OK&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>content</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>application/json</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=nt>schema</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>$ref</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;#/components/schemas/mark&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=s2>&#34;400&#34;</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=l>The provided parameters are incorrect</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>content</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>text/html</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=nt>schema</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>$ref</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;#/components/schemas/errorMessage&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>              </span><span class=nt>example</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;Illegal coordinates&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>...</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>以上示例完整文档<a class=link href=https://oai.github.io/Documentation/examples/tictactoe.yaml target=_blank rel=noopener>在此</a>，具体语法我就不在这里介绍了。如果你开发过 API 接口，相信能看懂文档大部分内容所代表的含义。<strong>不必完全掌握其语法，这并不会对阅读本文接下来的内容造成困扰</strong>，因为稍后我会介绍如何通过代码注释的方式自动生成此文档。</p><p>如果你想手动编写 OpenAPI 文档，那么我还是推荐你阅读下 <a class=link href=https://spec.openapis.org/oas/latest.html target=_blank rel=noopener>OpenAPI 规范</a>，这里有一份<a class=link href=https://openapi.apifox.cn/ target=_blank rel=noopener>中文版的规范</a>。阅读规范是一个比较枯燥的过程，如果你没有耐心读完，强烈建议阅读 <a class=link href=https://oai.github.io/Documentation/ target=_blank rel=noopener>OpenAPI 规范入门</a>，相较于完整版的规范要精简得多，并且讲解更加易于理解。</p><p>另外还推荐访问 <a class=link href=https://openapi-map.apihandyman.io/ target=_blank rel=noopener>OpenAPI Map</a> 网站来掌握 OpenAPI 规范，该网站以思维导图的形式展现规范的格式以及说明。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/openapi-map.png width=2940 height=1678 srcset="/p/openapi-and-swagger-introduction/index.assets/openapi-map_hudb4f51bb2f8bce2a084d37b76def6aa2_332185_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/openapi-map_hudb4f51bb2f8bce2a084d37b76def6aa2_332185_1024x0_resize_box_3.png 1024w" loading=lazy alt="OpenAPI Map" class=gallery-image data-flex-grow=175 data-flex-basis=420px></p><hr><h2 id=openapitools><a href=#openapitools class=header-anchor>#</a>
+OpenAPI.Tools</h2><p>现在我们知道了 OpenAPI 规范，接下来要做什么？当然是了解 OpenAPI 开放了哪些能力。</p><p>有一个叫 <a class=link href=https://openapi.tools/ target=_blank rel=noopener>OpenAPI.Tools</a> 的网站，分类整理并记录了社区围绕 OpenAPI 规范开发的流行工具。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types.png width=2654 height=1220 srcset="/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hue30a3c9c74b7e77978f3be591373dd5a_502117_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hue30a3c9c74b7e77978f3be591373dd5a_502117_1024x0_resize_box_3.png 1024w" loading=lazy alt="Tool Types" class=gallery-image data-flex-grow=217 data-flex-basis=522px></p><p>可以看到列表中有很多分类，在我们日常开发中，最经常使用的有三类：</p><h3 id=文档编辑器><a href=#%e6%96%87%e6%a1%a3%e7%bc%96%e8%be%91%e5%99%a8 class=header-anchor>#</a>
+文档编辑器</h3><p>文档编辑器方便我们用来编写符合 OpenAPI 规范的文档，有助于提高编写文档的效率，就像 <a class=link href=https://code.visualstudio.com/ target=_blank rel=noopener>VS Code</a> 能够方便我们编写代码一样。</p><p>文档编辑器有两种：<a class=link href=https://openapi.tools/#text-editors target=_blank rel=noopener>文本编辑器</a> 以及 <a class=link href=https://openapi.tools/#gui-editors target=_blank rel=noopener>图形编辑器</a>。</p><p>文本编辑器推荐使用在线的 <a class=link href=https://editor.swagger.io/ target=_blank rel=noopener>Swagger Editor</a>，能够实现格式校验和实时预览 Swagger 交互式 API 文档功能，效果如下图所示：</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/swagger-editor.png width=2940 height=1838 srcset="/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu50c8be478a0cc503116512d3818232f0_751043_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu50c8be478a0cc503116512d3818232f0_751043_1024x0_resize_box_3.png 1024w" loading=lazy alt="Swagger Editor" class=gallery-image data-flex-grow=159 data-flex-basis=383px></p><p>如果你习惯使用 <code>VS Code</code>，也有<a class=link href="https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi" target=_blank rel=noopener>相应插件</a>可供使用。</p><p>图形编辑器的好处是能够以可视化的形式编辑内容，不了解 OpenAPI 规范语法也能编辑。可以根据自己喜好来进行选择，如 <a class=link href=https://stoplight.io/studio target=_blank rel=noopener>Stoplight Studio</a>、<a class=link href=https://apigit.com/zh-CN target=_blank rel=noopener>APIGit</a> 等。</p><h3 id=mock-服务器><a href=#mock-%e6%9c%8d%e5%8a%a1%e5%99%a8 class=header-anchor>#</a>
+Mock 服务器</h3><p>当我们使用 OpenAPI 规范来进行接口开发时，往往采用文档先行的策略，也就是前后端在开发代码前，先定义好接口文档，再进行代码的编写。此时前端如果想测试接口可用性，而后端代码还没有编写完成，<a class=link href=https://openapi.tools/#mock target=_blank rel=noopener>Mock 服务器</a>就派上用场了。Mock 服务器能够根据所提供的 OpenAPI 接口文档，自动生成一个模拟的 Web Server。使用 Mock 服务器能够轻松模拟真实的后端接口，方便前端同学进行接口调试。</p><p>上面提到的 <a class=link href=https://apigit.com/zh-CN/why-apigit/mock-server target=_blank rel=noopener>APIGit</a> 也同时具备此功能。</p><h3 id=代码生成器><a href=#%e4%bb%a3%e7%a0%81%e7%94%9f%e6%88%90%e5%99%a8 class=header-anchor>#</a>
+代码生成器</h3><p>还有一种很实用的工具是代码生成器，代码生成器有两种类型：一种是从代码/注释生成 OpenAPI 文档，另一种是从 OpenAPI 文档生成代码。</p><p>这类工具同样非常多，且更为实用。比如我们有一份写好了的 Go Web Server 代码，想要自动生成一份 OpenAPI 文档，就可以使用 <a class=link href=https://github.com/go-swagger/go-swagger target=_blank rel=noopener>go-swagger</a> 这个工具来生成一份 <code>openapi.yaml</code> 文档。</p><p>而如果我们有一份 <code>openapi.yaml</code> 文档，就可以利用 <code>go-swagger</code> 生成一份 Go SDK 代码，甚至它还能根据这份 OpenAPI 文档生成 Go Web Server 的框架代码，我们只需要在对应的接口里面实现具体的业务逻辑即可。</p><p>不仅 Go 语言有这样的工具，像 <a class=link href=https://swagger.io/tools/swagger-codegen/ target=_blank rel=noopener>Swagger Codegen</a> 和 <a class=link href=https://github.com/openapitools/openapi-generator target=_blank rel=noopener>OpenAPI Generator</a> 这类工具更是支持几乎所有主流编程语言。</p><p>代码生成器是开发者应该着重关注的工具，使用这些工具可以减少大量手动且重复的工作，你可以<a class=link href=https://openapi.tools/#sdk target=_blank rel=noopener>在此</a>看下有没有感兴趣的项目供你使用。</p><hr><h2 id=swagger><a href=#swagger class=header-anchor>#</a>
+<strong>Swagger</strong></h2><h3 id=什么是-swagger><a href=#%e4%bb%80%e4%b9%88%e6%98%af-swagger class=header-anchor>#</a>
+什么是 Swagger</h3><p>Swagger 是一套围绕 OpenAPI 规范所构建的开源工具集，提供了强大和易于使用的工具来充分利用 OpenAPI 规范，Swagger 工具集由最初的 Swagger 规范背后的团队所开发。</p><p>Swagger 工具集提供了 API 设计、开发、测试、治理和监控等能力，其中最主要的工具包含如下三个：</p><ul><li><a class=link href=https://swagger.io/tools/swagger-codegen/ target=_blank rel=noopener>Swagger Codegen</a>：根据 OpenAPI 规范定义生成服务器存根和客户端 SDK。</li><li><a class=link href=https://swagger.io/tools/swagger-editor/ target=_blank rel=noopener>Swagger Editor</a>：基于浏览器的在线 OpenAPI 规范编辑器。</li><li><a class=link href=https://swagger.io/tools/swagger-ui/ target=_blank rel=noopener>Swagger UI</a>：以 UI 界面的方式可视化展示 OpenAPI 规范定义，并且能够在浏览器中进行交互。</li></ul><p>当然 Swagger 也有为企业用户提供的收费版本工具，如 <a class=link href=https://swagger.io/tools/swaggerhub/enterprise/ target=_blank rel=noopener>SwaggerHub Enterprise</a>，感兴趣的同学可以自行了解。</p><h3 id=swagger-和-openapi-的关系><a href=#swagger-%e5%92%8c-openapi-%e7%9a%84%e5%85%b3%e7%b3%bb class=header-anchor>#</a>
+Swagger 和 OpenAPI 的关系</h3><p>讲到了 Swagger，就不得不提及 Swagger 和 OpenAPI 的联系与区别，因为这二者经常在一起出现。</p><p>前文也说过 OpenAPI 规范是基于 Swagger 规范演变而来的，但其实二者并不相等。</p><p>在 OpenAPI 尚未出现之前，Swagger 代表了 Swagger 规范以及一系列围绕 Swagger 规范的开源工具集。Swagger 规范最后一个版本是 <a class=link href=https://swagger.io/specification/v2/ target=_blank rel=noopener>2.0</a>，之后就捐赠给了 OAI 并被重新命名为 OpenAPI 规范，所以 OpenAPI 规范第一个版本是 2.0，也就是 Swagger 规范 2.0，而由 OAI 这个组织发布的第一个 OpenAPI 规范正式版本是 <a class=link href=https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md target=_blank rel=noopener>3.0.0</a>。</p><p>现在，Swagger 规范已被 OpenAPI 规范完全接管并取代。OpenAPI 代表了 OpenAPI 规范以及一系列生态，而 Swagger 则是这个生态中的一部分，是 Swagger 团队围绕 OpenAPI 规范所开发的一系列工具集。</p><p>Swagger 是 OpenAPI 生态中非常重要的组成部分，因为它给出了一整套方案，且非常流行。</p><p>Swagger 和 OpenAPI 二者 LOGO 对比如下：</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/swagger-openapi.png width=1030 height=318 srcset="/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu9cf2fd8781eb4410d052f1a4d31c4f66_31928_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu9cf2fd8781eb4410d052f1a4d31c4f66_31928_1024x0_resize_box_3.png 1024w" loading=lazy alt=Swagger-OpenAPI-LOGO class=gallery-image data-flex-grow=323 data-flex-basis=777px></p><p>希望你下次再见到这两个 LOGO 时能清晰分辨出二者，而不被混淆。</p><h2 id=以-go-语言为例讲解-openapi-在实际开发中的应用><a href=#%e4%bb%a5-go-%e8%af%ad%e8%a8%80%e4%b8%ba%e4%be%8b%e8%ae%b2%e8%a7%a3-openapi-%e5%9c%a8%e5%ae%9e%e9%99%85%e5%bc%80%e5%8f%91%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8 class=header-anchor>#</a>
+以 Go 语言为例讲解 OpenAPI 在实际开发中的应用</h2><p>前文介绍了编写 OpenAPI 文档的两种编辑器：文本编辑器以及图形编辑器。在日常开发中，后端可以先使用这类编辑器如 Swagger Editor 编写出 OpenAPI 文档，然后将这份文档交给前端，前端拿到 OpenAPI 文档后将其导入到 Swagger Editor，就可以在线阅读接口文档并与之进行交互，之后前后端就可以并行开发了。</p><p>这样的工作流看起来似乎没什么问题，不过编写 OpenAPI 文档毕竟是个苦力活，不仅有大量的重复工作，还要求开发者熟练掌握 OpenAPI 规范语法。这对于“爱偷懒”的开发者显然是无法接受的，就像段子里说的，程序员最讨厌两件事：1. 写文档，2. 别人不写文档。而这个问题的解法，当然就是前文提到的代码生成器。</p><h3 id=使用-swag-生成-swagger-文档><a href=#%e4%bd%bf%e7%94%a8-swag-%e7%94%9f%e6%88%90-swagger-%e6%96%87%e6%a1%a3 class=header-anchor>#</a>
+使用 Swag 生成 Swagger 文档</h3><p>在 Go 语言生态里，目前有两个比较流行的开源工具可以生成 Swagger 文档，分别是 <a class=link href=https://github.com/go-swagger/go-swagger target=_blank rel=noopener>go-swagger</a> 和 <a class=link href=https://github.com/swaggo/swag target=_blank rel=noopener>swag</a>。它们都能根据代码中的注释生成 Swagger 文档，go-swagger 作为一款 OpenAPI.Tools 推荐的工具，其功能比 swag 更加强大且 Github Star 数量也更高。</p><p>不过本文将选择 swag 来进行介绍，一是因为 swag 比较轻量，更适合微服务开发；二是如果使用 swag，那么注释代码会离接口代码更近，升级时方便维护。如果你有更高级的需求，如根据 Swagger 文档生成客户端 SDK，服务端存根等，则推荐使用 go-swagger。</p><blockquote><p>注意：在这里我一直提到的都是生成 Swagger 文档，而没有说是 OpenAPI 文档。因为无论是 swag 还是功能更强大的 go-swagger，它们目前都仅支持生成 OpenAPI 2.0 文档，并不支持生成 OpenAPI 3.0+ 文档，而 OpenAPI 2.0 版本我们更习惯称其为 Swagger 文档。</p></blockquote><h4 id=安装-swag><a href=#%e5%ae%89%e8%a3%85-swag class=header-anchor>#</a>
+安装 Swag</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go install github.com/swaggo/swag/cmd/swag@latest <span class=c1># 安装</span>
+</span></span><span class=line><span class=cl>$ swag --version <span class=c1># 查看版本</span>
+</span></span><span class=line><span class=cl>swag version v1.8.10
+</span></span></code></pre></td></tr></table></div></div><h4 id=swag-命令行工具><a href=#swag-%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%b7%a5%e5%85%b7 class=header-anchor>#</a>
+Swag 命令行工具</h4><p>swag 非常简洁，仅提供了两个主要命令 <code>init</code> 和 <code>fmt</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ swag -h <span class=c1># 查看帮助</span>
+</span></span><span class=line><span class=cl>NAME:
+</span></span><span class=line><span class=cl>   swag - Automatically generate RESTful API documentation with Swagger 2.0 <span class=k>for</span> Go.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>USAGE:
+</span></span><span class=line><span class=cl>   swag <span class=o>[</span>global options<span class=o>]</span> <span class=nb>command</span> <span class=o>[</span><span class=nb>command</span> options<span class=o>]</span> <span class=o>[</span>arguments...<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>VERSION:
+</span></span><span class=line><span class=cl>   v1.8.10
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>COMMANDS:
+</span></span><span class=line><span class=cl>   init, i  Create docs.go
+</span></span><span class=line><span class=cl>   fmt, f   format swag comments
+</span></span><span class=line><span class=cl>   help, h  Shows a list of commands or <span class=nb>help</span> <span class=k>for</span> one <span class=nb>command</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>GLOBAL OPTIONS:
+</span></span><span class=line><span class=cl>   --help, -h     show <span class=nb>help</span> <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --version, -v  print the version <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><p>在包含 <code>main.go</code> 文件（默认情况下）的项目根目录运行 <code>swag init</code> 命令，将会解析 swag 注释并生成 <code>docs/</code> 目录以及 <code>/docs/docs.go</code>、<code>docs/swagger.json</code>、<code>docs/swagger.yaml</code> 三个文件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ swag init -h <span class=c1># 查看 init 子命令使用方法</span>
+</span></span><span class=line><span class=cl>NAME:
+</span></span><span class=line><span class=cl>   swag init - Create docs.go
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>USAGE:
+</span></span><span class=line><span class=cl>   swag init <span class=o>[</span><span class=nb>command</span> options<span class=o>]</span> <span class=o>[</span>arguments...<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>OPTIONS:
+</span></span><span class=line><span class=cl>   --quiet, -q                            不在控制台输出日志 <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --generalInfo value, -g value          API 通用信息所在的 Go 源文件路径，如果是相对路径则基于 API 解析目录 <span class=o>(</span>default: <span class=s2>&#34;main.go&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --dir value, -d value                  API 解析目录，多个目录可用逗号分隔 <span class=o>(</span>default: <span class=s2>&#34;./&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --exclude value                        解析扫描时排除的目录，多个目录可用逗号分隔
+</span></span><span class=line><span class=cl>   --propertyStrategy value, -p value     结构体字段命名规则，三种：snake_case，camelCase，PascalCase <span class=o>(</span>default: <span class=s2>&#34;camelCase&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --output value, -o value               所有生成文件的输出目录（swagger.json, swagger.yaml and docs.go）<span class=o>(</span>default:<span class=s2>&#34;./docs&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --outputTypes value, --ot value        生成文件的输出类型（docs.go, swagger.json, swagger.yaml）三种：go,json,yaml <span class=o>(</span>default: <span class=s2>&#34;go,json,yaml&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --parseDependency, --pd                解析依赖目录中的 Go 文件 <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --markdownFiles value, --md value      指定 API 的描述信息所使用的 Markdown 文件所在的目录，默认禁用
+</span></span><span class=line><span class=cl>   --parseInternal                        解析 internal 包中的 Go 文件 <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --generatedTime                        输出时间戳到输出文件 <span class=sb>`</span>docs.go<span class=sb>`</span> 顶部 <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --parseDepth value                     依赖项解析深度 <span class=o>(</span>default: 100<span class=o>)</span>
+</span></span><span class=line><span class=cl>   --requiredByDefault                    默认情况下，为所有字段设置 <span class=sb>`</span>required<span class=sb>`</span> 验证 <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --instanceName value                   设置文档实例名 <span class=o>(</span>default: <span class=s2>&#34;swagger&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --parseGoList                          通过 <span class=s1>&#39;go list&#39;</span> 解析依赖关系 <span class=o>(</span>default: <span class=nb>true</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --tags value, -t value                 逗号分隔的标签列表，用于过滤指定标签生成 API 文档。特殊情况下，如果标签前缀是 <span class=s1>&#39;!&#39;</span> 字符，那么带有该标记的 API 将被排除
+</span></span><span class=line><span class=cl>   --help, -h                             显示帮助信息 <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意：以上 <code>swag init</code> 命令可选参数介绍略有删减，只列出了常用选项，更完整的文档请参考<a class=link href=https://github.com/swaggo/swag/blob/master/README.md#swag-cli target=_blank rel=noopener>官方仓库</a>。</p></li><li><p><code>swag fmt</code> 命令可以格式化 swag 注释。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ swag fmt -h <span class=c1># 查看 fmt 子命令使用方法</span>
+</span></span><span class=line><span class=cl>NAME:
+</span></span><span class=line><span class=cl>   swag fmt - format swag comments
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>USAGE:
+</span></span><span class=line><span class=cl>   swag fmt <span class=o>[</span><span class=nb>command</span> options<span class=o>]</span> <span class=o>[</span>arguments...<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>OPTIONS:
+</span></span><span class=line><span class=cl>   --dir value, -d value          API 解析目录，多个目录可用逗号分隔 <span class=o>(</span>default: <span class=s2>&#34;./&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --exclude value                解析扫描时排除的目录，多个目录可用逗号分隔
+</span></span><span class=line><span class=cl>   --generalInfo value, -g value  API 通用信息所在的 Go 源文件路径，如果是相对路径则基于 API 解析目录 <span class=o>(</span>default: <span class=s2>&#34;main.go&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>   --help, -h                     显示帮助信息 <span class=o>(</span>default: <span class=nb>false</span><span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div></li></ul><h4 id=在-gin-中使用-swag><a href=#%e5%9c%a8-gin-%e4%b8%ad%e4%bd%bf%e7%94%a8-swag class=header-anchor>#</a>
+在 Gin 中使用 Swag</h4><p>在 <a class=link href=https://github.com/gin-gonic/gin target=_blank rel=noopener>gin</a> 框架能够很方便的使用 swag，步骤如下：</p><ol><li><p>准备项目目录结构如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>├── go.mod
+</span></span><span class=line><span class=cl>├── go.sum
+</span></span><span class=line><span class=cl>└── main.go
+</span></span></code></pre></td></tr></table></div></div></li><li><p>初始化项目</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go mod init gin-swag
+</span></span></code></pre></td></tr></table></div></div></li><li><p>编写 <code>main.go</code> 代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Helloworld godoc
+</span></span></span><span class=line><span class=cl><span class=c1>// @Summary     该操作的简短摘要
+</span></span></span><span class=line><span class=cl><span class=c1>// @Description 操作行为的详细说明
+</span></span></span><span class=line><span class=cl><span class=c1>// @Tags        example
+</span></span></span><span class=line><span class=cl><span class=c1>// @Accept      json
+</span></span></span><span class=line><span class=cl><span class=c1>// @Produce     json
+</span></span></span><span class=line><span class=cl><span class=c1>// @Success     200 {string} string &#34;Hello World!&#34;
+</span></span></span><span class=line><span class=cl><span class=c1>// @Router      /example/helloworld [get]
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>Helloworld</span><span class=p>(</span><span class=nx>g</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>g</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=s>&#34;Hello World!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// @title           Swagger Example API
+</span></span></span><span class=line><span class=cl><span class=c1>// @version         1.0
+</span></span></span><span class=line><span class=cl><span class=c1>// @schemes         http
+</span></span></span><span class=line><span class=cl><span class=c1>// @host            localhost:8080
+</span></span></span><span class=line><span class=cl><span class=c1>// @BasePath        /api/v1
+</span></span></span><span class=line><span class=cl><span class=c1>// @tag.name        example
+</span></span></span><span class=line><span class=cl><span class=c1>// @tag.description 示例接口
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=nx>v1</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/api/v1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>eg</span> <span class=o>:=</span> <span class=nx>v1</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/example&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>eg</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/helloworld&#34;</span><span class=p>,</span> <span class=nx>Helloworld</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;:8080&#34;</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>代码中的注释部分即为 swag 的注释语法，稍后通过这些注释生成 Swagger 文档。</p><p>其中通用 API 信息部分注释含义如下：</p><div class=table-wrapper><table><thead><tr><th>注释</th><th>说明</th></tr></thead><tbody><tr><td>@title</td><td>必填，应用程序的名称。</td></tr><tr><td>@version</td><td>必填，提供应用程序 API 的版本。</td></tr><tr><td>@schemes</td><td>用空格分隔的请求传输协议。</td></tr><tr><td>@host</td><td>运行 API 的主机（主机名或 IP 地址）。</td></tr><tr><td>@BasePath</td><td>运行 API 的基本路径。</td></tr><tr><td>@tag.name</td><td>标签的名称。</td></tr><tr><td>@tag.description</td><td>标签的描述。</td></tr></tbody></table></div><p>还有一部分注释代表了 API 操作，其含义如下：</p><div class=table-wrapper><table><thead><tr><th>注释</th><th>说明</th></tr></thead><tbody><tr><td>@Summary</td><td>该操作的简短摘要。</td></tr><tr><td>@Description</td><td>操作行为的详细说明。</td></tr><tr><td>@Tags</td><td>该 API 操作的标签列表，多个标签以逗号分隔。</td></tr><tr><td>@Accept</td><td>API 可以接收的参数 MIME 类型列表。</td></tr><tr><td>@Produce</td><td>API 可以生成的参数 MIME 类型列表。</td></tr><tr><td>@Success</td><td>成功响应。</td></tr><tr><td>@Router</td><td>路由路径定义。</td></tr></tbody></table></div><p>以上这些注释最终都会对应到 OpenAPI 2.0 规范的某个字段上。更多说明请参考<a class=link href=https://github.com/swaggo/swag#declarative-comments-format target=_blank rel=noopener>官方文档</a>，并且官方也提供了<a class=link href=https://github.com/swaggo/swag/blob/master/README_zh-CN.md#%e5%a3%b0%e6%98%8e%e5%bc%8f%e6%b3%a8%e9%87%8a%e6%a0%bc%e5%bc%8f target=_blank rel=noopener>中文文档</a>。</p></li><li><p>使用 swag 根据注释生成 Swagger 文档，在项目根目录下（<code>.</code>）执行 <code>swag init</code>，将得到新的目录结构：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>├── docs
+</span></span><span class=line><span class=cl>│   ├── docs.go
+</span></span><span class=line><span class=cl>│   ├── swagger.json
+</span></span><span class=line><span class=cl>│   └── swagger.yaml
+</span></span><span class=line><span class=cl>├── go.mod
+</span></span><span class=line><span class=cl>├── go.sum
+</span></span><span class=line><span class=cl>└── main.go
+</span></span></code></pre></td></tr></table></div></div><p>可以发现 <code>swag init</code> 生成的三个文件 <code>docs.go</code>、<code>swagger.json</code>、<code>swagger.yaml</code> 默认都在 <code>docs/</code> 目录下。</p><p>其中 <code>swagger.json</code>、<code>swagger.yaml</code> 正是符合 OpenAPI 2.0 规范的 JSON 和 YAML 接口文档，例如 <code>swagger.yaml</code> 内容如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>basePath</span><span class=p>:</span><span class=w> </span><span class=l>/api/v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>host</span><span class=p>:</span><span class=w> </span><span class=l>localhost:8080</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>info</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>contact</span><span class=p>:</span><span class=w> </span>{}<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>title</span><span class=p>:</span><span class=w> </span><span class=l>Swagger Example API</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;1.0&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>paths</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>/example/helloworld</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>get</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>consumes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>application/json</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=l>操作行为的详细说明</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>produces</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>application/json</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>responses</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=s2>&#34;200&#34;</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=l>Hello World!</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>schema</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>string</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>summary</span><span class=p>:</span><span class=w> </span><span class=l>该操作的简短摘要</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>tags</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>example</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>schemes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span>- <span class=l>http</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>swagger</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;2.0&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>tags</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span>- <span class=nt>description</span><span class=p>:</span><span class=w> </span><span class=l>示例接口</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>example</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>对比上面代码中的注释，很容易将其对应起来，相比于直接编写 YAML 格式文档，显然在代码中编写注释更为简单。</p><p>将其复制到 Swagger Editor 编辑器中即可查看 Swagger UI 预览。或者在GoLand IDE中直接打开，右侧会出现 Swagger UI 预览。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor.png width=2940 height=1838 srcset="/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu50c8be478a0cc503116512d3818232f0_349132_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu50c8be478a0cc503116512d3818232f0_349132_1024x0_resize_box_3.png 1024w" loading=lazy alt="Swagger UI" class=gallery-image data-flex-grow=159 data-flex-basis=383px></p></li></ol><p>​ <img src=/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654.png width=1920 height=1079 srcset="/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu48363c004fdfc3e553ff145f99c5c8b9_187189_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu48363c004fdfc3e553ff145f99c5c8b9_187189_1024x0_resize_box_3.png 1024w" loading=lazy alt="Swagger UI" class=gallery-image data-flex-grow=177 data-flex-basis=427px></p><h4 id=将-gin-作为-swagger-ui-服务器><a href=#%e5%b0%86-gin-%e4%bd%9c%e4%b8%ba-swagger-ui-%e6%9c%8d%e5%8a%a1%e5%99%a8 class=header-anchor>#</a>
+将 Gin 作为 Swagger UI 服务器</h4><p>上面我们通过 swag 生成了 Swagger 文档，并手动将生成的 <code>swagger.yaml</code> 复制到 Swagger Editor 编辑器进行 Swagger UI 预览。不过这么做显然有点麻烦，好在 swag 作者也考虑到了这一点，所以他又提供了另外两个项目 <a class=link href=https://github.com/swaggo/gin-swagger target=_blank rel=noopener>gin-swagger</a> 和 <a class=link href=https://github.com/swaggo/files target=_blank rel=noopener>files</a>，能够直接将 gin 作为 Swagger UI 服务器，这样就不用每次都将 <code>swagger.yaml</code> 手动复制到 Swagger Editor 编辑器才能实现 Swagger UI 预览。</p><p>使用步骤如下：</p><ol><li><p>下载 gin-swagger、files:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ go get -u github.com/swaggo/swag
+</span></span><span class=line><span class=cl>$ go get -u github.com/swaggo/gin-swagger
+</span></span><span class=line><span class=cl>$ go get -u github.com/swaggo/files
+</span></span></code></pre></td></tr></table></div></div></li><li><p>在代码中导入 gin-swagger、files(可以直接注册swagger文档路由，IDE会自动导入）:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=nx>ginSwagger</span> <span class=s>&#34;github.com/swaggo/gin-swagger&#34;</span> <span class=c1>// gin-swagger middleware
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kn>import</span> <span class=nx>swaggerFiles</span> <span class=s>&#34;github.com/swaggo/files&#34;</span> <span class=c1>// swagger embed files
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>注意：在注册路由时，还需要空导入docs。</strong></p></li><li><p>注册 Swagger 文档路由地址:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/swagger/*any&#34;</span><span class=p>,</span> <span class=nx>ginSwagger</span><span class=p>.</span><span class=nf>WrapHandler</span><span class=p>(</span><span class=nx>swaggerFiles</span><span class=p>.</span><span class=nx>Handler</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><p>完整代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>swaggerFiles</span> <span class=s>&#34;github.com/swaggo/files&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nx>ginSwagger</span> <span class=s>&#34;github.com/swaggo/gin-swagger&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>_</span> <span class=s>&#34;github.com/arlettebrook/learn/docs&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Helloworld godoc
+</span></span></span><span class=line><span class=cl><span class=c1>// @Summary     该操作的简短摘要
+</span></span></span><span class=line><span class=cl><span class=c1>// @Description 操作行为的详细说明
+</span></span></span><span class=line><span class=cl><span class=c1>// @Tags        example
+</span></span></span><span class=line><span class=cl><span class=c1>// @Accept      json
+</span></span></span><span class=line><span class=cl><span class=c1>// @Produce     json
+</span></span></span><span class=line><span class=cl><span class=c1>// @Success     200 {string} string &#34;Hello World!&#34;
+</span></span></span><span class=line><span class=cl><span class=c1>// @Router      /example/helloworld [get]
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>Helloworld</span><span class=p>(</span><span class=nx>g</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>g</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=s>&#34;Hello World!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// @title           Swagger Example API
+</span></span></span><span class=line><span class=cl><span class=c1>// @version         1.0
+</span></span></span><span class=line><span class=cl><span class=c1>// @schemes         http
+</span></span></span><span class=line><span class=cl><span class=c1>// @host            localhost:8080
+</span></span></span><span class=line><span class=cl><span class=c1>// @BasePath        /api/v1
+</span></span></span><span class=line><span class=cl><span class=c1>// @tag.name        example
+</span></span></span><span class=line><span class=cl><span class=c1>// @tag.description 示例接口
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nx>v1</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/api/v1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nx>eg</span> <span class=o>:=</span> <span class=nx>v1</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/example&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>eg</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/helloworld&#34;</span><span class=p>,</span> <span class=nx>Helloworld</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/swagger/*any&#34;</span><span class=p>,</span> <span class=nx>ginSwagger</span><span class=p>.</span><span class=nf>WrapHandler</span><span class=p>(</span><span class=nx>swaggerFiles</span><span class=p>.</span><span class=nx>Handler</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;:8080&#34;</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>执行 <code>go run main.go</code> 启动服务，访问 <code>http://localhost:8080/swagger/index.html</code> 即可查看 Swagger UI 交互式文档界面。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/gin-swagger.png width=2940 height=1838 srcset="/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu50c8be478a0cc503116512d3818232f0_196290_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu50c8be478a0cc503116512d3818232f0_196290_1024x0_resize_box_3.png 1024w" loading=lazy alt="Swagger UI" class=gallery-image data-flex-grow=159 data-flex-basis=383px></p></li></ol><p>​</p><p>这个本地的 Swagger UI 服务器同样支持交互式操作。</p><p>展开 <code>/example/helloworld</code> 这个接口，点击 <code>Try it out</code>。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out.png width=2940 height=1838 srcset="/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu50c8be478a0cc503116512d3818232f0_250895_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu50c8be478a0cc503116512d3818232f0_250895_1024x0_resize_box_3.png 1024w" loading=lazy alt="Try it out" class=gallery-image data-flex-grow=159 data-flex-basis=383px></p><p>接着，点击 <code>Execute</code>。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute.png width=2940 height=1838 srcset="/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu50c8be478a0cc503116512d3818232f0_250672_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu50c8be478a0cc503116512d3818232f0_250672_1024x0_resize_box_3.png 1024w" loading=lazy alt=Execute class=gallery-image data-flex-grow=159 data-flex-basis=383px></p><p>Swagger UI 将会根据文档的 <code>Base URL</code> 去请求真正的接口（同时还会给出 cURL 发送请求的命令，方便复制使用），并将响应结果展示出来。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action.jpg width=2910 height=3180 srcset="/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu322d2d6e2c1db2da0ec1bf30df36bb57_679751_480x0_resize_q75_box.jpg 480w, /p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu322d2d6e2c1db2da0ec1bf30df36bb57_679751_1024x0_resize_q75_box.jpg 1024w" loading=lazy alt="Swagger UI" class=gallery-image data-flex-grow=91 data-flex-basis=219px></p><p>同时后端服务器能够打印出请求记录：</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld.png width=2782 height=788 srcset="/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_huc999c3ba0617e79974778dde457ebd0f_178928_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_huc999c3ba0617e79974778dde457ebd0f_178928_1024x0_resize_box_3.png 1024w" loading=lazy alt=Server class=gallery-image data-flex-grow=353 data-flex-basis=847px></p><p>与前端对接时，我们只需要将接口文档地址给到前端，前端就可以根据这个 Swagger UI 界面进行接口查阅和调试了，非常方便。</p><h4 id=让-swag-支持多版本-api-文档><a href=#%e8%ae%a9-swag-%e6%94%af%e6%8c%81%e5%a4%9a%e7%89%88%e6%9c%ac-api-%e6%96%87%e6%a1%a3 class=header-anchor>#</a>
+让 Swag 支持多版本 API 文档</h4><p>实际工作中，我们的项目会比这个只有一个接口的 demo 复杂得多，同时 API 也可能会支持多版本，比如 <code>/api/v1</code>、<code>/api/v2</code>。</p><p>我们可以分别生成 <code>v1</code>、<code>v2</code> 两个版本的 API 文档，这样可以将不同版本的接口分开展示，更加清晰。</p><p>命令如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>swag init -g internal/api/controller/v1/docs.go --exclude internal/api/controller/v2 --instanceName v1
+</span></span><span class=line><span class=cl>swag init -g internal/api/controller/v2/docs.go --exclude internal/api/controller/v1 --instanceName v2
+</span></span></code></pre></td></tr></table></div></div><p>其中 <code>-g</code> 参数指明 API 通用注释信息所在的 Go 源文件路径，大型项目中为了保持代码架构整洁，这些注释应该独立于一个文件<code>docs.go</code>，而不是直接写在 <code>main.go</code> 中。</p><p><code>--exclude</code> 参数指明生成 Swagger 文档时，需要排除的目录。可以发现，在生成 <code>v1</code> 版本接口文档时，我排除了 <code>v2</code> 接口目录，在生成 <code>v2</code> 版本接口文档时，排除了 <code>v1</code> 接口目录，这样就实现了多版本接口分离。</p><p>别忘了注册路由：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/swagger/v1/*any&#34;</span><span class=p>,</span> <span class=nx>ginSwagger</span><span class=p>.</span><span class=nf>WrapHandler</span><span class=p>(</span><span class=nx>swaggerFiles</span><span class=p>.</span><span class=nf>NewHandler</span><span class=p>(),</span> <span class=nx>ginSwagger</span><span class=p>.</span><span class=nf>InstanceName</span><span class=p>(</span><span class=s>&#34;v1&#34;</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/swagger/v1/*any&#34;</span><span class=p>,</span> <span class=nx>ginSwagger</span><span class=p>.</span><span class=nf>WrapHandler</span><span class=p>(</span><span class=nx>swaggerFiles</span><span class=p>.</span><span class=nf>NewHandler</span><span class=p>(),</span> <span class=nx>ginSwagger</span><span class=p>.</span><span class=nf>InstanceName</span><span class=p>(</span><span class=s>&#34;v1&#34;</span><span class=p>)))</span>
+</span></span></code></pre></td></tr></table></div></div><p>技巧：每次修改swagger注释，都需要重新运行<code>swag init</code>命令，并且这里的命令还很复杂：</p><ol><li><p>我们可以使用make命令，帮我们简化构建swagger文档命令。Makefile文件内容如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-makefile data-lang=makefile><span class=line><span class=cl><span class=nf>.PHONY</span><span class=o>:</span> <span class=n>run</span>
+</span></span><span class=line><span class=cl><span class=nf>run</span><span class=o>:</span> <span class=n>swag</span>-<span class=n>fmt</span> <span class=n>swag</span>-<span class=n>init</span>
+</span></span><span class=line><span class=cl>	go run main.go
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>.PHONY</span><span class=o>:</span> <span class=n>swag</span>-<span class=n>fmt</span>
+</span></span><span class=line><span class=cl><span class=nf>swag-fmt</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>	swag fmt
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>.PHONY</span><span class=o>:</span> <span class=n>swag</span>-<span class=n>init</span>
+</span></span><span class=line><span class=cl><span class=nf>swag-init</span><span class=o>:</span> <span class=n>swag</span>-<span class=n>fmt</span>
+</span></span><span class=line><span class=cl>	swag init -g internal/api/controller/v1/docs.go --exclude internal/api/controller/v2 --instanceName v1
+</span></span><span class=line><span class=cl>	swag init -g internal/api/controller/v2/docs.go --exclude internal/api/controller/v1 --instanceName v2
+</span></span></code></pre></td></tr></table></div></div><p>在项目根目录下运行<code>make</code>命令即可自动运行格式化、生成swaggerr文档和启动gin框架。不支持热重载，修改源码之后需要重新运行<code>make</code>命令。</p></li><li><p>使用<code>air</code>热重载，自动运行swag构建命令：</p><p>默认情况下air并不支持自动运行swag命令，需要修改默认配置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ air init <span class=c1># 生成默认配置文件</span>
+</span></span></code></pre></td></tr></table></div></div><p>修改默认配置文件内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nn>...</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=l>pre_cmd = [&#34;swag fmt&#34;, &#34;swag init -g internal/api/controller/v1/docs.go --exclude internal/api/controller/v2 --instanceName v1&#34;, &#34;swag init -g internal/api/controller/v2/docs.go --exclude internal/api/controller/v1 --instanceName v2&#34;]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>...</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=l>exclude_dir = [&#34;assets&#34;, &#34;tmp&#34;, &#34;vendor&#34;, &#34;testdata&#34;,&#34;docs&#34;]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>...</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>注意：别忘记忽略<code>docs</code>目录，防止热重载死循环。</p><p>之后我们可以直接运行<code>air</code>命令即可自动构建swagger文档以及启动gin框架。并且使用<code>air</code>命令启动之后，每次修改注释和代码，都不需要重新启动程序。air当检测到文件修改时会自动重载，运行构建命令。</p></li></ol><p>参考：</p><ul><li><a class=link href=https://www.liaoxuefeng.com/wiki/1599771213037600 target=_blank rel=noopener>廖雪峰Makefile教程</a></li><li><a class=link href=https://www.zhaixue.cc/makefile/makefile-ival.html target=_blank rel=noopener>Makefile 简明教程</a></li><li><a class=link href=https://arlettebrook.github.io/p/gin-introduction/#air%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8 target=_blank rel=noopener>air基本使用</a></li><li>完整示例代码：<a class=link href=https://github.com/jianghushinian/swag-example target=_blank rel=noopener>swag-example</a></li></ul><h4 id=swag-使用建议><a href=#swag-%e4%bd%bf%e7%94%a8%e5%bb%ba%e8%ae%ae class=header-anchor>#</a>
+Swag 使用建议</h4><p>在前文介绍的 swag 使用流程中，不知道你有没有注意到，我们是先编写的代码，然后再生成的 Swagger 文档，最后将这份文档交给前端使用。</p><p>这显然违背了「文档先行」的思想，实际工作中，我们更多的时候是先跟前端约定好接口，然后后端提供 Swagger 文档供前端使用，最后才是前后端编码阶段。</p><p>要想解决这个问题，最直接的解决方案是不使用 swag 工具，而是直接使用 Swagger Editor 这种编辑器手写 Swagger 文档，这样就能实现文档先行了。</p><p>但这又违背了 OpenAPI 给出的「最佳实践」，推荐自动生成 Swagger 文档，而非手动编写。</p><p>我自己的解决方案是，依旧选择使用 swag 工具，不过在编写代码时，先写接口的框架代码，而不写具体的业务逻辑，这样就能够先通过接口注释生成 Swagger 文档，供前端使用，然后再编写业务代码。</p><p>另外，较为遗憾的是，目前（2024-5-23） swag 生成的文档是 OpenAPI 2.0 版本，并不能直接生成 OpenAPI 3.0 版本，如果你想使用 OpenAPI 3.0 版本的文档，一个变通的方法是使用工具将 OpenAPI 2.0 文档转换成 OpenAPI 3.0，如前文提到的 Swagger Editor 就支持此操作。</p><h3 id=使用-redoc-风格的-api-文档><a href=#%e4%bd%bf%e7%94%a8-redoc-%e9%a3%8e%e6%a0%bc%e7%9a%84-api-%e6%96%87%e6%a1%a3 class=header-anchor>#</a>
+使用 ReDoc 风格的 API 文档</h3><p>也许相较于 Swagger UI 多年不变的界面风格，你更喜欢 ReDoc 风格的 UI，那么 <a class=link href=https://github.com/mvrilo/go-redoc target=_blank rel=noopener>go-redoc</a> 是一个比较不错的选择。</p><p>在 gin 中使用 go-redoc 非常简单，只需要将如下套路代码加入到我们的 <code>main.go</code> 文件中即可。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/mvrilo/go-redoc&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ginRedoc</span> <span class=s>&#34;github.com/mvrilo/go-redoc/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>doc</span> <span class=o>:=</span> <span class=nx>redoc</span><span class=p>.</span><span class=nx>Redoc</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Title</span><span class=p>:</span>       <span class=s>&#34;Example API&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Description</span><span class=p>:</span> <span class=s>&#34;Example API Description&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>SpecFile</span><span class=p>:</span>    <span class=s>&#34;./openapi.json&#34;</span><span class=p>,</span> <span class=c1>// &#34;./openapi.yaml&#34; OpenAPI文档路径
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>SpecPath</span><span class=p>:</span>    <span class=s>&#34;/openapi.json&#34;</span><span class=p>,</span>  <span class=c1>// &#34;/openapi.yaml&#34; OpenAPI文档资源路径
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>DocsPath</span><span class=p>:</span>    <span class=s>&#34;/docs&#34;</span><span class=p>,</span> <span class=c1>// 文档访问路径
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>New</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=nx>r</span><span class=p>.</span><span class=nf>Use</span><span class=p>(</span><span class=nx>ginRedoc</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=nx>doc</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><p>还有别忘了添加依赖：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=err>$</span> <span class=k>go</span> <span class=nx>get</span> <span class=o>-</span><span class=nx>u</span> <span class=nx>github</span><span class=p>.</span><span class=nx>com</span><span class=o>/</span><span class=nx>mvrilo</span><span class=o>/</span><span class=k>go</span><span class=o>-</span><span class=nx>redoc</span>
+</span></span><span class=line><span class=cl><span class=err>$</span> <span class=k>go</span> <span class=nx>get</span> <span class=o>-</span><span class=nx>u</span> <span class=nx>github</span><span class=p>.</span><span class=nx>com</span><span class=o>/</span><span class=nx>mvrilo</span><span class=o>/</span><span class=k>go</span><span class=o>-</span><span class=nx>redoc</span><span class=o>/</span><span class=nx>gin</span>
+</span></span></code></pre></td></tr></table></div></div><p>现在完整代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/mvrilo/go-redoc&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ginRedoc</span> <span class=s>&#34;github.com/mvrilo/go-redoc/gin&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>swaggerFiles</span> <span class=s>&#34;github.com/swaggo/files&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>ginSwagger</span> <span class=s>&#34;github.com/swaggo/gin-swagger&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>_</span> <span class=s>&#34;github.com/arlettebrook/learn/docs&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Helloworld godoc
+</span></span></span><span class=line><span class=cl><span class=c1>//
+</span></span></span><span class=line><span class=cl><span class=c1>//	@Summary		该操作的简短摘要
+</span></span></span><span class=line><span class=cl><span class=c1>//	@Description	操作行为的详细说明
+</span></span></span><span class=line><span class=cl><span class=c1>//	@Tags			example
+</span></span></span><span class=line><span class=cl><span class=c1>//	@Accept			json
+</span></span></span><span class=line><span class=cl><span class=c1>//	@Produce		json
+</span></span></span><span class=line><span class=cl><span class=c1>//	@Success		200	{string}	string	&#34;Hello World!&#34;
+</span></span></span><span class=line><span class=cl><span class=c1>//	@Router			/example/helloworld [get]
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>Helloworld</span><span class=p>(</span><span class=nx>g</span> <span class=o>*</span><span class=nx>gin</span><span class=p>.</span><span class=nx>Context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>g</span><span class=p>.</span><span class=nf>JSON</span><span class=p>(</span><span class=nx>http</span><span class=p>.</span><span class=nx>StatusOK</span><span class=p>,</span> <span class=s>&#34;Hello World!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// @title				Swagger Example API
+</span></span></span><span class=line><span class=cl><span class=c1>// @version			v1.0
+</span></span></span><span class=line><span class=cl><span class=c1>// @schemes			http
+</span></span></span><span class=line><span class=cl><span class=c1>// @host				localhost:8080
+</span></span></span><span class=line><span class=cl><span class=c1>// @BasePath			/api/v1
+</span></span></span><span class=line><span class=cl><span class=c1>// @tag.name			example
+</span></span></span><span class=line><span class=cl><span class=c1>// @tag.description	示例接口
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>r</span> <span class=o>:=</span> <span class=nx>gin</span><span class=p>.</span><span class=nf>Default</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>doc</span> <span class=o>:=</span> <span class=nx>redoc</span><span class=p>.</span><span class=nx>Redoc</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Title</span><span class=p>:</span>       <span class=s>&#34;ReDoc Example API&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Description</span><span class=p>:</span> <span class=s>&#34;ReDoc Example API Description&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>SpecFile</span><span class=p>:</span>    <span class=s>&#34;./docs/swagger.json&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>SpecPath</span><span class=p>:</span>    <span class=s>&#34;/swagger.json&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>DocsPath</span><span class=p>:</span>    <span class=s>&#34;/redoc&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>r</span><span class=p>.</span><span class=nf>Use</span><span class=p>(</span><span class=nx>ginRedoc</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=nx>doc</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>v1</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/api/v1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>eg</span> <span class=o>:=</span> <span class=nx>v1</span><span class=p>.</span><span class=nf>Group</span><span class=p>(</span><span class=s>&#34;/example&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>eg</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/helloworld&#34;</span><span class=p>,</span> <span class=nx>Helloworld</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>r</span><span class=p>.</span><span class=nf>GET</span><span class=p>(</span><span class=s>&#34;/swagger/v1/*any&#34;</span><span class=p>,</span> <span class=nx>ginSwagger</span><span class=p>.</span><span class=nf>WrapHandler</span><span class=p>(</span><span class=nx>swaggerFiles</span><span class=p>.</span><span class=nx>Handler</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//r.GET(&#34;/swagger/v2/*any&#34;, ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.InstanceName(&#34;v1&#34;)))
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;localhost:8080&#34;</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>执行 <code>go run main.go</code> 启动服务，访问<a class=link href=http://localhost:8080/redoc target=_blank rel=noopener>http://localhost:8080/redoc</a>即可查看 Redoc UI。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/redoc.png width=2940 height=1838 srcset="/p/openapi-and-swagger-introduction/index.assets/redoc_hu50c8be478a0cc503116512d3818232f0_235710_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/redoc_hu50c8be478a0cc503116512d3818232f0_235710_1024x0_resize_box_3.png 1024w" loading=lazy alt=ReDoc class=gallery-image data-flex-grow=159 data-flex-basis=383px></p><p>不过，相较于 Swagger UI，Redoc UI 有个弊端是不能实现交互式操作，如果仅以此作为文档查阅工具，没有交互式操作的需求，那么还是比较推荐使用的。</p><hr><h2 id=更先进的-api-工具><a href=#%e6%9b%b4%e5%85%88%e8%bf%9b%e7%9a%84-api-%e5%b7%a5%e5%85%b7 class=header-anchor>#</a>
+更先进的 API 工具</h2><p>除了 OpenAPI.Tools 推荐的开源工具，社区中其实还有很多其他优秀工具值得尝试使用，比如我这里要推荐的一款国产工具 <a class=link href=https://www.apifox.com/ target=_blank rel=noopener>Apifox</a>，官方将其定义为 Apifox = Postman + Swagger + Mock + JMeter，集 API 设计/开发/测试 于一身。</p><p>Apifox 可谓一站式图形化工具，其功能非常强大，就像前文提到的 APIGit 同时具备了编辑器和 Mock 服务器的功能，Apifox 有过之而无不及。</p><p><img src=/p/openapi-and-swagger-introduction/index.assets/apifox.png width=2600 height=1646 srcset="/p/openapi-and-swagger-introduction/index.assets/apifox_hue3e0bd39a9272ba90dc255573fbc4cc5_383072_480x0_resize_box_3.png 480w, /p/openapi-and-swagger-introduction/index.assets/apifox_hue3e0bd39a9272ba90dc255573fbc4cc5_383072_1024x0_resize_box_3.png 1024w" loading=lazy alt=Apifox class=gallery-image data-flex-grow=157 data-flex-basis=379px></p><p>图形化工具上手难度不大，加上 Apifox 本身由国内开发，非常容易上手，所以本文也就不深入介绍了，你可以观看官方教程 <a class=link href=https://www.apifox.cn/help/#_21-%e5%88%86%e9%92%9f%e5%ad%a6%e4%bc%9a-apifox-%f0%9f%91%8d target=_blank rel=noopener>21 分钟学会 Apifox</a> 来学习使用。</p><p><a class=link href=https://www.apipost.cn/ target=_blank rel=noopener>Apipost</a>也是跟它差不多的接口测试工具，不过我更喜欢apipost，因为它不登录的情况下，离线可以使用。</p><hr><h2 id=参考><a href=#%e5%8f%82%e8%80%83 class=header-anchor>#</a>
+参考</h2><blockquote><ol><li>OpenAPI 官网： <a class=link href=https://www.openapis.org/ target=_blank rel=noopener>https://www.openapis.org/</a></li><li>OpenAPI 入门： <a class=link href=https://oai.github.io/Documentation/ target=_blank rel=noopener>https://oai.github.io/Documentation/</a></li><li>OpenAPI 规范： <a class=link href=https://spec.openapis.org/oas/latest.html target=_blank rel=noopener>https://spec.openapis.org/oas/latest.html</a></li><li>OpenAPI 规范中文版： <a class=link href=https://openapi.apifox.cn/ target=_blank rel=noopener>https://openapi.apifox.cn/</a></li><li>OpenAPI 规范思维导图版： <a class=link href=https://openapi-map.apihandyman.io/ target=_blank rel=noopener>https://openapi-map.apihandyman.io/</a></li><li>OpenAPI.Tools： <a class=link href=https://openapi.tools/ target=_blank rel=noopener>https://openapi.tools/</a></li><li>Swagger 官网： <a class=link href=https://swagger.io/ target=_blank rel=noopener>https://swagger.io/</a></li><li>swag： <a class=link href=https://github.com/swaggo/swag target=_blank rel=noopener>https://github.com/swaggo/swag</a></li><li>swag-example： <a class=link href=https://github.com/jianghushinian/swag-example target=_blank rel=noopener>https://github.com/jianghushinian/swag-example</a></li><li>go-redoc： <a class=link href=https://github.com/mvrilo/go-redoc target=_blank rel=noopener>https://github.com/mvrilo/go-redoc</a></li><li>原文：<a class=link href=https://jianghushinian.cn/2023/02/12/build-api-documentation-using-openapi/ target=_blank rel=noopener>使用 OpenAPI 构建 API 文档</a></li></ol></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/openapi/>OpenAPI</a>
+<a href=/tags/swagger/>Swagger</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/template-introduction/><div class=article-details><h2 class=article-title>Template Introduction</h2></div></a></article><article><a href=/p/gin-introduction/><div class=article-details><h2 class=article-title>Gin Introduction</h2></div></a></article><article><a href=/p/go-code-style-guide-introduction/><div class=article-details><h2 class=article-title>Go Code Style Guide Introduction</h2></div></a></article><article><a href=/p/go-ini-introduction/><div class=article-details><h2 class=article-title>Go-ini Introduction</h2></div></a></article><article><a href=/p/carbon-introduction/><div class=article-details><h2 class=article-title>Carbon Introduction</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>Copyright &copy;
+2020 -
+2024 <b><a href=https://github.com/arlettebrook target=_blank rel=noopener>@Arlettebrook</a></b></section><section class=powerby>博客内容遵循<b><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-hans target=_blank rel=noopener> 知识共享 署名-非商业性-相同方式共享4.0国际协议</a></b><br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
