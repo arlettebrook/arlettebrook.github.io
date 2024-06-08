@@ -1,12 +1,1660 @@
 <!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Go标准库之模版渲染介绍。"><title>Template Introduction</title>
-<link rel=canonical href=https://arlettebrook.github.io/p/template-introduction/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Template Introduction"><meta property='og:description' content="Go标准库之模版渲染介绍。"><meta property='og:url' content='https://arlettebrook.github.io/p/template-introduction/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go标准库'><meta property='article:published_time' content='2024-05-26T14:00:53+08:00'><meta property='article:modified_time' content='2024-05-26T14:00:53+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Template Introduction"><meta name=twitter:description content="Go标准库之模版渲染介绍。"><link rel="shortcut icon" href=/img/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-9MKLLVPEER"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9MKLLVPEER")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
-<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#快速使用>快速使用</a></li><li><a href=#template介绍>template介绍</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#f97300;color:#fff>Go
+<link rel=canonical href=https://arlettebrook.github.io/p/template-introduction/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Template Introduction"><meta property='og:description' content="Go标准库之模版渲染介绍。"><meta property='og:url' content='https://arlettebrook.github.io/p/template-introduction/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go标准库'><meta property='article:published_time' content='2024-05-26T14:00:53+08:00'><meta property='article:modified_time' content='2024-06-04T14:00:53+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Template Introduction"><meta name=twitter:description content="Go标准库之模版渲染介绍。"><link rel="shortcut icon" href=/img/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-9MKLLVPEER"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9MKLLVPEER")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#快速使用>快速使用</a></li><li><a href=#template介绍>template介绍</a></li><li><a href=#template使用>template使用</a><ol><li><a href=#渲染template对象>渲染Template对象</a></li><li><a href=#创建template对象>创建Template对象</a></li></ol></li><li><a href=#模板语法介绍>模板语法介绍</a><ol><li><a href=#基础语法>基础语法</a></li><li><a href=#流程控制语句>流程控制语句</a><ol><li><a href=#条件判断>条件判断</a></li><li><a href=#循环>循环</a></li><li><a href=#变量声明with-define-block>变量声明（<code>with</code>, <code>define</code>, <code>block</code>）</a></li></ol></li></ol></li><li><a href=#模板函数介绍>模板函数介绍</a><ol><li><a href=#模板函数调用语法>模板函数调用语法</a></li><li><a href=#预定义模板函数>预定义模板函数</a></li><li><a href=#管道pipeline>管道(pipeline)</a></li><li><a href=#自定义模板函数>自定义模板函数</a></li></ol></li><li><a href=#修改默认的标识符>修改默认的标识符</a></li><li><a href=#补充>补充</a><ol><li><a href=#不转义html内容>不转义HTML内容</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#f97300;color:#fff>Go
 </a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#41b06e;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/template-introduction/>Template Introduction</a></h2><h3 class=article-subtitle>Go标准库之模版渲染介绍。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
 <time class=article-time--published>May 26, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<time class=article-time--reading>阅读时长: 1 分钟</time></div></footer></div></header><section class=article-content><hr><blockquote><p>模板渲染是指根据特定的<strong>模板语法</strong>，将这些模板渲染成文本，通常用于生成 <strong>HTML</strong>、<strong>邮件</strong>、<strong>配置文件</strong>等。在Go语言中提供了两个标准库来渲染模板，它们都具有相同的模板语法，分别是<code>text/template</code> 和 <code>html/template</code> ，接下来将介绍这两个标准库如何使用。</p></blockquote><hr><h2 id=快速使用><a href=#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
-快速使用</h2><h2 id=template介绍><a href=#template%e4%bb%8b%e7%bb%8d class=header-anchor>#</a>
-template介绍</h2><p>在 Go 语言中，<code>text/template</code> 和 <code>html/template</code> 都是用于模板处理的包，它们在功能上有许多相似之处，但也有重要的区别，尤其是在处理 HTML 时。</p><p>共同点:</p><ul><li><strong>模板解析</strong>：两个包都使用类似的语法来解析模板，支持条件语句、循环、自定义函数等。</li><li><strong>数据绑定</strong>：都可以将结构体、映射等数据绑定到模板中，从而生成动态内容。</li><li><strong>模板执行</strong>：都使用 <code>Execute</code> 和 <code>ExecuteTemplate</code> 方法来执行模板，将结果输出到 <code>io.Writer</code>。</li></ul><p>不同点：</p><p>主要区别：</p><ul><li>在模板中插入用户提供的数据时，<code>html/template</code> 会自动对这些数据进行 <strong>HTML 转义</strong>，确保生成的 HTML 是安全的。而<code>text/template</code>包不会。</li></ul></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E6%A0%87%E5%87%86%E5%BA%93/>Go标准库</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
-<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go调用外部命令os/exec库介绍</h2></div></a></article><article><a href=/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go flag库介绍</h2></div></a></article><article><a href=/p/openapi-and-swagger-introduction/><div class=article-details><h2 class=article-title>Openapi And Swagger Introduction</h2></div></a></article><article><a href=/p/gin-introduction/><div class=article-details><h2 class=article-title>Gin Introduction</h2></div></a></article><article><a href=/p/go-code-style-guide-introduction/><div class=article-details><h2 class=article-title>Go Code Style Guide Introduction</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>Copyright &copy;
+<time class=article-time--reading>阅读时长: 24 分钟</time></div></footer></div></header><section class=article-content><hr><blockquote><p>模板渲染是指根据特定的<strong>模板语法</strong>，将这些模板渲染成文本，通常用于生成 <strong>HTML</strong>、<strong>邮件</strong>、<strong>配置文件</strong>等。在Go语言中提供了两个标准库来渲染模板，它们都具有相同的模板语法，分别是<code>text/template</code> 和 <code>html/template</code> ，接下来将介绍这两个标准库如何使用。</p></blockquote><hr><h2 id=快速使用><a href=#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+快速使用</h2><p>二者都是go语言的标准库，直接使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//&#34;html/template&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>&#34;Hello, {{.Name}}! Your message is: {{.Message}}&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=p>}{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span><span class=p>:</span>    <span class=s>&#34;World&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span><span class=p>:</span> <span class=s>&#34;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Parsing template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Excuting templete: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用template库很简单，只需要创建<code>Template</code>对象（模板不是文件需要指定模板的名称），调<code>Parse</code>方法解析模板，最后调<code>Execute</code>方法指定输出的地方和数据，就能渲染模板。</p><p>模板是一串字符串，由模板语法组成。模板语法都包含在<code>{{</code>和<code>}}</code>中间，其中<code>{{.}}</code>中的点表示当前对象。输出的地方是一个<code>io.Writer</code>。数据常用的是结构体对象或map类型。渲染模板是根据模板语法<strong>将数据绑定到模板中</strong>。</p><p>上面程序运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go                                 
+</span></span><span class=line><span class=cl>Hello, World! Your message is: &lt;script&gt;alert<span class=o>(</span><span class=s1>&#39;XSS&#39;</span><span class=o>)</span><span class=p>;</span>&lt;/script&gt;
+</span></span></code></pre></td></tr></table></div></div><p>注释掉<code>"text/template"</code>换成<code>"html/template"</code>输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>Hello, World! Your message is: <span class=p>&amp;</span>lt<span class=p>;</span>script<span class=p>&amp;</span>gt<span class=p>;</span>alert<span class=o>(</span><span class=p>&amp;</span><span class=c1>#39;XSS&amp;#39;);&amp;lt;/script&amp;gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>二者的主要区别就是<code>html/template</code>会将<strong>渲染的HTML内容转义</strong>。意思就是让绑定的HTML数据变成普通文本，失去其原来的作用，能够防止<strong>跨站脚本攻击</strong> (XSS)。因此当我们的模板是HTML时，推荐使用<code>html/template</code>包渲染，并且该包也是专门为渲染HTML模板准备的，确保生成的 HTML 是安全的。</p><hr><h2 id=template介绍><a href=#template%e4%bb%8b%e7%bb%8d class=header-anchor>#</a>
+template介绍</h2><p>在 Go 语言中，<code>text/template</code> 和 <code>html/template</code> 都是用于模板处理的包，它们在功能上有许多相似之处，但也有重要的区别，尤其是在处理 HTML 时。</p><p><strong>作用</strong>：</p><ul><li><strong><code>text/template</code></strong>：适用于生成纯文本内容，比如邮件、日志、配置文件等。这些内容不涉及 HTML 安全性问题。</li><li><strong><code>html/template</code></strong>：专门用于生成 HTML 内容，提供了防止 XSS 攻击的保护机制。</li></ul><p><strong>共同点</strong>:</p><ul><li><strong>模板解析</strong>：两个包都使用类似的语法来解析模板，支持条件语句、循环、自定义函数等。</li><li><strong>数据绑定</strong>：都可以将结构体、映射等数据绑定到模板中，从而生成动态内容。</li><li><strong>模板执行</strong>：都使用 <code>Execute</code> 和 <code>ExecuteTemplate</code> 方法来执行模板，将结果输出到 <code>io.Writer</code>。</li></ul><p><strong>不同点</strong>：</p><ul><li><p>主要区别：</p><ul><li>在模板中插入用户提供的数据时，<code>html/template</code> 会自动对这些数据进行 <strong>HTML 转义</strong>，确保生成的 HTML 是安全的，能够防止<strong>跨站脚本攻击</strong> (XSS)。而<code>text/template</code>包不会。</li></ul></li><li><p>内置的模板函数同名，但功能可能不一样。</p></li></ul><blockquote><blockquote><p>跨站脚本攻击（XSS）：大概意思是脚本不是自己网站提供的，是别人恶意放到你网站上的。</p><p>当用户访问你的网站时，恶意脚本就会运行。</p><p>恶意脚本可能做的事：</p><ol><li><strong>窃取 Cookie 和会话信息</strong>： 攻击者可以通过恶意脚本窃取用户的 Cookie 和会话信息，从而冒充用户进行操作。</li><li><strong>劫持用户会话</strong>： 攻击者可以利用窃取的会话信息，劫持用户的会话，进行恶意操作。</li><li><strong>伪造请求</strong>： 恶意脚本可以在用户不知情的情况下发起伪造请求，执行一些用户未授权的操作。</li><li><strong>传播蠕虫</strong>： 恶意脚本可以通过 XSS 漏洞传播蠕虫，自动感染访问受害页面的用户。</li><li><strong>虚假内容</strong>： 恶意脚本可以修改页面内容，显示虚假信息欺骗用户。</li></ol><p><strong>防御XSS攻击</strong>：</p><ol><li><p><strong>输出编码</strong>：</p><ul><li><p>在将用户输入的数据输出到 HTML 内容时，进行 HTML 转义，防止恶意脚本注入。</p><ul><li><code>html/template</code>包就会自动转义HTML内容。</li></ul></li><li><p>在属性中输出数据时，对数据进行属性转义。</p></li></ul></li><li><p><strong>输入验证</strong>：</p><ul><li>对用户输入的数据进行严格验证和过滤，只允许符合预期格式的数据通过。</li></ul></li><li><p><strong>使用安全的 JavaScript</strong>：</p><ul><li>避免直接使用 <code>innerHTML</code>，改用 <code>textContent</code> 或其他安全的 DOM 操作方法。</li></ul></li><li><p><strong>内容安全策略 (Content Security Policy, CSP)</strong>：</p><ul><li><p>配置 CSP 头，通过白名单机制限制允许执行的脚本来源，减少 XSS 攻击的风险。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Content-Security-Policy</span><span class=p>:</span><span class=w> </span><span class=l>script-src &#39;self&#39;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div></li></ul></li></ol></blockquote></blockquote><hr><h2 id=template使用><a href=#template%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+template使用</h2><p>提前介绍模板语法中的<strong>定义模板</strong>：</p><ul><li><p>模板就是一串字符串或一个文本文件。</p></li><li><p>当为一串字符串时，可能是主模板，也可能是子模板。</p><ul><li>没有定义子模板时，是主模板。反之就是子模板。</li></ul></li><li><p>当为一个文本文件时，<strong>相对文件</strong>，文件名就是主模板。</p><ul><li>通常会将<code>目录/文件名</code>设为该文件的子模板，以表示主模板。<strong>防止不同目录出现同名文件</strong>。此时渲染整个文件，就需要指定子模板名。</li></ul></li><li><p>定义子模板：用define内置模板函数，后面更子模板名，是字符串类型，用双引号括起来。结束用end函数标识。中间就是子模板的内容。如：</p><p><code>templates/default/index.tmpl</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=o>{{</span> define <span class=s2>&#34;default/index.tmpl&#34;</span> <span class=o>}}</span>
+</span></span><span class=line><span class=cl>Hello, <span class=o>{{</span> .Name <span class=o>}}</span>! Your message is: <span class=o>{{</span> .Message <span class=o>}}</span>
+</span></span><span class=line><span class=cl><span class=o>{{</span> end <span class=o>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>此时渲染这个文件，就需要用指定模板名的方法。</p></li></ul><p>更多内容<a class=link href=#define>参考</a>。</p><h3 id=渲染template对象><a href=#%e6%b8%b2%e6%9f%93template%e5%af%b9%e8%b1%a1 class=header-anchor>#</a>
+渲染Template对象</h3><p>渲染Template对象就是渲染模板，用到的方法是<code>func (t *Template) Execute(wr io.Writer, data any) error</code>或<code>func (t *Template) ExecuteTemplate(wr io.Writer, name string, data any) error</code>。</p><p>二者的区别是：</p><ul><li><p><code>Execute</code>方法用于渲染<strong>主模板</strong>。</p><ul><li>只有一个模板，这个模板就是主模板。</li><li>有多个模板时，定义或解析模板时最先创建的那个模板，或是<strong>执行时作为入口点的模板</strong>（<strong>没有指定模板名的都会先渲染</strong>），<strong>最先渲染的模板就是主模板</strong>。</li><li><code>ExecuteTemplate</code>方法用于渲染指定模板名的模板。</li></ul></li><li><p>总结：</p><ul><li>只有一个模板用<code>Execute</code>方法，也可以用<code>ExecuteTemplate</code>方法，当需要指定模板名。</li><li>有多个模板用<code>ExecuteTemplate</code>方法，需要指定模板名。如果此时用<code>Execute</code>方法<strong>将只渲染主模板</strong>。</li><li>用<code>func (t *Template) DefinedTemplates() string</code>方法可以查看定义的所以模板。返回的字符串格式为<code>; defined templates are:...</code></li></ul></li></ul><h3 id=创建template对象><a href=#%e5%88%9b%e5%bb%batemplate%e5%af%b9%e8%b1%a1 class=header-anchor>#</a>
+创建Template对象</h3><p>创建<code>Template</code>对象的方法主要有以下几种：</p><p><strong>解析并创建Template对象</strong>：</p><ol><li><p><strong><code>template.ParseFiles</code></strong>： 从文件中解析模板并创建Template对象，可以一次解析一个或多个文件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>ParseFiles</span><span class=p>(</span><span class=s>&#34;templates/file1.tmpl&#34;</span><span class=p>,</span> <span class=s>&#34;templates/file2.tmpl&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// handle error
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong><code>template.ParseGlob</code></strong>： 使用通配符模式解析一组模板文件并创建Template对象。（<strong>常用</strong>）</p><ol><li><p>所有模板都放在templates目录下（没有分类保存）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>ParseGlob</span><span class=p>(</span><span class=s>&#34;templates/*.tmpl&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// handle error
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>所有模板都放在templates目录下并<strong>分类保存</strong>：</p><p>需要多匹配一级分类目录，目录用<code>/**/</code>表示该级目录（只能匹配一级）。两级用<code>/**/**</code>，以此类推。如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>ParseGlob</span><span class=p>(</span><span class=s>&#34;templates/**/*.tmpl&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// handle error
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>将匹配templates目录下的所有一级目录下的所有<code>*.tmpl</code>文件。</p><p>分目录保存，为防止不同目录出现同文件名，造成模板丢失，通常会将<code>目录/文件名</code>设为该文件的子模板，以表示主模板。<strong>防止不同目录出现同名文件</strong>。<strong>此时渲染整个文件，就需要指定子模板名。</strong></p></li></ol></li></ol><p><strong>创建空的命名模板对象</strong>：</p><ol><li><strong><code>template.New</code></strong>： 创建一个命名模板的基础模板对象，不会解析任何模板内容。<ul><li>创建命名模板对象之后，还需要解析模板才能使用。</li><li>通常与<code>Parse</code>（<strong>常用</strong>）、<code>ParseFiles</code>、<code>ParseGlob</code>等方法一起使用。<strong>使用方法与同名函数一直</strong>。只要是Template对象都能使用这几个方法。</li><li><strong>区别是</strong>：<ul><li>用<code>New</code>方法创建空的命名模板后（这模板就是主模板），在用<code>Parse</code>等方法解析模板：<ul><li>如果解析的模板没有命名且非空，则会<strong>覆盖主模板</strong>的内容。</li><li>如果解析的模板有命名，则会为主模板添加子模板。</li><li>以上情况为字符串模板。</li><li>解析文件都是为主模板<strong>添加子模板</strong>。因为文件名默认为一个模板名。</li></ul></li></ul></li></ul></li></ol><p><strong><code>template.Must</code></strong>： 是一个帮助函数，用于包装解析函数（如<code>Parse</code>、<code>ParseFiles</code>、<code>ParseGlob</code>等）的返回值。如果解析过程中发生错误，它会导致程序在运行时崩溃。<strong>常用于简化创建模板对象代码</strong>。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建一个新的模板并解析内容
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>tmpl</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=s>&#34;Hello, {{.Name}}!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 直接解析模板字符串，使用帮助函数简化创建模板对象
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>tmpl</span> <span class=p>=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>&#34;Hello, {{.Name}}!&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=c1>// 从多个文件解析模板
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=p>=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>ParseFiles</span><span class=p>(</span><span class=s>&#34;example1.tmpl&#34;</span><span class=p>,</span> <span class=s>&#34;example2.tmpl&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 使用通配符从文件夹解析模板
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=p>=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>ParseGlob</span><span class=p>(</span><span class=s>&#34;templates/*.tmpl&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 简化创建模板对象，解析失败会自动抛出panic
+</span></span></span><span class=line><span class=cl><span class=c1></span>     <span class=nx>tmpl</span> <span class=p>=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>ParseGlob</span><span class=p>(</span><span class=s>&#34;templates/**/*.tmpl&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 执行模板
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;Name&#34;</span><span class=p>:</span> <span class=s>&#34;World&#34;</span><span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=模板语法介绍><a href=#%e6%a8%a1%e6%9d%bf%e8%af%ad%e6%b3%95%e4%bb%8b%e7%bb%8d class=header-anchor>#</a>
+模板语法介绍</h2><h3 id=基础语法><a href=#%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95 class=header-anchor>#</a>
+基础语法</h3><ol><li><p>模板语法都包含在<code>{{</code>和<code>}}</code>中间。<code>{{.}}</code>：点表示当前对象。</p><ul><li><p>数据是结构体对象时，直接用<code>.属性名</code>访问属性。</p></li><li><p>数据是映射时，直接用<code>.键名</code>访问值。</p></li><li><p>键名或属性名要一一对应。</p></li><li><p>以上两个可以互相嵌套访问。示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//&#34;html/template&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span>  <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Age</span>   <span class=kt>int</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Other</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=nx>any</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>`</span><span class=cp>{{</span><span class=w> </span><span class=na>.title</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>姓名：</span><span class=cp>{{</span><span class=w> </span><span class=na>.user.Name</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>年龄：</span><span class=cp>{{</span><span class=w> </span><span class=na>.user.Age</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>QQ: </span><span class=cp>{{</span><span class=w> </span><span class=na>.user.Other.QQ</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>学校：</span><span class=cp>{{</span><span class=w> </span><span class=na>.user.Other.school</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=nx>any</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;title&#34;</span><span class=p>:</span> <span class=s>&#34;用户信息&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;user&#34;</span><span class=p>:</span> <span class=nx>User</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Jack&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Age</span><span class=p>:</span>  <span class=mi>18</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Other</span><span class=p>:</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=nx>any</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;QQ&#34;</span><span class=p>:</span>     <span class=mi>9527</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;school&#34;</span><span class=p>:</span> <span class=s>&#34;野鸡大学&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Excuting templete: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go
+</span></span><span class=line><span class=cl>用户信息
+</span></span><span class=line><span class=cl>姓名：Jack
+</span></span><span class=line><span class=cl>年龄：18
+</span></span><span class=line><span class=cl>QQ: <span class=m>9527</span>
+</span></span><span class=line><span class=cl>学校：野鸡大学
+</span></span></code></pre></td></tr></table></div></div></li><li><p>数据是基本数据类型时，如int、bool、string。直接用<code>.</code>表示值。</p></li><li><p>数据是切片、数组、映射等集合类型时，需要遍历对象。（稍后介绍）</p><ul><li>注意映射有两种方法访问值：<code>.键名</code>或者<code>循环遍历</code>。</li></ul></li></ul></li><li><p><strong>格式:</strong> <code>{{ 模板表达式 }}</code>。模板表达式与括号之间建议用空格隔开。如果有空格渲染时会自动移除。</p><ol><li><p>模板表达式可以是<code>.</code>、函数、变量等组成。</p></li><li><p>表示式如果没有值，渲染后会用<code>&lt;no value></code>表示。</p></li><li><p>在两个括号内添加<code>-</code>（<strong>与括号之间不能有空格，与表达式之间必须有空格</strong>）表示<strong>删除空白</strong>。</p><ul><li>删除的是渲染结果与周围字符之间的空白。</li><li><code>-</code>在那边就表示删除那边与字符之间的空白。都有表示左右两边字符都删除。</li><li>空白指空格、换行。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=s>&#34;{{ 23 -}} &lt; {{ 45 }}&#34;</span> <span class=c1>// 输出23&lt; 45
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;{{ 23 -}} &lt; {{- 45 }}&#34;</span> <span class=c1>// 输出23&lt;45
+</span></span></span></code></pre></td></tr></table></div></div></li></ol></li><li><p><strong>注释格式:</strong> <code>{{/* 注释内容 */}}</code>。<strong>注意<code>/</code>与括号之间不能有空格</strong>。执行时会忽略。可以多行。注释不能嵌套。*与注释内容可以没有空格。</p></li><li><p><a class=link href=#template%e4%bd%bf%e7%94%a8><strong>定义模板</strong></a>前面已经介绍了。</p><ul><li><strong>补充</strong>：定义子模板语句如果独占一行，虽然<strong>渲染后为空</strong>，但是会<strong>独占一空行</strong>，注释也会，后面的定义变量也是。</li><li>为不影响渲染之后的结构，<strong>可以将他们与内容写在一行</strong>。这样即使注释换行也<strong>不会占一空行</strong>。模板语法与其他内容之间也不要有空格，否则渲染之后会保留空格。</li><li><strong>后来</strong>才知道<strong>删除空格的作用</strong>。<strong>最优解决方案</strong>：使用用<code>-</code>可以<strong>删除空格、换行</strong>。<strong>能达到美观而不影响渲染结果</strong>。</li></ul></li><li><p><strong>模板变量</strong></p><ul><li><p>在模版中可以自定义变量, 类似golang使用:=符号定义变量，用来保存传入模板的数据或其他语句生成的结果。语法为：<code>{{ $变量名 := 数据 }}</code></p></li><li><p>为存在的变量赋值<code>{{ $变量名 = 数据 }}</code></p></li><li><p>引用变量<code>{{ $变量名 }}</code></p></li><li><p>数据可以是字符串（用双引号括起来）、整型、表达式的值。</p></li><li><p>引用变量可以与表达式组合使用。</p></li><li><p>上面示例可修改为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>//&#34;text/template&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span>  <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Age</span>   <span class=kt>int</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Other</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=nx>any</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span>
+</span></span><span class=line><span class=cl>		<span class=nf>Parse</span><span class=p>(</span><span class=s>`</span><span class=cp>{{</span><span class=w> </span><span class=k>define</span><span class=w> </span><span class=s>&#34;aaa&#34;</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s></span><span class=cp>{{</span><span class=w> </span><span class=na>.title</span><span class=w> </span><span class=cp>}}</span><span class=s> </span><span class=cp>{{</span><span class=w> </span><span class=nx>$other</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=na>.user.Other</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>姓名：</span><span class=cp>{{</span><span class=w> </span><span class=na>.user.Name</span><span class=w> </span><span class=cp>}}</span><span class=cm>{{/* 这是注释
+</span></span></span><span class=line><span class=cl><span class=cm>换行了 */}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>年龄：</span><span class=cp>{{</span><span class=w> </span><span class=na>.user.Age</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>QQ: </span><span class=cp>{{</span><span class=w> </span><span class=nx>$other</span><span class=na>.QQ</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>学校：</span><span class=cp>{{</span><span class=w> </span><span class=nx>$other</span><span class=na>.school</span><span class=w> </span><span class=cp>}}{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>ExecuteTemplate</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=s>&#34;aaa&#34;</span><span class=p>,</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=nx>any</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;title&#34;</span><span class=p>:</span> <span class=s>&#34;用户信息&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;user&#34;</span><span class=p>:</span> <span class=nx>User</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Jack&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Age</span><span class=p>:</span>  <span class=mi>18</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nx>Other</span><span class=p>:</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=nx>any</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;QQ&#34;</span><span class=p>:</span>     <span class=mi>9527</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;school&#34;</span><span class=p>:</span> <span class=s>&#34;野鸡大学&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Excuting templete: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>用户信息 
+</span></span><span class=line><span class=cl>姓名：Jack
+</span></span><span class=line><span class=cl>年龄：18
+</span></span><span class=line><span class=cl>QQ: <span class=m>9527</span>
+</span></span><span class=line><span class=cl>学校：野鸡大学
+</span></span></code></pre></td></tr></table></div></div><p>可以对比一下有什么区别。（定义子模块的头部独占一空行，解决办法：与title同行且在前面）</p><p><strong>可以不用修改结构，使用<code>-</code>删除空白</strong>。<strong>推荐使用</strong></p></li></ul></li></ol><h3 id=流程控制语句><a href=#%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6%e8%af%ad%e5%8f%a5 class=header-anchor>#</a>
+流程控制语句</h3><p>介绍流程控制语句前，先介绍<strong>比较函数</strong>（也叫逻辑运算函数）。<strong>将逻辑运算封装成了函数形式</strong>。</p><p>常用的比较函数如下：</p><ul><li>eq：等于</li><li>ne：不等于</li><li>lt：小于</li><li>le：小于等于</li><li>gt：大于</li><li>ge：大于调用</li></ul><p>比较函数后面跟两个可比较的参数，用空格分隔开。返回true或者false，对应类型的零值为false，其余为true。如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span> <span class=nx>lt</span> <span class=mi>22</span> <span class=mi>33</span> <span class=p>}}</span> <span class=c1>// 输出true
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>{{</span> <span class=nx>ge</span> <span class=mi>22</span> <span class=mi>33</span> <span class=p>}}</span> <span class=c1>// 输出false
+</span></span></span></code></pre></td></tr></table></div></div><p>比较函数可以与条件判断（if语句）组合使用。</p><p>模版语法的流程控制语句主要指if/range/with三种语句。</p><h4 id=条件判断><a href=#%e6%9d%a1%e4%bb%b6%e5%88%a4%e6%96%ad class=header-anchor>#</a>
+条件判断</h4><p><code>if</code>（ <code>else</code>, <code>else if</code>）语句用于根据条件来<strong>控制模板的输出</strong>。可以使用<code>else</code>和<code>else if</code>来处理其他情况。</p><p><strong>格式</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>{{if condition}}
+</span></span><span class=line><span class=cl>    <span class=c>&lt;!-- 当condition为true时输出的内容 --&gt;</span>
+</span></span><span class=line><span class=cl>{{else if otherCondition}}
+</span></span><span class=line><span class=cl>    <span class=c>&lt;!-- 当otherCondition为true时输出的内容 --&gt;</span>
+</span></span><span class=line><span class=cl>{{else}}
+</span></span><span class=line><span class=cl>    <span class=c>&lt;!-- 当condition和otherCondition都为false时输出的内容 --&gt;</span>
+</span></span><span class=line><span class=cl>{{end}}
+</span></span></code></pre></td></tr></table></div></div><p><code>if</code>语句后面跟<code>end</code>表示结束。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;bufio&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;errors&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;strings&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/spf13/cast&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>ErrExit</span> <span class=p>=</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;exit&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`你的成绩：</span><span class=cp>{{</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=k>lt</span><span class=w> </span><span class=na>.</span><span class=w> </span><span class=nx>60</span><span class=w> </span><span class=cp>}}</span><span class=s>不及格</span><span class=cp>{{</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=k>eq</span><span class=w> </span><span class=na>.</span><span class=w> </span><span class=nx>60</span><span class=w> </span><span class=cp>}}</span><span class=s>刚好及格</span><span class=cp>{{</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=cp>}}</span><span class=s>及格了</span><span class=cp>{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>ReadScore</span><span class=p>()</span> <span class=p>(</span><span class=kt>int</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Print</span><span class=p>(</span><span class=s>&#34;请输入你的成绩（q：退出）：&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>r</span> <span class=o>:=</span> <span class=nx>bufio</span><span class=p>.</span><span class=nf>NewReader</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdin</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>r</span><span class=p>.</span><span class=nf>ReadString</span><span class=p>(</span><span class=sc>&#39;\n&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>fmt</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;fail to read string: %w&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>Contains</span><span class=p>(</span><span class=nx>strings</span><span class=p>.</span><span class=nf>ToLower</span><span class=p>(</span><span class=nx>s</span><span class=p>),</span> <span class=s>&#34;q&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>ErrExit</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>score</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>cast</span><span class=p>.</span><span class=nf>ToIntE</span><span class=p>(</span><span class=nx>strings</span><span class=p>.</span><span class=nf>TrimSpace</span><span class=p>(</span><span class=nx>s</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>fmt</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;conversion to integer failed %w&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>score</span><span class=p>,</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>DisplayGrade</span><span class=p>(</span><span class=nx>data</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>t</span> <span class=o>*</span><span class=nx>template</span><span class=p>.</span><span class=nx>Template</span><span class=p>)</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=nx>fmt</span><span class=p>.</span><span class=nf>Errorf</span><span class=p>(</span><span class=s>&#34;fail to execute template: %w&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=kc>nil</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>score</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nf>ReadScore</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>Is</span><span class=p>(</span><span class=nx>err</span><span class=p>,</span> <span class=nx>ErrExit</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>log</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Exit successful&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=nx>log</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Fail to read score: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>continue</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=nx>err</span> <span class=p>=</span> <span class=nf>DisplayGrade</span><span class=p>(</span><span class=nx>score</span><span class=p>,</span> <span class=nx>t</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>log</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Fail to diaplay grade: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>请输入你的成绩（q：退出）：55
+</span></span><span class=line><span class=cl>你的成绩：不及格
+</span></span><span class=line><span class=cl>请输入你的成绩（q：退出）：60
+</span></span><span class=line><span class=cl>你的成绩：刚好及格
+</span></span><span class=line><span class=cl>请输入你的成绩（q：退出）：60
+</span></span><span class=line><span class=cl>你的成绩：刚好及格
+</span></span><span class=line><span class=cl>请输入你的成绩（q：退出）：q
+</span></span><span class=line><span class=cl>2024/06/04 15:44:17 Exit successful
+</span></span></code></pre></td></tr></table></div></div><h4 id=循环><a href=#%e5%be%aa%e7%8e%af class=header-anchor>#</a>
+循环</h4><p>循环<code>range</code>语句用于迭代数组、切片、映射等集合类型的数据。跟go语言的<code>for-range</code>差不多，甚至比go语言更简洁。</p><p><strong>格式</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=k>range</span> <span class=nx>集合类型数据</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=p>{{.}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>遍历集合类型数据之后，可以用<code>.</code>访问每一个<strong>集合元素的值</strong>。</p><p><strong>注意</strong>：<code>range</code>范围内，<code>.</code>的作用域仅在<code>range</code>范围内，<strong>无法访问外部对象</strong>。</p><p>如果需要访问索引，可以使用两个变量接收：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=k>range</span> <span class=err>$</span><span class=nx>index</span><span class=p>,</span> <span class=err>$</span><span class=nx>element</span> <span class=o>:=</span> <span class=nx>集合类型数据</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Index</span><span class=p>:</span> <span class=p>{{</span><span class=err>$</span><span class=nx>index</span><span class=p>}},</span> <span class=nx>Value</span><span class=p>:</span> <span class=p>{{</span><span class=err>$</span><span class=nx>element</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=k>else</span><span class=p>}}</span> <span class=c1>// 看情况是否使用
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>没有数据可遍历</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>range</code>语句后面跟<code>end</code>表示结束。它们之间还可以嵌入<code>else</code>语句，当集合类型数据长度为0时将执行<code>else</code>语句。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=k>range</span> <span class=nx>集合类型数据</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=p>{{.}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=k>else</span><span class=p>}}</span> <span class=c1>// 看情况是否使用
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>没有数据可遍历</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>与<code>if</code>语句组合使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=k>range</span> <span class=p>.</span><span class=nx>Items</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=p>{{</span><span class=k>if</span> <span class=p>.</span><span class=nx>IsActive</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Active</span> <span class=nx>item</span><span class=p>:</span> <span class=p>{{.</span><span class=nx>Name</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=k>else</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>No</span> <span class=nx>items</span> <span class=nx>found</span><span class=p>.</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>示例1：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl>{{define &#34;userList&#34;}}
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>ul</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    {{range .Users}}
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        {{if .Active}}
+</span></span><span class=line><span class=cl>            Active user: {{.Name}}
+</span></span><span class=line><span class=cl>        {{else}}
+</span></span><span class=line><span class=cl>            Inactive user: {{.Name}}
+</span></span><span class=line><span class=cl>        {{end}}
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>li</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    {{else}}
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>li</span><span class=p>&gt;</span>No users found.<span class=p>&lt;/</span><span class=nt>li</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    {{end}}
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>ul</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>{{end}}
+</span></span></code></pre></td></tr></table></div></div><p>示例2：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`爱好：</span><span class=cp>{{</span><span class=w> </span><span class=k>range</span><span class=w> </span><span class=na>.</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s></span><span class=cp>{{</span><span class=w> </span><span class=na>.</span><span class=w> </span><span class=cp>}}{{</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=cp>}}</span><span class=s>没有任何爱好</span><span class=cp>{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;看电影&#34;</span><span class=p>,</span> <span class=s>&#34;跑步&#34;</span><span class=p>,</span> <span class=s>&#34;打篮球&#34;</span><span class=p>,</span> <span class=s>&#34;看小说&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>assertExecErr</span> <span class=o>:=</span> <span class=kd>func</span><span class=p>(</span><span class=nx>err</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Fail to execute template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>assertExecErr</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;\n----------------------&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{})</span>
+</span></span><span class=line><span class=cl>	<span class=nf>assertExecErr</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;\n----------------------&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl2</span> <span class=p>=</span> <span class=s>`爱好2：</span><span class=cp>{{</span><span class=w> </span><span class=k>range</span><span class=w> </span><span class=nx>$index</span><span class=o>,</span><span class=w> </span><span class=nx>$value</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=na>.</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>Index: </span><span class=cp>{{</span><span class=w> </span><span class=nx>$index</span><span class=w> </span><span class=cp>}}</span><span class=s>, Value: </span><span class=cp>{{</span><span class=w> </span><span class=nx>$value</span><span class=w> </span><span class=cp>}}{{</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=cp>}}</span><span class=s>没有任何爱好</span><span class=cp>{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t2</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example2&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t2</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nf>assertExecErr</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;\n----------------------&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t2</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{})</span>
+</span></span><span class=line><span class=cl>	<span class=nf>assertExecErr</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>爱好：
+</span></span><span class=line><span class=cl>看电影
+</span></span><span class=line><span class=cl>跑步
+</span></span><span class=line><span class=cl>打篮球
+</span></span><span class=line><span class=cl>看小说
+</span></span><span class=line><span class=cl>----------------------
+</span></span><span class=line><span class=cl>爱好：没有任何爱好
+</span></span><span class=line><span class=cl>----------------------
+</span></span><span class=line><span class=cl>爱好2：
+</span></span><span class=line><span class=cl>Index: 0, Value: 看电影
+</span></span><span class=line><span class=cl>Index: 1, Value: 跑步
+</span></span><span class=line><span class=cl>Index: 2, Value: 打篮球
+</span></span><span class=line><span class=cl>Index: 3, Value: 看小说
+</span></span><span class=line><span class=cl>----------------------
+</span></span><span class=line><span class=cl>爱好2：没有任何爱好
+</span></span></code></pre></td></tr></table></div></div><h4 id=变量声明with-define-block><a href=#%e5%8f%98%e9%87%8f%e5%a3%b0%e6%98%8ewith-define-block class=header-anchor>#</a>
+变量声明（<code>with</code>, <code>define</code>, <code>block</code>）</h4><h5 id=with><a href=#with class=header-anchor>#</a>
+with</h5><p><code>with</code>语句用于<strong>重定义模板的作用域</strong>。常用于<strong>缩短长的字段访问路径</strong>。就是可以<strong>缩短结构体对象属性的访问路径</strong>。简单理解：重定义<code>.</code>的作用域（<code>var . := .User</code>）：将当前对象的<code>User</code>属性复制给<code>.</code>。如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>// 访问Data结构体下的user属性
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Name</span><span class=p>:</span> <span class=p>{{.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Name</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=nx>Email</span><span class=p>:</span> <span class=p>{{.</span><span class=nx>User</span><span class=p>.</span><span class=nx>Email</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 使用with
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>{{</span><span class=nx>with</span> <span class=p>.</span><span class=nx>User</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Name</span><span class=p>:</span> <span class=p>{{.</span><span class=nx>Name</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Email</span><span class=p>:</span> <span class=p>{{.</span><span class=nx>Email</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意</strong>：range和with语句都改变了点（.）引用的数据，那么如果想要在range和with语句中引用模版参数，请先将（点（.）赋值给一个自定义变量, 然后在range和with中通过自定义变量，引用模版参数。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span>  <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Email</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Data</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>User</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`用户信息：</span><span class=cp>{{</span><span class=w> </span><span class=k>with</span><span class=w> </span><span class=na>.User</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>姓名: </span><span class=cp>{{</span><span class=w> </span><span class=na>.Name</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>邮箱：</span><span class=cp>{{</span><span class=w> </span><span class=na>.Email</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s></span><span class=cp>{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=nx>Data</span><span class=p>{</span><span class=nx>User</span><span class=p>{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;arlettebrook&#34;</span><span class=p>,</span> <span class=nx>Email</span><span class=p>:</span> <span class=s>&#34;arlettebrook@proton.me&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Fail to execute template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>用户信息：
+</span></span><span class=line><span class=cl>姓名: arlettebrook
+</span></span><span class=line><span class=cl>邮箱：arlettebrook@proton.me
+</span></span></code></pre></td></tr></table></div></div><h5 id=define><a href=#define class=header-anchor>#</a>
+define</h5><p><code>define</code>语句用于定义一个模板，通常用于<strong>复用模板片段</strong>，实现<strong>模板嵌套</strong>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;templateName&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;!</span><span class=o>--</span> <span class=nx>模板内容</span> <span class=o>--</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以在其他地方使用<code>template</code>来引用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=nx>template</span> <span class=s>&#34;templateName&#34;</span> <span class=p>.}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>template函数的第一个参数是<strong>模板名字</strong>，第二个参数是当前<strong>模板参数</strong>, 在子模板内部也是通过<strong>点( . )</strong>，引用模板参数。</p><p>当子模板没有参数时，<code>.</code>是可选的。</p><p><strong>注意</strong>：</p><ul><li>引入子模板带参数的时候别忘记最后的<code>.</code>。<strong>用于传递模板参数</strong>。</li><li>定义子模版不能嵌套。</li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span>  <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Email</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Data</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>User</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>info</span> <span class=p>=</span> <span class=s>`</span><span class=cp>{{</span><span class=w> </span><span class=k>define</span><span class=w> </span><span class=s>&#34;userinfo.tmpl&#34;</span><span class=w> </span><span class=cp>}}{{</span><span class=w> </span><span class=k>with</span><span class=w> </span><span class=na>.User</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>姓名: </span><span class=cp>{{</span><span class=w> </span><span class=na>.Name</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>邮箱：</span><span class=cp>{{</span><span class=w> </span><span class=na>.Email</span><span class=w> </span><span class=cp>}}{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}{{</span><span class=k>end</span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`用户信息：</span><span class=cp>{{</span><span class=k>template</span><span class=w> </span><span class=s>&#34;userinfo.tmpl&#34;</span><span class=w> </span><span class=na>.</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>info</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Fail to parse template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=nx>Data</span><span class=p>{</span><span class=nx>User</span><span class=p>{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;arlettebrook&#34;</span><span class=p>,</span> <span class=nx>Email</span><span class=p>:</span> <span class=s>&#34;arlettebrook@proton.me&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Fail to execute template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=err>$</span> <span class=k>go</span> <span class=nx>run</span> <span class=nx>main</span><span class=p>.</span><span class=k>go</span>
+</span></span><span class=line><span class=cl><span class=nx>用户信息</span><span class=err>：</span>
+</span></span><span class=line><span class=cl><span class=nx>姓名</span><span class=p>:</span> <span class=nx>arlettebrook</span>
+</span></span><span class=line><span class=cl><span class=nx>邮箱</span><span class=err>：</span><span class=nx>arlettebrook</span><span class=err>@</span><span class=nx>proton</span><span class=p>.</span><span class=nx>me</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>模板管理</strong></p><p>上面的例子，我们将模板代码定义在一个变量或者常量中，这个只是用于演示，实际项目中模板代码通常非常多，建议大家按如下方式组织模板代码：</p><ul><li>一个模板的模板代码，保存在一个模板文件中，模板文件名后缀为tpl或tmpl或者其他，如html。编码方式是utf-8。</li><li>所有的模板代码都定义在子模板中，方便根据模板名字进行渲染。</li><li>所以模板都建议放在templates目录下。使用<code>ParseGlob</code>匹配模式批量解析模板并创建模板对象。</li><li>可以将公共的子模板定义在一个文件中<code>common.tpl</code>。</li></ul><p>示例：</p><p>模板目录templates， 下面分别按<strong>功能模块</strong>创建不同的模板文件。</p><p>创建公共模板文件: templates/common.tpl。 主要用于保存一些公共的模板定义：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;common1&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=nx>这里是共享模块1</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;common2&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=nx>这里是共享模块2</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>创建mod1模块的模板文件: templates/mod1.tpl：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;mod1&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=nx>这里是模块1</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=o>-</span> <span class=nx>template</span> <span class=s>&#34;common1&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>创建mod2模块的模板文件: templates/mod2.tpl：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;mod2&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=nx>这里是模块2</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=o>-</span> <span class=nx>template</span> <span class=s>&#34;common2&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>渲染模板代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=c1>//创建template对象，并且加载templates目录下面所有的tpl模板文件。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>ParseGlob</span><span class=p>(</span><span class=s>&#34;templates/*.tpl&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 渲染mod1子模板
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>t</span><span class=p>.</span><span class=nf>ExecuteTemplate</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=s>&#34;mod1&#34;</span><span class=p>,</span> <span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 渲染mod2子模板
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>t</span><span class=p>.</span><span class=nf>ExecuteTemplate</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=s>&#34;mod2&#34;</span><span class=p>,</span> <span class=kc>nil</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>这里是模块1
+</span></span><span class=line><span class=cl>这里是共享模块1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>这里是模块2
+</span></span><span class=line><span class=cl>这里是共享模块2
+</span></span></code></pre></td></tr></table></div></div><h5 id=block><a href=#block class=header-anchor>#</a>
+block</h5><p><code>block</code>语句用于定义一个<strong>可重写的模板块</strong>。通常用于嵌套模板或布局模板。意思就是：没有重写的模板将使用默认模板渲染。</p><p>格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;base&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Base</span> <span class=nx>template</span><span class=p>:</span> <span class=p>{{</span><span class=nx>block</span> <span class=s>&#34;content&#34;</span> <span class=p>.}}</span><span class=nx>Default</span> <span class=nx>content</span><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>子模板可以重写<code>block</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;content&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Custom</span> <span class=nx>content</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>define</span> <span class=s>&#34;home&#34;</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>template</span> <span class=s>&#34;base&#34;</span> <span class=p>.}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=nx>end</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>注意事项：</p><ol><li>定义<strong>可重写的模板块</strong>，用<code>block</code>语句，后面跟两个参数：重写的模块名和传递的模板参数（<code>.</code>）。<strong>二中缺一不可</strong>。<ul><li><code>block</code>语句通常与在<code>define</code>语句组合使用，<strong>用于在定义模板中定义可重写的模板</strong>。</li></ul></li><li>重写模板用<code>define</code>语句。语法格式与定义模板一样。<ul><li>需要注意的是不能嵌套<code>define</code>语句。</li></ul></li><li><strong>重写模板</strong>与定义重写模板<strong>不能在同一个模板文件中</strong>。</li><li>确保<code>define</code>语句在模板文件的顶层定义。</li><li><code>block</code>语句仅在go版本1.19或更高版本以上支持<code>text/template</code>和<code>html/template</code>，以外版本仅支持<code>html/template</code>包或都不支持。</li></ol><p>示例：</p><p>templates/default/base.tmpl：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span> <span class=nx>define</span> <span class=s>&#34;base&#34;</span> <span class=o>-</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=k>default</span><span class=o>/</span><span class=nx>index</span><span class=p>.</span><span class=nx>tmpl</span><span class=p>:</span> <span class=nx>Hello</span><span class=p>,</span> <span class=p>{{.</span><span class=nx>Name</span><span class=p>}}!</span> <span class=nx>Your</span> <span class=nx>message</span> <span class=nx>is</span><span class=p>:</span> <span class=p>{{.</span><span class=nx>Message</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span> <span class=nx>block</span> <span class=s>&#34;custom&#34;</span> <span class=p>.</span> <span class=p>}}</span><span class=nx>custom</span> <span class=nx>template</span> <span class=p>{{</span> <span class=p>.</span><span class=nx>Name</span> <span class=p>}}</span> <span class=p>{{</span> <span class=nx>end</span> <span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=o>-</span> <span class=nx>end</span> <span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>templates/default/index.tmpl：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span> <span class=nx>define</span> <span class=s>&#34;custom&#34;</span> <span class=p>}}</span> <span class=o>==</span><span class=p>=</span><span class=nx>custom</span> <span class=nx>template</span><span class=o>==</span><span class=p>=</span> <span class=p>{{</span> <span class=p>.</span><span class=nx>Message</span> <span class=p>}}</span>  <span class=p>{{</span> <span class=nx>end</span> <span class=p>}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>{{</span> <span class=nx>define</span> <span class=s>&#34;default/index.tmpl&#34;</span> <span class=o>-</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span> <span class=nx>template</span> <span class=s>&#34;base&#34;</span> <span class=p>.}}</span>
+</span></span><span class=line><span class=cl><span class=p>{{</span><span class=o>-</span> <span class=nx>end</span> <span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>main.go：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Name</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Message</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>ParseGlob</span><span class=p>(</span><span class=s>&#34;templates/**/*.tmpl&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Fail to parse template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=nx>User</span><span class=p>{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Jack&#34;</span><span class=p>,</span> <span class=nx>Message</span><span class=p>:</span> <span class=s>&#34;你好&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>ExecuteTemplate</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=s>&#34;default/index.tmpl&#34;</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Fail to execute template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go 
+</span></span><span class=line><span class=cl>default/index.tmpl: Hello, Jack! Your message is: <span class=nv>你好</span>
+</span></span><span class=line><span class=cl> <span class=o>===</span>custom <span class=nv>template</span><span class=o>===</span> 你好
+</span></span></code></pre></td></tr></table></div></div><p>实现重写模板。</p><hr><h2 id=模板函数介绍><a href=#%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0%e4%bb%8b%e7%bb%8d class=header-anchor>#</a>
+模板函数介绍</h2><p>go的模板引擎为我们提供了函数机制，方面我们在处理模板时执行一些特定的功能，例如格式化输出内容、字母大小写转换等等。</p><h3 id=模板函数调用语法><a href=#%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e8%af%ad%e6%b3%95 class=header-anchor>#</a>
+模板函数调用语法</h3><p>语法格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>functionName</span> <span class=p>[</span><span class=nx>Argument</span><span class=o>...</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>Argument参数是可选的，如果有多个参数，参数直接用空格分隔。</p><p>注意：模板语法都是在<code>{{}}</code>中的，函数调用也是。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span> <span class=nx>html</span> <span class=s>&#34;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;&#34;</span> <span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>html预定义函数，将html内容进行转义，防止XSS攻击。</p><p>渲染将输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=o>&amp;</span><span class=nx>lt</span><span class=p>;</span><span class=nx>script</span><span class=o>&amp;</span><span class=nx>gt</span><span class=p>;</span><span class=nf>alert</span><span class=p>(</span><span class=o>&amp;</span><span class=err>#</span><span class=mi>39</span><span class=p>;</span><span class=nx>XSS</span><span class=o>&amp;</span><span class=err>#</span><span class=mi>39</span><span class=p>;);</span><span class=o>&amp;</span><span class=nx>lt</span><span class=p>;</span><span class=o>/</span><span class=nx>script</span><span class=o>&amp;</span><span class=nx>gt</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>多个函数参数的示例:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span> <span class=nx>printf</span> <span class=s>&#34;%s: %d&#34;</span> <span class=s>&#34;年龄&#34;</span> <span class=mi>18</span> <span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>printf函数主要用于格式化输出字符串，是fmt.Sprintf函数的别名，用法跟fmt.Sprintf函数一样，区别就是模板函数的参数用空格隔开。</p><p>这里为printf函数传递了3个参数。</p><p>渲染将输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>年龄: <span class=m>18</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=预定义模板函数><a href=#%e9%a2%84%e5%ae%9a%e4%b9%89%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0 class=header-anchor>#</a>
+预定义模板函数</h3><p>预定义模板函数也可以叫内置模板函数，是模板引擎预定义好了的，可以直接在模板中拿来使用。下面介绍常用的内置函数：</p><ol><li><p>前面介绍的<a class=link href=#%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6%e8%af%ad%e5%8f%a5>比较函数</a>（关系运算函数）也是属于预定义函数。</p></li><li><p>也将逻辑运算封装成了函数形式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>and 表达式1 表达式2
+</span></span><span class=line><span class=cl>	表达式1和表达式2都为真的时候返回true
+</span></span><span class=line><span class=cl>or 表达式1 表达式2
+</span></span><span class=line><span class=cl>    表达式1和表达式2其中一个为真的时候返回true
+</span></span><span class=line><span class=cl>not 表达式
+</span></span><span class=line><span class=cl>    表达式为false则返回true, 反之返回false
+</span></span></code></pre></td></tr></table></div></div><p>官网解释看不明白，差不多就是上面的意思。</p><p><strong>提示</strong>: 关系运算和逻辑运算函数通常跟<code>if</code>语句一起使用。</p><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{{$x := 100}}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//等价于$x == 100
+</span></span><span class=line><span class=cl>{{if eq $x 100}}
+</span></span><span class=line><span class=cl>...代码...
+</span></span><span class=line><span class=cl>{{end}}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//等价于$x &lt; 100
+</span></span><span class=line><span class=cl>{{if lt $x 500}}
+</span></span><span class=line><span class=cl>...代码...
+</span></span><span class=line><span class=cl>{{end}}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//等价于$x &gt;= 100
+</span></span><span class=line><span class=cl>{{if ge $x 500}}
+</span></span><span class=line><span class=cl>...代码...
+</span></span><span class=line><span class=cl>{{end}}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//等价于$x &gt; 50 &amp;&amp; $x &lt; 200
+</span></span><span class=line><span class=cl>//这里调用了and函数和gt、lt三个函数， gt和lt函数的结果作为and的参数，gt和lt函数调用分别用括号包括起来
+</span></span><span class=line><span class=cl>{{if and (gt $x 50) (lt $x 200)}}
+</span></span><span class=line><span class=cl>...代码...
+</span></span><span class=line><span class=cl>{{end}}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>{{$y := 200}}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//等价于$x &gt; 100 || $y &gt; 100
+</span></span><span class=line><span class=cl>{{if or (gt $x 100) (gt $y 100)}}
+</span></span><span class=line><span class=cl>...代码...
+</span></span><span class=line><span class=cl>{{end}}
+</span></span></code></pre></td></tr></table></div></div></li><li><p>更多内置函数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>len
+</span></span><span class=line><span class=cl>    返回它的参数的整数类型长度，可以计算数组长度。
+</span></span><span class=line><span class=cl>    	数组大小: {{len .}}
+</span></span><span class=line><span class=cl>    	//模板参数定义如下：
+</span></span><span class=line><span class=cl>		a := []int{1,2,3,4}
+</span></span><span class=line><span class=cl>		渲染输出:
+</span></span><span class=line><span class=cl>		数组大小: 4
+</span></span><span class=line><span class=cl>index
+</span></span><span class=line><span class=cl>    返回其第一个参数（通常为数组、切片或映射）的第 N 个元素，N 由后续参数指定。
+</span></span><span class=line><span class=cl>    如&#34;index x 1 2 3&#34;返回x[1][2][3]的值；每个被索引的主体必须是数组、切片或者字典。
+</span></span><span class=line><span class=cl>    	data := []string{&#34;first&#34;, &#34;second&#34;, &#34;third&#34;}
+</span></span><span class=line><span class=cl>		tmpl := `Second element: {{ index . 1 }}`
+</span></span><span class=line><span class=cl>		渲染输出：Second element: second
+</span></span><span class=line><span class=cl>print
+</span></span><span class=line><span class=cl>    即fmt.Sprint
+</span></span><span class=line><span class=cl>printf
+</span></span><span class=line><span class=cl>    即fmt.Sprintf
+</span></span><span class=line><span class=cl>println
+</span></span><span class=line><span class=cl>    即fmt.Sprintln
+</span></span><span class=line><span class=cl>    主要用于格式化字符串,是go fmt.Sprintf函数的别名，前面的例子已经介绍。
+</span></span><span class=line><span class=cl>html
+</span></span><span class=line><span class=cl>    返回与其参数的文本表示形式等效的转义HTML。
+</span></span><span class=line><span class=cl>    将其参数作为安全的 HTML 输出。
+</span></span><span class=line><span class=cl>    这个函数在html/template中不可用。
+</span></span><span class=line><span class=cl>urlquery
+</span></span><span class=line><span class=cl>    以适合嵌入到网址查询中的形式返回其参数的文本表示的转义值。
+</span></span><span class=line><span class=cl>    将其参数编码为 URL 查询参数。
+</span></span><span class=line><span class=cl>    这个函数在html/template中不可用。
+</span></span><span class=line><span class=cl>    主要用于url编码。
+</span></span><span class=line><span class=cl>    	/search?keyword={{urlquery &#34;搜索关键词&#34;}}
+</span></span><span class=line><span class=cl>    	/search?keyword=%E6%90%9C%E7%B4%A2%E5%85%B3%E9%94%AE%E8%AF%8D
+</span></span><span class=line><span class=cl>js
+</span></span><span class=line><span class=cl>    返回与其参数的文本表示形式等效的转义JavaScript。
+</span></span><span class=line><span class=cl>    将其参数作为安全的 JavaScript 输出。
+</span></span><span class=line><span class=cl>    	{{ js &#34;&lt;script&gt;alert(&#39;Hello, World!&#39;);&lt;/script&gt;&#34; }}
+</span></span><span class=line><span class=cl>    	渲染输出：
+</span></span><span class=line><span class=cl>    	\u003Cscript\u003Ealert(\&#39;Hello, World!\&#39;);\u003C/script\u003E
+</span></span><span class=line><span class=cl>call
+</span></span><span class=line><span class=cl>	调用其第一个参数指定的函数，其余参数作为函数参数传递。
+</span></span><span class=line><span class=cl>    执行结果是调用第一个参数的返回值，该参数必须是函数类型，其余参数作为调用该函数的参数；
+</span></span><span class=line><span class=cl>    如&#34;call .X.Y 1 2&#34;等价于go语言里的dot.X.Y(1, 2)；
+</span></span><span class=line><span class=cl>    其中Y是函数类型的字段或者字典的值，或者其他类似情况；
+</span></span><span class=line><span class=cl>    call的第一个参数的执行结果必须是函数类型的值（和预定义函数如print明显不同）；
+</span></span><span class=line><span class=cl>    该函数类型值必须有1到2个返回值，如果有2个则后一个必须是error接口类型；
+</span></span><span class=line><span class=cl>    如果有2个返回值的方法返回的error非nil，模板执行会中断并返回给调用模板执行者该错误；
+</span></span></code></pre></td></tr></table></div></div><p>call示例(可以先看<a class=link href=#%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0>自定义模板函数</a>部分）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>sayHello</span><span class=p>(</span><span class=nx>name</span> <span class=kt>string</span><span class=p>)</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>fmt</span><span class=p>.</span><span class=nf>Sprintf</span><span class=p>(</span><span class=s>&#34;Hello, %s!&#34;</span><span class=p>,</span> <span class=nx>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span> <span class=o>:=</span> <span class=s>`</span><span class=cp>{{</span><span class=w> </span><span class=k>call</span><span class=w> </span><span class=na>.</span><span class=w> </span><span class=s>&#34;Gopher&#34;</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>    <span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Funcs</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nx>FuncMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;sayHello&#34;</span><span class=p>:</span> <span class=nx>sayHello</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>}).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>sayHello</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>Hello, Gopher!
+</span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=管道pipeline><a href=#%e7%ae%a1%e9%81%93pipeline class=header-anchor>#</a>
+管道(pipeline)</h3><p>pipeline 翻译过来可以称为管道或者流水线， pipeline运算的作用是将多个函数调用或者值串起来，从左往右执行，左边执行的结果会传递给右边，形成一个任务流水。</p><p>pipeline运算符：| (竖线)</p><p>语法格式:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>command1 <span class=p>|</span> command2 <span class=p>|</span> command3 ... 
+</span></span></code></pre></td></tr></table></div></div><p>command可以是一个值，也可以是一个函数。</p><p>示例1：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=p>{{</span> <span class=s>&#34;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;&#34;</span> <span class=p>|</span> <span class=nx>html</span> <span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里意思就是将第一个字符串值传递给html函数。</p><p>渲染将输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>&amp;lt;script&amp;gt;alert(&amp;#39;XSS&amp;#39;);&amp;lt;/script&amp;gt;
+</span></span></code></pre></td></tr></table></div></div><p>示例2：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>{{ &#34;关键词&#34; | html | urlquery }}
+</span></span></code></pre></td></tr></table></div></div><p>这个例子就是先将 <strong>&ldquo;关键词&rdquo;</strong> 传递给html函数转义下html标签，然后在将html执行结果传递给urlquery函数进行url编码。</p><p>渲染将输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>%E5%85%B3%E9%94%AE%E8%AF%8D
+</span></span></code></pre></td></tr></table></div></div><p>注意：如果函数有多个参数，pipeline运算会<strong>将值传递给函数的最后一个参数</strong>, 例如: <code>{{ 100 | printf "value=%d" }}</code>, 这里将100传递给printf函数的最后一个参数。</p><h3 id=自定义模板函数><a href=#%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0 class=header-anchor>#</a>
+自定义模板函数</h3><p>内置的模板函数使用有限，我们可以自己定义模板函数。</p><p><strong>步骤</strong>：</p><ol><li><p>创建自定义函数。</p></li><li><p>将自定义函数映射到模板引擎中。用<code>FuncMap</code>函数映射。本质是map类型。可以映射多个。</p><ul><li>键值都是自定义的函数名。</li></ul></li><li><p>最后调用<code>Funcs</code>方法，将映射添加到模板中。</p></li><li><p>注意请在解析前完成以上操作。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl> 	<span class=c1>// 创建模板并添加自定义函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Funcs</span><span class=p>(</span><span class=nx>funcMap</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 解析匹配指定模式的模板文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>t</span> <span class=p>=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>t</span><span class=p>.</span><span class=nf>ParseGlob</span><span class=p>(</span><span class=s>&#34;templates/*.tmpl&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>or</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 创建模板并解析
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Funcs</span><span class=p>(</span><span class=nx>funcMap</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;strings&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>ToUpper</span><span class=p>(</span><span class=nx>s</span> <span class=kt>string</span><span class=p>)</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>ToUpper</span><span class=p>(</span><span class=nx>s</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>Repeat</span><span class=p>(</span><span class=nx>word</span> <span class=kt>string</span><span class=p>,</span> <span class=nx>count</span> <span class=kt>int</span><span class=p>)</span> <span class=kt>string</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>strings</span><span class=p>.</span><span class=nf>Repeat</span><span class=p>(</span><span class=nx>word</span><span class=p>,</span> <span class=nx>count</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>Data</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Message</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Word</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>Count</span>   <span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>funcMap</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nx>FuncMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;ToUpper&#34;</span><span class=p>:</span> <span class=nx>ToUpper</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=s>&#34;Repeat&#34;</span><span class=p>:</span>  <span class=nx>Repeat</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`</span><span class=cp>{{</span><span class=w> </span><span class=nx>ToUpper</span><span class=w> </span><span class=na>.Message</span><span class=w> </span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s></span><span class=cp>{{</span><span class=w> </span><span class=nx>Repeat</span><span class=w> </span><span class=na>.Word</span><span class=w> </span><span class=na>.Count</span><span class=w> </span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=nx>Data</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span><span class=p>:</span> <span class=s>&#34;hello, world!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Word</span><span class=p>:</span>    <span class=s>&#34;Go&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Count</span><span class=p>:</span>   <span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Funcs</span><span class=p>(</span><span class=nx>funcMap</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Fail to execute template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go
+</span></span><span class=line><span class=cl>HELLO, WORLD!
+</span></span><span class=line><span class=cl>GoGoGo
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=修改默认的标识符><a href=#%e4%bf%ae%e6%94%b9%e9%bb%98%e8%ae%a4%e7%9a%84%e6%a0%87%e8%af%86%e7%ac%a6 class=header-anchor>#</a>
+修改默认的标识符</h2><p>Go标准库的模板引擎使用的花括号<code>{{</code>和<code>}}</code>作为标识，而许多前端框架（如<code>Vue</code>和 <code>AngularJS</code>）也使用<code>{{</code>和<code>}}</code>作为标识符，所以当我们同时使用Go语言模板引擎和以上前端框架时就会出现冲突，这个时候我们需要修改标识符，修改前端的或者修改Go语言的。这里演示如何修改Go语言模板引擎默认的标识符：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`{[ printf &#34;==%s==&#34; . ]}`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Delims</span><span class=p>(</span><span class=s>&#34;{[&#34;</span><span class=p>,</span> <span class=s>&#34;]}&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><p>用到的方法是<code>Delims</code>，分别接收两端的分隔符为参数。</p><hr><h2 id=补充><a href=#%e8%a1%a5%e5%85%85 class=header-anchor>#</a>
+补充</h2><h3 id=不转义html内容><a href=#%e4%b8%8d%e8%bd%ac%e4%b9%89html%e5%86%85%e5%ae%b9 class=header-anchor>#</a>
+不转义HTML内容</h3><p>如果你需要安全地显示用户输入的 HTML 内容，可以使用以下几种方法：</p><ol><li><p><strong>明确信任的内容</strong>：</p><ul><li><p>当我们使用<code>html/template</code>包渲染时，会自动转义HTML内容，如果不希望转义HTML内容，可以将要渲染的HTML内容定义为<code>template.HTML</code>类型（本质就是字符串），这样就不会自动转义HTML内容。</p></li><li><p>需要注意的是：对于完全可信的内容，才能使用 <code>template.HTML</code>，以防止XSS攻击。</p></li><li><p>对应的信任JavaScript类型<code>template.JS</code> ：不会自动转义为安全的js代码。</p></li><li><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>//&#34;text/template&#34;
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>&#34;Hello, {{.Name}}! Your message is: {{.Message}}&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span> <span class=nx>template</span><span class=p>.</span><span class=nx>HTML</span>
+</span></span><span class=line><span class=cl>	<span class=p>}{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span><span class=p>:</span>    <span class=s>&#34;World&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span><span class=p>:</span> <span class=s>&#34;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Parsing template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;Excuting templete: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ go run main.go
+</span></span><span class=line><span class=cl>Hello, World! Your message is: &lt;script&gt;alert<span class=o>(</span><span class=s1>&#39;XSS&#39;</span><span class=o>)</span><span class=p>;</span>&lt;/script&gt;
+</span></span></code></pre></td></tr></table></div></div></li></ul></li><li><p><strong>使用 HTML 白名单</strong>：</p><ul><li><p>如果用户提供的内容需要部分 HTML 标签，可以使用 HTML 解析库将用户输入的内容过滤，只允许特定的标签和属性通过。这可以使用第三方库如 <a class=link href=https://github.com/microcosm-cc/bluemonday target=_blank rel=noopener>bluemonday</a> 来实现。</p></li><li><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/microcosm-cc/bluemonday&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>sanitizeHTML</span><span class=p>(</span><span class=nx>input</span> <span class=kt>string</span><span class=p>)</span> <span class=nx>template</span><span class=p>.</span><span class=nx>HTML</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>p</span> <span class=o>:=</span> <span class=nx>bluemonday</span><span class=p>.</span><span class=nf>UGCPolicy</span><span class=p>()</span> <span class=c1>// 使用默认的用户生成内容策略
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>sanitized</span> <span class=o>:=</span> <span class=nx>p</span><span class=p>.</span><span class=nf>Sanitize</span><span class=p>(</span><span class=nx>input</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>template</span><span class=p>.</span><span class=nf>HTML</span><span class=p>(</span><span class=nx>sanitized</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`Hello, </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>! Your message is: </span><span class=cp>{{</span><span class=na>.Message</span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span> <span class=nx>template</span><span class=p>.</span><span class=nx>HTML</span>
+</span></span><span class=line><span class=cl>	<span class=p>}{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;World&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span><span class=p>:</span> <span class=nf>sanitizeHTML</span><span class=p>(</span><span class=s>&#34;&lt;strong&gt;Bold Text&lt;/strong&gt;&#34;</span> <span class=o>+</span>
+</span></span><span class=line><span class=cl>			<span class=s>&#34;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;parsing template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;executing template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=err>$</span> <span class=k>go</span> <span class=nx>run</span> <span class=nx>main</span><span class=p>.</span><span class=k>go</span> 
+</span></span><span class=line><span class=cl><span class=nx>Hello</span><span class=p>,</span> <span class=nx>World</span><span class=p>!</span> <span class=nx>Your</span> <span class=nx>message</span> <span class=nx>is</span><span class=p>:</span> <span class=p>&lt;</span><span class=nx>strong</span><span class=p>&gt;</span><span class=nx>Bold</span> <span class=nx>Text</span><span class=p>&lt;</span><span class=o>/</span><span class=nx>strong</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div></li></ul></li><li><p><strong>使用 Markdown</strong>：</p><ul><li><p>另一种方式是使用 Markdown，将用户输入的 Markdown 转换为安全的 HTML。这种方式适用于允许用户使用简单标记语言格式化内容的场景。用到的第三方库是<a class=link href=https://github.com/russross/blackfriday target=_blank rel=noopener>blackfriday</a>。</p></li><li><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;github.com/russross/blackfriday/v2&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>markdownToHTML</span><span class=p>(</span><span class=nx>input</span> <span class=kt>string</span><span class=p>)</span> <span class=nx>template</span><span class=p>.</span><span class=nx>HTML</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>output</span> <span class=o>:=</span> <span class=nx>blackfriday</span><span class=p>.</span><span class=nf>Run</span><span class=p>([]</span><span class=nb>byte</span><span class=p>(</span><span class=nx>input</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nx>template</span><span class=p>.</span><span class=nf>HTML</span><span class=p>(</span><span class=nx>output</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`Hello, </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>! Your message is: </span><span class=cp>{{</span><span class=na>.Message</span><span class=cp>}}</span><span class=s>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span> <span class=nx>template</span><span class=p>.</span><span class=nx>HTML</span>
+</span></span><span class=line><span class=cl>	<span class=p>}{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;World&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Message</span><span class=p>:</span> <span class=nf>markdownToHTML</span><span class=p>(</span><span class=s>&#34;**Bold Text**\n\n&#34;</span> <span class=o>+</span>
+</span></span><span class=line><span class=cl>			<span class=s>&#34;&lt;script&gt;alert(&#39;XSS&#39;);&lt;/script&gt;&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>t</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;parsing template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>err</span> <span class=p>=</span> <span class=nx>t</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatalf</span><span class=p>(</span><span class=s>&#34;executing template: %s&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行输出：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=err>$</span> <span class=k>go</span> <span class=nx>run</span> <span class=nx>main</span><span class=p>.</span><span class=k>go</span> 
+</span></span><span class=line><span class=cl><span class=nx>Hello</span><span class=p>,</span> <span class=nx>World</span><span class=p>!</span> <span class=nx>Your</span> <span class=nx>message</span> <span class=nx>is</span><span class=p>:</span> <span class=p>&lt;</span><span class=nx>p</span><span class=p>&gt;&lt;</span><span class=nx>strong</span><span class=p>&gt;</span><span class=nx>Bold</span> <span class=nx>Text</span><span class=p>&lt;</span><span class=o>/</span><span class=nx>strong</span><span class=p>&gt;&lt;</span><span class=o>/</span><span class=nx>p</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nx>p</span><span class=p>&gt;&lt;</span><span class=nx>script</span><span class=p>&gt;</span><span class=nf>alert</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>lsquo</span><span class=p>;</span><span class=nx>XSS</span><span class=o>&amp;</span><span class=nx>rsquo</span><span class=p>;);&lt;</span><span class=o>/</span><span class=nx>script</span><span class=p>&gt;&lt;</span><span class=o>/</span><span class=nx>p</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，任何脚本标签或其他潜在的 XSS 攻击内容都会被转义，确保生成的 HTML 是安全的。</p></li></ul></li></ol><p><strong>总结</strong></p><ul><li><strong>明确信任的内容</strong>：对于完全可信的内容，使用 <code>template.HTML</code>。</li><li><strong>使用 HTML 白名单</strong>：使用 HTML 解析库，如 <code>bluemonday</code>，过滤用户输入，只允许特定的标签和属性。</li><li><strong>使用 Markdown</strong>：将用户输入的 Markdown 转换为安全的 HTML，避免直接嵌入用户提供的 HTML。</li></ul><p>这几种方法可以在保证安全性的前提下，允许一定程度的 HTML 内容显示。选择具体方法时，应根据应用场景和安全需求做出适当选择。</p><hr><h2 id=参考><a href=#%e5%8f%82%e8%80%83 class=header-anchor>#</a>
+参考</h2><blockquote><ol><li><a class=link href=https://www.tizi365.com/archives/85.html target=_blank rel=noopener>Golang模板引擎快速入门教程</a></li><li><a class=link href=https://www.liwenzhou.com/posts/Go/template/ target=_blank rel=noopener>Go语言标准库之http/template</a></li></ol></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/go%E6%A0%87%E5%87%86%E5%BA%93/>Go标准库</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section><section class=article-lastmod><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>最后更新于 Jun 04, 2024 14:00 +0800</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go调用外部命令os/exec库介绍</h2></div></a></article><article><a href=/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/><div class=article-details><h2 class=article-title>Go flag库介绍</h2></div></a></article><article><a href=/p/openapi-and-swagger-introduction/><div class=article-details><h2 class=article-title>Openapi And Swagger Introduction</h2></div></a></article><article><a href=/p/gin-introduction/><div class=article-details><h2 class=article-title>Gin Introduction</h2></div></a></article><article><a href=/p/go-code-style-guide-introduction/><div class=article-details><h2 class=article-title>Go Code Style Guide Introduction</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({copyright:!1,dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo"],lang:"zh-cn",locale:{admin:"👻Hi!",placeholder:"🎉留下你的脚印..."},pageview:!0,requiredMeta:["name","email"],serverURL:"https://waline.trojan123.top/"})</script><footer class=site-footer><section class=copyright>Copyright &copy;
 2020 -
 2024 <b><a href=https://github.com/arlettebrook target=_blank rel=noopener>@Arlettebrook</a></b></section><section class=powerby>博客内容遵循<b><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-hans target=_blank rel=noopener> 知识共享 署名-非商业性-相同方式共享4.0国际协议</a></b><br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.25.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>

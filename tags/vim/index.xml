@@ -752,7 +752,7 @@ data-flex-basis="426px"
 自定义快捷键
 &lt;/h3>&lt;p>在Vim中自定义快捷键，其实就创建快捷键与命令之间的映射关系。&lt;/p>
 &lt;p>用到的命令是&lt;code>map&lt;/code>或&lt;code>noremap&lt;/code>。注意：要将命令配置在&lt;code>.vimrc&lt;/code>中。&lt;/p>
-&lt;p>格式：&lt;code>映射命令 快捷键 命令&lt;/code>，中间用空格分隔开。&lt;/p>
+&lt;p>格式：&lt;code>映射命令 自定义快捷键 命令&lt;/code>，中间用空格分隔开。&lt;/p>
 &lt;p>前面有&lt;code>n, i, v, c&lt;/code>中的任意一个字符表示对应的模式。如&lt;code>nmap&lt;/code>或&lt;code>nnoremap&lt;/code>表示Normal模式下的映射关系。没有表示所有模式的映射关系。&lt;/p>
 &lt;p>&lt;strong>二者区别&lt;/strong>：&lt;/p>
 &lt;ul>
@@ -781,24 +781,55 @@ data-flex-basis="426px"
 &lt;p>看需求使用，是否需要递归映射。没有需求推荐使用&lt;code>noremap&lt;/code>创建映射，防止映射多了，递归解析，导致无限循环或意外行为。&lt;/p>
 &lt;/li>
 &lt;/ul>
+&lt;p>注意事项：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>当自定义的快捷键与vim预定义的快捷键冲突时，自定义的快捷键会覆盖预定义的快捷键。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>查看自定义的快捷键&lt;code>:map&lt;/code>。或者查看&lt;code>.vimrc&lt;/code>。&lt;/p>
+&lt;ul>
+&lt;li>使用 &lt;code>:verbose map&lt;/code> 命令可以查看详细的映射信息，包括映射是在哪里定义的。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>取消自定义的快捷键：在自定义快捷键的后面添加&lt;code>u+自定义的快捷键&lt;/code>。如&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">nnoremap ,y &lt;span class="s2">&amp;#34;*yy # 自定义快捷键
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">unnoremap ,y # 取消快捷键
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
 &lt;p>&lt;strong>常用键表示法&lt;/strong>&lt;/p>
 &lt;ol>
-&lt;li>&lt;strong>普通字符&lt;/strong>：
+&lt;li>
+&lt;p>&lt;strong>普通字符&lt;/strong>：&lt;/p>
 &lt;ul>
 &lt;li>直接输入字母、数字、符号。例如：&lt;code>a&lt;/code>, &lt;code>b&lt;/code>, &lt;code>1&lt;/code>, &lt;code>2&lt;/code>, &lt;code>#&lt;/code>, &lt;code>*&lt;/code>。&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>&lt;strong>控制键&lt;/strong>：
+&lt;li>
+&lt;p>&lt;strong>控制键&lt;/strong>：&lt;/p>
 &lt;ul>
 &lt;li>使用 &lt;code>&amp;lt;Ctrl&amp;gt;&lt;/code>（或 &lt;code>&amp;lt;C&amp;gt;&lt;/code>）表示控制键。例如：&lt;code>&amp;lt;C-a&amp;gt;&lt;/code> 表示 &lt;code>Ctrl+a&lt;/code>。&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>&lt;strong>功能键&lt;/strong>：
+&lt;li>
+&lt;p>&lt;strong>功能键&lt;/strong>：&lt;/p>
 &lt;ul>
 &lt;li>使用 &lt;code>&amp;lt;F1&amp;gt;&lt;/code> 到 &lt;code>&amp;lt;F12&amp;gt;&lt;/code> 表示功能键。例如：&lt;code>&amp;lt;F2&amp;gt;&lt;/code> 表示功能键 &lt;code>F2&lt;/code>。&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>&lt;strong>特殊键&lt;/strong>：
+&lt;li>
+&lt;p>&lt;strong>特殊键&lt;/strong>：&lt;/p>
 &lt;ul>
 &lt;li>使用尖括号包围的特殊键表示法。例如：
 &lt;ul>
@@ -816,10 +847,39 @@ data-flex-basis="426px"
 &lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>&lt;strong>组合键&lt;/strong>：
+&lt;li>
+&lt;p>&lt;strong>组合键&lt;/strong>：&lt;/p>
 &lt;ul>
 &lt;li>可以组合使用。例如：&lt;code>&amp;lt;C-Space&amp;gt;&lt;/code> 表示 &lt;code>Ctrl+Space&lt;/code>，&lt;code>&amp;lt;C-Left&amp;gt;&lt;/code> 表示 &lt;code>Ctrl+Left&lt;/code>。&lt;/li>
 &lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Leader&lt;/strong> 键&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>使用 &lt;code>&amp;lt;leader&amp;gt;&lt;/code> 键可以避免与默认快捷键冲突。默认情况下，&lt;code>&amp;lt;leader&amp;gt;&lt;/code> 键是反斜杠 &lt;code>\&lt;/code>，但你可以在 &lt;code>.vimrc&lt;/code> 中重新定义它：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">let&lt;/span> &lt;span class="nv">mapleader&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;,&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>然后你可以使用 &lt;code>&amp;lt;leader&amp;gt;&lt;/code> 键创建自定义快捷键：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">nnoremap &amp;lt;leader&amp;gt;y &lt;span class="s2">&amp;#34;*yy
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样，你的自定义快捷键将使用 &lt;code>,y&lt;/code> 来触发，并且&lt;code>&amp;lt;leader&amp;gt;&lt;/code>可以更改为你喜欢但不冲突的键。逗号跟反斜杠就是，不过我更喜欢用逗号。&lt;/p>
+&lt;/li>
+&lt;/ol>
 &lt;/li>
 &lt;/ol>
 &lt;p>示例：在vim中没有快捷键删除光标后面的字符。我们来自定义映射实现：&lt;/p>
@@ -870,7 +930,29 @@ data-flex-basis="426px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>通过上面的命令，我们实现了终端在Emacs模式下的&lt;code>ctrl-k&lt;/code>快捷键。但是只能在vim中使用，并且vim版本需要支持表达式寄存器。&lt;/p>
-&lt;p>如果终端的编辑模式为vi，依旧不能解决问题。在insert模式下不能使用&lt;code>ctl-k&lt;/code>快捷键。需要修改终端的映射关系&lt;code>.inputrc&lt;/code>。不过够用了。&lt;/p></description></item><item><title>Vim Common Commands</title><link>https://arlettebrook.github.io/p/vim-common-commands/</link><pubDate>Mon, 27 May 2024 00:43:37 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-common-commands/</guid><description>&lt;hr>
+&lt;p>如果终端的编辑模式为vi，依旧不能解决问题。在insert模式下不能使用&lt;code>ctl-k&lt;/code>快捷键。需要修改终端的映射关系&lt;code>.inputrc&lt;/code>。不过够用了。&lt;/p>
+&lt;p>示例：&lt;strong>配置复制、粘贴、剪切快捷键&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 配置复制、粘贴、剪切
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">vnoremap &amp;lt;C-c&amp;gt; &amp;#34;&lt;/span>*y
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">inoremap &amp;lt;C-v&amp;gt; &amp;lt;C-r&amp;gt;*
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cnoremap &amp;lt;C-v&amp;gt; &amp;lt;C-r&amp;gt;*
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vnoremap &amp;lt;C-v&amp;gt; &lt;span class="s2">&amp;#34;*p
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">vnoremap &amp;lt;C-x&amp;gt; &amp;#34;&lt;/span>*d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>需要注意的是不要配置普通模式下的&lt;code>ctrl-v&lt;/code>，它是可视块的快捷键，可以配置visual模式的，需要按两次才能粘贴。不过够用了。&lt;/p>
+&lt;p>&lt;strong>命令参考&lt;/strong>：&lt;a class="link" href="https://arlettebrook.github.io/p/vim-common-commands/" target="_blank" rel="noopener"
+>Vim Common Commands&lt;/a>&lt;/p></description></item><item><title>Vim Common Commands</title><link>https://arlettebrook.github.io/p/vim-common-commands/</link><pubDate>Mon, 27 May 2024 00:43:37 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-common-commands/</guid><description>&lt;hr>
 &lt;h2 id="简介">
 &lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
 简介
@@ -1572,10 +1654,27 @@ vim常用命令总结
 &lt;p>&lt;code>M&lt;/code>光标移动到屏幕中间。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;code>{&lt;/code>向上移动一个段落。&lt;/p>
+&lt;p>&lt;code>(&lt;/code>向上移动到句子的开头&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>)&lt;/code>向下移动到句子的开头&lt;/li>
+&lt;/ol>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;code>}&lt;/code>向下移动一个段落。&lt;/p>
+&lt;p>&lt;code>{&lt;/code>向上移动到段落的开头。&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>}&lt;/code>向下移动到段落的开头。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>da(&lt;/code>删除括号及括号内的内容。括号可以换成&lt;code>&amp;quot;, ', (, ), {, }, [, ].&lt;/code>中的一个，删除对应的括号。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;code>di(&lt;/code>删除不包括括号。括号可以换成&lt;code>&amp;quot;, ', (, ), {, }, [, ].&lt;/code>中的一个，删除对应的括号内容。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>i不包括括号，a包括括号。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;/ol>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;code>&amp;gt;&amp;gt;&lt;/code>向后缩进光标所在行。&lt;/p>
@@ -1722,8 +1821,8 @@ vim常用命令总结
 &lt;li>
 &lt;p>i与a的区别：&lt;/p>
 &lt;ul>
-&lt;li>对于空格i会忽略，a会保留&lt;strong>后面&lt;/strong>的使用空格。&lt;/li>
-&lt;li>其他字符：i不包括，a包括。&lt;/li>
+&lt;li>&lt;strong>对于空格&lt;/strong>i会忽略，a会保留&lt;strong>后面&lt;/strong>的使用空格。&lt;/li>
+&lt;li>其他字符：&lt;strong>i不包括，a包括。&lt;/strong>&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
@@ -1761,9 +1860,11 @@ vim常用命令总结
 &lt;/ul>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;code>v2i)&lt;/code> → 会选择 &lt;code>map (+) (&amp;quot;foo&amp;quot;)&lt;/code>&lt;/p>
+&lt;p>&lt;code>v2i)&lt;/code> → 会选择 &lt;code>map (+) (&amp;quot;foo&amp;quot;)&lt;/code>.&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>v2a)&lt;/code> → 会选择 &lt;code>(map (+) (&amp;quot;foo&amp;quot;))&lt;/code>&lt;/li>
+&lt;li>&lt;code>v2a)&lt;/code> → 会选择 &lt;code>(map (+) (&amp;quot;foo&amp;quot;))&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
@@ -1775,13 +1876,16 @@ vim常用命令总结
 &lt;li>
 &lt;p>&lt;code>va&amp;quot;&lt;/code> → 会选择 &lt;code>&amp;quot;foo&amp;quot;&lt;/code>.&lt;/p>
 &lt;/li>
-&lt;/ul>
+&lt;li>
+&lt;p>&lt;code>vi)&lt;/code> → 会选择 &lt;code>map (+) (&amp;quot;foo&amp;quot;)&lt;/code>.&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;code>vi)&lt;/code> → 会选择 &lt;code>map (+) (&amp;quot;foo&amp;quot;)&lt;/code>&lt;/p>
+&lt;p>&lt;code>va(&lt;/code> → 会选择 &lt;code>(map (+) (&amp;quot;foo&amp;quot;))&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>v2i)&lt;/code>、&lt;code>v2a)&lt;/code>两个无法选中，不会向内查找。&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>va(&lt;/code> → 会选择 &lt;code>(map (+) (&amp;quot;foo&amp;quot;))&lt;/code>.&lt;/li>
-&lt;li>&lt;code>v2i)&lt;/code>、&lt;code>v2a)&lt;/code>两个无法选中，不会向内查找。只有&lt;code>&amp;quot;&lt;/code>会。&lt;/li>
+&lt;li>只有&lt;code>&amp;quot;&lt;/code>会。并不考虑数量。&lt;code>v2i&amp;quot;&lt;/code>→ 会选择 &lt;code>foo&lt;/code>, 与&lt;code>vi&amp;quot;&lt;/code>等效。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
@@ -1789,7 +1893,7 @@ vim常用命令总结
 &lt;/ul>
 &lt;/li>
 &lt;li>
-&lt;p>可视（VISUAL)模式操作：&lt;/p>
+&lt;p>可视（VISUAL）模式操作：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>ctrl+v&lt;/code>进入可视模式的块模式（Windows占用，用&lt;code>ctrl+q&lt;/code>代替）。&lt;code>v&lt;/code>字符模式，&lt;code>V&lt;/code>行模式。&lt;/li>
 &lt;li>以上模式可以配合其他移动动作使用，如&lt;code>0&lt;/code>, &lt;code>ctrl+f&lt;/code> , &lt;code>$&lt;/code>方便选择。如：
