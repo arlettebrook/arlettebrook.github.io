@@ -1,9 +1,9 @@
 <!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Go标准库之模版渲染介绍。"><title>Template Introduction</title>
 <link rel=canonical href=https://arlettebrook.github.io/p/template-introduction/><link rel=stylesheet href=/scss/style.min.59d76563977ef6a76d0c7df16aa86c7ac37ed8942ba1442046cb6cf3b07439d7.css><meta property='og:title' content="Template Introduction"><meta property='og:description' content="Go标准库之模版渲染介绍。"><meta property='og:url' content='https://arlettebrook.github.io/p/template-introduction/'><meta property='og:site_name' content="Arlettebrook's blog"><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Go标准库'><meta property='article:published_time' content='2024-05-26T14:00:53+08:00'><meta property='article:modified_time' content='2024-06-04T14:00:53+08:00'><meta name=twitter:site content="@arlettebrook"><meta name=twitter:creator content="@arlettebrook"><meta name=twitter:title content="Template Introduction"><meta name=twitter:description content="Go标准库之模版渲染介绍。"><link rel="shortcut icon" href=/img/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-9MKLLVPEER"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-9MKLLVPEER")}</script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar style=position:sticky;top:5px;z-index:1000><a href=/ class=back-home><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
-<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#快速使用>快速使用</a></li><li><a href=#template介绍>template介绍</a></li><li><a href=#template使用>template使用</a><ol><li><a href=#渲染template对象>渲染Template对象</a></li><li><a href=#创建template对象>创建Template对象</a></li></ol></li><li><a href=#模板语法介绍>模板语法介绍</a><ol><li><a href=#基础语法>基础语法</a></li><li><a href=#流程控制语句>流程控制语句</a><ol><li><a href=#条件判断>条件判断</a></li><li><a href=#循环>循环</a></li><li><a href=#变量声明with-define-block>变量声明（<code>with</code>, <code>define</code>, <code>block</code>）</a></li></ol></li></ol></li><li><a href=#模板函数介绍>模板函数介绍</a><ol><li><a href=#模板函数调用语法>模板函数调用语法</a></li><li><a href=#预定义模板函数>预定义模板函数</a></li><li><a href=#管道pipeline>管道(pipeline)</a></li><li><a href=#自定义模板函数>自定义模板函数</a></li></ol></li><li><a href=#修改默认的标识符>修改默认的标识符</a></li><li><a href=#补充>补充</a><ol><li><a href=#不转义html内容>不转义HTML内容</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#f97300;color:#fff>Go
+<span>返回</span></a></div><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#快速使用>快速使用</a></li><li><a href=#template介绍>template介绍</a></li><li><a href=#template使用>template使用</a><ol><li><a href=#渲染template对象>渲染Template对象</a></li><li><a href=#创建template对象>创建Template对象</a></li></ol></li><li><a href=#模板语法介绍>模板语法介绍</a><ol><li><a href=#基础语法>基础语法</a></li><li><a href=#流程控制语句>流程控制语句</a><ol><li><a href=#条件判断>条件判断</a></li><li><a href=#循环>循环</a></li><li><a href=#变量声明with-define-block>变量声明（<code>with</code>, <code>define</code>, <code>block</code>）</a></li></ol></li></ol></li><li><a href=#模板函数介绍>模板函数介绍</a><ol><li><a href=#模板函数调用语法>模板函数调用语法</a></li><li><a href=#预定义模板函数>预定义模板函数</a></li><li><a href=#管道pipeline>管道(pipeline)</a></li><li><a href=#自定义模板函数>自定义模板函数</a></li></ol></li><li><a href=#修改默认的标识符>修改默认的标识符</a></li><li><a href=#应用>应用</a><ol><li><a href=#总结>总结</a></li></ol></li><li><a href=#补充>补充</a><ol><li><a href=#不转义html内容>不转义HTML内容</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/go/ style=background-color:#f97300;color:#fff>Go
 </a><a href=/categories/%E7%BC%96%E7%A8%8B/ style=background-color:#41b06e;color:#fff>编程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/template-introduction/>Template Introduction</a></h2><h3 class=article-subtitle>Go标准库之模版渲染介绍。</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
 <time class=article-time--published>May 26, 2024</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<time class=article-time--reading>阅读时长: 24 分钟</time></div></footer></div></header><section class=article-content><hr><blockquote><p>模板渲染是指根据特定的<strong>模板语法</strong>，将这些模板渲染成文本，通常用于生成 <strong>HTML</strong>、<strong>邮件</strong>、<strong>配置文件</strong>等。在Go语言中提供了两个标准库来渲染模板，它们都具有相同的模板语法，分别是<code>text/template</code> 和 <code>html/template</code> ，接下来将介绍这两个标准库如何使用。</p></blockquote><hr><h2 id=快速使用><a href=#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
+<time class=article-time--reading>阅读时长: 26 分钟</time></div></footer></div></header><section class=article-content><hr><blockquote><p>模板渲染是指根据特定的<strong>模板语法</strong>，将这些模板渲染成文本，通常用于生成 <strong>HTML</strong>、<strong>邮件</strong>、<strong>配置文件</strong>等。在Go语言中提供了两个标准库来渲染模板，它们都具有相同的模板语法，分别是<code>text/template</code> 和 <code>html/template</code> ，接下来将介绍这两个标准库如何使用。</p></blockquote><hr><h2 id=快速使用><a href=#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8 class=header-anchor>#</a>
 快速使用</h2><p>二者都是go语言的标准库，直接使用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -1419,7 +1419,485 @@ block</h5><p><code>block</code>语句用于定义一个<strong>可重写的模�
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl>	<span class=kd>const</span> <span class=nx>tmpl</span> <span class=p>=</span> <span class=s>`{[ printf &#34;==%s==&#34; . ]}`</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=nx>t</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>Must</span><span class=p>(</span><span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;example&#34;</span><span class=p>).</span><span class=nf>Delims</span><span class=p>(</span><span class=s>&#34;{[&#34;</span><span class=p>,</span> <span class=s>&#34;]}&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=nx>tmpl</span><span class=p>))</span>
-</span></span></code></pre></td></tr></table></div></div><p>用到的方法是<code>Delims</code>，分别接收两端的分隔符为参数。</p><hr><h2 id=补充><a href=#%e8%a1%a5%e5%85%85 class=header-anchor>#</a>
+</span></span></code></pre></td></tr></table></div></div><p>用到的方法是<code>Delims</code>，分别接收两端的分隔符为参数。</p><hr><h2 id=应用><a href=#%e5%ba%94%e7%94%a8 class=header-anchor>#</a>
+应用</h2><p>在Go语言中，<code>text/template</code>和<code>html/template</code>包用于生成文本和HTML输出，常见的应用场景如下：</p><p><strong><code>text/template</code>包</strong>：</p><ol><li><p><strong>生成配置文件</strong>：</p><p>通过模板生成动态配置文件，如YAML、JSON等格式，用于不同环境的配置管理。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;config&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>    apiVersion: v1
+</span></span></span><span class=line><span class=cl><span class=s>    kind: ConfigMap
+</span></span></span><span class=line><span class=cl><span class=s>    metadata:
+</span></span></span><span class=line><span class=cl><span class=s>      name: </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    data:
+</span></span></span><span class=line><span class=cl><span class=s>      key: </span><span class=cp>{{</span><span class=na>.Value</span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    `</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span>  <span class=kt>string</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Value</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=p>}{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span><span class=p>:</span>  <span class=s>&#34;example-config&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Value</span><span class=p>:</span> <span class=s>&#34;example-value&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>生成代码</strong>：</p><p>自动生成代码文件，如生成CRUD代码、接口实现代码等。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;crud&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>    package main
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    type </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s> struct {
+</span></span></span><span class=line><span class=cl><span class=s>        ID int
+</span></span></span><span class=line><span class=cl><span class=s>        Name string
+</span></span></span><span class=line><span class=cl><span class=s>    }
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    func (</span><span class=cp>{{</span><span class=na>.Receiver</span><span class=cp>}}</span><span class=s> *</span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>) Create() {
+</span></span></span><span class=line><span class=cl><span class=s>        // Create logic
+</span></span></span><span class=line><span class=cl><span class=s>    }
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    func (</span><span class=cp>{{</span><span class=na>.Receiver</span><span class=cp>}}</span><span class=s> *</span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>) Read() {
+</span></span></span><span class=line><span class=cl><span class=s>        // Read logic
+</span></span></span><span class=line><span class=cl><span class=s>    }
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    func (</span><span class=cp>{{</span><span class=na>.Receiver</span><span class=cp>}}</span><span class=s> *</span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>) Update() {
+</span></span></span><span class=line><span class=cl><span class=s>        // Update logic
+</span></span></span><span class=line><span class=cl><span class=s>    }
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    func (</span><span class=cp>{{</span><span class=na>.Receiver</span><span class=cp>}}</span><span class=s> *</span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>) Delete() {
+</span></span></span><span class=line><span class=cl><span class=s>        // Delete logic
+</span></span></span><span class=line><span class=cl><span class=s>    }
+</span></span></span><span class=line><span class=cl><span class=s>    `</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span>     <span class=kt>string</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Receiver</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=p>}{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span><span class=p>:</span>     <span class=s>&#34;User&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Receiver</span><span class=p>:</span> <span class=s>&#34;u&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>生成文档</strong>：</p><p>生成报告、邮件、日志等文本文件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;text/template&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;report&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>    Report:
+</span></span></span><span class=line><span class=cl><span class=s>    Name: </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    Date: </span><span class=cp>{{</span><span class=na>.Date</span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    Summary: </span><span class=cp>{{</span><span class=na>.Summary</span><span class=cp>}}</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    `</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Date</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Summary</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=p>}{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span><span class=p>:</span>    <span class=s>&#34;John Doe&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Date</span><span class=p>:</span>    <span class=s>&#34;2024-06-10&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Summary</span><span class=p>:</span> <span class=s>&#34;This is a summary of the report.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><p><strong><code>html/template</code>包</strong>：</p><p><code>html/template</code>包专门用于生成安全的HTML内容，防止XSS（跨站脚本攻击）。以下是一些常见应用：</p><ol><li><p><strong>生成动态网页</strong>：</p><p>根据用户输入或数据库内容动态生成HTML页面，适用于Web应用的前端展示。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/http&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>type</span> <span class=nx>User</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Name</span>  <span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Email</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>handler</span><span class=p>(</span><span class=nx>w</span> <span class=nx>http</span><span class=p>.</span><span class=nx>ResponseWriter</span><span class=p>,</span> <span class=nx>r</span> <span class=o>*</span><span class=nx>http</span><span class=p>.</span><span class=nx>Request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;user&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;!DOCTYPE html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;head&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;title&gt;User Page&lt;/title&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/head&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;body&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;h1&gt;Hello, </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>&lt;/h1&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;p&gt;Email: </span><span class=cp>{{</span><span class=na>.Email</span><span class=cp>}}</span><span class=s>&lt;/p&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/body&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    `</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>http</span><span class=p>.</span><span class=nf>Error</span><span class=p>(</span><span class=nx>w</span><span class=p>,</span> <span class=nx>err</span><span class=p>.</span><span class=nf>Error</span><span class=p>(),</span> <span class=nx>http</span><span class=p>.</span><span class=nx>StatusInternalServerError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>user</span> <span class=o>:=</span> <span class=nx>User</span><span class=p>{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Alice&#34;</span><span class=p>,</span> <span class=nx>Email</span><span class=p>:</span> <span class=s>&#34;alice@example.com&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>w</span><span class=p>,</span> <span class=nx>user</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>http</span><span class=p>.</span><span class=nf>Error</span><span class=p>(</span><span class=nx>w</span><span class=p>,</span> <span class=nx>err</span><span class=p>.</span><span class=nf>Error</span><span class=p>(),</span> <span class=nx>http</span><span class=p>.</span><span class=nx>StatusInternalServerError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>http</span><span class=p>.</span><span class=nf>HandleFunc</span><span class=p>(</span><span class=s>&#34;/&#34;</span><span class=p>,</span> <span class=nx>handler</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>http</span><span class=p>.</span><span class=nf>ListenAndServe</span><span class=p>(</span><span class=s>&#34;:8080&#34;</span><span class=p>,</span> <span class=kc>nil</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>生成邮件内容</strong>：</p><p>生成包含HTML格式的邮件内容，用于发送动态邮件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;bytes&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;fmt&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;net/smtp&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;email&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;body&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;h1&gt;Hello, </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>&lt;/h1&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;p&gt;Thank you for joining our service.&lt;/p&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/body&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    `</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>body</span> <span class=nx>bytes</span><span class=p>.</span><span class=nx>Buffer</span>
+</span></span><span class=line><span class=cl>    <span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=p>}{</span><span class=nx>Name</span><span class=p>:</span> <span class=s>&#34;Alice&#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=o>&amp;</span><span class=nx>body</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>auth</span> <span class=o>:=</span> <span class=nx>smtp</span><span class=p>.</span><span class=nf>PlainAuth</span><span class=p>(</span><span class=s>&#34;&#34;</span><span class=p>,</span> <span class=s>&#34;your-email@example.com&#34;</span><span class=p>,</span> <span class=s>&#34;your-email-password&#34;</span><span class=p>,</span> <span class=s>&#34;smtp.example.com&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>smtp</span><span class=p>.</span><span class=nf>SendMail</span><span class=p>(</span><span class=s>&#34;smtp.example.com:587&#34;</span><span class=p>,</span> <span class=nx>auth</span><span class=p>,</span> <span class=s>&#34;your-email@example.com&#34;</span><span class=p>,</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;recipient@example.com&#34;</span><span class=p>},</span> <span class=nx>body</span><span class=p>.</span><span class=nf>Bytes</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=s>&#34;Email sent successfully!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p><strong>生成HTML报告</strong>：</p><p>根据模板生成包含动态内容的HTML报告，适用于生成分析结果、统计数据展示等。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;html/template&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tmpl</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>template</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;report&#34;</span><span class=p>).</span><span class=nf>Parse</span><span class=p>(</span><span class=s>`
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;!DOCTYPE html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;head&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;title&gt;Report&lt;/title&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/head&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;body&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;h1&gt;Report Summary&lt;/h1&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;p&gt;Name: </span><span class=cp>{{</span><span class=na>.Name</span><span class=cp>}}</span><span class=s>&lt;/p&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;p&gt;Date: </span><span class=cp>{{</span><span class=na>.Date</span><span class=cp>}}</span><span class=s>&lt;/p&gt;
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;p&gt;Summary: </span><span class=cp>{{</span><span class=na>.Summary</span><span class=cp>}}</span><span class=s>&lt;/p&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/body&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    &lt;/html&gt;
+</span></span></span><span class=line><span class=cl><span class=s>    `</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>data</span> <span class=o>:=</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Date</span>    <span class=kt>string</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Summary</span> <span class=kt>string</span>
+</span></span><span class=line><span class=cl>    <span class=p>}{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Name</span><span class=p>:</span>    <span class=s>&#34;John Doe&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Date</span><span class=p>:</span>    <span class=s>&#34;2024-06-10&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>Summary</span><span class=p>:</span> <span class=s>&#34;This is a summary of the report.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=p>=</span> <span class=nx>tmpl</span><span class=p>.</span><span class=nf>Execute</span><span class=p>(</span><span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nb>panic</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><h3 id=总结><a href=#%e6%80%bb%e7%bb%93 class=header-anchor>#</a>
+总结</h3><ul><li><code>text/template</code>主要用于生成纯文本内容，如配置文件、代码、文档等。</li><li><code>html/template</code>主要用于生成安全的HTML内容，如动态网页、邮件内容、HTML报告等。</li></ul><p>这两个包都通过模板提供了强大的文本处理功能，可以根据需要选择适用的包来生成所需的输出。</p><hr><h2 id=补充><a href=#%e8%a1%a5%e5%85%85 class=header-anchor>#</a>
 补充</h2><h3 id=不转义html内容><a href=#%e4%b8%8d%e8%bd%ac%e4%b9%89html%e5%86%85%e5%ae%b9 class=header-anchor>#</a>
 不转义HTML内容</h3><p>如果你需要安全地显示用户输入的 HTML 内容，可以使用以下几种方法：</p><ol><li><p><strong>明确信任的内容</strong>：</p><ul><li><p>当我们使用<code>html/template</code>包渲染时，会自动转义HTML内容，如果不希望转义HTML内容，可以将要渲染的HTML内容定义为<code>template.HTML</code>类型（本质就是字符串），这样就不会自动转义HTML内容。</p></li><li><p>需要注意的是：对于完全可信的内容，才能使用 <code>template.HTML</code>，以防止XSS攻击。</p></li><li><p>对应的信任JavaScript类型<code>template.JS</code> ：不会自动转义为安全的js代码。</p></li><li><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
