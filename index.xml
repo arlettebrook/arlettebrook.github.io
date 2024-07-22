@@ -1,4 +1,144 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Arlettebrook's blog</title><link>https://arlettebrook.github.io/</link><description>Recent content on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Thu, 30 May 2024 21:52:12 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Vim Introduction</title><link>https://arlettebrook.github.io/p/vim-introduction/</link><pubDate>Thu, 30 May 2024 21:52:12 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-introduction/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Arlettebrook's blog</title><link>https://arlettebrook.github.io/</link><description>Recent content on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Mon, 22 Jul 2024 23:55:50 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Batch Del CF DNS Record</title><link>https://arlettebrook.github.io/p/batch-del-cf-dns-record/</link><pubDate>Mon, 22 Jul 2024 23:55:50 +0800</pubDate><guid>https://arlettebrook.github.io/p/batch-del-cf-dns-record/</guid><description>&lt;h1 id="batch-del-cf-dns-record">
+&lt;a href="#batch-del-cf-dns-record" class="header-anchor">#&lt;/a>
+batch-del-cf-dns-record
+&lt;/h1>&lt;blockquote>
+&lt;p>Batch delete cloudflare DNS records。批量删除cloudflare dns记录。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="介绍">
+&lt;a href="#%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
+介绍
+&lt;/h2>&lt;p>当我们将域名解析到&lt;em>Cloudflare&lt;/em>时，不知道什么原因，系统可能会自动导入几百条不那么正确的解析&lt;em>记录&lt;/em>，让人抓狂。&lt;/p>
+&lt;p>这些&lt;em>记录&lt;/em>在界面中无法快速&lt;em>删除&lt;/em>，也不支持跳过导入 &amp;hellip;&lt;/p>
+&lt;p>手动删除又过于麻烦。&lt;/p>
+&lt;p>网上看了一下。我们可以通过&lt;em>Cloudflare&lt;/em> 的API功能来实现&lt;em>批量删除&lt;/em>解析。因此写了一个Go版本的脚本。仅供参考。&lt;/p>
+&lt;p>地址是: &lt;a class="link" href="https://github.com/arlettebrook/batch-del-cf-dns-record" target="_blank" rel="noopener"
+>https://github.com/arlettebrook/batch-del-cf-dns-record&lt;/a>&lt;/p>
+&lt;hr>
+&lt;h2 id="如何使用">
+&lt;a href="#%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+如何使用
+&lt;/h2>&lt;p>&lt;strong>帮助信息&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ ./batch-del-cf-dns-record.exe --help
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Usage of Batch-del-cf-dns-record:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -l, --log_level string Log level &lt;span class="o">(&lt;/span>default &lt;span class="s2">&amp;#34;info&amp;#34;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -a, --api_token string Cloudflare API Token
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -z, --zone_id string Cloudflare Zone ID
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pflag: &lt;span class="nb">help&lt;/span> requested
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="前提条件">
+&lt;a href="#%e5%89%8d%e6%8f%90%e6%9d%a1%e4%bb%b6" class="header-anchor">#&lt;/a>
+前提条件
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>登录cloudflare账号&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>进入要删除DNS记录域名的首页&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>滑动到底部右下角，有一个我们需要的第一个参数：区域ID(&lt;code>zone_id&lt;/code>)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>最后一个参数：&lt;code>api_token&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>点击下面的&lt;a class="link" href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener"
+>获取您的API令牌&lt;/a>，创建令牌&lt;/li>
+&lt;li>创建一个编辑区域的DNS令牌。&lt;/li>
+&lt;li>这个令牌就是&lt;code>api_token&lt;/code>&lt;/li>
+&lt;li>使用完成之后可以删除&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="源码运行">
+&lt;a href="#%e6%ba%90%e7%a0%81%e8%bf%90%e8%a1%8c" class="header-anchor">#&lt;/a>
+源码运行
+&lt;/h3>&lt;p>&lt;strong>前提条件&lt;/strong>：需要Go环境&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>克隆项目到本地&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git clone https://github.com/arlettebrook/batch-del-cf-dns-record.git
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>进入项目，安装依赖，运行&lt;code>main.go&lt;/code>并指定参数即可。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> batch-del-cf-dns-record
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">go mod tidy
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">go run main.go -a api_token -z zone_id
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h3 id="二进制文件运行推荐">
+&lt;a href="#%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%96%87%e4%bb%b6%e8%bf%90%e8%a1%8c%e6%8e%a8%e8%8d%90" class="header-anchor">#&lt;/a>
+二进制文件运行[推荐]
+&lt;/h3>&lt;p>&lt;strong>注意&lt;/strong>：只提供了Windows的二进制文件，其他系统自行编译。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>前往&lt;a class="link" href="https://github.com/arlettebrook/batch-del-cf-dns-record/releases/latest" target="_blank" rel="noopener"
+>发布页面&lt;/a>下载，最新Windows版本&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>解压&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在&lt;strong>Windows终端&lt;/strong>中运行&lt;code>batch-del-cf-dns-record.exe&lt;/code>并指定参数即可:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">batch-del-cf-dns-record.exe --a api_token -z zone_id
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>如果是bash之类的终端，运行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">./batch-del-cf-dns-record.exe --a api_token -z zone_id
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="注意事项">
+&lt;a href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" class="header-anchor">#&lt;/a>
+注意事项
+&lt;/h2>&lt;ul>
+&lt;li>如果是TLS握手超时，重新运行即可。&lt;/li>
+&lt;/ul></description></item><item><title>Vim Introduction</title><link>https://arlettebrook.github.io/p/vim-introduction/</link><pubDate>Thu, 30 May 2024 21:52:12 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-introduction/</guid><description>&lt;hr>
 &lt;h2 id="安装vim">
 &lt;a href="#%e5%ae%89%e8%a3%85vim" class="header-anchor">#&lt;/a>
 安装vim
