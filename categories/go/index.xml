@@ -1,4 +1,623 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/go/</link><description>Recent content in Go on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Mon, 22 Jul 2024 23:55:50 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Batch Del CF DNS Record</title><link>https://arlettebrook.github.io/p/batch-del-cf-dns-record/</link><pubDate>Mon, 22 Jul 2024 23:55:50 +0800</pubDate><guid>https://arlettebrook.github.io/p/batch-del-cf-dns-record/</guid><description>&lt;h1 id="batch-del-cf-dns-record">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/go/</link><description>Recent content in Go on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Fri, 02 Aug 2024 15:50:02 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Go-figure Introduction</title><link>https://arlettebrook.github.io/p/go-figure-introduction/</link><pubDate>Fri, 02 Aug 2024 15:50:02 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-figure-introduction/</guid><description>&lt;hr>
+&lt;h2 id="介绍">
+&lt;a href="#%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
+介绍
+&lt;/h2>&lt;p>&lt;a class="link" href="https://github.com/common-nighthawk/go-figure" target="_blank" rel="noopener"
+>go-figure&lt;/a>可从文本打印出精美的 ASCII 艺术图。它支持&lt;a class="link" href="http://www.figlet.org/" target="_blank" rel="noopener"
+>FIGlet&lt;/a>文件及其大部分功能。&lt;/p>
+&lt;p>这个包的灵感来自于 Ruby gem &lt;a class="link" href="https://github.com/miketierney/artii" target="_blank" rel="noopener"
+>artii&lt;/a>，但是是从头开始构建，并且具有不同的功能集。&lt;/p>
+&lt;p>&lt;strong>它在go语言中通常用于在终端中生成 ASCII 艺术字。该库提供了多种字体和样式，让用户可以轻松地创建视觉上吸引人的文本输出。&lt;/strong>&lt;/p>
+&lt;hr>
+&lt;h2 id="快速使用">
+&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
+快速使用
+&lt;/h2>&lt;p>首先，使用以下命令安装 &lt;code>go-figure&lt;/code> 包：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">go get -u github.com/common-nighthawk/go-figure
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>基本使用&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;github.com/common-nighthawk/go-figure&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">myFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello World&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">myFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在上面的代码中，&lt;code>NewFigure&lt;/code> 函数创建了一个新的图形对象。第一个参数是要显示的文本，第二个参数是字体名称（默认为标准字体），第三个参数是严格模式开关（true：非ASCII字符报错，反之用?替代）。&lt;code>Print&lt;/code> 方法将图形打印到控制台。&lt;/p>
+&lt;p>运行上面代码输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ go run main.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> _ _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> ___ __ __ ___ _ __ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> __&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> / _ &lt;span class="se">\ &lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> / _ &lt;span class="se">\ &lt;/span> &lt;span class="se">\ \ &lt;/span>/&lt;span class="se">\ &lt;/span>/ / / _ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="err">&amp;#39;&lt;/span>__&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> / _&lt;span class="sb">`&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span> _ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> __/ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="se">\ &lt;/span>V V / &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__/ &lt;span class="se">\_&lt;/span>/&lt;span class="se">\_&lt;/span>/ &lt;span class="se">\_&lt;/span>__/ &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>_,_&lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="创建figure对象">
+&lt;a href="#%e5%88%9b%e5%bb%bafigure%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
+创建&lt;code>figure&lt;/code>对象
+&lt;/h2>&lt;p>有三种方法可以创建图形对象。它们是： &lt;code>func NewFigure&lt;/code>、 &lt;code>func NewColorFigure&lt;/code>和 &lt;code>func NewFigureWithFont&lt;/code>。&lt;/p>
+&lt;p>每个构造函数都接受以下参数：文本、字体和严格模式。“color”构造函数接受颜色作为附加参数。“with font”以不同方式指定字体。具体方法如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">NewFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">phrase&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">fontName&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">strict&lt;/span> &lt;span class="kt">bool&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">figure&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">NewColorFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">phrase&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">fontName&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">color&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">strict&lt;/span> &lt;span class="kt">bool&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">figure&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">NewFigureWithFont&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">phrase&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">reader&lt;/span> &lt;span class="nx">io&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Reader&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">strict&lt;/span> &lt;span class="kt">bool&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">figure&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>NewFigure&lt;/code>只需要字体的名称，并使用存储在 bindata 此包中附带的字体文件。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>如果传递了字体名称的空字符串，则提供默认值（标准字体）。也就是说，这两个都是有效的:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">myFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Foo Bar&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// go-figure/font.go
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// const defaultFont = &amp;#34;standard&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">myFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Foo Bar&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;standard&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>请注意字体名称区分大小写。&lt;/p>
+&lt;details>
+&lt;summary>默认支持的字体如下（用空格分隔）：&lt;/summary>
+&lt;p align='center' style="color:green">
+3-d
+3x5
+5lineoblique
+acrobatic
+alligator
+alligator2
+alphabet
+avatar
+banner
+banner3-D
+banner3
+banner4
+barbwire
+basic
+bell
+big
+bigchief
+binary
+block
+bubble
+bulbhead
+calgphy2
+caligraphy
+catwalk
+chunky
+coinstak
+colossal
+computer
+contessa
+contrast
+cosmic
+cosmike
+cricket
+cursive
+cyberlarge
+cybermedium
+cybersmall
+diamond
+digital
+doh
+doom
+dotmatrix
+drpepper
+eftichess
+eftifont
+eftipiti
+eftirobot
+eftitalic
+eftiwall
+eftiwater
+epic
+fender
+fourtops
+fuzzy
+goofy
+gothic
+graffiti
+hollywood
+invita
+isometric1
+isometric2
+isometric3
+isometric4
+italic
+ivrit
+jazmine
+jerusalem
+katakana
+kban
+larry3d
+lcd
+lean
+letters
+linux
+lockergnome
+madrid
+marquee
+maxfour
+mike
+mini
+mirror
+mnemonic
+morse
+moscow
+nancyj-fancy
+nancyj-underlined
+nancyj
+nipples
+ntgreek
+o8
+ogre
+pawp
+peaks
+pebbles
+pepper
+poison
+puffy
+pyramid
+rectangles
+relief
+relief2
+rev
+roman
+rot13
+rounded
+rowancap
+rozzo
+runic
+runyc
+sblood
+script
+serifcap
+shadow
+short
+slant
+slide
+slscript
+small
+smisome1
+smkeyboard
+smscript
+smshadow
+smslant
+smtengwar
+speed
+stampatello
+standard
+starwars
+stellar
+stop
+straight
+tanja
+tengwar
+term
+thick
+thin
+threepoint
+ticks
+ticksslant
+tinker-toy
+tombstone
+trek
+tsalagi
+twopoint
+univers
+usaflag
+wavy
+weird
+&lt;/p>
+&lt;!-- DO NOT EDIT THIS SECTION -->
+&lt;!-- START_SECTION:data-section -->
+&lt;/details>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>NewFigureWithFont&lt;/code>，直接接受字体文件的&lt;code>reader&lt;/code>。这允许您 BYOF（自带字体）。提供 flf 的&lt;code>io.Reader&lt;/code>即可。&lt;/p>
+&lt;ul>
+&lt;li>字体文件可以在&lt;a class="link" href="https://github.com/common-nighthawk/go-figure/tree/master/fonts" target="_blank" rel="noopener"
+>字体文件夹&lt;/a> 和&lt;a class="link" href="http://www.figlet.org/fontdb.cgi" target="_blank" rel="noopener"
+>figlet.org&lt;/a>上找到。&lt;/li>
+&lt;li>一般不用，默认提供的字体够用了。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>NewColorFigure&lt;/code>可以制作色彩鲜艳的图形！目前支持的颜色有：蓝色blue，青色cyan，灰色gray，绿色green，紫色purple，红色red，白色white，黄色yellow。&lt;/p>
+&lt;ul>
+&lt;li>示例：&lt;code>figure.NewColorFigure(&amp;quot;Hello World&amp;quot;, &amp;quot;&amp;quot;, &amp;quot;cyan&amp;quot;, true).Print()&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>严格模式规定如何处理标准 ASCII 以外的字符。设置为 true 时，非 ASCII 字符（字符代码 32-127 之外）将导致程序崩溃。设置为 false 时，这些字符将被替换为问号（“？”）。每个示例如下：&lt;/p>
+&lt;p>&lt;code>figure.NewFigure(&amp;quot;Foo 👍 Bar&amp;quot;, &amp;quot;alphabet&amp;quot;, true).Print()&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">2016/12/01 19:35:38 invalid input.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>figure.NewFigure(&amp;quot;Foo 👍 Bar&amp;quot;, &amp;quot;alphabet&amp;quot;, false).Print()&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl"> _____ ___ ____
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span> ___&lt;span class="p">|&lt;/span> ___ ___ &lt;span class="p">|&lt;/span>__ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> __ &lt;span class="o">)&lt;/span> __ _ _ __
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ / _ &lt;span class="se">\ &lt;/span> / _ &lt;span class="se">\ &lt;/span> / / &lt;span class="p">|&lt;/span> _ &lt;span class="se">\ &lt;/span> / _&lt;span class="sb">`&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="err">&amp;#39;&lt;/span>__&lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span> _&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__/ &lt;span class="se">\_&lt;/span>__/ &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span>____/ &lt;span class="se">\_&lt;/span>_,_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="打印figure对象">
+&lt;a href="#%e6%89%93%e5%8d%b0figure%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
+打印&lt;code>figure&lt;/code>对象
+&lt;/h2>&lt;p>调用&lt;code>figure&lt;/code>对象的&lt;code>Print&lt;/code>方法即可将对应艺术字输出的终端。没有返回值。&lt;code>myFigure.Print()&lt;/code>&lt;/p>
+&lt;h3 id="默认字体推荐">
+&lt;a href="#%e9%bb%98%e8%ae%a4%e5%ad%97%e4%bd%93%e6%8e%a8%e8%8d%90" class="header-anchor">#&lt;/a>
+默认字体推荐
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>figure.NewFigure(&amp;quot;Arlettebrook&amp;quot;, &amp;quot;standard&amp;quot;, true).Print()&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl"> _ _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> / &lt;span class="se">\ &lt;/span> _ __ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>__ _ __ ___ ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> __
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> / _ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="s1">&amp;#39;__| | | / _ \ | __| | __| / _ \ | &amp;#39;&lt;/span>_ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="err">&amp;#39;&lt;/span>__&lt;span class="p">|&lt;/span> / _ &lt;span class="se">\ &lt;/span> / _ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>/ /
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> / ___ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> __/ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> __/ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &amp;lt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /_/ &lt;span class="se">\_\ &lt;/span>&lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_.__/ &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__/ &lt;span class="se">\_&lt;/span>__/ &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span>&lt;span class="se">\_\
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>figure.NewFigure(&amp;quot;Arlettebrook&amp;quot;, &amp;quot;doom&amp;quot;, true).Print()&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl"> ___ _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> / _ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/ /_&lt;span class="se">\ \ &lt;/span>_ __ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>__ _ __ ___ ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> __
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">|&lt;/span> _ &lt;span class="o">||&lt;/span> &lt;span class="s1">&amp;#39;__|| | / _ \| __|| __| / _ \| &amp;#39;&lt;/span>_ &lt;span class="se">\ &lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="err">&amp;#39;&lt;/span>__&lt;span class="p">|&lt;/span> / _ &lt;span class="se">\ &lt;/span> / _ &lt;span class="se">\ &lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>/ /
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">||&lt;/span> __/&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> __/&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="o">||&lt;/span> &amp;lt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">\_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_/&lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__&lt;span class="o">||&lt;/span>_.__/ &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__/ &lt;span class="se">\_&lt;/span>__/ &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span>&lt;span class="se">\_\
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>figure.NewFigure(&amp;quot;Arlettebrook&amp;quot;, &amp;quot;puffy&amp;quot;, true).Print()&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">_____&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nf">_&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">(&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span> &lt;span class="p">)&lt;/span>&lt;span class="nf">_&lt;/span> &lt;span class="p">(&lt;/span> &lt;span class="p">)&lt;/span>&lt;span class="nf">_&lt;/span> &lt;span class="p">(&lt;/span> &lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">|&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">__&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">__&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">,&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)|&lt;/span> &lt;span class="p">,&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">__&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">__&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="err">&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">|&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="p">|(&lt;/span> &lt;span class="err">&amp;#39;&lt;/span>&lt;span class="nx">__&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="err">&amp;#39;&lt;/span>&lt;span class="nx">__&lt;/span>&lt;span class="s">`\| | | | /&amp;#39;__`&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="err">&amp;#39;&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="s">`\ ( &amp;#39;__) /&amp;#39;_`&lt;/span>&lt;span class="err">\&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="err">&amp;#39;&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="s">`\ | , &amp;lt;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">| | | || | | | ( ___/| |_ | |_ ( ___/| |_) )| | ( (_) )( (_) )| |\`&lt;/span>\
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">___&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="s">`\____)`&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="nx">__&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="s">`\__)`&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="nx">____&lt;/span>&lt;span class="p">)(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="nx">__&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="err">&amp;#39;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="s">`\___/&amp;#39;`&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="nx">___&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="err">&amp;#39;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>figure.NewFigure(&amp;quot;Arlettebrook&amp;quot;, &amp;quot;big&amp;quot;, true).Print()&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl"> _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /&lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> / &lt;span class="se">\ &lt;/span> _ __ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>__ _ __ ___ ___ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> __
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> / /&lt;span class="se">\ \ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="s1">&amp;#39;__| | | / _ \ | __| | __| / _ \ | &amp;#39;&lt;/span>_ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="err">&amp;#39;&lt;/span>__&lt;span class="p">|&lt;/span> / _ &lt;span class="se">\ &lt;/span> / _ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>/ /
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> / ____ &lt;span class="se">\ &lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> __/ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_ &lt;span class="p">|&lt;/span> __/ &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">(&lt;/span>_&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &amp;lt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /_/ &lt;span class="se">\_\ &lt;/span>&lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>_.__/ &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span> &lt;span class="se">\_&lt;/span>__/ &lt;span class="se">\_&lt;/span>__/ &lt;span class="p">|&lt;/span>_&lt;span class="p">|&lt;/span>&lt;span class="se">\_\
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>figure.NewFigure(&amp;quot;Arlettebrook&amp;quot;, &amp;quot;rounded&amp;quot;, true).Print()&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">_______&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nf">_&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">(&lt;/span>&lt;span class="nx">_______&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">_______&lt;/span> &lt;span class="nx">____&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">_____&lt;/span> &lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="nx">_____&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">__&lt;/span> &lt;span class="nx">____&lt;/span> &lt;span class="nx">___&lt;/span> &lt;span class="nx">___&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">_&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">|&lt;/span> &lt;span class="nx">___&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="nx">___&lt;/span>&lt;span class="p">)|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">___&lt;/span> &lt;span class="p">|(&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span>&lt;span class="p">)(&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="nx">_&lt;/span>&lt;span class="p">)|&lt;/span> &lt;span class="nx">___&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="err">\&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="nx">___&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="err">\&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="nx">_&lt;/span> &lt;span class="err">\&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="o">/&lt;/span> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">____&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="nx">____&lt;/span>&lt;span class="o">||&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">)|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nf">_&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="o">||&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="err">\&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)|&lt;/span>&lt;span class="nx">_____&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="err">\&lt;/span>&lt;span class="nx">__&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="err">\&lt;/span>&lt;span class="nx">__&lt;/span>&lt;span class="p">)|&lt;/span>&lt;span class="nx">_____&lt;/span>&lt;span class="p">)|&lt;/span>&lt;span class="nx">____&lt;/span>&lt;span class="o">/&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="err">\&lt;/span>&lt;span class="nx">___&lt;/span>&lt;span class="o">/&lt;/span> &lt;span class="err">\&lt;/span>&lt;span class="nx">___&lt;/span>&lt;span class="o">/&lt;/span> &lt;span class="p">|&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">|&lt;/span> &lt;span class="err">\&lt;/span>&lt;span class="nx">_&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>更多样式&lt;a class="link" href="http://www.figlet.org/fontdb.cgi" target="_blank" rel="noopener"
+>参考&lt;/a>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="高级用法">
+&lt;a href="#%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95" class="header-anchor">#&lt;/a>
+高级用法
+&lt;/h2>&lt;h3 id="动画效果">
+&lt;a href="#%e5%8a%a8%e7%94%bb%e6%95%88%e6%9e%9c" class="header-anchor">#&lt;/a>
+动画效果
+&lt;/h3>&lt;p>&lt;code>go-figure&lt;/code> 还支持简单的动画效果，如闪烁、滚动和跳舞。&lt;/p>
+&lt;h4 id="闪烁">
+&lt;a href="#%e9%97%aa%e7%83%81" class="header-anchor">#&lt;/a>
+闪烁
+&lt;/h4>&lt;p>闪烁用到的方法是：&lt;code>func (fig figure) Blink(duration, timeOn, timeOff int)&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>duration&lt;/code>&lt;/strong>: 动画持续时间（毫秒）。整个闪烁过程将持续这么长时间。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>timeOn&lt;/code>&lt;/strong>: 文字亮起的时间（毫秒）。在这段时间内，文字将显示在屏幕上。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>timeOff&lt;/code>&lt;/strong>: 文字熄灭的时间（毫秒）。在这段时间内，文字将从屏幕上消失。如果 &lt;code>timeOff&lt;/code> 设置为 -1，闪烁的间隔将与 &lt;code>timeOn&lt;/code> 相同，从而实现均匀的闪烁效果。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewColorFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello World&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;cyan&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Blink&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3000&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">500&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>闪烁、滚动和跳舞完成之后，不会打印艺术字，再次调用&lt;code>Print&lt;/code>方法打印，效果更好。&lt;/p>
+&lt;h4 id="滚动">
+&lt;a href="#%e6%bb%9a%e5%8a%a8" class="header-anchor">#&lt;/a>
+滚动
+&lt;/h4>&lt;p>滚动用到的方法是：&lt;code>func (fig figure) Scroll(duration, stillness int, direction string) &lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>duration&lt;/code>&lt;/strong>: 动画持续时间（毫秒）。整个滚动过程将持续这么长时间。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>stillness&lt;/code>&lt;/strong>: 文字在移动前静止的时间（毫秒）。时间越短，滚动速度越快。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>direction&lt;/code>&lt;/strong>: 滚动的方向，可以是 &amp;ldquo;left&amp;rdquo; 或 &amp;ldquo;right&amp;rdquo;（不区分大小写）。如果提供的方向无效，将默认为 &amp;ldquo;left&amp;rdquo;。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewColorFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello World&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;cyan&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Scroll&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3000&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">300&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;left&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="跳舞">
+&lt;a href="#%e8%b7%b3%e8%88%9e" class="header-anchor">#&lt;/a>
+跳舞
+&lt;/h4>&lt;p>跳舞用到的方法是：&lt;code>func (fig figure) Dance(duration, freeze int)&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>效果不是特别好。不推荐使用。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>duration&lt;/code>&lt;/strong>: 动画持续时间（毫秒）。整个跳舞过程将持续这么长时间。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>freeze&lt;/code>&lt;/strong>: 每次跳舞姿势之间的停顿时间（毫秒）。时间越短，动作变化越快。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewColorFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello World&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;cyan&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Dance&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3000&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">300&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="输出到其他地方">
+&lt;a href="#%e8%be%93%e5%87%ba%e5%88%b0%e5%85%b6%e4%bb%96%e5%9c%b0%e6%96%b9" class="header-anchor">#&lt;/a>
+输出到其他地方
+&lt;/h3>&lt;p>如果想将输出写入文件或其他 &lt;code>io.Writer&lt;/code>，可以使用 &lt;code>Write&lt;/code> 方法：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">w&lt;/span> &lt;span class="nx">io&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Writer&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">fig&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>该函数接受两个参数：&lt;code>w&lt;/code>是一个实现 io.Writer 接口中所有方法的值。 &lt;code>fig&lt;/code>是将要写入的图形。没有颜色。&lt;/p>
+&lt;p>示例：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>写入文件:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewColorFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello world&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;cyan&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">file&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">OpenFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;./demo.txt&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">O_WRONLY&lt;/span>&lt;span class="p">|&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">O_CREATE&lt;/span>&lt;span class="p">|&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">O_APPEND&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mo">0666&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panicf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;OpenFile error: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">file&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">File&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Close&lt;/span>&lt;span class="p">();&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panicf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Close file error: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}(&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>响应请求：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">HandleFunc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/hi&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">w&lt;/span> &lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ResponseWriter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">r&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Request&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">newFigure&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewFigure&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Arlettebrook&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">figure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">w&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">newFigure&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;HTTP serve Start running...&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ListenAndServe&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;localhost:8080&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">nil&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Panicf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Start HTTP serve error: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>启动程序之后，在浏览器中访问 &lt;a class="link" href="http://localhost:8080/hi" target="_blank" rel="noopener"
+>http://localhost:8080/hi&lt;/a> 即可输出指定艺术字。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="参考">
+&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
+参考
+&lt;/h2>&lt;blockquote>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/common-nighthawk/go-figure" target="_blank" rel="noopener"
+>go-figure官方仓库&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item><item><title>Batch Del CF DNS Record</title><link>https://arlettebrook.github.io/p/batch-del-cf-dns-record/</link><pubDate>Mon, 22 Jul 2024 23:55:50 +0800</pubDate><guid>https://arlettebrook.github.io/p/batch-del-cf-dns-record/</guid><description>&lt;h1 id="batch-del-cf-dns-record">
 &lt;a href="#batch-del-cf-dns-record" class="header-anchor">#&lt;/a>
 batch-del-cf-dns-record
 &lt;/h1>&lt;blockquote>
