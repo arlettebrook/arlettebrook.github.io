@@ -23063,7 +23063,8 @@ logrus-redis-hook
 &lt;li>&lt;a class="link" href="https://jianghushinian.cn/2023/03/15/use-of-logrus-in-go-third-party-log-library/" target="_blank" rel="noopener"
 >Go 第三方 log 库之 logrus 使用&lt;/a>&lt;/li>
 &lt;/ol>
-&lt;/blockquote></description></item><item><title>Linux Common Commands</title><link>https://arlettebrook.github.io/p/linux-common-commands/</link><pubDate>Wed, 08 May 2024 19:24:26 +0800</pubDate><guid>https://arlettebrook.github.io/p/linux-common-commands/</guid><description>&lt;blockquote>
+&lt;/blockquote></description></item><item><title>Linux Common Commands</title><link>https://arlettebrook.github.io/p/linux-common-commands/</link><pubDate>Wed, 08 May 2024 19:24:26 +0800</pubDate><guid>https://arlettebrook.github.io/p/linux-common-commands/</guid><description>&lt;hr>
+&lt;blockquote>
 &lt;p>Linux常用命令有很多，本文不会逐个介绍。以下命令是我在后期使用中遇到的，算是我对Linux常用命令的补充、回顾、总结。本篇文章阅读需要一定的Linux基础。更多常见命令可参考：&lt;a class="link" href="https://wiki.deepin.org/zh/04_%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98FAQ/600%E6%9D%A1Linux%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93" target="_blank" rel="noopener"
 >600条Linux命令总结&lt;/a>。&lt;/p>
 &lt;p>&lt;strong>持续更新中&amp;hellip;&lt;/strong>&lt;/p>
@@ -23111,7 +23112,7 @@ ln
 &lt;p>这个命令允许你在不同的位置为同一个文件或目录建立同步的链接，从而避免了在多个位置重复存储相同的文件内容，&lt;strong>节省了磁盘空间&lt;/strong>。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;code>ln&lt;/code>命令的基本语法如下：&lt;/p>
+&lt;p>&lt;strong>&lt;code>ln&lt;/code>命令的基本语法如下&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -23125,7 +23126,7 @@ ln
 &lt;ul>
 &lt;li>&lt;code>-s&lt;/code>：创建符号链接（软链接）。这会在你选定的位置上生成一个文件的镜像，不会占用磁盘空间，而是保存了原始文件的路径。（创建快捷方式）
 &lt;ul>
-&lt;li>不使用&lt;code>-s&lt;/code>选项时创建硬链接。&lt;/li>
+&lt;li>&lt;strong>不使用&lt;code>-s&lt;/code>选项时创建硬链接&lt;/strong>。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;code>-f&lt;/code>：强制执行，如果链接文件已存在则覆盖。&lt;/li>
@@ -23218,9 +23219,6 @@ ln
 &lt;/span>&lt;span class="lnt">20
 &lt;/span>&lt;span class="lnt">21
 &lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">localhost &lt;span class="nb">test&lt;/span> $ ls -lh
@@ -23245,9 +23243,6 @@ ln
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">total 20K
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw-r--r--. &lt;span class="m">2&lt;/span> root root 19K May &lt;span class="m">8&lt;/span> 22:49 hard
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">lrwxrwxrwx. &lt;span class="m">1&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 soft -&amp;gt; /root/test/abc.txt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">2&lt;/span> root root &lt;span class="m">6&lt;/span> May &lt;span class="m">8&lt;/span> 23:15 &lt;span class="nb">test&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">localhost demo $
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>注意：测试环境是在Linux中，&lt;code>ln&lt;/code>命令并不适用于windows环境。创建的文件链接无效。&lt;/p>
@@ -23271,14 +23266,14 @@ curl
 &lt;li>&lt;a class="link" href="https://curl.se/download.html" target="_blank" rel="noopener"
 >官网&lt;/a>下载对应版本，添加一个CURL_HOME环境变量名，指向的是curl.exe文件所在路径。并将其添加到path环境变量中。&lt;/li>
 &lt;li>或者安装&lt;a class="link" href="https://www.msys2.org/" target="_blank" rel="noopener"
->msys2&lt;/a>利用pacman包管理器安装。&lt;/li>
+>msys2&lt;/a>利用pacman包管理器安装。【推荐】：&lt;code>sudo pacman -S curl&lt;/code>&lt;/li>
 &lt;li>或者安装&lt;a class="link" href="https://www.mingw-w64.org/downloads/#mingw-builds" target="_blank" rel="noopener"
 >Mingw&lt;/a>自带curl，Mingw也可以用msys2来安装。&lt;/li>
 &lt;/ol>
 &lt;/li>
 &lt;li>MacOS系统自带。&lt;/li>
 &lt;/ol>
-&lt;p>基本使用：&lt;/p>
+&lt;p>&lt;strong>基本使用&lt;/strong>：&lt;/p>
 &lt;ul>
 &lt;li>
 &lt;p>curl命令的基本语法格式为：&lt;code>curl [选项] URL&lt;/code>。其中，URL是要请求的目标地址，而选项则用于指定各种参数和功能。&lt;/p>
@@ -23437,7 +23432,7 @@ wget
 &lt;li>官网&lt;a class="link" href="https://www.gnu.org/software/wget/" target="_blank" rel="noopener"
 >GNU Wget&lt;/a>下载安装或其他可靠的软件下载，然后路径添加到环境变量path中。&lt;/li>
 &lt;li>或者安装&lt;a class="link" href="https://www.msys2.org/" target="_blank" rel="noopener"
->msys2&lt;/a>利用pacman包管理器安装。&lt;/li>
+>msys2&lt;/a>利用pacman包管理器安装。【推荐】：&lt;code>sudo pacman -S wget&lt;/code>&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
@@ -23458,7 +23453,7 @@ wget
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;p>基本使用：&lt;/p>
+&lt;p>&lt;strong>基本使用&lt;/strong>：&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>&lt;strong>-b, &amp;ndash;background&lt;/strong>：在后台执行下载任务。&lt;/p>
@@ -23551,11 +23546,12 @@ wget
 &lt;p>[bash -c](#bash -c)表示将下载的字符串做为命令执行。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="bash--c">
+&lt;hr>
+&lt;h2 id="bash--c">
 &lt;a href="#bash--c" class="header-anchor">#&lt;/a>
 bash -c
-&lt;/h3>&lt;p>&lt;code>bash -c&lt;/code> 命令用于在 Bash shell 中执行一个字符串作为命令。&lt;/p>
-&lt;p>基本语法：&lt;/p>
+&lt;/h2>&lt;p>&lt;code>bash -c&lt;/code> 命令用于在 Bash shell 中执行一个字符串作为命令。&lt;/p>
+&lt;p>&lt;strong>基本语法&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -23594,7 +23590,66 @@ bash -c
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># bash -c &amp;#34;$(wget -O- https://gist.githubusercontent.com/lss233/2fdd75be3f0724739368d0dcd9d1367d/raw/62a790da4a391af096074b3355c2c2b7ecab3c28/chatgpt-mirai-installer-gocqhttp.sh)&amp;#34; chatgpt-qq-bot安装脚本&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;hr></description></item><item><title>Fsnotify Introduction</title><link>https://arlettebrook.github.io/p/fsnotify-introduction/</link><pubDate>Wed, 08 May 2024 15:49:50 +0800</pubDate><guid>https://arlettebrook.github.io/p/fsnotify-introduction/</guid><description>&lt;blockquote>
+&lt;/div>&lt;hr>
+&lt;h2 id="pacman">
+&lt;a href="#pacman" class="header-anchor">#&lt;/a>
+pacman
+&lt;/h2>&lt;p>Pacman是Arch Linux及其衍生发行版（如Manjaro、EndeavourOS等）使用的包管理器。总结它，是因为我们可以在Windows上安装msys2来使用pacman包管理器，进而在Windows上安装Linux命令。&lt;/p>
+&lt;p>&lt;strong>基本用法&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo pacman &lt;span class="o">[&lt;/span>选项&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>软件名&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>常用选项&lt;/strong>如下：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-S&lt;/code>：安装软件包、软件源列表。
+&lt;ul>
+&lt;li>&lt;code>-y&lt;/code>：刷新软件源列表。&lt;/li>
+&lt;li>&lt;code>-u&lt;/code>：更新软件包到最新版。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>以上三个选项可以组合使用。&lt;strong>常用&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>-Syu&lt;/code>：更新软件源列表，并升级已安装的包到最新版。【推荐】*&lt;/li>
+&lt;li>&lt;code>-Sy&lt;/code>：更新软件源列表并安装。【推荐】*&lt;/li>
+&lt;li>&lt;code>-Su&lt;/code>：只升级已安装的包到最新版。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>-S package_name&lt;/code>：&lt;strong>安装软件包&lt;/strong>。多个用空格隔开。【推荐】*&lt;/li>
+&lt;li>&lt;code>-R package_name&lt;/code>：卸载软件包（会保留依赖）。
+&lt;ul>
+&lt;li>&lt;code>-Rs package_name&lt;/code>：&lt;strong>卸载一个软件包及其依赖（未被其他包使用的依赖）&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>-Rns package_name&lt;/code>：&lt;strong>卸载一个软件包并删除不再使用的依赖&lt;/strong>。【推荐】*&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>-Sc&lt;/code>：清理未使用的包缓存。
+&lt;ul>
+&lt;li>&lt;code>-Scc&lt;/code>：清理所有包缓存。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>-Ss keyword&lt;/code>：搜索包含关键字的软件包。
+&lt;ul>
+&lt;li>&lt;code>-Si package_name&lt;/code>：显示软件包信息。【推荐】*&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>-Q&lt;/code>：列出所有已安装的软件包。
+&lt;ul>
+&lt;li>&lt;code>-Qs keyword&lt;/code>：列出已安装的包含关键字的软件包。【推荐】&lt;/li>
+&lt;li>&lt;code>-Qi package_name&lt;/code>：显示已安装软件包的信息。【推荐】*&lt;/li>
+&lt;li>&lt;code>-Ql package_name&lt;/code>：列出软件包中包含的文件。【推荐】&lt;/li>
+&lt;li>&lt;code>-Qk&lt;/code>：检查系统中所有已安装包的完整性。
+&lt;ul>
+&lt;li>&lt;code>-Qkk package_name&lt;/code>：检查指定软件包的完整性。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;hr></description></item><item><title>Fsnotify Introduction</title><link>https://arlettebrook.github.io/p/fsnotify-introduction/</link><pubDate>Wed, 08 May 2024 15:49:50 +0800</pubDate><guid>https://arlettebrook.github.io/p/fsnotify-introduction/</guid><description>&lt;blockquote>
 &lt;p>Viper 可以监听文件修改进而自动重新加载。 其内部使用的就是&lt;code>fsnotify&lt;/code>这个库，它是跨平台的。&lt;code>fs&lt;/code>是filesystem的缩写，翻译过来就是文件系统通知。能够监听文件的修改，进而发送通知。今天我们就来介绍一下&lt;a class="link" href="https://github.com/fsnotify/fsnotify" target="_blank" rel="noopener"
 >fsnotify&lt;/a>。&lt;/p>
 &lt;/blockquote>
