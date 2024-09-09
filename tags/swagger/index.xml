@@ -3,20 +3,14 @@
 &lt;p>作为一名开发者，往往需要编写程序的 API 文档，尤其是 Web 后端开发者，在跟前端对接 HTTP 接口的时候，一个好的 API 文档能够大大提高协作效率，降低沟通成本，本文就来聊聊如何使用 OpenAPI 构建 HTTP 接口文档。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="openapi">
-&lt;a href="#openapi" class="header-anchor">#&lt;/a>
-OpenAPI
-&lt;/h2>&lt;h3 id="什么是-openapi">
-&lt;a href="#%e4%bb%80%e4%b9%88%e6%98%af-openapi" class="header-anchor">#&lt;/a>
-什么是 OpenAPI
+&lt;h2 id="openapi">OpenAPI
+&lt;/h2>&lt;h3 id="什么是-openapi">什么是 OpenAPI
 &lt;/h3>&lt;p>OpenAPI 是规范化描述 API 领域应用最广泛的&lt;strong>行业标准&lt;/strong>，由 &lt;a class="link" href="https://www.openapis.org/" target="_blank" rel="noopener"
 >OpenAPI Initiative(OAI)&lt;/a> 定义并维护，同时也是 Linux 基金会下的一个开源项目。通常我们所说的 OpenAPI 全称应该是 OpenAPI Specification(OpenAPI 规范，简称 OSA)，它使用规定的格式来描述 HTTP RESTful API 的定义，以此来规范 RESTful 服务开发过程。使用 JSON 或 YAML 来描述一个标准的、与编程语言无关的 HTTP API 接口。OpenAPI 规范最初基于 SmartBear Software 在 2015 年捐赠的 &lt;a class="link" href="https://swagger.io/resources/open-api/" target="_blank" rel="noopener"
 >Swagger 规范&lt;/a>演变而来，目前最新的版本是 &lt;a class="link" href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md" target="_blank" rel="noopener"
 >v3.1.0&lt;/a>。&lt;/p>
 &lt;p>简单来说，OpenAPI 就是用来定义 HTTP 接口文档的一种规范，大家都按照同一套规范来编写接口文档，能够极大的减少沟通成本。&lt;/p>
-&lt;h3 id="openapi-规范基本信息">
-&lt;a href="#openapi-%e8%a7%84%e8%8c%83%e5%9f%ba%e6%9c%ac%e4%bf%a1%e6%81%af" class="header-anchor">#&lt;/a>
-OpenAPI 规范基本信息
+&lt;h3 id="openapi-规范基本信息">OpenAPI 规范基本信息
 &lt;/h3>&lt;p>OpenAPI 规范内容包含非常多的细节，本文无法一一讲解，这里仅介绍常见的基本信息，以 YAML 为例进行说明。YAML 是 JSON 的超集，在 OpenAPI 规范中定义的所有语法，两者之间是可以互相转换的，如果手动编写，建议编写 YAML 格式，更为易读。&lt;/p>
 &lt;p>OpenAPI 文档编写在一个 &lt;code>.json&lt;/code> 或 &lt;code>.yaml&lt;/code> 中，推荐将其命名为 &lt;code>openapi.json&lt;/code> 或 &lt;code>openapi.yaml&lt;/code>，OpenAPI 文档其实就是一个单一的 JSON 对象，其中包含符合 &lt;a class="link" href="https://spec.openapis.org/oas/latest.html" target="_blank" rel="noopener"
 >OpenAPI 规范&lt;/a>中定义的结构字段。&lt;/p>
@@ -202,9 +196,7 @@ data-flex-grow="175"
 data-flex-basis="420px"
 >&lt;/p>
 &lt;hr>
-&lt;h2 id="openapitools">
-&lt;a href="#openapitools" class="header-anchor">#&lt;/a>
-OpenAPI.Tools
+&lt;h2 id="openapitools">OpenAPI.Tools
 &lt;/h2>&lt;p>现在我们知道了 OpenAPI 规范，接下来要做什么？当然是了解 OpenAPI 开放了哪些能力。&lt;/p>
 &lt;p>有一个叫 &lt;a class="link" href="https://openapi.tools/" target="_blank" rel="noopener"
 >OpenAPI.Tools&lt;/a> 的网站，分类整理并记录了社区围绕 OpenAPI 规范开发的流行工具。&lt;/p>
@@ -219,9 +211,7 @@ data-flex-grow="217"
 data-flex-basis="522px"
 >&lt;/p>
 &lt;p>可以看到列表中有很多分类，在我们日常开发中，最经常使用的有三类：&lt;/p>
-&lt;h3 id="文档编辑器">
-&lt;a href="#%e6%96%87%e6%a1%a3%e7%bc%96%e8%be%91%e5%99%a8" class="header-anchor">#&lt;/a>
-文档编辑器
+&lt;h3 id="文档编辑器">文档编辑器
 &lt;/h3>&lt;p>文档编辑器方便我们用来编写符合 OpenAPI 规范的文档，有助于提高编写文档的效率，就像 &lt;a class="link" href="https://code.visualstudio.com/" target="_blank" rel="noopener"
 >VS Code&lt;/a> 能够方便我们编写代码一样。&lt;/p>
 &lt;p>文档编辑器有两种：&lt;a class="link" href="https://openapi.tools/#text-editors" target="_blank" rel="noopener"
@@ -244,16 +234,12 @@ data-flex-basis="383px"
 &lt;p>图形编辑器的好处是能够以可视化的形式编辑内容，不了解 OpenAPI 规范语法也能编辑。可以根据自己喜好来进行选择，如 &lt;a class="link" href="https://stoplight.io/studio" target="_blank" rel="noopener"
 >Stoplight Studio&lt;/a>、&lt;a class="link" href="https://apigit.com/zh-CN" target="_blank" rel="noopener"
 >APIGit&lt;/a> 等。&lt;/p>
-&lt;h3 id="mock-服务器">
-&lt;a href="#mock-%e6%9c%8d%e5%8a%a1%e5%99%a8" class="header-anchor">#&lt;/a>
-Mock 服务器
+&lt;h3 id="mock-服务器">Mock 服务器
 &lt;/h3>&lt;p>当我们使用 OpenAPI 规范来进行接口开发时，往往采用文档先行的策略，也就是前后端在开发代码前，先定义好接口文档，再进行代码的编写。此时前端如果想测试接口可用性，而后端代码还没有编写完成，&lt;a class="link" href="https://openapi.tools/#mock" target="_blank" rel="noopener"
 >Mock 服务器&lt;/a>就派上用场了。Mock 服务器能够根据所提供的 OpenAPI 接口文档，自动生成一个模拟的 Web Server。使用 Mock 服务器能够轻松模拟真实的后端接口，方便前端同学进行接口调试。&lt;/p>
 &lt;p>上面提到的 &lt;a class="link" href="https://apigit.com/zh-CN/why-apigit/mock-server" target="_blank" rel="noopener"
 >APIGit&lt;/a> 也同时具备此功能。&lt;/p>
-&lt;h3 id="代码生成器">
-&lt;a href="#%e4%bb%a3%e7%a0%81%e7%94%9f%e6%88%90%e5%99%a8" class="header-anchor">#&lt;/a>
-代码生成器
+&lt;h3 id="代码生成器">代码生成器
 &lt;/h3>&lt;p>还有一种很实用的工具是代码生成器，代码生成器有两种类型：一种是从代码/注释生成 OpenAPI 文档，另一种是从 OpenAPI 文档生成代码。&lt;/p>
 &lt;p>这类工具同样非常多，且更为实用。比如我们有一份写好了的 Go Web Server 代码，想要自动生成一份 OpenAPI 文档，就可以使用 &lt;a class="link" href="https://github.com/go-swagger/go-swagger" target="_blank" rel="noopener"
 >go-swagger&lt;/a> 这个工具来生成一份 &lt;code>openapi.yaml&lt;/code> 文档。&lt;/p>
@@ -264,12 +250,8 @@ Mock 服务器
 &lt;p>代码生成器是开发者应该着重关注的工具，使用这些工具可以减少大量手动且重复的工作，你可以&lt;a class="link" href="https://openapi.tools/#sdk" target="_blank" rel="noopener"
 >在此&lt;/a>看下有没有感兴趣的项目供你使用。&lt;/p>
 &lt;hr>
-&lt;h2 id="swagger">
-&lt;a href="#swagger" class="header-anchor">#&lt;/a>
-&lt;strong>Swagger&lt;/strong>
-&lt;/h2>&lt;h3 id="什么是-swagger">
-&lt;a href="#%e4%bb%80%e4%b9%88%e6%98%af-swagger" class="header-anchor">#&lt;/a>
-什么是 Swagger
+&lt;h2 id="swagger">&lt;strong>Swagger&lt;/strong>
+&lt;/h2>&lt;h3 id="什么是-swagger">什么是 Swagger
 &lt;/h3>&lt;p>Swagger 是一套围绕 OpenAPI 规范所构建的开源工具集，提供了强大和易于使用的工具来充分利用 OpenAPI 规范，Swagger 工具集由最初的 Swagger 规范背后的团队所开发。&lt;/p>
 &lt;p>Swagger 工具集提供了 API 设计、开发、测试、治理和监控等能力，其中最主要的工具包含如下三个：&lt;/p>
 &lt;ul>
@@ -282,9 +264,7 @@ Mock 服务器
 &lt;/ul>
 &lt;p>当然 Swagger 也有为企业用户提供的收费版本工具，如 &lt;a class="link" href="https://swagger.io/tools/swaggerhub/enterprise/" target="_blank" rel="noopener"
 >SwaggerHub Enterprise&lt;/a>，感兴趣的同学可以自行了解。&lt;/p>
-&lt;h3 id="swagger-和-openapi-的关系">
-&lt;a href="#swagger-%e5%92%8c-openapi-%e7%9a%84%e5%85%b3%e7%b3%bb" class="header-anchor">#&lt;/a>
-Swagger 和 OpenAPI 的关系
+&lt;h3 id="swagger-和-openapi-的关系">Swagger 和 OpenAPI 的关系
 &lt;/h3>&lt;p>讲到了 Swagger，就不得不提及 Swagger 和 OpenAPI 的联系与区别，因为这二者经常在一起出现。&lt;/p>
 &lt;p>前文也说过 OpenAPI 规范是基于 Swagger 规范演变而来的，但其实二者并不相等。&lt;/p>
 &lt;p>在 OpenAPI 尚未出现之前，Swagger 代表了 Swagger 规范以及一系列围绕 Swagger 规范的开源工具集。Swagger 规范最后一个版本是 &lt;a class="link" href="https://swagger.io/specification/v2/" target="_blank" rel="noopener"
@@ -304,14 +284,10 @@ data-flex-grow="323"
 data-flex-basis="777px"
 >&lt;/p>
 &lt;p>希望你下次再见到这两个 LOGO 时能清晰分辨出二者，而不被混淆。&lt;/p>
-&lt;h2 id="以-go-语言为例讲解-openapi-在实际开发中的应用">
-&lt;a href="#%e4%bb%a5-go-%e8%af%ad%e8%a8%80%e4%b8%ba%e4%be%8b%e8%ae%b2%e8%a7%a3-openapi-%e5%9c%a8%e5%ae%9e%e9%99%85%e5%bc%80%e5%8f%91%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8" class="header-anchor">#&lt;/a>
-以 Go 语言为例讲解 OpenAPI 在实际开发中的应用
+&lt;h2 id="以-go-语言为例讲解-openapi-在实际开发中的应用">以 Go 语言为例讲解 OpenAPI 在实际开发中的应用
 &lt;/h2>&lt;p>前文介绍了编写 OpenAPI 文档的两种编辑器：文本编辑器以及图形编辑器。在日常开发中，后端可以先使用这类编辑器如 Swagger Editor 编写出 OpenAPI 文档，然后将这份文档交给前端，前端拿到 OpenAPI 文档后将其导入到 Swagger Editor，就可以在线阅读接口文档并与之进行交互，之后前后端就可以并行开发了。&lt;/p>
 &lt;p>这样的工作流看起来似乎没什么问题，不过编写 OpenAPI 文档毕竟是个苦力活，不仅有大量的重复工作，还要求开发者熟练掌握 OpenAPI 规范语法。这对于“爱偷懒”的开发者显然是无法接受的，就像段子里说的，程序员最讨厌两件事：1. 写文档，2. 别人不写文档。而这个问题的解法，当然就是前文提到的代码生成器。&lt;/p>
-&lt;h3 id="使用-swag-生成-swagger-文档">
-&lt;a href="#%e4%bd%bf%e7%94%a8-swag-%e7%94%9f%e6%88%90-swagger-%e6%96%87%e6%a1%a3" class="header-anchor">#&lt;/a>
-使用 Swag 生成 Swagger 文档
+&lt;h3 id="使用-swag-生成-swagger-文档">使用 Swag 生成 Swagger 文档
 &lt;/h3>&lt;p>在 Go 语言生态里，目前有两个比较流行的开源工具可以生成 Swagger 文档，分别是 &lt;a class="link" href="https://github.com/go-swagger/go-swagger" target="_blank" rel="noopener"
 >go-swagger&lt;/a> 和 &lt;a class="link" href="https://github.com/swaggo/swag" target="_blank" rel="noopener"
 >swag&lt;/a>。它们都能根据代码中的注释生成 Swagger 文档，go-swagger 作为一款 OpenAPI.Tools 推荐的工具，其功能比 swag 更加强大且 Github Star 数量也更高。&lt;/p>
@@ -319,9 +295,7 @@ data-flex-basis="777px"
 &lt;blockquote>
 &lt;p>注意：在这里我一直提到的都是生成 Swagger 文档，而没有说是 OpenAPI 文档。因为无论是 swag 还是功能更强大的 go-swagger，它们目前都仅支持生成 OpenAPI 2.0 文档，并不支持生成 OpenAPI 3.0+ 文档，而 OpenAPI 2.0 版本我们更习惯称其为 Swagger 文档。&lt;/p>
 &lt;/blockquote>
-&lt;h4 id="安装-swag">
-&lt;a href="#%e5%ae%89%e8%a3%85-swag" class="header-anchor">#&lt;/a>
-安装 Swag
+&lt;h4 id="安装-swag">安装 Swag
 &lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -334,9 +308,7 @@ data-flex-basis="777px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">swag version v1.8.10
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="swag-命令行工具">
-&lt;a href="#swag-%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%b7%a5%e5%85%b7" class="header-anchor">#&lt;/a>
-Swag 命令行工具
+&lt;/div>&lt;h4 id="swag-命令行工具">Swag 命令行工具
 &lt;/h4>&lt;p>swag 非常简洁，仅提供了两个主要命令 &lt;code>init&lt;/code> 和 &lt;code>fmt&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -476,9 +448,7 @@ Swag 命令行工具
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h4 id="在-gin-中使用-swag">
-&lt;a href="#%e5%9c%a8-gin-%e4%b8%ad%e4%bd%bf%e7%94%a8-swag" class="header-anchor">#&lt;/a>
-在 Gin 中使用 Swag
+&lt;h4 id="在-gin-中使用-swag">在 Gin 中使用 Swag
 &lt;/h4>&lt;p>在 &lt;a class="link" href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener"
 >gin&lt;/a> 框架能够很方便的使用 swag，步骤如下：&lt;/p>
 &lt;ol>
@@ -795,9 +765,7 @@ class="gallery-image"
 data-flex-grow="177"
 data-flex-basis="427px"
 >&lt;/p>
-&lt;h4 id="将-gin-作为-swagger-ui-服务器">
-&lt;a href="#%e5%b0%86-gin-%e4%bd%9c%e4%b8%ba-swagger-ui-%e6%9c%8d%e5%8a%a1%e5%99%a8" class="header-anchor">#&lt;/a>
-将 Gin 作为 Swagger UI 服务器
+&lt;h4 id="将-gin-作为-swagger-ui-服务器">将 Gin 作为 Swagger UI 服务器
 &lt;/h4>&lt;p>上面我们通过 swag 生成了 Swagger 文档，并手动将生成的 &lt;code>swagger.yaml&lt;/code> 复制到 Swagger Editor 编辑器进行 Swagger UI 预览。不过这么做显然有点麻烦，好在 swag 作者也考虑到了这一点，所以他又提供了另外两个项目 &lt;a class="link" href="https://github.com/swaggo/gin-swagger" target="_blank" rel="noopener"
 >gin-swagger&lt;/a> 和 &lt;a class="link" href="https://github.com/swaggo/files" target="_blank" rel="noopener"
 >files&lt;/a>，能够直接将 gin 作为 Swagger UI 服务器，这样就不用每次都将 &lt;code>swagger.yaml&lt;/code> 手动复制到 Swagger Editor 编辑器才能实现 Swagger UI 预览。&lt;/p>
@@ -1005,9 +973,7 @@ data-flex-grow="353"
 data-flex-basis="847px"
 >&lt;/p>
 &lt;p>与前端对接时，我们只需要将接口文档地址给到前端，前端就可以根据这个 Swagger UI 界面进行接口查阅和调试了，非常方便。&lt;/p>
-&lt;h4 id="让-swag-支持多版本-api-文档">
-&lt;a href="#%e8%ae%a9-swag-%e6%94%af%e6%8c%81%e5%a4%9a%e7%89%88%e6%9c%ac-api-%e6%96%87%e6%a1%a3" class="header-anchor">#&lt;/a>
-让 Swag 支持多版本 API 文档
+&lt;h4 id="让-swag-支持多版本-api-文档">让 Swag 支持多版本 API 文档
 &lt;/h4>&lt;p>实际工作中，我们的项目会比这个只有一个接口的 demo 复杂得多，同时 API 也可能会支持多版本，比如 &lt;code>/api/v1&lt;/code>、&lt;code>/api/v2&lt;/code>。&lt;/p>
 &lt;p>我们可以分别生成 &lt;code>v1&lt;/code>、&lt;code>v2&lt;/code> 两个版本的 API 文档，这样可以将不同版本的接口分开展示，更加清晰。&lt;/p>
 &lt;p>命令如下：&lt;/p>
@@ -1115,18 +1081,14 @@ data-flex-basis="847px"
 &lt;li>完整示例代码：&lt;a class="link" href="https://github.com/jianghushinian/swag-example" target="_blank" rel="noopener"
 >swag-example&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;h4 id="swag-使用建议">
-&lt;a href="#swag-%e4%bd%bf%e7%94%a8%e5%bb%ba%e8%ae%ae" class="header-anchor">#&lt;/a>
-Swag 使用建议
+&lt;h4 id="swag-使用建议">Swag 使用建议
 &lt;/h4>&lt;p>在前文介绍的 swag 使用流程中，不知道你有没有注意到，我们是先编写的代码，然后再生成的 Swagger 文档，最后将这份文档交给前端使用。&lt;/p>
 &lt;p>这显然违背了「文档先行」的思想，实际工作中，我们更多的时候是先跟前端约定好接口，然后后端提供 Swagger 文档供前端使用，最后才是前后端编码阶段。&lt;/p>
 &lt;p>要想解决这个问题，最直接的解决方案是不使用 swag 工具，而是直接使用 Swagger Editor 这种编辑器手写 Swagger 文档，这样就能实现文档先行了。&lt;/p>
 &lt;p>但这又违背了 OpenAPI 给出的「最佳实践」，推荐自动生成 Swagger 文档，而非手动编写。&lt;/p>
 &lt;p>我自己的解决方案是，依旧选择使用 swag 工具，不过在编写代码时，先写接口的框架代码，而不写具体的业务逻辑，这样就能够先通过接口注释生成 Swagger 文档，供前端使用，然后再编写业务代码。&lt;/p>
 &lt;p>另外，较为遗憾的是，目前（2024-5-23） swag 生成的文档是 OpenAPI 2.0 版本，并不能直接生成 OpenAPI 3.0 版本，如果你想使用 OpenAPI 3.0 版本的文档，一个变通的方法是使用工具将 OpenAPI 2.0 文档转换成 OpenAPI 3.0，如前文提到的 Swagger Editor 就支持此操作。&lt;/p>
-&lt;h3 id="使用-redoc-风格的-api-文档">
-&lt;a href="#%e4%bd%bf%e7%94%a8-redoc-%e9%a3%8e%e6%a0%bc%e7%9a%84-api-%e6%96%87%e6%a1%a3" class="header-anchor">#&lt;/a>
-使用 ReDoc 风格的 API 文档
+&lt;h3 id="使用-redoc-风格的-api-文档">使用 ReDoc 风格的 API 文档
 &lt;/h3>&lt;p>也许相较于 Swagger UI 多年不变的界面风格，你更喜欢 ReDoc 风格的 UI，那么 &lt;a class="link" href="https://github.com/mvrilo/go-redoc" target="_blank" rel="noopener"
 >go-redoc&lt;/a> 是一个比较不错的选择。&lt;/p>
 &lt;p>在 gin 中使用 go-redoc 非常简单，只需要将如下套路代码加入到我们的 &lt;code>main.go&lt;/code> 文件中即可。&lt;/p>
@@ -1330,9 +1292,7 @@ data-flex-basis="383px"
 >&lt;/p>
 &lt;p>不过，相较于 Swagger UI，Redoc UI 有个弊端是不能实现交互式操作，如果仅以此作为文档查阅工具，没有交互式操作的需求，那么还是比较推荐使用的。&lt;/p>
 &lt;hr>
-&lt;h2 id="更先进的-api-工具">
-&lt;a href="#%e6%9b%b4%e5%85%88%e8%bf%9b%e7%9a%84-api-%e5%b7%a5%e5%85%b7" class="header-anchor">#&lt;/a>
-更先进的 API 工具
+&lt;h2 id="更先进的-api-工具">更先进的 API 工具
 &lt;/h2>&lt;p>除了 OpenAPI.Tools 推荐的开源工具，社区中其实还有很多其他优秀工具值得尝试使用，比如我这里要推荐的一款国产工具 &lt;a class="link" href="https://www.apifox.com/" target="_blank" rel="noopener"
 >Apifox&lt;/a>，官方将其定义为 Apifox = Postman + Swagger + Mock + JMeter，集 API 设计/开发/测试 于一身。&lt;/p>
 &lt;p>Apifox 可谓一站式图形化工具，其功能非常强大，就像前文提到的 APIGit 同时具备了编辑器和 Mock 服务器的功能，Apifox 有过之而无不及。&lt;/p>
@@ -1351,9 +1311,7 @@ data-flex-basis="379px"
 &lt;p>&lt;a class="link" href="https://www.apipost.cn/" target="_blank" rel="noopener"
 >Apipost&lt;/a>也是跟它差不多的接口测试工具，不过我更喜欢apipost，因为它不登录的情况下，离线可以使用。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>OpenAPI 官网： &lt;a class="link" href="https://www.openapis.org/" target="_blank" rel="noopener"

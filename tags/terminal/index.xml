@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Terminal on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/terminal/</link><description>Recent content in Terminal on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Mon, 27 May 2024 15:17:13 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/terminal/index.xml" rel="self" type="application/rss+xml"/><item><title>Terminal And Shell Introduction</title><link>https://arlettebrook.github.io/p/terminal-and-shell-introduction/</link><pubDate>Mon, 27 May 2024 15:17:13 +0800</pubDate><guid>https://arlettebrook.github.io/p/terminal-and-shell-introduction/</guid><description>&lt;hr>
-&lt;h2 id="概念">
-&lt;a href="#%e6%a6%82%e5%bf%b5" class="header-anchor">#&lt;/a>
-概念
+&lt;h2 id="概念">概念
 &lt;/h2>&lt;ul>
 &lt;li>&lt;strong>终端&lt;/strong>：命令行&lt;strong>交互界面&lt;/strong>。如：
 &lt;ul>
@@ -22,15 +20,11 @@
 >命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="zsh安装">
-&lt;a href="#zsh%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-zsh安装
+&lt;h2 id="zsh安装">zsh安装
 &lt;/h2>&lt;p>Bash是Linux系统内置的shell，提供了强大的命令行编辑、脚本编写和命令历史功能，广泛用于 Linux 和 macOS 系统中。是目前最流行的 Shell 之一。&lt;/p>
 &lt;p>而&lt;strong>Zsh&lt;/strong> 是一个功能强大的 Shell，具有比 Bash 更多的特性，如更高级的自动补全、更强大的脚本能力和更丰富的配置选项，还提供了诸如共享历史、拼写校正、主题支持和插件系统等&lt;strong>增强功能&lt;/strong>，使其成为高级用户和开发者的首选。&lt;/p>
 &lt;p>接下来介绍如何安装：&lt;/p>
-&lt;h3 id="windows上安装">
-&lt;a href="#windows%e4%b8%8a%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-windows上安装
+&lt;h3 id="windows上安装">windows上安装
 &lt;/h3>&lt;blockquote>
 &lt;p>注意：windows上安装zsh是建立在git bash基础上的。&lt;/p>
 &lt;p>所以只有安装了git，我们才能在windows上使用zsh。&lt;/p>
@@ -184,9 +178,7 @@ data-flex-basis="1072px"
 &lt;p>至此windows上安装zsh完成。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="linux上安装">
-&lt;a href="#linux%e4%b8%8a%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-Linux上安装
+&lt;h3 id="linux上安装">Linux上安装
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>准备：&lt;/p>
@@ -303,9 +295,7 @@ data-flex-basis="1688px"
 &lt;p>至此Linux安装zsh完成。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="安装-oh-my-zsh">
-&lt;a href="#%e5%ae%89%e8%a3%85-oh-my-zsh" class="header-anchor">#&lt;/a>
-安装 Oh My Zsh
+&lt;h3 id="安装-oh-my-zsh">安装 Oh My Zsh
 &lt;/h3>&lt;blockquote>
 &lt;blockquote>
 &lt;p>成功安装了zsh，还需要安装Oh My Zsh，它对zsh进行了扩展，这也是为什么要使用zsh了，而不是bash的原因。&lt;/p>
@@ -380,9 +370,7 @@ class="gallery-image"
 data-flex-grow="213"
 data-flex-basis="512px"
 >&lt;/p>
-&lt;h4 id="配置-zsh">
-&lt;a href="#%e9%85%8d%e7%bd%ae-zsh" class="header-anchor">#&lt;/a>
-配置 zsh
+&lt;h4 id="配置-zsh">配置 zsh
 &lt;/h4>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>Zsh&lt;/code>的配置文件在用户的家目录，文件名是 &lt;code>.zshrc&lt;/code>，编辑配置文件，可以对 &lt;code>Zsh&lt;/code>进行一些定制化配置：&lt;/p>
@@ -408,9 +396,7 @@ data-flex-basis="512px"
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h5 id="配置主题">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e4%b8%bb%e9%a2%98" class="header-anchor">#&lt;/a>
-&lt;strong>配置主题&lt;/strong>
+&lt;h5 id="配置主题">&lt;strong>配置主题&lt;/strong>
 &lt;/h5>&lt;ol>
 &lt;li>
 &lt;p>就是对.zshrc配置&lt;/p>
@@ -446,9 +432,7 @@ data-flex-basis="356px"
 &lt;/ol>
 &lt;/li>
 &lt;/ol>
-&lt;h5 id="配置插件">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-&lt;strong>配置插件&lt;/strong>
+&lt;h5 id="配置插件">&lt;strong>配置插件&lt;/strong>
 &lt;/h5>&lt;ol>
 &lt;li>
 &lt;p>插件Oh My Zsh 附带了大量插件供您使用。您可以查看&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins" target="_blank" rel="noopener"
@@ -485,9 +469,7 @@ data-flex-basis="1249px"
 >&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h6 id="自动补全">
-&lt;a href="#%e8%87%aa%e5%8a%a8%e8%a1%a5%e5%85%a8" class="header-anchor">#&lt;/a>
-&lt;strong>自动补全&lt;/strong>
+&lt;h6 id="自动补全">&lt;strong>自动补全&lt;/strong>
 &lt;/h6>&lt;ol>
 &lt;li>
 &lt;p>&lt;code>zsh-autosuggestions&lt;/code> 插件，可以在你历史指令中找到与你当前输入指令匹配的记录，并高亮显示，如果想直接使用，可以直接通过右方向键补全。 安装插件，在终端分别执行下面两条命令：官方&lt;a class="link" href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="noopener"
@@ -564,9 +546,7 @@ data-flex-basis="2654px"
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h6 id="目录跳转">
-&lt;a href="#%e7%9b%ae%e5%bd%95%e8%b7%b3%e8%bd%ac" class="header-anchor">#&lt;/a>
-&lt;strong>目录跳转&lt;/strong>
+&lt;h6 id="目录跳转">&lt;strong>目录跳转&lt;/strong>
 &lt;/h6>&lt;ol>
 &lt;li>
 &lt;p>&lt;code>Zsh&lt;/code> 自带有一个插件 &lt;code>z&lt;/code>，可以让我们在访问过的目录中快速跳转，将该插件配置到 &lt;code>~/.zshrc&lt;/code> 文件中即可使用：&lt;/p>
@@ -598,9 +578,7 @@ data-flex-basis="1218px"
 &lt;/blockquote>
 &lt;/li>
 &lt;/ol>
-&lt;h6 id="其他插件">
-&lt;a href="#%e5%85%b6%e4%bb%96%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-&lt;strong>其他插件&lt;/strong>
+&lt;h6 id="其他插件">&lt;strong>其他插件&lt;/strong>
 &lt;/h6>&lt;ol>
 &lt;li>
 &lt;p>&lt;code>zsh-syntax-highlighting&lt;/code>：这个插件可以识别的 &lt;code>shell&lt;/code> 命令并高亮显示&lt;/p>
@@ -695,18 +673,14 @@ data-flex-basis="475px"
 &lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="shell使用">
-&lt;a href="#shell%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-Shell使用
+&lt;h2 id="shell使用">Shell使用
 &lt;/h2>&lt;p>在不同的终端中我们可以指定不同的Shell来使用。如：&lt;/p>
 &lt;ol>
 &lt;li>在&lt;a class="link" href="#Linux%e4%b8%8a%e5%ae%89%e8%a3%85" >Linux安装zsh&lt;/a>中我们就指定了Linux终端的默认Shell为zsh。&lt;/li>
 &lt;li>在稍后介绍的[Windows Terminal](#Windows Terminal)中，也会指定Windows Terminal终端的默认Shell为Git bash。&lt;/li>
 &lt;li>下面介绍在IDE终端中设置自己的Shell。&lt;/li>
 &lt;/ol>
-&lt;h3 id="设置ide终端的shell为git-bash">
-&lt;a href="#%e8%ae%be%e7%bd%aeide%e7%bb%88%e7%ab%af%e7%9a%84shell%e4%b8%bagit-bash" class="header-anchor">#&lt;/a>
-设置IDE终端的Shell为git bash
+&lt;h3 id="设置ide终端的shell为git-bash">设置IDE终端的Shell为git bash
 &lt;/h3>&lt;p>如果你按照上面的教程成功在windows上安装了zsh，那么设置Shell为git bash，也就是设置为zsh。&lt;/p>
 &lt;p>注意：没有安装zsh的情况下也能设置为git bash。&lt;strong>优点：高亮、个人爱好&lt;/strong>。&lt;/p>
 &lt;p>这里以goland开发工具为例，jetBrains全系列差不多：&lt;/p>
@@ -777,12 +751,8 @@ data-flex-basis="915px"
 >&lt;/p>
 &lt;p>vscode默认为git bash设置了启动参数，很方便。&lt;/p>
 &lt;hr>
-&lt;h2 id="terminal使用">
-&lt;a href="#terminal%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-Terminal使用
-&lt;/h2>&lt;h3 id="windows-terminal">
-&lt;a href="#windows-terminal" class="header-anchor">#&lt;/a>
-Windows Terminal
+&lt;h2 id="terminal使用">Terminal使用
+&lt;/h2>&lt;h3 id="windows-terminal">Windows Terminal
 &lt;/h3>&lt;p>&lt;strong>Windows Terminal&lt;/strong>可以理解为：是cmd窗口和PowerShell终端的增强版，它将windows环境下的终端（cmd、PowerShell）都集成在了一起。我们只需要指定对应的Shell（cmd、PowerShell、git bash），即可使用。&lt;a class="link" href="https://learn.microsoft.com/zh-cn/windows/terminal/" target="_blank" rel="noopener"
 >官方文档&lt;/a>。&lt;/p>
 &lt;p>&lt;strong>主要特性&lt;/strong>：&lt;/p>
@@ -828,9 +798,7 @@ Windows Terminal
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h4 id="安装">
-&lt;a href="#%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-安装
+&lt;h4 id="安装">安装
 &lt;/h4>&lt;p>Win11系统自带Windows Terminal终端，并且从Windows 11 22H2 版本开始，Windows Terminal 将&lt;a class="link" href="https://devblogs.microsoft.com/commandline/windows-terminal-is-now-the-default-in-windows-11/" target="_blank" rel="noopener"
 >正式成为&lt;/a> Windows 11 的&lt;strong>默认终端&lt;/strong>。&lt;/p>
 &lt;p>对于Win10系统需要额外安装，最低要求是Windows 10 2004（内部版本 19041）或更高版本。&lt;/p>
@@ -866,9 +834,7 @@ data-flex-basis="453px"
 &lt;p>推荐文章：&lt;a class="link" href="https://blog.csdn.net/2201_75372778/article/details/131342522" target="_blank" rel="noopener"
 >Windows终端（windows terminal）从下载到运行&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;h4 id="修改默认shell为git-bash">
-&lt;a href="#%e4%bf%ae%e6%94%b9%e9%bb%98%e8%ae%a4shell%e4%b8%bagit-bash" class="header-anchor">#&lt;/a>
-修改默认Shell为Git Bash
+&lt;h4 id="修改默认shell为git-bash">修改默认Shell为Git Bash
 &lt;/h4>&lt;p>可以根据自己的爱好判断是否修改。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -914,9 +880,7 @@ data-flex-basis="474px"
 >&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="美化">
-&lt;a href="#%e7%be%8e%e5%8c%96" class="header-anchor">#&lt;/a>
-美化
+&lt;h4 id="美化">美化
 &lt;/h4>&lt;p>我在windows环境下使用的Shell一般是git bash，可定制化并不高，配置的zsh也没有使用，不过对我来说够用了。&lt;/p>
 &lt;p>效果如下：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527230837406.png"
@@ -1013,9 +977,7 @@ data-flex-basis="426px"
 >Oh My Posh&lt;/a>美化它，跟前面介绍的Oh My Zsh差不多。&lt;/p>
 &lt;p>推荐文章：&lt;a class="link" href="https://blog.sunguoqi.com/posts/oh-my-posh/" target="_blank" rel="noopener"
 >Oh My Posh | Windows Terminal 美化指南&lt;/a>&lt;/p>
-&lt;h3 id="windterm">
-&lt;a href="#windterm" class="header-anchor">#&lt;/a>
-WindTerm
+&lt;h3 id="windterm">WindTerm
 &lt;/h3>&lt;p>&lt;a class="link" href="https://github.com/kingToolbox/WindTerm" target="_blank" rel="noopener"
 >WindTerm&lt;/a>是一款跨平台的终端应用，同时也是 SSH/Telnet/Serial/Shell/Sftp 客户端。通常用于&lt;strong>远程连接&lt;/strong>。类似于FinalShell，它有的功能，WindTerm同样支持，并且拥有更多的配色方案，直接上图：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm-dark.png"
@@ -1038,24 +1000,18 @@ class="gallery-image"
 data-flex-grow="168"
 data-flex-basis="404px"
 >&lt;/p>
-&lt;h4 id="安装-1">
-&lt;a href="#%e5%ae%89%e8%a3%85-1" class="header-anchor">#&lt;/a>
-安装
+&lt;h4 id="安装-1">安装
 &lt;/h4>&lt;p>WindTerm是一款部分开源的软件，现目前(2024/5/28)仍存在部分小问题，不过不影响正常使用。&lt;/p>
 &lt;p>安装可以从&lt;a class="link" href="https://github.com/kingToolbox/WindTerm" target="_blank" rel="noopener"
 >github仓库&lt;/a>的&lt;a class="link" href="https://github.com/kingToolbox/WindTerm/releases" target="_blank" rel="noopener"
 >发布页面&lt;/a>根据自己的操作系统手动下载已发布的版本。&lt;/p>
-&lt;h4 id="使用">
-&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-使用
+&lt;h4 id="使用">使用
 &lt;/h4>&lt;p>使用WindTerm也很简单，语言支持中文。花点时间就能学会。&lt;/p>
 &lt;p>WindTerm在windows环境下建议将默认的shell修改为git bash。个人爱好。&lt;/p>
 &lt;p>Windows Terminal和WindTerm两款终端应用都建议安装，各有各的优点和用图。不过我一般使用WindTerm多一点，因为Windows Terminal有的功能WindTerm都有，并且后者有更好的配色方案，支持文件传输，内置远程连接。&lt;/p>
 &lt;p>安装Windows Terminal主要是因为Windows Terminal集成了Win10的cmd、PowerShell终端。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ul>
 &lt;li>原文地址: &lt;a class="link" href="https://juejin.cn/post/7229507721795993661" target="_blank" rel="noopener"

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go第三方库 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/</link><description>Recent content in Go第三方库 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Fri, 02 Aug 2024 15:50:02 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Go-figure Introduction</title><link>https://arlettebrook.github.io/p/go-figure-introduction/</link><pubDate>Fri, 02 Aug 2024 15:50:02 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-figure-introduction/</guid><description>&lt;hr>
-&lt;h2 id="介绍">
-&lt;a href="#%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-介绍
+&lt;h2 id="介绍">介绍
 &lt;/h2>&lt;p>&lt;a class="link" href="https://github.com/common-nighthawk/go-figure" target="_blank" rel="noopener"
 >go-figure&lt;/a>可从文本打印出精美的 ASCII 艺术图。它支持&lt;a class="link" href="http://www.figlet.org/" target="_blank" rel="noopener"
 >FIGlet&lt;/a>文件及其大部分功能。&lt;/p>
@@ -9,9 +7,7 @@
 >artii&lt;/a>，但是是从头开始构建，并且具有不同的功能集。&lt;/p>
 &lt;p>&lt;strong>它在go语言中通常用于在终端中生成 ASCII 艺术字。该库提供了多种字体和样式，让用户可以轻松地创建视觉上吸引人的文本输出。&lt;/strong>&lt;/p>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>首先，使用以下命令安装 &lt;code>go-figure&lt;/code> 包：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -65,9 +61,7 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="创建figure对象">
-&lt;a href="#%e5%88%9b%e5%bb%bafigure%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-创建&lt;code>figure&lt;/code>对象
+&lt;h2 id="创建figure对象">创建&lt;code>figure&lt;/code>对象
 &lt;/h2>&lt;p>有三种方法可以创建图形对象。它们是： &lt;code>func NewFigure&lt;/code>、 &lt;code>func NewColorFigure&lt;/code>和 &lt;code>func NewFigureWithFont&lt;/code>。&lt;/p>
 &lt;p>每个构造函数都接受以下参数：文本、字体和严格模式。“color”构造函数接受颜色作为附加参数。“with font”以不同方式指定字体。具体方法如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -311,13 +305,9 @@ weird
 &lt;/div>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="打印figure对象">
-&lt;a href="#%e6%89%93%e5%8d%b0figure%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-打印&lt;code>figure&lt;/code>对象
+&lt;h2 id="打印figure对象">打印&lt;code>figure&lt;/code>对象
 &lt;/h2>&lt;p>调用&lt;code>figure&lt;/code>对象的&lt;code>Print&lt;/code>方法即可将对应艺术字输出的终端。没有返回值。&lt;code>myFigure.Print()&lt;/code>&lt;/p>
-&lt;h3 id="默认字体推荐">
-&lt;a href="#%e9%bb%98%e8%ae%a4%e5%ad%97%e4%bd%93%e6%8e%a8%e8%8d%90" class="header-anchor">#&lt;/a>
-默认字体推荐
+&lt;h3 id="默认字体推荐">默认字体推荐
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>figure.NewFigure(&amp;quot;Arlettebrook&amp;quot;, &amp;quot;standard&amp;quot;, true).Print()&lt;/code>&lt;/p>
@@ -428,16 +418,10 @@ weird
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="高级用法">
-&lt;a href="#%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95" class="header-anchor">#&lt;/a>
-高级用法
-&lt;/h2>&lt;h3 id="动画效果">
-&lt;a href="#%e5%8a%a8%e7%94%bb%e6%95%88%e6%9e%9c" class="header-anchor">#&lt;/a>
-动画效果
+&lt;h2 id="高级用法">高级用法
+&lt;/h2>&lt;h3 id="动画效果">动画效果
 &lt;/h3>&lt;p>&lt;code>go-figure&lt;/code> 还支持简单的动画效果，如闪烁、滚动和跳舞。&lt;/p>
-&lt;h4 id="闪烁">
-&lt;a href="#%e9%97%aa%e7%83%81" class="header-anchor">#&lt;/a>
-闪烁
+&lt;h4 id="闪烁">闪烁
 &lt;/h4>&lt;p>闪烁用到的方法是：&lt;code>func (fig figure) Blink(duration, timeOn, timeOff int)&lt;/code>&lt;/p>
 &lt;ul>
 &lt;li>
@@ -464,9 +448,7 @@ weird
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>闪烁、滚动和跳舞完成之后，不会打印艺术字，再次调用&lt;code>Print&lt;/code>方法打印，效果更好。&lt;/p>
-&lt;h4 id="滚动">
-&lt;a href="#%e6%bb%9a%e5%8a%a8" class="header-anchor">#&lt;/a>
-滚动
+&lt;h4 id="滚动">滚动
 &lt;/h4>&lt;p>滚动用到的方法是：&lt;code>func (fig figure) Scroll(duration, stillness int, direction string) &lt;/code>&lt;/p>
 &lt;ul>
 &lt;li>
@@ -492,9 +474,7 @@ weird
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="跳舞">
-&lt;a href="#%e8%b7%b3%e8%88%9e" class="header-anchor">#&lt;/a>
-跳舞
+&lt;/div>&lt;h4 id="跳舞">跳舞
 &lt;/h4>&lt;p>跳舞用到的方法是：&lt;code>func (fig figure) Dance(duration, freeze int)&lt;/code>&lt;/p>
 &lt;ul>
 &lt;li>
@@ -520,9 +500,7 @@ weird
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">colorFigure&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Print&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="输出到其他地方">
-&lt;a href="#%e8%be%93%e5%87%ba%e5%88%b0%e5%85%b6%e4%bb%96%e5%9c%b0%e6%96%b9" class="header-anchor">#&lt;/a>
-输出到其他地方
+&lt;/div>&lt;h3 id="输出到其他地方">输出到其他地方
 &lt;/h3>&lt;p>如果想将输出写入文件或其他 &lt;code>io.Writer&lt;/code>，可以使用 &lt;code>Write&lt;/code> 方法：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -609,18 +587,14 @@ weird
 &lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://github.com/common-nighthawk/go-figure" target="_blank" rel="noopener"
 >go-figure官方仓库&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/blockquote></description></item><item><title>Gin Introduction</title><link>https://arlettebrook.github.io/p/gin-introduction/</link><pubDate>Tue, 21 May 2024 17:58:00 +0800</pubDate><guid>https://arlettebrook.github.io/p/gin-introduction/</guid><description>&lt;hr>
-&lt;h2 id="gin介绍">
-&lt;a href="#gin%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-Gin介绍
+&lt;h2 id="gin介绍">Gin介绍
 &lt;/h2>&lt;p>Gin 是一个用 Golang编写的高性能的web 框架, 由于&lt;a class="link" href="https://github.com/julienschmidt/httprouter" target="_blank" rel="noopener"
 >http路由&lt;/a>的优化，运行速度非常快，速度提高了近 40 倍。 Gin的特点就是封装优雅、API友好。&lt;/p>
 &lt;p>Gin 最擅长的就是API接口的高并发，如果项目的规模不大，业务相对简单，这个时候我们也推荐您使用 Gin。&lt;/p>
@@ -650,9 +624,7 @@ Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。&lt;/li>
 &lt;p>Gin Github 地址： &lt;a class="link" href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener"
 >https://github.com/gin-gonic/gin&lt;/a>&lt;/p>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>下载并安装 gin：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -732,9 +704,7 @@ Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。&lt;/li>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>注意：如果不期望在测试的时候，每次都弹出防火墙警告，可将监听地址、端口改为&lt;code>localhost:8080&lt;/code>。生产环境应该为&lt;code>:port&lt;/code>，省略地址，默认为&lt;code>0.0.0.0&lt;/code>。&lt;/p>
-&lt;h3 id="gin框架热重载">
-&lt;a href="#gin%e6%a1%86%e6%9e%b6%e7%83%ad%e9%87%8d%e8%bd%bd" class="header-anchor">#&lt;/a>
-Gin框架热重载
+&lt;h3 id="gin框架热重载">Gin框架热重载
 &lt;/h3>&lt;p>所谓热重载就是当我们对代码进行修改时，程序能够自动重新加载并执行，这在我们开发中是非常便利的，可以快速进行代码测试，省去了每次手动重新编译。&lt;/p>
 &lt;p>Gin框架并没有提供热重载的功能，这个时候我们要实现热重载就要借助第三方的工具。&lt;/p>
 &lt;p>这里推荐一个使用最多的gin框架热重载工具：&lt;strong>&lt;a class="link" href="https://github.com/cosmtrek/air/" target="_blank" rel="noopener"
@@ -749,9 +719,7 @@ Gin框架热重载
 &lt;li>&lt;strong>更棒的构建过程&lt;/strong>&lt;/li>
 &lt;/ul>
 &lt;p>原理大致是：监听到文件系统修改通知后，重新构建应用程序。&lt;/p>
-&lt;h4 id="air基本使用">
-&lt;a href="#air%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-air基本使用
+&lt;h4 id="air基本使用">air基本使用
 &lt;/h4>&lt;p>安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -875,9 +843,7 @@ air基本使用
 &lt;/div>
 &lt;/div>&lt;p>基本使用如上，更多内容参考&lt;a class="link" href="https://github.com/cosmtrek/air/" target="_blank" rel="noopener"
 >air官方&lt;/a>。&lt;/p>
-&lt;h3 id="项目结构">
-&lt;a href="#%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84" class="header-anchor">#&lt;/a>
-项目结构
+&lt;h3 id="项目结构">项目结构
 &lt;/h3>&lt;p>实际项目业务功能和模块会很多，我们不可能把所有代码都写在一个go文件里面或者写在一个main入口函数里面；我们需要对项目结构做一些规划，方便维护代码以及扩展。&lt;/p>
 &lt;blockquote>
 &lt;p>Gin框没有对项目结构做出限制，我们可以根据自己项目需要自行设计。&lt;/p>
@@ -925,9 +891,7 @@ air基本使用
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> routers
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="gin框架运行模式">
-&lt;a href="#gin%e6%a1%86%e6%9e%b6%e8%bf%90%e8%a1%8c%e6%a8%a1%e5%bc%8f" class="header-anchor">#&lt;/a>
-Gin框架运行模式
+&lt;/div>&lt;h3 id="gin框架运行模式">Gin框架运行模式
 &lt;/h3>&lt;p>为方便调试，Gin 框架在运行的时候默认是debug模式，在控制台默认会打印出很多调试日志，上线的时候我们需要关闭&lt;code>debug&lt;/code>模式，改为&lt;code>release&lt;/code>模式。&lt;/p>
 &lt;p>设置Gin框架运行模式：&lt;/p>
 &lt;ol>
@@ -963,9 +927,7 @@ Gin框架运行模式
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h2 id="路由与控制器">
-&lt;a href="#%e8%b7%af%e7%94%b1%e4%b8%8e%e6%8e%a7%e5%88%b6%e5%99%a8" class="header-anchor">#&lt;/a>
-路由与控制器
+&lt;h2 id="路由与控制器">路由与控制器
 &lt;/h2>&lt;p>Gin框架中的&lt;strong>路由&lt;/strong>是指通过HTTP请求的路径找到对应的控制器函数（也可以叫处理器函数）。Gin框架的路由是基于&lt;a class="link" href="https://github.com/julienschmidt/httprouter" target="_blank" rel="noopener"
 >httprouter&lt;/a>包实现的。&lt;/p>
 &lt;p>&lt;strong>控制器函数&lt;/strong>主要负责处理http请求和响应请求。&lt;/p>
@@ -1004,18 +966,14 @@ Gin框架运行模式
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="路由规则">
-&lt;a href="#%e8%b7%af%e7%94%b1%e8%a7%84%e5%88%99" class="header-anchor">#&lt;/a>
-路由规则
+&lt;/div>&lt;h3 id="路由规则">路由规则
 &lt;/h3>&lt;p>一条路由规则由三部分组成：&lt;/p>
 &lt;ul>
 &lt;li>http请求方法&lt;/li>
 &lt;li>url路径&lt;/li>
 &lt;li>控制器函数&lt;/li>
 &lt;/ul>
-&lt;h4 id="http请求方法">
-&lt;a href="#http%e8%af%b7%e6%b1%82%e6%96%b9%e6%b3%95" class="header-anchor">#&lt;/a>
-http请求方法
+&lt;h4 id="http请求方法">http请求方法
 &lt;/h4>&lt;p>常用的http请求方法有下面4种:&lt;/p>
 &lt;ul>
 &lt;li>GET：查Read-select&lt;/li>
@@ -1042,9 +1000,7 @@ http请求方法
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 注意：1是路径参数&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="url路径">
-&lt;a href="#url%e8%b7%af%e5%be%84" class="header-anchor">#&lt;/a>
-url路径
+&lt;/div>&lt;h4 id="url路径">url路径
 &lt;/h4>&lt;p>Gin框架中，url路径有三种写法：&lt;/p>
 &lt;ul>
 &lt;li>静态url路径&lt;/li>
@@ -1108,9 +1064,7 @@ url路径
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//可以通过path参数获取*号匹配的内容。
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="控制器函数">
-&lt;a href="#%e6%8e%a7%e5%88%b6%e5%99%a8%e5%87%bd%e6%95%b0" class="header-anchor">#&lt;/a>
-控制器函数
+&lt;/div>&lt;h4 id="控制器函数">控制器函数
 &lt;/h4>&lt;p>控制器函数定义：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1122,9 +1076,7 @@ url路径
 &lt;/div>
 &lt;/div>&lt;p>控制器函数接受一个上下文参数。
 可以通过上下文参数，获取http请求参数，响应http请求。&lt;/p>
-&lt;h3 id="配置路由示例">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e8%b7%af%e7%94%b1%e7%a4%ba%e4%be%8b" class="header-anchor">#&lt;/a>
-配置路由示例
+&lt;h3 id="配置路由示例">配置路由示例
 &lt;/h3>&lt;p>配置路由就是利用路由规则定义路由：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1201,9 +1153,7 @@ url路径
 &lt;/div>&lt;blockquote>
 &lt;p>提示：实际项目开发中不要把路由定义和控制器函数都写在一个go文件，不方便维护，可以参考第一章的项目结构，规划自己的业务模块。&lt;/p>
 &lt;/blockquote>
-&lt;h3 id="路由分组">
-&lt;a href="#%e8%b7%af%e7%94%b1%e5%88%86%e7%bb%84" class="header-anchor">#&lt;/a>
-&lt;strong>路由分组&lt;/strong>
+&lt;h3 id="路由分组">&lt;strong>路由分组&lt;/strong>
 &lt;/h3>&lt;p>在做api开发的时候，如果要支持多个api版本，我们可以通过分组路由来实现api版本处理。&lt;/p>
 &lt;p>示例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1475,9 +1425,7 @@ url路径
 >http://localhost:8080/manage/addUser&lt;/a>、 &lt;a class="link" href="http://localhost:8080/" target="_blank" rel="noopener"
 >http://localhost:8080/&lt;/a>就可以访问注册的两条路由。&lt;/p>
 &lt;p>注意：默认路由组,在&lt;code>/&lt;/code>,意思就是：&lt;code>r.Group(&amp;quot;/&amp;quot;)&lt;/code>与&lt;code>r.Get(&amp;quot;/&amp;quot;,...)&lt;/code>属于同一组。&lt;/p>
-&lt;h3 id="控制器函数分组">
-&lt;a href="#%e6%8e%a7%e5%88%b6%e5%99%a8%e5%87%bd%e6%95%b0%e5%88%86%e7%bb%84" class="header-anchor">#&lt;/a>
-控制器函数分组
+&lt;h3 id="控制器函数分组">控制器函数分组
 &lt;/h3>&lt;p>当我们的项目比较大的时候有必要对我们的控制器进行分组。&lt;/p>
 &lt;p>参考&lt;a class="link" href="#%e8%b7%af%e7%94%b1%e5%88%86%e7%bb%84" >路由分组&lt;/a>示例，使用控制器函数分组可修改为：&lt;/p>
 &lt;p>&lt;code>routers/defaultRouter.go&lt;/code>:&lt;/p>
@@ -1643,9 +1591,7 @@ url路径
 &lt;li>可以实现&lt;strong>控制器继承&lt;/strong>。&lt;/li>
 &lt;/ul>
 &lt;/blockquote>
-&lt;h4 id="控制器继承">
-&lt;a href="#%e6%8e%a7%e5%88%b6%e5%99%a8%e7%bb%a7%e6%89%bf" class="header-anchor">#&lt;/a>
-控制器继承
+&lt;h4 id="控制器继承">控制器继承
 &lt;/h4>&lt;p>控制器继承，可以将一些共用的控制器函数封装出来，实现代码优化。&lt;/p>
 &lt;p>示例：&lt;/p>
 &lt;p>&lt;code>controllers/baseController.go&lt;/code>:&lt;/p>
@@ -1813,13 +1759,9 @@ url路径
 &lt;/div>&lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="获取请求参数">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
-获取请求参数
+&lt;h2 id="获取请求参数">获取请求参数
 &lt;/h2>&lt;p>本章介绍Gin框架获取请求参数的方式。&lt;/p>
-&lt;h3 id="获取查询参数">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e6%9f%a5%e8%af%a2%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
-获取查询参数
+&lt;h3 id="获取查询参数">获取查询参数
 &lt;/h3>&lt;p>查询（query）参数是url路径中&lt;code>?&lt;/code>后面的所有键值对，他们用&lt;code>&amp;amp;&lt;/code>符合连接。url例子：/query?id=1234&amp;amp;name=Manu&amp;amp;value=111&lt;/p>
 &lt;p>Gin框架获取查询参数的&lt;strong>常用函数&lt;/strong>：&lt;/p>
 &lt;ul>
@@ -1865,9 +1807,7 @@ url路径
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="获取路径参数">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e8%b7%af%e5%be%84%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
-获取路径参数
+&lt;/div>&lt;h3 id="获取路径参数">获取路径参数
 &lt;/h3>&lt;p>路径（param）参数是包含在url路径中的参数，通常在url中不容易区分，只有在绑定路径参数的地方才能正确判断。&lt;/p>
 &lt;p>绑定路径参数的语法是&lt;code>/:+参数名&lt;/code>，如&lt;code>/user/:id&lt;/code>，就是在user路径下绑定一个id参数，那么/user/1, /user/2&amp;hellip;, user后面的一级都是路径参数。&lt;/p>
 &lt;p>当然路径参数也支持嵌套，如：/user/:id/:name/:age, /user/001/jack/18&lt;/p>
@@ -1897,9 +1837,7 @@ url路径
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="获取表单参数">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e8%a1%a8%e5%8d%95%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
-获取表单参数
+&lt;/div>&lt;h3 id="获取表单参数">获取表单参数
 &lt;/h3>&lt;p>表单参数是位于请求体中的，所以只适用于POST请求。&lt;/p>
 &lt;p>所以一般说获取表单参数就是获取POST请求参数。&lt;/p>
 &lt;p>获取Post请求参数的常用函数：&lt;/p>
@@ -1959,9 +1897,7 @@ url路径
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="将请求参数绑定到结构体对象">
-&lt;a href="#%e5%b0%86%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0%e7%bb%91%e5%ae%9a%e5%88%b0%e7%bb%93%e6%9e%84%e4%bd%93%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-将请求参数绑定到结构体对象
+&lt;/div>&lt;h3 id="将请求参数绑定到结构体对象">将请求参数绑定到结构体对象
 &lt;/h3>&lt;p>前面获取参数的方式都是一个个参数的读取，比较麻烦，Gin框架支持根据请求参数类型自动绑定到一个struct对象。&lt;/p>
 &lt;p>用到的方法是&lt;code>Bind&lt;/code>和&lt;code>ShouldBind&lt;/code>：&lt;/p>
 &lt;ul>
@@ -2127,9 +2063,7 @@ url路径
 &lt;li>&lt;code>Email&lt;/code> 字段必须存在且符合 email 格式。&lt;/li>
 &lt;li>&lt;code>Age&lt;/code> 字段必须存在且值在 18 到 65 之间。&lt;/li>
 &lt;/ul>
-&lt;h3 id="gin如何获取客户ip">
-&lt;a href="#gin%e5%a6%82%e4%bd%95%e8%8e%b7%e5%8f%96%e5%ae%a2%e6%88%b7ip" class="header-anchor">#&lt;/a>
-Gin如何获取客户ip
+&lt;h3 id="gin如何获取客户ip">Gin如何获取客户ip
 &lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2175,19 +2109,13 @@ Gin如何获取客户ip
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="获取文件上传参数">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
-获取文件上传参数
+&lt;h3 id="获取文件上传参数">获取文件上传参数
 &lt;/h3>&lt;p>参考&lt;a class="link" href="#Gin%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0" >Gin文件上传&lt;/a>。&lt;/p>
 &lt;hr>
-&lt;h2 id="响应请求参数">
-&lt;a href="#%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
-响应请求参数
+&lt;h2 id="响应请求参数">响应请求参数
 &lt;/h2>&lt;p>本章介绍处理完http请求后如何响应请求，Gin框架支持以字符串、json、xml、文件等格式响应请求。&lt;/p>
 &lt;p>gin.Context上下文对象支持多种返回处理结果，下面分别介绍不同的响应方式。&lt;/p>
-&lt;h3 id="以字符串格式响应请求">
-&lt;a href="#%e4%bb%a5%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
-以字符串格式响应请求
+&lt;h3 id="以字符串格式响应请求">以字符串格式响应请求
 &lt;/h3>&lt;p>通过String方法返回字符串。&lt;/p>
 &lt;p>方法定义：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -2239,9 +2167,7 @@ Gin如何获取客户ip
 &lt;/div>&lt;blockquote>
 &lt;p>提示： net/http包定义了多种常用的状态码常量，例如：http.StatusOK == 200， http.StatusMovedPermanently == 301， http.StatusNotFound == 404, http.StatusBadRequest == 400等，具体可以参考net/http包&lt;/p>
 &lt;/blockquote>
-&lt;h3 id="以json格式响应请求">
-&lt;a href="#%e4%bb%a5json%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
-以json格式响应请求
+&lt;h3 id="以json格式响应请求">以json格式响应请求
 &lt;/h3>&lt;p>我们开发api接口的时候常用的格式就是json。&lt;/p>
 &lt;p>通过&lt;code>JSON&lt;/code>方法返回json数据。&lt;/p>
 &lt;p>方法定义：&lt;/p>
@@ -2309,9 +2235,7 @@ Gin如何获取客户ip
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="以带填充的json格式响应请求了解">
-&lt;a href="#%e4%bb%a5%e5%b8%a6%e5%a1%ab%e5%85%85%e7%9a%84json%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82%e4%ba%86%e8%a7%a3" class="header-anchor">#&lt;/a>
-以带填充的json格式响应请求（了解）
+&lt;/div>&lt;h4 id="以带填充的json格式响应请求了解">以带填充的json格式响应请求（了解）
 &lt;/h4>&lt;ul>
 &lt;li>
 &lt;p>用到的方法是&lt;code>JSONP&lt;/code>，英文名为：JSON with Padding，中文大概：带填充的json。&lt;/p>
@@ -2558,9 +2482,7 @@ Gin如何获取客户ip
 &lt;/ol>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="以xml格式响应请求">
-&lt;a href="#%e4%bb%a5xml%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
-以xml格式响应请求
+&lt;h3 id="以xml格式响应请求">以xml格式响应请求
 &lt;/h3>&lt;p>通过&lt;code>XML&lt;/code>方法返回xml数据&lt;/p>
 &lt;p>方法定义：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -2622,9 +2544,7 @@ Gin如何获取客户ip
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="以文件格式响应请求">
-&lt;a href="#%e4%bb%a5%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f%e5%93%8d%e5%ba%94%e8%af%b7%e6%b1%82" class="header-anchor">#&lt;/a>
-以文件格式响应请求
+&lt;/div>&lt;h3 id="以文件格式响应请求">以文件格式响应请求
 &lt;/h3>&lt;p>下面介绍gin框架如何响应一个文件，可以用来做文件下载。&lt;/p>
 &lt;p>响应文件用&lt;code>File&lt;/code>或&lt;code>FileAttachment&lt;/code>方法：&lt;/p>
 &lt;ul>
@@ -2642,9 +2562,7 @@ Gin如何获取客户ip
 &lt;/li>
 &lt;/ul>
 &lt;p>原理：&lt;code>FileAttachment&lt;/code>会比&lt;code>File&lt;/code>多设置一个响应头&lt;code>Content-Disposition:attachment; filename=&amp;quot;filename&amp;quot;&lt;/code>，告诉浏览器将文件作为附加下载。&lt;/p>
-&lt;h3 id="设置http响应头设置header">
-&lt;a href="#%e8%ae%be%e7%bd%aehttp%e5%93%8d%e5%ba%94%e5%a4%b4%e8%ae%be%e7%bd%aeheader" class="header-anchor">#&lt;/a>
-设置http响应头（设置Header）
+&lt;h3 id="设置http响应头设置header">设置http响应头（设置Header）
 &lt;/h3>&lt;p>在Gin框架中：&lt;/p>
 &lt;ul>
 &lt;li>
@@ -2695,9 +2613,7 @@ Gin如何获取客户ip
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="html模板渲染">
-&lt;a href="#html%e6%a8%a1%e6%9d%bf%e6%b8%b2%e6%9f%93" class="header-anchor">#&lt;/a>
-HTML模板渲染
+&lt;h2 id="html模板渲染">HTML模板渲染
 &lt;/h2>&lt;p>前面详细介绍了gin框架响应不同类型的参数，其实还漏掉了响应html模板渲染。因为涉及到go模板渲染，就单独拿出来介绍。&lt;/p>
 &lt;p>Gin框架默认封装了golang内置的html/template包用于处理html模版，如果你开发的是接口服务，不提供html页面可以跳过本章内容。&lt;/p>
 &lt;p>&lt;strong>作用&lt;/strong>：Gin框架内置的模板渲染功能，可以通过http请求，就可以生成安全的HTML内容，如动态网页、邮件内容、HTML报告等。同时简化了动态HTML页面的生成过程，通过设置模板目录和在路由处理函数中渲染模板，可以轻松地生成包含动态数据的网页。此功能有助于分离业务逻辑和表示层，提高代码的可维护性，并且通过自动HTML转义，提高了Web应用的安全性。&lt;/p>
@@ -2879,9 +2795,7 @@ HTML模板渲染
 &lt;/div>&lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="静态文件服务">
-&lt;a href="#%e9%9d%99%e6%80%81%e6%96%87%e4%bb%b6%e6%9c%8d%e5%8a%a1" class="header-anchor">#&lt;/a>
-静态文件服务
+&lt;h2 id="静态文件服务">静态文件服务
 &lt;/h2>&lt;p>当我们渲染的HTML文件中引用了静态文件时，就需要配置静态文件服务。以便js、css、jpg之类的静态文件能够正常响应。&lt;/p>
 &lt;p>在Gin框架中访问静态资源文件通常是通过设置一个&lt;strong>静态文件服务&lt;/strong>来实现的。Gin提供了一个非常方便的方法来处理这一任务。&lt;/p>
 &lt;p>配置静态文件服务常用的两个方法：&lt;/p>
@@ -2941,9 +2855,7 @@ HTML模板渲染
 &lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="gin中间件">
-&lt;a href="#gin%e4%b8%ad%e9%97%b4%e4%bb%b6" class="header-anchor">#&lt;/a>
-Gin中间件
+&lt;h2 id="gin中间件">Gin中间件
 &lt;/h2>&lt;p>在Gin框架中，&lt;strong>中间件&lt;/strong>（Middleware）指的是可以拦截&lt;strong>http请求-响应&lt;/strong>生命周期的&lt;strong>特殊函数&lt;/strong>，在请求-响应生命周期中可以注册多个中间件，每个中间件执行不同的功能，一个中间执行完再轮到下一个中间件执行。&lt;/p>
 &lt;p>通俗的讲：中间件就是匹配路由前和匹配路由后执行的一系列操作。&lt;/p>
 &lt;p>&lt;strong>中间件的常见应用场景如下：&lt;/strong>&lt;/p>
@@ -2955,9 +2867,7 @@ Gin中间件
 &lt;li>&lt;strong>CORS处理&lt;/strong>：处理跨域资源共享（CORS）的相关设置，允许或拒绝跨域请求。、&lt;/li>
 &lt;li>&lt;strong>限流&lt;/strong>：限制客户端在一定时间内的请求数量，防止过载。&lt;/li>
 &lt;/ol>
-&lt;h3 id="使用中间件">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e4%b8%ad%e9%97%b4%e4%bb%b6" class="header-anchor">#&lt;/a>
-使用中间件
+&lt;h3 id="使用中间件">使用中间件
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>定义中间件&lt;/strong>：&lt;/p>
@@ -3153,9 +3063,7 @@ Gin中间件
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="中间件之间共享数据">
-&lt;a href="#%e4%b8%ad%e9%97%b4%e4%bb%b6%e4%b9%8b%e9%97%b4%e5%85%b1%e4%ba%ab%e6%95%b0%e6%8d%ae" class="header-anchor">#&lt;/a>
-中间件之间共享数据
+&lt;h3 id="中间件之间共享数据">中间件之间共享数据
 &lt;/h3>&lt;p>中间件间与对应控制器之间&lt;strong>共享数据&lt;/strong>是通过上下文的&lt;code>Set&lt;/code>方法和&lt;code>Get&lt;/code>方法实现的，存储的是键值对，key是string类型，value是any类型。共享范围仅在本次请求中。生命周期是本次请求结束，自动销毁。Gin框架没有提供主动删除共享数据的方法，可以在请求中将共享数据的值设为nil，起到删除的效果。&lt;/p>
 &lt;p>示例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -3218,9 +3126,7 @@ Gin中间件
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="内置中间件">
-&lt;a href="#%e5%86%85%e7%bd%ae%e4%b8%ad%e9%97%b4%e4%bb%b6" class="header-anchor">#&lt;/a>
-内置中间件
+&lt;/div>&lt;h3 id="内置中间件">内置中间件
 &lt;/h3>&lt;p>Gin 提供了一些内置中间件，常用的有：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>Logger()&lt;/code>: 日志中间件，记录请求日志。
@@ -3311,13 +3217,9 @@ Gin中间件
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="中间件的执行顺序">
-&lt;a href="#%e4%b8%ad%e9%97%b4%e4%bb%b6%e7%9a%84%e6%89%a7%e8%a1%8c%e9%a1%ba%e5%ba%8f" class="header-anchor">#&lt;/a>
-中间件的执行顺序
+&lt;/div>&lt;h3 id="中间件的执行顺序">中间件的执行顺序
 &lt;/h3>&lt;p>Gin 中间件按照注册顺序执行。对于每个请求，所有中间件会按照注册的顺序依次执行 &lt;code>c.Next()&lt;/code> 之前的代码，当一个中间件调用 &lt;code>c.Next()&lt;/code> 时，控制权传递给下一个中间件，所有中间件执行完之后再按逆序执行 &lt;code>c.Next()&lt;/code> 之后的代码。&lt;/p>
-&lt;h3 id="中间件中使用goroutine">
-&lt;a href="#%e4%b8%ad%e9%97%b4%e4%bb%b6%e4%b8%ad%e4%bd%bf%e7%94%a8goroutine" class="header-anchor">#&lt;/a>
-中间件中使用goroutine
+&lt;h3 id="中间件中使用goroutine">中间件中使用goroutine
 &lt;/h3>&lt;p>当在中间件或控制器函数中启动新的goroutine时，不能使用原始的上下文（&lt;code>c *gin.Context&lt;/code>），因为 &lt;code>gin.Context&lt;/code> &lt;strong>不是线程安全的&lt;/strong>。在 goroutine 中直接访问 &lt;code>gin.Context&lt;/code> 的字段可能会导致竞态条件（race condition）和不可预测的行为。&lt;/p>
 &lt;p>&lt;strong>中间件中使用 goroutine 的场景&lt;/strong>&lt;/p>
 &lt;ol>
@@ -3555,19 +3457,13 @@ Gin中间件
 &lt;li>&lt;strong>使用深拷贝&lt;/strong>：确保在启动 goroutine 之前调用 &lt;code>c.Copy()&lt;/code>，并在 goroutine 中使用返回的副本，而不是直接使用原始的 &lt;code>gin.Context&lt;/code>。&lt;/li>
 &lt;/ol>
 &lt;p>通过合理使用 goroutine，可以显著提升应用的并发处理能力，同时保持请求的快速响应。&lt;/p>
-&lt;h3 id="小结">
-&lt;a href="#%e5%b0%8f%e7%bb%93" class="header-anchor">#&lt;/a>
-小结
+&lt;h3 id="小结">小结
 &lt;/h3>&lt;p>中间件在 Gin 框架中起着至关重要的作用，可以帮助开发者实现日志记录、认证授权、错误处理等常见功能。Gin 提供了灵活的中间件使用方式，可以全局、路由组或者单独路由使用中间件，满足不同的需求。通过合理使用中间件，可以大大提升应用的结构和代码复用性。&lt;/p>
 &lt;hr>
-&lt;h2 id="gin文件上传">
-&lt;a href="#gin%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0" class="header-anchor">#&lt;/a>
-Gin文件上传
+&lt;h2 id="gin文件上传">Gin文件上传
 &lt;/h2>&lt;p>在Gin框架中，处理文件上传是一项常见的任务。&lt;/p>
 &lt;p>Gin是一个高效的Go语言Web框架，提供了简洁而强大的API来处理HTTP请求，包括文件上传。下面是关于如何在Gin框架中处理文件上传的相关知识和示例代码。&lt;/p>
-&lt;h3 id="基本文件上传">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0" class="header-anchor">#&lt;/a>
-基本文件上传
+&lt;h3 id="基本文件上传">基本文件上传
 &lt;/h3>&lt;p>Gin提供了方便的方法来处理单个文件的上传。以下是一个示例代码：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3666,9 +3562,7 @@ Gin文件上传
 &lt;p>上面演示了如何根据不同的表单键将上传的文件保存到服务器（即处理一个或多个文件上传，name属性不同），是根据表单的name属性保存的。&lt;strong>适用于不同的name属性&lt;/strong>。&lt;/p>
 &lt;p>注意，上面这种情况如果存在多个相同的name属性，只能获取第一个文件。&lt;/p>
 &lt;p>下面介绍如何保存相同name属性的文件。&lt;strong>适用于相同的name属性&lt;/strong>。&lt;/p>
-&lt;h3 id="处理多个文件上传">
-&lt;a href="#%e5%a4%84%e7%90%86%e5%a4%9a%e4%b8%aa%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0" class="header-anchor">#&lt;/a>
-处理多个文件上传
+&lt;h3 id="处理多个文件上传">处理多个文件上传
 &lt;/h3>&lt;p>如果需要处理多个文件上传，name属性相同，可以使用&lt;code>c.MultipartForm&lt;/code>方法。以下是示例代码：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3771,9 +3665,7 @@ Gin文件上传
 &lt;/div>&lt;p>在这个例子中，首先使用&lt;code>c.MultipartForm&lt;/code>方法获&lt;strong>多部分表单&lt;/strong>数据，文件部分就在其&lt;code>File&lt;/code>字段下，是&lt;code>map[string][]*FileHeader&lt;/code>类型。通过表单键（name属性的值）就能获取该键下的所有文件对象，是切片类型。&lt;/p>
 &lt;p>最后遍历所有文件进行保存处理即可。&lt;/p>
 &lt;p>注意：该方法同样适用于不同的表单键，不过需要进行遍历保存。&lt;/p>
-&lt;h3 id="设置处理多部分表单请求的最大内存大小">
-&lt;a href="#%e8%ae%be%e7%bd%ae%e5%a4%84%e7%90%86%e5%a4%9a%e9%83%a8%e5%88%86%e8%a1%a8%e5%8d%95%e8%af%b7%e6%b1%82%e7%9a%84%e6%9c%80%e5%a4%a7%e5%86%85%e5%ad%98%e5%a4%a7%e5%b0%8f" class="header-anchor">#&lt;/a>
-设置处理多部分表单请求的最大内存大小
+&lt;h3 id="设置处理多部分表单请求的最大内存大小">设置处理多部分表单请求的最大内存大小
 &lt;/h3>&lt;p>&lt;code>MaxMultipartMemory&lt;/code> 是 &lt;code>*gin.Engine&lt;/code> 对象的一个字段，表示Gin框架处理multipart/form-data类型请求时，可以在内存中存储的最大数据大小。&lt;/p>
 &lt;p>当一个multipart/form-data请求中的数据大小超过了&lt;code>MaxMultipartMemory&lt;/code>限制时，Gin框架将会自动将超出部分的数据写入到磁盘的临时文件中，而不是全部存储在内存中。这是为了防止占用过多内存导致内存溢出的问题。例如，在文件上传的情况下，较大的文件将不会全部加载到内存中，而是部分写入临时文件，从而&lt;strong>减少内存消耗&lt;/strong>。&lt;/p>
 &lt;p>Gin默认处理多部分表单请求的最大内存是32MiB。&lt;/p>
@@ -3869,9 +3761,7 @@ Gin文件上传
 &lt;/li>
 &lt;/ul>
 &lt;/blockquote>
-&lt;h3 id="使用中间件处理文件上传">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e4%b8%ad%e9%97%b4%e4%bb%b6%e5%a4%84%e7%90%86%e6%96%87%e4%bb%b6%e4%b8%8a%e4%bc%a0" class="header-anchor">#&lt;/a>
-使用中间件处理文件上传
+&lt;h3 id="使用中间件处理文件上传">使用中间件处理文件上传
 &lt;/h3>&lt;p>通常我们会使用中间件来处理文件上传，比如&lt;strong>验证文件类型&lt;/strong>、&lt;strong>限制文件大小&lt;/strong>等。&lt;/p>
 &lt;p>限制文件大小中间件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -4003,12 +3893,8 @@ Gin文件上传
 &lt;li>接口访问推荐在接口测试工具中访问，如apipost。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="使用cookie">
-&lt;a href="#%e4%bd%bf%e7%94%a8cookie" class="header-anchor">#&lt;/a>
-使用Cookie
-&lt;/h2>&lt;h3 id="cookie介绍">
-&lt;a href="#cookie%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-Cookie介绍
+&lt;h2 id="使用cookie">使用Cookie
+&lt;/h2>&lt;h3 id="cookie介绍">Cookie介绍
 &lt;/h3>&lt;p>Cookie 是在 HTTP 协议中用来&lt;strong>存储少量数据&lt;/strong>的技术，由服务器发送到浏览器并&lt;strong>存储在客户端&lt;/strong>。其主要作用包括：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -4053,9 +3939,7 @@ Cookie介绍
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="cookie的属性">
-&lt;a href="#cookie%e7%9a%84%e5%b1%9e%e6%80%a7" class="header-anchor">#&lt;/a>
-Cookie的属性
+&lt;h4 id="cookie的属性">Cookie的属性
 &lt;/h4>&lt;p>Cookie 的属性决定了它的行为和存储方式，常见的属性包括：&lt;/p>
 &lt;p>&lt;strong>Name 和 Value：&lt;/strong> Cookie 的名称和值。&lt;/p>
 &lt;p>&lt;strong>Domain：&lt;/strong> 指定 Cookie 所属的域，只有该域及其子域可以访问 Cookie。&lt;/p>
@@ -4064,9 +3948,7 @@ Cookie的属性
 &lt;p>&lt;strong>Secure：&lt;/strong> 指定 Cookie 仅在 HTTPS 连接中发送。&lt;/p>
 &lt;p>&lt;strong>HttpOnly：&lt;/strong> 指定 Cookie 不能通过 JavaScript 访问，增强安全性。&lt;/p>
 &lt;p>&lt;strong>SameSite：&lt;/strong> 防止跨站请求伪造（CSRF）攻击，有三个值可以选择：Strict、Lax 和 None。&lt;/p>
-&lt;h4 id="补充">
-&lt;a href="#%e8%a1%a5%e5%85%85" class="header-anchor">#&lt;/a>
-补充
+&lt;h4 id="补充">补充
 &lt;/h4>&lt;ul>
 &lt;li>Cookie本质就是一个请求头，可以在请求头中查看Cookie。&lt;/li>
 &lt;li>浏览器设置Cookie是通过响应头Set-Cookie设置的。&lt;/li>
@@ -4076,9 +3958,7 @@ Cookie的属性
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="在gin中使用cookie">
-&lt;a href="#%e5%9c%a8gin%e4%b8%ad%e4%bd%bf%e7%94%a8cookie" class="header-anchor">#&lt;/a>
-在Gin中使用Cookie
+&lt;h3 id="在gin中使用cookie">在Gin中使用Cookie
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>设置Cookie&lt;/p>
@@ -4261,12 +4141,8 @@ Cookie的属性
 &lt;/div>&lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="使用session">
-&lt;a href="#%e4%bd%bf%e7%94%a8session" class="header-anchor">#&lt;/a>
-使用Session
-&lt;/h2>&lt;h3 id="session介绍">
-&lt;a href="#session%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-Session介绍
+&lt;h2 id="使用session">使用Session
+&lt;/h2>&lt;h3 id="session介绍">Session介绍
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;strong>简单介绍&lt;/strong>&lt;/p>
@@ -4308,9 +4184,7 @@ Session介绍
 &lt;/ul>
 &lt;p>因为Gin本身没有内置的Session管理功能，所以在Gin中使用Session需要配合第三方库（中间件）实现，比较受欢迎的是&lt;a class="link" href="https://github.com/gin-contrib/sessions" target="_blank" rel="noopener"
 >gin-contrib/sessions&lt;/a>。&lt;/p>
-&lt;h3 id="在gin中使用session">
-&lt;a href="#%e5%9c%a8gin%e4%b8%ad%e4%bd%bf%e7%94%a8session" class="header-anchor">#&lt;/a>
-在Gin中使用Session
+&lt;h3 id="在gin中使用session">在Gin中使用Session
 &lt;/h3>&lt;p>要在Gin框架中使用Session，需要借助一些中间件库实现，例如&lt;code>github.com/gin-contrib/sessions&lt;/code>。&lt;/p>
 &lt;p>&lt;a class="link" href="https://github.com/gin-contrib/sessions" target="_blank" rel="noopener"
 >gin-contrib/sessions&lt;/a>中间件支持的存储引擎：&lt;/p>
@@ -4340,9 +4214,7 @@ Session介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>下面介绍常用的存储引擎。&lt;/p>
-&lt;h4 id="基于cookie存储session">
-&lt;a href="#%e5%9f%ba%e4%ba%8ecookie%e5%ad%98%e5%82%a8session" class="header-anchor">#&lt;/a>
-基于Cookie存储Session
+&lt;h4 id="基于cookie存储session">基于Cookie存储Session
 &lt;/h4>&lt;p>基于Cookie存储Session是将Session中的数据存储在Cookie当中（与Session ID一同存放）。使用示例如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4548,9 +4420,7 @@ Session介绍
 &lt;p>&lt;strong>删除当前Session ID所有的Session数据&lt;/strong>：使用&lt;code>Clear&lt;/code>方法即可删除当前Session对象所有的Session数据。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h4 id="基于redis存储session">
-&lt;a href="#%e5%9f%ba%e4%ba%8eredis%e5%ad%98%e5%82%a8session" class="header-anchor">#&lt;/a>
-基于Redis存储Session
+&lt;h4 id="基于redis存储session">基于Redis存储Session
 &lt;/h4>&lt;p>基于Redis存储Session就是将Session数据保存在Redis中，当浏览器发送请求时，服务器会根据Cookie中的Session ID，获取对应的Session对象。&lt;/p>
 &lt;p>学会了基于Cookie存储Session，那么基于Redis存储Session就很简单。我们只需要将存储引擎修改为Redis即可。其他使用方法一模一样。&lt;/p>
 &lt;p>创建Cookie存储引擎使用的是&lt;code>cookie.NewStore([]byte(&amp;quot;secret&amp;quot;))&lt;/code>方法。&lt;/p>
@@ -4563,9 +4433,7 @@ Session介绍
 &lt;li>最后一个：Session加密秘钥。&lt;/li>
 &lt;/ul>
 &lt;p>默认连接0号库。需要指定几号Redis数据库，使用&lt;code>redis.NewStoreWithDB(10, &amp;quot;tcp&amp;quot;, &amp;quot;192.168.245.130:6379&amp;quot;, &amp;quot;123456&amp;quot;, &amp;quot;1&amp;quot;, []byte(&amp;quot;secret&amp;quot;))&lt;/code>方法。&lt;/p>
-&lt;h4 id="sessions加密秘钥介绍">
-&lt;a href="#sessions%e5%8a%a0%e5%af%86%e7%a7%98%e9%92%a5%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-Sessions加密&lt;strong>秘钥介绍&lt;/strong>
+&lt;h4 id="sessions加密秘钥介绍">Sessions加密&lt;strong>秘钥介绍&lt;/strong>
 &lt;/h4>&lt;p>&lt;strong>加密密钥的作用&lt;/strong>&lt;/p>
 &lt;ol>
 &lt;li>&lt;strong>数据加密&lt;/strong>：
@@ -4639,23 +4507,17 @@ Sessions加密&lt;strong>秘钥介绍&lt;/strong>
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文简单介绍了Gin框架的基本使用。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://www.tizi365.com/archives/244.html" target="_blank" rel="noopener"
 >Go gin框架入门教程&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Go-ini Introduction</title><link>https://arlettebrook.github.io/p/go-ini-introduction/</link><pubDate>Wed, 15 May 2024 22:26:10 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-ini-introduction/</guid><description>&lt;hr>
-&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="简介">简介
 &lt;/h2>&lt;ul>
 &lt;li>
 &lt;p>&lt;a class="link" href="https://github.com/go-ini/ini" target="_blank" rel="noopener"
@@ -4665,9 +4527,7 @@ Sessions加密&lt;strong>秘钥介绍&lt;/strong>
 &lt;p>本文介绍&lt;code>go-ini&lt;/code>库的使用。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h2 id="ini配置文件介绍">
-&lt;a href="#ini%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-ini配置文件介绍
+&lt;h2 id="ini配置文件介绍">ini配置文件介绍
 &lt;/h2>&lt;ul>
 &lt;li>
 &lt;p>ini 是 Windows 上常用的配置文件格式。MySQL 的 Windows 版就是使用 ini 格式存储配置的。&lt;/p>
@@ -4762,9 +4622,7 @@ ini配置文件介绍
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>go-ini 是第三方库，使用前需要安装[推荐】：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4951,9 +4809,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h3 id="must便捷方法">
-&lt;a href="#must%e4%be%bf%e6%8d%b7%e6%96%b9%e6%b3%95" class="header-anchor">#&lt;/a>
-&lt;code>Must*&lt;/code>便捷方法
+&lt;h3 id="must便捷方法">&lt;code>Must*&lt;/code>便捷方法
 &lt;/h3>&lt;p>如果每次取值都需要进行错误判断，那么代码写起来会非常繁琐。为此，&lt;code>go-ini&lt;/code>也提供对应的&lt;code>MustType&lt;/code>（Type 为&lt;code>Init/Uint/Float64&lt;/code>等）方法，这个方法只返回一个值。 同时它接受可变参数，如果类型无法转换，取参数中第一个值返回，并且该参数设置为这个配置的值，下次调用返回这个值：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5072,9 +4928,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="加载ini文件对象">
-&lt;a href="#%e5%8a%a0%e8%bd%bdini%e6%96%87%e4%bb%b6%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-加载ini文件对象
+&lt;h2 id="加载ini文件对象">加载ini文件对象
 &lt;/h2>&lt;ul>
 &lt;li>
 &lt;p>go-ini支持从多个数据源加载ini配置文件。&lt;/p>
@@ -5225,9 +5079,7 @@ ini配置文件介绍
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="自定义加载ini文件对象">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%8a%a0%e8%bd%bdini%e6%96%87%e4%bb%b6%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-自定义加载ini文件对象
+&lt;h3 id="自定义加载ini文件对象">自定义加载ini文件对象
 &lt;/h3>&lt;p>实现上调用&lt;code>Load&lt;/code>、&lt;code>LooseLoad&lt;/code>、&lt;code>InsensitiveLoad&lt;/code>（&lt;a class="link" href="#%e5%bf%bd%e7%95%a5%e9%94%ae%e5%90%8d%e7%9a%84%e5%a4%a7%e5%b0%8f%e5%86%99" >后面会介绍&lt;/a>）、&lt;code>ShadowLoad&lt;/code>加载不同配置的文件对象，底层都是调用&lt;code>LoadSources(opts LoadOptions, source interface{}, others ...interface{})&lt;/code>函数实现的。不同的配置是通过&lt;code>LoadOptions&lt;/code>配置的。后面的参数都是数据源，默认必须有一个数据源：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5368,17 +5220,11 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">&amp;lt;1&amp;gt;&amp;lt;L.Slide#2&amp;gt; This slide has the fuel listed in the wrong units &amp;lt;e.1&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="注意事项">
-&lt;a href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9" class="header-anchor">#&lt;/a>
-注意事项
+&lt;/div>&lt;h3 id="注意事项">注意事项
 &lt;/h3>&lt;p>默认情况下，本库会在您进行读写操作时采用锁机制来确保数据时间。但在某些情况下，您非常确定只进行读操作。此时，您可以通过设置 &lt;code>cfg.BlockMode = false&lt;/code> 来将读操作提升大约 &lt;strong>50-70%&lt;/strong> 的性能。&lt;/p>
 &lt;hr>
-&lt;h2 id="操作分区section">
-&lt;a href="#%e6%93%8d%e4%bd%9c%e5%88%86%e5%8c%basection" class="header-anchor">#&lt;/a>
-操作分区（Section）
-&lt;/h2>&lt;h3 id="获取分区">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e5%88%86%e5%8c%ba" class="header-anchor">#&lt;/a>
-获取分区
+&lt;h2 id="操作分区section">操作分区（Section）
+&lt;/h2>&lt;h3 id="获取分区">获取分区
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>在加载配置之后，可以通过&lt;code>Sections&lt;/code>方法获取所有&lt;strong>分区对象&lt;/strong>，是切片类型的&lt;code>*Section&lt;/code>对象，&lt;code>SectionStrings()&lt;/code>方法获取所有&lt;strong>分区名&lt;/strong>。&lt;/p>
@@ -5641,12 +5487,8 @@ ini配置文件介绍
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h3 id="读取父子分区">
-&lt;a href="#%e8%af%bb%e5%8f%96%e7%88%b6%e5%ad%90%e5%88%86%e5%8c%ba" class="header-anchor">#&lt;/a>
-读取父子分区
-&lt;/h3>&lt;h4 id="递归读取键值">
-&lt;a href="#%e9%80%92%e5%bd%92%e8%af%bb%e5%8f%96%e9%94%ae%e5%80%bc" class="header-anchor">#&lt;/a>
-递归读取键值
+&lt;h3 id="读取父子分区">读取父子分区
+&lt;/h3>&lt;h4 id="递归读取键值">递归读取键值
 &lt;/h4>&lt;p>在获取所有键值的过程中，特殊语法 &lt;code>%(&amp;lt;name&amp;gt;)s&lt;/code> 会被应用，其中 &lt;code>&amp;lt;name&amp;gt;&lt;/code> 可以是相同分区或者默认分区下的键名。字符串 &lt;code>%(&amp;lt;name&amp;gt;)s&lt;/code> 会被相应的键值所替代，如果指定的键不存在，则会用空字符串替代（我测试是保留字符串）。您可以最多使用 99 层的递归嵌套。&lt;/p>
 &lt;p>在ini配置文件中，可以使用占位符&lt;code>%(name)s&lt;/code>表示用之前已定义的键&lt;code>name&lt;/code>的值来替换，这里的&lt;code>s&lt;/code>表示值为字符串类型：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -5736,12 +5578,8 @@ ini配置文件介绍
 &lt;p>&lt;code>package&lt;/code>分区中没有&lt;code>USERNAME&lt;/code>,它并没有父分区，所以返回空字符串。（调用&lt;code>Key&lt;/code>方法如果键不存在，会创建该键，值为空字符串。）&lt;a class="link" href="#%e6%93%8d%e4%bd%9c%e9%94%aeKey" >后面会介绍&lt;/a>。&lt;/p>
 &lt;p>​&lt;/p>
 &lt;hr>
-&lt;h2 id="操作键key">
-&lt;a href="#%e6%93%8d%e4%bd%9c%e9%94%aekey" class="header-anchor">#&lt;/a>
-操作键（Key）
-&lt;/h2>&lt;h3 id="获取键">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e9%94%ae" class="header-anchor">#&lt;/a>
-获取键
+&lt;h2 id="操作键key">操作键（Key）
+&lt;/h2>&lt;h3 id="获取键">获取键
 &lt;/h3>&lt;ul>
 &lt;li>在指定分区调用&lt;code>GetKey&lt;/code>方法，可以获取指定的键。如果键不存在，会返回Error对象和nil。
 &lt;ul>
@@ -5822,9 +5660,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>默认分区中，不存在&lt;code>app_name123&lt;/code>所以GetKy返回Error和nil。而Key方法返回值为空字符串的&lt;code>*Key&lt;/code>类型。&lt;/p>
-&lt;h3 id="键的其他操作">
-&lt;a href="#%e9%94%ae%e7%9a%84%e5%85%b6%e4%bb%96%e6%93%8d%e4%bd%9c" class="header-anchor">#&lt;/a>
-键的其他操作
+&lt;h3 id="键的其他操作">键的其他操作
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>在某个分区下，调用&lt;code>HasKey&lt;/code>方法，能判断该&lt;strong>键是否存在&lt;/strong>。&lt;/p>
@@ -5982,9 +5818,7 @@ ini配置文件介绍
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h3 id="忽略键名的大小写">
-&lt;a href="#%e5%bf%bd%e7%95%a5%e9%94%ae%e5%90%8d%e7%9a%84%e5%a4%a7%e5%b0%8f%e5%86%99" class="header-anchor">#&lt;/a>
-忽略键名的大小写
+&lt;h3 id="忽略键名的大小写">忽略键名的大小写
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>默认情况下分区名和键名都区分大小写，当调用&lt;code>ini.InsensitiveLoad&lt;/code>方法加载配置文件时，能够将所有分区和键名在读取里强制转换为&lt;strong>小写&lt;/strong>，这样当在获取分区或者键的时候，所指定的分区名或键名不区分大小写：&lt;/p>
@@ -6025,9 +5859,7 @@ ini配置文件介绍
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="操作键值value">
-&lt;a href="#%e6%93%8d%e4%bd%9c%e9%94%ae%e5%80%bcvalue" class="header-anchor">#&lt;/a>
-操作键值（Value）
+&lt;h2 id="操作键值value">操作键值（Value）
 &lt;/h2>&lt;p>获取一个类型为字符串（string）的值：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -6191,9 +6023,7 @@ ini配置文件介绍
 &lt;/ul>
 &lt;p>​&lt;/p>
 &lt;hr>
-&lt;h2 id="操作注释comment">
-&lt;a href="#%e6%93%8d%e4%bd%9c%e6%b3%a8%e9%87%8acomment" class="header-anchor">#&lt;/a>
-操作注释（Comment）
+&lt;h2 id="操作注释comment">操作注释（Comment）
 &lt;/h2>&lt;p>下述几种情况的内容将被视为注释：&lt;/p>
 &lt;ol>
 &lt;li>所有以 &lt;code>#&lt;/code> 或 &lt;code>;&lt;/code> 开头的行&lt;/li>
@@ -6287,9 +6117,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="保存配置">
-&lt;a href="#%e4%bf%9d%e5%ad%98%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-保存配置
+&lt;h2 id="保存配置">保存配置
 &lt;/h2>&lt;p>将配置保存到某个文件，调用&lt;code>SaveTo&lt;/code>或&lt;code>SaveToIndent&lt;/code>，第二个方法多一个参数，用于指定分区下键的缩进（除默认分区），可以是&lt;code>\t&lt;/code>等：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -6499,12 +6327,8 @@ ini配置文件介绍
 &lt;/div>
 &lt;/div>&lt;p>&lt;code>*Indent&lt;/code>方法会对默认分区以外分区下的键增加缩进，看起来美观一点。&lt;/p>
 &lt;hr>
-&lt;h2 id="分区与结构体字段映射">
-&lt;a href="#%e5%88%86%e5%8c%ba%e4%b8%8e%e7%bb%93%e6%9e%84%e4%bd%93%e5%ad%97%e6%ae%b5%e6%98%a0%e5%b0%84" class="header-anchor">#&lt;/a>
-分区与结构体字段映射
-&lt;/h2>&lt;h3 id="映射到结构体">
-&lt;a href="#%e6%98%a0%e5%b0%84%e5%88%b0%e7%bb%93%e6%9e%84%e4%bd%93" class="header-anchor">#&lt;/a>
-映射到结构体
+&lt;h2 id="分区与结构体字段映射">分区与结构体字段映射
+&lt;/h2>&lt;h3 id="映射到结构体">映射到结构体
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>调用&lt;code>MapTo&lt;/code>函数或者方法，可以将文件对象映射到结构体。&lt;/p>
@@ -6655,9 +6479,7 @@ ini配置文件介绍
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h3 id="从结构体反射">
-&lt;a href="#%e4%bb%8e%e7%bb%93%e6%9e%84%e4%bd%93%e5%8f%8d%e5%b0%84" class="header-anchor">#&lt;/a>
-从结构体反射
+&lt;h3 id="从结构体反射">从结构体反射
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>我们可以调用&lt;code>ReflectFrom&lt;/code>函数或方法，将结构体反射成文件对象。&lt;/p>
@@ -6950,9 +6772,7 @@ ini配置文件介绍
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h3 id="映射反射的其它说明">
-&lt;a href="#%e6%98%a0%e5%b0%84%e5%8f%8d%e5%b0%84%e7%9a%84%e5%85%b6%e5%ae%83%e8%af%b4%e6%98%8e" class="header-anchor">#&lt;/a>
-映射/反射的其它说明
+&lt;h3 id="映射反射的其它说明">映射/反射的其它说明
 &lt;/h3>&lt;p>任何嵌入的结构都会被默认认作一个不同的分区，并且不会自动产生所谓的父子分区关联：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -7057,12 +6877,8 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">Age&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">21&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="自定义键名和键值映射器">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e9%94%ae%e5%90%8d%e5%92%8c%e9%94%ae%e5%80%bc%e6%98%a0%e5%b0%84%e5%99%a8" class="header-anchor">#&lt;/a>
-自定义键名和键值映射器
-&lt;/h3>&lt;h4 id="键名映射器name-mapper">
-&lt;a href="#%e9%94%ae%e5%90%8d%e6%98%a0%e5%b0%84%e5%99%a8name-mapper" class="header-anchor">#&lt;/a>
-键名映射器（Name Mapper）
+&lt;/div>&lt;h3 id="自定义键名和键值映射器">自定义键名和键值映射器
+&lt;/h3>&lt;h4 id="键名映射器name-mapper">键名映射器（Name Mapper）
 &lt;/h4>&lt;p>当我们利用结构体标签指定键名时，会觉得太麻烦。为了节省时间并简化代码，&lt;code>go-ini&lt;/code>库支持类型为 &lt;a class="link" href="https://gowalker.org/gopkg.in/ini.v1#NameMapper" target="_blank" rel="noopener"
 >&lt;code>NameMapper&lt;/code>&lt;/a> 的名称映射器，该映射器负责&lt;strong>结构字段名&lt;/strong>与&lt;strong>分区名&lt;/strong>和&lt;strong>键名&lt;/strong>之间的&lt;strong>映射&lt;/strong>。&lt;/p>
 &lt;p>目前有 2 款内置的映射器：&lt;/p>
@@ -7111,9 +6927,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="键值映射器value-mapper">
-&lt;a href="#%e9%94%ae%e5%80%bc%e6%98%a0%e5%b0%84%e5%99%a8value-mapper" class="header-anchor">#&lt;/a>
-键值映射器（Value Mapper）
+&lt;/div>&lt;h3 id="键值映射器value-mapper">键值映射器（Value Mapper）
 &lt;/h3>&lt;p>值映射器允许使用一个&lt;strong>自定义函数&lt;/strong>自动展开值的具体内容，例如在运行时获取环境变量：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -7174,16 +6988,12 @@ ini配置文件介绍
 &lt;/div>
 &lt;/div>&lt;p>会输出你电脑的用户名。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文简单介绍了ini配置文件格式，内容来自互联网，仅供参考。还介绍了&lt;code>go-ini&lt;/code>库，基本上参考的是其&lt;a class="link" href="https://ini.unknwon.io/" target="_blank" rel="noopener"
 >官方文档&lt;/a>，官方文档写的非常详细，推荐去看，而且有中文。 作者是&lt;a class="link" href="https://github.com/unknwon" target="_blank" rel="noopener"
 >无闻&lt;/a>，相信做 Go 开发的都不陌生。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://blog.csdn.net/a123441/article/details/90668032" target="_blank" rel="noopener"
@@ -7196,18 +7006,14 @@ ini配置文件介绍
 >Go 每日一库之 go-ini&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Carbon Introduction</title><link>https://arlettebrook.github.io/p/carbon-introduction/</link><pubDate>Mon, 13 May 2024 10:19:13 +0800</pubDate><guid>https://arlettebrook.github.io/p/carbon-introduction/</guid><description>&lt;hr>
-&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="简介">简介
 &lt;/h2>&lt;p>一线开发人员每天都要使用日期和时间相关的功能，各种定时器，活动时间处理等。标准库&lt;a class="link" href="https://golang.org/pkg/time" target="_blank" rel="noopener"
 >time&lt;/a>使用起来不太灵活，特别是日期时间的创建和运算。&lt;a class="link" href="https://github.com/uniplaces/carbon" target="_blank" rel="noopener"
 >carbon&lt;/a>库是一个时间扩展库，基于 PHP 的&lt;a class="link" href="https://github.com/briannesbitt/carbon" target="_blank" rel="noopener"
 >carbon&lt;/a>库编写。提供易于使用的接口。Go社区还有另外一个同名库&lt;a class="link" href="https://github.com/golang-module/carbon" target="_blank" rel="noopener"
 >carbon&lt;/a>，我称之为增强版，本文就来介绍一下这两个库，主要介绍低配版，二者差不多，会了低配版，增强版也就会了。增强版用的人更多，推荐使用增强版。&lt;/p>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>第三方库需要先安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -7391,9 +7197,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>总结：没有指定时区时，默认本地区时区，当要指定时区时，默认UTC时区。（底层源码目前看不懂😁😁😁）&lt;/p>
-&lt;h2 id="时区">
-&lt;a href="#%e6%97%b6%e5%8c%ba" class="header-anchor">#&lt;/a>
-时区
+&lt;h2 id="时区">时区
 &lt;/h2>&lt;p>在介绍其它内容之前，我们先说一说这个时区的问题。以下引用维基百科的描述：&lt;/p>
 &lt;blockquote>
 &lt;p>时区是地球上的区域使用同一个时间定义。以前，人们通过观察太阳的位置（时角）决定时间，这就使得不同经度的地方的时间有所不同（地方时）。1863年，首次使用时区的概念。时区通过设立一个区域的标准时间部分地解决了这个问题。 世界各国位于地球不同位置上，因此不同国家，特别是东西跨度大的国家日出、日落时间必定有所偏差。这些偏差就是所谓的时差。&lt;/p>
@@ -7493,9 +7297,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="创建对象">
-&lt;a href="#%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-创建对象
+&lt;h2 id="创建对象">创建对象
 &lt;/h2>&lt;p>创建Carbon对象，可以通过：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -7594,9 +7396,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>后面会介绍时间格式化。&lt;/p>
-&lt;h2 id="时间运算">
-&lt;a href="#%e6%97%b6%e9%97%b4%e8%bf%90%e7%ae%97" class="header-anchor">#&lt;/a>
-时间运算
+&lt;h2 id="时间运算">时间运算
 &lt;/h2>&lt;p>使用标准库&lt;code>time&lt;/code>的时间运算需要先定义一个&lt;code>time.Duration&lt;/code>对象，&lt;code>time&lt;/code>库预定义的只有纳秒到小时的精度：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -7745,9 +7545,7 @@ ini配置文件介绍
 &lt;/ul>
 &lt;p>其实给上面方法传入负数就表示减少，另外&lt;code>carbon&lt;/code>也提供了对应的&lt;code>Sub*&lt;/code>方法。&lt;/p>
 &lt;hr>
-&lt;h2 id="时间比较">
-&lt;a href="#%e6%97%b6%e9%97%b4%e6%af%94%e8%be%83" class="header-anchor">#&lt;/a>
-时间比较
+&lt;h2 id="时间比较">时间比较
 &lt;/h2>&lt;p>注意：时间比较的是快慢。&lt;/p>
 &lt;p>标准库&lt;code>time&lt;/code>可以使用&lt;code>time.Time&lt;/code>对象的&lt;code>Before/After/Equal&lt;/code>判断是否在另一个时间对象前，后，或相等。&lt;code>carbon&lt;/code>库也可以使用上面的方法比较时间。除此之外，它还提供了多组方法，每个方法提供一个&lt;strong>简短名&lt;/strong>，一个&lt;strong>详细名&lt;/strong>：&lt;/p>
 &lt;ul>
@@ -7828,9 +7626,7 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="时间差">
-&lt;a href="#%e6%97%b6%e9%97%b4%e5%b7%ae" class="header-anchor">#&lt;/a>
-时间差
+&lt;/div>&lt;h2 id="时间差">时间差
 &lt;/h2>&lt;p>我们还可以使用&lt;code>carbon&lt;/code>计算两个日期之间相差多少秒、分、小时、天。&lt;/p>
 &lt;p>用到的方法是&lt;code>func (c *Carbon) DiffInXXX(carb *Carbon, abs bool)&lt;/code>,表示的是相对于对象c快了还慢了多少XXX。正数表示c慢了，负数表示c快了。原理：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -7936,9 +7732,7 @@ ini配置文件介绍
 &lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="格式化">
-&lt;a href="#%e6%a0%bc%e5%bc%8f%e5%8c%96" class="header-anchor">#&lt;/a>
-格式化
+&lt;h2 id="格式化">格式化
 &lt;/h2>&lt;p>我们知道&lt;code>time.Time&lt;/code>提供了一个&lt;code>Format&lt;/code>方法，相比于其他编程语言使用格式化符来描述格式（需要记忆&lt;code>%d/%m/%h&lt;/code>等的含义），Go 提供了一个一种更简单、直观的方式——使用 layout。即我们传入一个日期字符串，表示我们想要格式化成什么样子。Go 会用当前的时间替换字符串中的对应部分：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8130,15 +7924,9 @@ ini配置文件介绍
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="高级特性">
-&lt;a href="#%e9%ab%98%e7%ba%a7%e7%89%b9%e6%80%a7" class="header-anchor">#&lt;/a>
-高级特性
-&lt;/h2>&lt;h3 id="修饰器">
-&lt;a href="#%e4%bf%ae%e9%a5%b0%e5%99%a8" class="header-anchor">#&lt;/a>
-修饰器
-&lt;/h3>&lt;h5 id="boundary边界">
-&lt;a href="#boundary%e8%be%b9%e7%95%8c" class="header-anchor">#&lt;/a>
-Boundary：边界
+&lt;h2 id="高级特性">高级特性
+&lt;/h2>&lt;h3 id="修饰器">修饰器
+&lt;/h3>&lt;h5 id="boundary边界">Boundary：边界
 &lt;/h5>&lt;p>所谓修饰器（modifier）就是对一些特定的时间操作，获取&lt;strong>开始&lt;/strong>和&lt;strong>结束&lt;/strong>时间。如当天、月、季度、年、十年、世纪、周的&lt;strong>开始&lt;/strong>和&lt;strong>结束&lt;/strong>时间，还能获得&lt;strong>上一个&lt;/strong>周二、&lt;strong>下一个&lt;/strong>周一、下一个工作日的时间等等：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8198,9 +7986,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="自定义工作日和周末">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%b7%a5%e4%bd%9c%e6%97%a5%e5%92%8c%e5%91%a8%e6%9c%ab" class="header-anchor">#&lt;/a>
-自定义工作日和周末
+&lt;/div>&lt;h3 id="自定义工作日和周末">自定义工作日和周末
 &lt;/h3>&lt;p>有些地区每周的开始、周末和我们的不一样。Carbon默认是&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8288,9 +8074,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这个库一般默认就行。&lt;/p>
-&lt;h3 id="批量生成日期">
-&lt;a href="#%e6%89%b9%e9%87%8f%e7%94%9f%e6%88%90%e6%97%a5%e6%9c%9f" class="header-anchor">#&lt;/a>
-批量生成日期
+&lt;h3 id="批量生成日期">批量生成日期
 &lt;/h3>&lt;p>利用&lt;code>Period&lt;/code>方法，可以批量生成日期，接收三个参数。&lt;/p>
 &lt;ul>
 &lt;li>第一个：开始的时间。&lt;/li>
@@ -8371,9 +8155,7 @@ Boundary：边界
 &lt;/div>
 &lt;/div>&lt;p>（不常用）&lt;/p>
 &lt;hr>
-&lt;h2 id="增强版介绍">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e7%89%88%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-增强版介绍
+&lt;h2 id="增强版介绍">增强版介绍
 &lt;/h2>&lt;p>下载：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8385,9 +8167,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ go get -u github.com/golang-module/carbon/v2
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="增强版创建对象">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e7%89%88%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-增强版创建对象
+&lt;/div>&lt;h3 id="增强版创建对象">增强版创建对象
 &lt;/h3>&lt;p>创建时间对象与低配版不一样。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -8623,9 +8403,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">carbon&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ParseByLayout&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;今天是 2020年08月05日13时14分15秒&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;今天是 2006年01月02日15时04分05秒&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">ToDateTimeString&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 2020-08-05 13:14:15
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="一些默认值">
-&lt;a href="#%e4%b8%80%e4%ba%9b%e9%bb%98%e8%ae%a4%e5%80%bc" class="header-anchor">#&lt;/a>
-一些默认值
+&lt;/div>&lt;h3 id="一些默认值">一些默认值
 &lt;/h3>&lt;p>增强版创建的时间对象的默认值：&lt;/p>
 &lt;ul>
 &lt;li>时间格式与低配版一直，名字改成&lt;code>carbon.DateTimeLayout&lt;/code>。&lt;/li>
@@ -8675,9 +8453,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>官方建议在main.go等入口文件中修改默认值。&lt;/p>
-&lt;h3 id="对象互转">
-&lt;a href="#%e5%af%b9%e8%b1%a1%e4%ba%92%e8%bd%ac" class="header-anchor">#&lt;/a>
-对象互转
+&lt;h3 id="对象互转">对象互转
 &lt;/h3>&lt;p>增强版可以实现&lt;code>time.Time&lt;/code>对象与&lt;code>Carbon&lt;/code>对象相互转换。&lt;/p>
 &lt;p>示例如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -8722,12 +8498,8 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="更多细节的增强">
-&lt;a href="#%e6%9b%b4%e5%a4%9a%e7%bb%86%e8%8a%82%e7%9a%84%e5%a2%9e%e5%bc%ba" class="header-anchor">#&lt;/a>
-更多细节的增强
-&lt;/h3>&lt;h4 id="对象转字符串">
-&lt;a href="#%e5%af%b9%e8%b1%a1%e8%bd%ac%e5%ad%97%e7%ac%a6%e4%b8%b2" class="header-anchor">#&lt;/a>
-对象转字符串
+&lt;/div>&lt;h3 id="更多细节的增强">更多细节的增强
+&lt;/h3>&lt;h4 id="对象转字符串">对象转字符串
 &lt;/h4>&lt;p>增强版提供了更多时间对象转字符串的方法。除了&lt;code>String&lt;/code>方法外，添加了ToXxxString方法：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8755,9 +8527,7 @@ Boundary：边界
 &lt;/div>
 &lt;/div>&lt;p>注意：增强版有一个坑：当我们直接输出&lt;code>Carbon&lt;/code>对象时，会自动调用&lt;code>String&lt;/code>方法，这个&lt;code>String&lt;/code>方法会将时区&lt;strong>改成本地&lt;/strong>。若不希望修改时区，请不要调用&lt;code>String&lt;/code>方法，用别的转字符串的方法，如&lt;code>ToDateTimeString&lt;/code>。&lt;/p>
 &lt;p>更多内容参考&lt;a class="link" href="#%e6%97%b6%e9%97%b4%e8%be%93%e5%87%ba" >时间输出&lt;/a>&lt;/p>
-&lt;h4 id="对象转时间戳">
-&lt;a href="#%e5%af%b9%e8%b1%a1%e8%bd%ac%e6%97%b6%e9%97%b4%e6%88%b3" class="header-anchor">#&lt;/a>
-对象转时间戳
+&lt;h4 id="对象转时间戳">对象转时间戳
 &lt;/h4>&lt;p>通过增强版，我们可以方便的将Carbon对象转换成指定单位的时间戳：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8783,9 +8553,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">carbon&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Now&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">TimestampNano&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 1596604455999999999
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="获取昨天明天的对象">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e6%98%a8%e5%a4%a9%e6%98%8e%e5%a4%a9%e7%9a%84%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-获取昨天、明天的对象
+&lt;/div>&lt;h4 id="获取昨天明天的对象">获取昨天、明天的对象
 &lt;/h4>&lt;p>增强版，不仅能够获取当前的时间对象，还能获取昨天或者明天的时间：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8809,9 +8577,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">carbon&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Tomorrow&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">ToDateTimeString&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 2020-08-06 13:14:15
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="增强时间戳创建对象">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e6%97%b6%e9%97%b4%e6%88%b3%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-增强时间戳创建对象
+&lt;/div>&lt;h4 id="增强时间戳创建对象">增强时间戳创建对象
 &lt;/h4>&lt;p>低配版只能通过&lt;code>CreateFromTimestamp&lt;/code>和&lt;code>CreateFromTimestampUTC&lt;/code>函数创建对象，增强版提供了毫秒、微秒、纳秒时间戳创建对象。时区默认本地时区。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8836,13 +8602,9 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>其他&lt;a class="link" href="#%e5%a2%9e%e5%bc%ba%e7%89%88%e5%88%9b%e5%bb%ba%e5%af%b9%e8%b1%a1" >创建对象增强&lt;/a>&lt;/p>
-&lt;h4 id="时间的边界">
-&lt;a href="#%e6%97%b6%e9%97%b4%e7%9a%84%e8%be%b9%e7%95%8c" class="header-anchor">#&lt;/a>
-时间的边界
+&lt;h4 id="时间的边界">时间的边界
 &lt;/h4>&lt;p>与低配版一模一样。详情请看&lt;a class="link" href="#%e4%bf%ae%e9%a5%b0%e5%99%a8" >修饰器&lt;/a>。&lt;/p>
-&lt;h4 id="增强时间运算">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e6%97%b6%e9%97%b4%e8%bf%90%e7%ae%97" class="header-anchor">#&lt;/a>
-增强时间运算
+&lt;h4 id="增强时间运算">增强时间运算
 &lt;/h4>&lt;p>支持链式调用，对应时间的运算，增加了不会溢出的方法。&lt;/p>
 &lt;p>默认低配版和高配版进行时间运算时，当为2月29的时候，即闰年的时候，计算到不是闰年，都没有29号，那么时间默认会溢出，变成3月1号。增强版提供了&lt;code>AddXxxNoOverflow&lt;/code>、&lt;code>SubXxxNoOverflow&lt;/code>方法（低配版部分有，高配版基本都有），让时间不会溢出，为2月28。（闰年比公历年多1天。）&lt;/p>
 &lt;p>增强版还增强了别的单位进行运算,如&lt;code>XxxDecades&lt;/code>十年、&lt;code>XxxDuration&lt;/code>根据片段进行运算。还更小单位的运算，如&lt;code>SubMillisecond&lt;/code>、&lt;code>SubNanossecond&lt;/code>&lt;/p>
@@ -8889,9 +8651,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>其他的与&lt;a class="link" href="#%e6%97%b6%e9%97%b4%e8%bf%90%e7%ae%97" >低配版一直&lt;/a>。&lt;/p>
-&lt;h4 id="增强时间差">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e6%97%b6%e9%97%b4%e5%b7%ae" class="header-anchor">#&lt;/a>
-增强时间差
+&lt;h4 id="增强时间差">增强时间差
 &lt;/h4>&lt;ul>
 &lt;li>增强版移除了是否取绝对值参数，封装到了&lt;code>DiffAbsInXxx&lt;/code>方法中。
 &lt;ul>
@@ -8988,9 +8748,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="获取时间极值">
-&lt;a href="#%e8%8e%b7%e5%8f%96%e6%97%b6%e9%97%b4%e6%9e%81%e5%80%bc" class="header-anchor">#&lt;/a>
-获取时间极值
+&lt;/div>&lt;h4 id="获取时间极值">获取时间极值
 &lt;/h4>&lt;p>低配版只提供了&lt;code>Closest&lt;/code>和&lt;code>Farthest&lt;/code>获取距对象最近或最远的时间对象，低配版和高配版都只能传递两个时间对象。&lt;/p>
 &lt;p>高配版增强版新增两个方法&lt;code>Max&lt;/code>和``Min`，获取多个时间里面的最大或最小，参数为至少一个时间对象。&lt;/p>
 &lt;p>示例如下：&lt;/p>
@@ -9030,9 +8788,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">carbon&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Min&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">yesterday&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">today&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">tomorrow&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// yesterday
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="增强时间判断">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e6%97%b6%e9%97%b4%e5%88%a4%e6%96%ad" class="header-anchor">#&lt;/a>
-增强时间判断
+&lt;/div>&lt;h4 id="增强时间判断">增强时间判断
 &lt;/h4>&lt;ul>
 &lt;li>
 &lt;p>增强版新增判断时间是否有效：&lt;code>IsValid&lt;/code>、&lt;code>IsInvalid&lt;/code>&lt;/p>
@@ -9192,9 +8948,7 @@ Boundary：边界
 &lt;/ul>
 &lt;p>​&lt;/p>
 &lt;p>​&lt;/p>
-&lt;h4 id="增强时间比较">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e6%97%b6%e9%97%b4%e6%af%94%e8%be%83" class="header-anchor">#&lt;/a>
-增强时间比较
+&lt;h4 id="增强时间比较">增强时间比较
 &lt;/h4>&lt;p>高配版保留了&lt;a class="link" href="#%e6%97%b6%e9%97%b4%e6%af%94%e8%be%83" >低配版&lt;/a>的所有时间比较方法，同时新增判断是否在两个时间之间，包括两端的时间方法和比较方法&lt;code>Compare&lt;/code>，该方法需要指定比较字符&lt;code>=,&amp;lt;=,!=,&amp;lt;&amp;gt;&lt;/code>等（只能接收一个比较符，因为只能有一个时间参数比较）。示例如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -9220,9 +8974,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">carbon&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;2020-08-05 13:14:15&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">Compare&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;&amp;lt;&amp;gt;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">carbon&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;2020-08-05 13:14:15&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="c1">// false 就是不等于
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="增强时间设置">
-&lt;a href="#%e5%a2%9e%e5%bc%ba%e6%97%b6%e9%97%b4%e8%ae%be%e7%bd%ae" class="header-anchor">#&lt;/a>
-增强时间设置
+&lt;/div>&lt;h4 id="增强时间设置">增强时间设置
 &lt;/h4>&lt;ul>
 &lt;li>
 &lt;p>可以设置时区、设置地区：&lt;code>func SetTimezone(name string)&lt;/code>、&lt;code>func SetLocation(loc *time.Location)&lt;/code>、&lt;code>func LoadLocation(name string)&lt;/code>、&lt;code>func getLocationByTimezone(timezone string)&lt;/code>&lt;/p>
@@ -9316,9 +9068,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">carbon&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;2020-08-05 13:14:15&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">SetNanosecond&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">999999999&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">Nanosecond&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 999999999
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="时间获取">
-&lt;a href="#%e6%97%b6%e9%97%b4%e8%8e%b7%e5%8f%96" class="header-anchor">#&lt;/a>
-时间获取
+&lt;/div>&lt;h4 id="时间获取">时间获取
 &lt;/h4>&lt;p>一句话：直接调用你想获取的时间或日期，只要你想到的都能获取，如获取本年总天数&lt;code>DaysInYear&lt;/code>、获取本月总天数&lt;code>DaysInMonth&lt;/code>、获取本年第几天、 获取本周第几天：&lt;code>DayOfXxx&lt;/code>、获取具体日期或时间&lt;code>DateTime&lt;/code>、获取当前世纪&lt;code>Century&lt;/code>、获取当前年代Decade十年未一个年代、年月日时分秒毫米微秒纳秒、时间戳就不说了。获取时区&lt;code>Timezone&lt;/code>、获取位置&lt;code>Location&lt;/code>、获取距离UTC时区的偏移量，单位秒&lt;code>Offset&lt;/code>、获取当前区域&lt;code>Locale&lt;/code>、 获取当前星座&lt;code>Constellation&lt;/code>、获取当前季节&lt;code>Season&lt;/code>&lt;/p>
 &lt;p>获取年龄&lt;code>Age&lt;/code>。（你就说强不强大~）&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -9383,9 +9133,7 @@ Boundary：边界
 &lt;/div>
 &lt;/div>&lt;p>更多示例&lt;a class="link" href="https://github.com/golang-module/carbon" target="_blank" rel="noopener"
 >参考&lt;/a>&lt;/p>
-&lt;h4 id="时间输出">
-&lt;a href="#%e6%97%b6%e9%97%b4%e8%be%93%e5%87%ba" class="header-anchor">#&lt;/a>
-时间输出
+&lt;h4 id="时间输出">时间输出
 &lt;/h4>&lt;ul>
 &lt;li>
 &lt;p>时间输出是&lt;code>ToXxxString&lt;/code>方法。（你能想到的格式都能输出😂）&lt;/p>
@@ -9484,9 +9232,7 @@ Boundary：边界
 >参考&lt;/a>&lt;/p>
 &lt;p>更多格式化输出符号请查看附录 &lt;a class="link" href="https://github.com/golang-module/carbon/blob/master/README.cn.md#format-sign-table" target="_blank" rel="noopener"
 >格式化符号表&lt;/a>&lt;/p>
-&lt;h5 id="输出结构体">
-&lt;a href="#%e8%be%93%e5%87%ba%e7%bb%93%e6%9e%84%e4%bd%93" class="header-anchor">#&lt;/a>
-输出结构体
+&lt;h5 id="输出结构体">输出结构体
 &lt;/h5>&lt;p>时间输出不仅能够输出指定字符串&lt;code>ToXxxString&lt;/code>，还能输出到指定的结构体类型&lt;code>ToXxxStruct&lt;/code>，用与序列化与反序列化指定日期时间格式。只不过输出的结构体类型只有Date和Time组合的。&lt;/p>
 &lt;p>示例如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -9568,14 +9314,10 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>&lt;code>carbon&lt;/code>提供了很多的实用方法，另外&lt;code>time&lt;/code>的方法它也能使用，使得它的功能非常强大。时间其实是一个非常复杂的问题，考虑到时区、闰秒、各地的夏令时等，自己处理起来简直是火葬场。幸好有这些库(┬＿┬)&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>carbon GitHub 仓库： &lt;a class="link" href="https://github.com/uniplaces/carbon" target="_blank" rel="noopener"
@@ -9586,17 +9328,13 @@ Boundary：边界
 >Go 每日一库之 carbon&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Godotenv Introduction</title><link>https://arlettebrook.github.io/p/godotenv-introduction/</link><pubDate>Sun, 12 May 2024 14:29:33 +0800</pubDate><guid>https://arlettebrook.github.io/p/godotenv-introduction/</guid><description>&lt;hr>
-&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="简介">简介
 &lt;/h2>&lt;p>&lt;a class="link" href="https://12factor.net/" target="_blank" rel="noopener"
 >twelve-factor&lt;/a>应用提倡将配置存储在环境变量中。任何从开发环境切换到生产环境时需要修改的东西都从代码抽取到环境变量里。 但是在实际开发中，如果同一台机器运行多个项目，设置环境变量容易冲突，不实用。&lt;a class="link" href="https://github.com/joho/godotenv" target="_blank" rel="noopener"
 >godotenv&lt;/a>库从&lt;code>.env&lt;/code>文件中读取配置， 然后存储到程序的环境变量中。在代码中可以使用读取非常方便。&lt;code>godotenv&lt;/code>源于一个 Ruby 的开源项目&lt;a class="link" href="https://github.com/bkeepers/dotenv" target="_blank" rel="noopener"
 >dotenv&lt;/a>。&lt;/p>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>第三方库需要先安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -9703,12 +9441,8 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="基本使用">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-基本使用
-&lt;/h2>&lt;h3 id="自动加载">
-&lt;a href="#%e8%87%aa%e5%8a%a8%e5%8a%a0%e8%bd%bd" class="header-anchor">#&lt;/a>
-自动加载
+&lt;h2 id="基本使用">基本使用
+&lt;/h2>&lt;h3 id="自动加载">自动加载
 &lt;/h3>&lt;p>如果你有程序员的优良传统——懒，你可能连&lt;code>Load&lt;/code>方法都不想自己调用。没关系，&lt;code>godotenv&lt;/code>给你懒的权力！&lt;/p>
 &lt;p>导入&lt;code>github.com/joho/godotenv/autoload&lt;/code>，配置会自动读取：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -9783,9 +9517,7 @@ Boundary：边界
 &lt;/div>
 &lt;/div>&lt;p>仔细看注释，程序员的恶趣味😂！&lt;/p>
 &lt;hr>
-&lt;h3 id="加载自定义文件">
-&lt;a href="#%e5%8a%a0%e8%bd%bd%e8%87%aa%e5%ae%9a%e4%b9%89%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-加载自定义文件
+&lt;h3 id="加载自定义文件">加载自定义文件
 &lt;/h3>&lt;p>默认情况下，加载的是项目根目录下的&lt;code>.env&lt;/code>文件。当然我们可以加载任意名称的文件，文件也不必以&lt;code>.env&lt;/code>为后缀：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -9894,9 +9626,7 @@ Boundary：边界
 &lt;li>以上两种方法都会对环境变量的副本，进行添加或修改。后面会介绍，&lt;a class="link" href="#%e4%b8%8d%e5%ad%98%e5%85%a5%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" >不存入环境变量&lt;/a>。&lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h3 id="注释">
-&lt;a href="#%e6%b3%a8%e9%87%8a" class="header-anchor">#&lt;/a>
-注释
+&lt;h3 id="注释">注释
 &lt;/h3>&lt;p>&lt;code>.env&lt;/code>文件中可以添加注释，注释以&lt;code>#&lt;/code>开始，直到该行结束。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -9913,9 +9643,7 @@ Boundary：边界
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h3 id="yaml">
-&lt;a href="#yaml" class="header-anchor">#&lt;/a>
-YAML
+&lt;h3 id="yaml">YAML
 &lt;/h3>&lt;p>&lt;code>.env&lt;/code>文件还可以使用 YAML 格式：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -9974,12 +9702,8 @@ YAML
 &lt;/div>
 &lt;/div>&lt;p>注意：yaml格式不支持嵌套。官方解释：支持 YAML(ish) 风格。&lt;/p>
 &lt;hr>
-&lt;h3 id="不存入环境变量">
-&lt;a href="#%e4%b8%8d%e5%ad%98%e5%85%a5%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" class="header-anchor">#&lt;/a>
-不存入环境变量
-&lt;/h3>&lt;h4 id="从文件读取">
-&lt;a href="#%e4%bb%8e%e6%96%87%e4%bb%b6%e8%af%bb%e5%8f%96" class="header-anchor">#&lt;/a>
-从文件读取
+&lt;h3 id="不存入环境变量">不存入环境变量
+&lt;/h3>&lt;h4 id="从文件读取">从文件读取
 &lt;/h4>&lt;p>&lt;code>godotenv&lt;/code>允许不将&lt;code>.env&lt;/code>文件内容存入环境变量，使用&lt;code>godotenv.Read()&lt;/code>返回一个&lt;code>map[string]string&lt;/code>，可直接使用：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10030,9 +9754,7 @@ YAML
 &lt;li>这样就不会将环境配置文件中的变量存入环境变量。&lt;/li>
 &lt;li>&lt;code>Read&lt;/code>可以接收文件路径，用于指定配置文件。默认&lt;code>./.env&lt;/code>,与&lt;code>Load&lt;/code>一致。&lt;/li>
 &lt;/ol>
-&lt;h4 id="从string-byte中读取配置">
-&lt;a href="#%e4%bb%8estring-byte%e4%b8%ad%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-从&lt;code>string, byte&lt;/code>中读取配置
+&lt;h4 id="从string-byte中读取配置">从&lt;code>string, byte&lt;/code>中读取配置
 &lt;/h4>&lt;p>除了读取文件，还可以从&lt;code>string&lt;/code>中读取配置，它不会修改环境：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10123,9 +9845,7 @@ YAML
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">version: 1.0.1
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="从ioreader获取配置">
-&lt;a href="#%e4%bb%8eioreader%e8%8e%b7%e5%8f%96%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-从&lt;code>io.Reader&lt;/code>获取配置
+&lt;/div>&lt;h4 id="从ioreader获取配置">从&lt;code>io.Reader&lt;/code>获取配置
 &lt;/h4>&lt;p>除了以上方法外，还可以从&lt;code>io.Reader&lt;/code>中读取env文件。这个也不会修改环境。&lt;/p>
 &lt;p>只要实现了&lt;code>io.Reader&lt;/code>接口，就能作为数据源。可以从文件（&lt;code>os.File&lt;/code>），网络（&lt;code>net.Conn&lt;/code>），&lt;code>bytes.Buffer&lt;/code>等多种来源读取：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -10222,9 +9942,7 @@ YAML
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="生成env文件or字符串">
-&lt;a href="#%e7%94%9f%e6%88%90env%e6%96%87%e4%bb%b6or%e5%ad%97%e7%ac%a6%e4%b8%b2" class="header-anchor">#&lt;/a>
-生成&lt;code>.env&lt;/code>文件or字符串
+&lt;h2 id="生成env文件or字符串">生成&lt;code>.env&lt;/code>文件or字符串
 &lt;/h2>&lt;p>可以通过程序生成一个&lt;code>.env&lt;/code>文件的内容，可以直接写入到文件中：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10317,9 +10035,7 @@ YAML
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="命令行模式">
-&lt;a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%a8%a1%e5%bc%8f" class="header-anchor">#&lt;/a>
-命令行模式
+&lt;h2 id="命令行模式">命令行模式
 &lt;/h2>&lt;p>&lt;code>godotenv&lt;/code>还提供了一个命令行的模式。要使用它，先要确保命令安装到&lt;code>$GOPATH/bin&lt;/code>目录下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10418,9 +10134,7 @@ YAML
 &lt;/div>&lt;p>第一次没有覆盖USERNAME,第二次覆盖了。&lt;/p>
 &lt;p>通过godotenv命令行程序，我们可以不用再自己的程序中调用godotenv读取env文件。&lt;/p>
 &lt;hr>
-&lt;h2 id="指定环境启动">
-&lt;a href="#%e6%8c%87%e5%ae%9a%e7%8e%af%e5%a2%83%e5%90%af%e5%8a%a8" class="header-anchor">#&lt;/a>
-指定环境启动
+&lt;h2 id="指定环境启动">指定环境启动
 &lt;/h2>&lt;p>实践中，一般会根据&lt;code>APP_ENV&lt;/code>环境变量的值加载不同的文件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10551,9 +10265,7 @@ YAML
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="一点源码">
-&lt;a href="#%e4%b8%80%e7%82%b9%e6%ba%90%e7%a0%81" class="header-anchor">#&lt;/a>
-一点源码
+&lt;h2 id="一点源码">一点源码
 &lt;/h2>&lt;p>(其实你应该提前看一下源码~)&lt;/p>
 &lt;p>&lt;code>godotenv&lt;/code>读取文件内容，为什么可以使用&lt;code>os.Getenv&lt;/code>访问：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -10608,14 +10320,10 @@ YAML
 &lt;/div>
 &lt;/div>&lt;p>因为&lt;code>godotenv&lt;/code>调用&lt;code>os.Setenv&lt;/code>将键值对设置到环境变量中了。就是在运行的时候修改了环境变量。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文介绍了&lt;code>godotenv&lt;/code>库的基础和高级用法。&lt;code>godotenv&lt;/code>的源码也比较好读，有时间，有兴趣的童鞋建议一看~&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>godotenv GitHub 仓库： &lt;a class="link" href="https://github.com/joho/godotenv" target="_blank" rel="noopener"
@@ -10624,16 +10332,12 @@ YAML
 >Go 每日一库之 godotenv&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Cast Introduction</title><link>https://arlettebrook.github.io/p/cast-introduction/</link><pubDate>Sat, 11 May 2024 18:45:59 +0800</pubDate><guid>https://arlettebrook.github.io/p/cast-introduction/</guid><description>&lt;hr>
-&lt;h2 id="介绍">
-&lt;a href="#%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-介绍
+&lt;h2 id="介绍">介绍
 &lt;/h2>&lt;p>今天我们再来介绍Steve Francia（spf13）大神的另一个库&lt;a class="link" href="https://github.com/spf13/cast" target="_blank" rel="noopener"
 >cast&lt;/a>。&lt;code>cast&lt;/code>是一个小巧、实用的类型转换库，用于将一个类型转为另一个类型。它提供了一套高效且安全的类型转换功能。 最初开发&lt;code>cast&lt;/code>是用在&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
 >hugo&lt;/a>中的。&lt;/p>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>先安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10732,17 +10436,13 @@ YAML
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="基本使用">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-基本使用
+&lt;h2 id="基本使用">基本使用
 &lt;/h2>&lt;p>&lt;code>cast&lt;/code>提供了两组函数：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>ToType&lt;/code>（其中&lt;code>Type&lt;/code>可以为任何支持的类型），将参数转换为&lt;code>Type&lt;/code>类型。如果无法转换，返回&lt;code>Type&lt;/code>类型的零值或&lt;code>nil&lt;/code>；&lt;/li>
 &lt;li>&lt;code>ToTypeE&lt;/code>以 E 结尾，返回转换后的值和一个&lt;code>error&lt;/code>。这组函数可以区分参数中实际存储了零值，还是转换失败了。&lt;/li>
 &lt;/ul>
-&lt;h3 id="源码分析">
-&lt;a href="#%e6%ba%90%e7%a0%81%e5%88%86%e6%9e%90" class="header-anchor">#&lt;/a>
-源码分析：
+&lt;h3 id="源码分析">源码分析：
 &lt;/h3>&lt;p>实现上大部分代码都类似，&lt;code>ToType&lt;/code>在内部调用&lt;code>ToTypeE&lt;/code>函数，返回结果并忽略错误。&lt;code>ToType&lt;/code>函数的实现在文件&lt;code>cast.go&lt;/code>中， 而&lt;code>ToTypeE&lt;/code>函数的实现在文件&lt;code>caste.go&lt;/code>中。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10959,9 +10659,7 @@ YAML
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="时间和时长转换">
-&lt;a href="#%e6%97%b6%e9%97%b4%e5%92%8c%e6%97%b6%e9%95%bf%e8%bd%ac%e6%8d%a2" class="header-anchor">#&lt;/a>
-时间和时长转换
+&lt;/div>&lt;h3 id="时间和时长转换">时间和时长转换
 &lt;/h3>&lt;p>时间类型的转换代码如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -11239,9 +10937,7 @@ YAML
 &lt;li>如果是字符串，分为两种情况：如果字符串中有时间单位符号&lt;code>nsuµmh&lt;/code>，直接调用&lt;code>time.ParseDuration&lt;/code>解析；否则在字符串后拼接&lt;code>ns&lt;/code>再调用&lt;code>time.ParseDuration&lt;/code>解析；&lt;/li>
 &lt;li>其他类型解析失败。&lt;/li>
 &lt;/ul>
-&lt;h4 id="时间时长示例">
-&lt;a href="#%e6%97%b6%e9%97%b4%e6%97%b6%e9%95%bf%e7%a4%ba%e4%be%8b" class="header-anchor">#&lt;/a>
-时间、时长示例：
+&lt;h4 id="时间时长示例">时间、时长示例：
 &lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -11304,9 +11000,7 @@ YAML
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="转换为切片">
-&lt;a href="#%e8%bd%ac%e6%8d%a2%e4%b8%ba%e5%88%87%e7%89%87" class="header-anchor">#&lt;/a>
-转换为切片
+&lt;/div>&lt;h3 id="转换为切片">转换为切片
 &lt;/h3>&lt;p>实际上，这些函数的实现基本类似。使用类型断言判断类型。如果就是要返回的类型，直接返回。否则根据类型进行相应的转换。&lt;/p>
 &lt;p>我们主要分析两个实现：&lt;code>ToIntSliceE&lt;/code>和&lt;code>ToStringSliceE&lt;/code>。&lt;code>ToBoolSliceE/ToDurationSliceE&lt;/code>与&lt;code>ToIntSliceE&lt;/code>基本相同。&lt;/p>
 &lt;p>首先是&lt;code>ToIntSliceE&lt;/code>：&lt;/p>
@@ -11510,9 +11204,7 @@ YAML
 &lt;li>如果是&lt;code>string&lt;/code>，调用&lt;code>strings.Fields&lt;/code>函数按空白符将参数拆分，返回拆分后的字符串切片；&lt;/li>
 &lt;li>其他情况，不能转换。&lt;/li>
 &lt;/ul>
-&lt;h4 id="转换为切片示例">
-&lt;a href="#%e8%bd%ac%e6%8d%a2%e4%b8%ba%e5%88%87%e7%89%87%e7%a4%ba%e4%be%8b" class="header-anchor">#&lt;/a>
-转换为切片示例：
+&lt;h4 id="转换为切片示例">转换为切片示例：
 &lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -11595,9 +11287,7 @@ YAML
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="转为mapstringtype类型">
-&lt;a href="#%e8%bd%ac%e4%b8%bamapstringtype%e7%b1%bb%e5%9e%8b" class="header-anchor">#&lt;/a>
-转为&lt;code>map[string]Type&lt;/code>类型
+&lt;/div>&lt;h3 id="转为mapstringtype类型">转为&lt;code>map[string]Type&lt;/code>类型
 &lt;/h3>&lt;p>&lt;code>cast&lt;/code>库能将传入的参数转为&lt;code>map[string]Type&lt;/code>类型，&lt;code>Type&lt;/code>为上面支持的类型。&lt;/p>
 &lt;p>其实只需要分析一个&lt;code>ToStringMapStringE&lt;/code>函数就可以了，其他的实现基本一样。&lt;code>ToStringMapStringE&lt;/code>返回&lt;code>map[string]string&lt;/code>类型的值。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -11755,14 +11445,10 @@ YAML
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>&lt;code>cast&lt;/code>库能在几乎所有常见类型之间转换，使用非常方便。代码量也很小，有时间建议读读源码。常用于解析配置数据。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://github.com/spf13/cast" target="_blank" rel="noopener"
@@ -11776,9 +11462,7 @@ YAML
 >Logrus&lt;/a> 是目前 GitHub 上 Star 数量最多的 Go 日志库。尽管目前 Logrus 处于维护模式，不再引入新功能，但这并不意味着它已经死了。Logrus 仍将继续维护，以确保安全性、错误修复和提高性能。作为 Go 社区中最受欢迎的日志库之一，Logrus 最大的贡献是推动了 Go 社区广泛使用结构化（如JSON格式)的日志记录。著名的 Docker 项目就在使用 Logrus 记录日志，这进一步证明了其在实际应用中的可靠性和实用性。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="特点">
-&lt;a href="#%e7%89%b9%e7%82%b9" class="header-anchor">#&lt;/a>
-特点
+&lt;h2 id="特点">特点
 &lt;/h2>&lt;p>Logrus 具有如下特点：&lt;/p>
 &lt;ul>
 &lt;li>与 Go log 标准库 API 完全兼容，这意味着任何使用 log 标准库的代码都可以将日志库无缝切换到 Logrus。&lt;/li>
@@ -11790,9 +11474,7 @@ YAML
 &lt;li>并发安全。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>第三方库需要先安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -11926,12 +11608,8 @@ alt="连接终端"
 &lt;li>&lt;code>msg&lt;/code>：日志信息。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="使用">
-&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-使用
-&lt;/h2>&lt;h3 id="替代-go-log-标准库">
-&lt;a href="#%e6%9b%bf%e4%bb%a3-go-log-%e6%a0%87%e5%87%86%e5%ba%93" class="header-anchor">#&lt;/a>
-替代 Go log 标准库
+&lt;h2 id="使用">使用
+&lt;/h2>&lt;h3 id="替代-go-log-标准库">替代 Go log 标准库
 &lt;/h3>&lt;p>在&lt;a class="link" href="https://arlettebrook.github.io/p/%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%a9%b6-go-log-%e6%a0%87%e5%87%86%e5%ba%93/" target="_blank" rel="noopener"
 >深入探究 Go log 标准库&lt;/a>一文中举过一个使用 Go log 标准库的简单&lt;a class="link" href="https://arlettebrook.github.io/p/%e6%b7%b1%e5%85%a5%e6%8e%a2%e7%a9%b6-go-log-%e6%a0%87%e5%87%86%e5%ba%93/#%e4%bd%bf%e7%94%a8" target="_blank" rel="noopener"
 >示例&lt;/a>，现在可以将其无缝切换到 Logrus，只需要把 &lt;code>import &amp;quot;log&amp;quot;&lt;/code> 改成 &lt;code>import log &amp;quot;github.com/sirupsen/logrus&amp;quot;&lt;/code> 即可实现：&lt;/p>
@@ -12001,12 +11679,8 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>虽然输出格式与使用 Go log 标准库表现略有不同，但程序执行并不会报错，说明二者完全兼容。&lt;/p>
-&lt;h3 id="基本使用">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-基本使用
-&lt;/h3>&lt;h4 id="修改日志级别">
-&lt;a href="#%e4%bf%ae%e6%94%b9%e6%97%a5%e5%bf%97%e7%ba%a7%e5%88%ab" class="header-anchor">#&lt;/a>
-修改日志级别
+&lt;h3 id="基本使用">基本使用
+&lt;/h3>&lt;h4 id="修改日志级别">修改日志级别
 &lt;/h4>&lt;p>调用&lt;code>logrus.SetLevel(level Level)&lt;/code>，就可以修改日志级别。&lt;/p>
 &lt;p>logrus默认的text记录器日志级别是InfoLevel。要想要输出info以下级别的日志，就必须修改。&lt;/p>
 &lt;p>如&lt;/p>
@@ -12067,9 +11741,7 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="输出调用信息">
-&lt;a href="#%e8%be%93%e5%87%ba%e8%b0%83%e7%94%a8%e4%bf%a1%e6%81%af" class="header-anchor">#&lt;/a>
-输出调用信息
+&lt;/div>&lt;h4 id="输出调用信息">输出调用信息
 &lt;/h4>&lt;p>调用&lt;code>logrus.SetReportCaller(true)&lt;/code>，会在输出日志中添加方法、文件以及行号信息：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -12112,9 +11784,7 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">/main.go:10&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="添加字段">
-&lt;a href="#%e6%b7%bb%e5%8a%a0%e5%ad%97%e6%ae%b5" class="header-anchor">#&lt;/a>
-添加字段
+&lt;/div>&lt;h4 id="添加字段">添加字段
 &lt;/h4>&lt;p>Logrus 鼓励用户通过日志字段记录结构化日志，可以使用 &lt;code>WithFields&lt;/code> 和 &lt;code>WithField&lt;/code> 两种形式，并且可以链式调用。&lt;/p>
 &lt;p>尽量别用&lt;code>logrus.Fatalf(&amp;quot;Failed to send event %s to topic %s with key %d&amp;quot;)&lt;/code> 这种纯文本形式，因为结构化日志有利于工具提取并分析日志。&lt;/p>
 &lt;p>有时候需要在输出中添加一些字段，可以通过调用&lt;code>logrus.WithField&lt;/code>（接收单个字段）和&lt;code>logrus.WithFields&lt;/code>（接收多个字段）实现。 &lt;code>logrus.WithFields&lt;/code>接受一个&lt;code>logrus.Fields&lt;/code>类型的参数，其底层实际上为&lt;code>map[string]interface{}&lt;/code>：&lt;/p>
@@ -12228,9 +11898,7 @@ alt="连接终端"
 &lt;/div>
 &lt;/div>&lt;p>使用同一个&lt;code>logrus.Entry&lt;/code>调不同级别的日志方法，即可实现携带相同的字段（&lt;strong>默认字段&lt;/strong>）。&lt;/p>
 &lt;p>注意：默认字段也支持链式调用。&lt;/p>
-&lt;h4 id="重定向输出">
-&lt;a href="#%e9%87%8d%e5%ae%9a%e5%90%91%e8%be%93%e5%87%ba" class="header-anchor">#&lt;/a>
-重定向输出
+&lt;h4 id="重定向输出">重定向输出
 &lt;/h4>&lt;p>默认情况下，日志输出到&lt;code>io.Stderr&lt;/code>。可以调用&lt;code>logrus.SetOutput&lt;/code>传入一个&lt;code>io.Writer&lt;/code>参数。后续调用相关方法日志将写到&lt;code>io.Writer&lt;/code>中。 现在，我们就能像介绍&lt;a class="link" href="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/" target="_blank" rel="noopener"
 >log&lt;/a>时一样，可以搞点事情了。传入一个&lt;code>io.MultiWriter&lt;/code>， 同时将日志写到&lt;code>bytes.Buffer&lt;/code>、标准输出和文件中：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -12300,9 +11968,7 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>运行，会在文件&lt;code>log.txt&lt;/code>和控制台输出日志。&lt;/p>
-&lt;h3 id="处理不同环境">
-&lt;a href="#%e5%a4%84%e7%90%86%e4%b8%8d%e5%90%8c%e7%8e%af%e5%a2%83" class="header-anchor">#&lt;/a>
-处理不同环境
+&lt;h3 id="处理不同环境">处理不同环境
 &lt;/h3>&lt;p>Logrus 并没有像 &lt;a class="link" href="https://github.com/uber-go/zap" target="_blank" rel="noopener"
 >zap&lt;/a> 那样提供现成的 API 来支持在不同的环境下使用（Production 和 Development），如果你想在生产和测试环境使用不同的格式输出日志，则需要通过代码判断在不同环境设置不同的 &lt;code>Formatter&lt;/code> 来实现。示例如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -12430,9 +12096,7 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">May &lt;span class="m">11&lt;/span> 15:32:05.609 &lt;span class="o">[&lt;/span>DEBU&lt;span class="o">]&lt;/span> debug log
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="测试">
-&lt;a href="#%e6%b5%8b%e8%af%95" class="header-anchor">#&lt;/a>
-测试
+&lt;/div>&lt;h3 id="测试">测试
 &lt;/h3>&lt;p>如果你的单元测试程序中需要测试日志内容，Logrus 提供了 &lt;code>test.NewNullLogger&lt;/code> 日志记录器，它只会记录日志，不输出任何内容。使用示例如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -12521,9 +12185,7 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ok github.com/arlettebrook/learn 0.643s
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="自定义-logger">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89-logger" class="header-anchor">#&lt;/a>
-自定义 Logger
+&lt;/div>&lt;h3 id="自定义-logger">自定义 Logger
 &lt;/h3>&lt;p>除了通过 &lt;code>logrus.Info(&amp;quot;Info msg&amp;quot;)&lt;/code> 这种开箱即用的方式使用 Logrus 默认的 &lt;code>Logger&lt;/code>，我们还可以自定义 &lt;code>Logger&lt;/code>。&lt;/p>
 &lt;p>**实际上，考虑到易用性，库一般会使用默认值创建一个对象，包最外层的方法一般都是操作这个默认对象。**用到的设计模式是&lt;a class="link" href="https://arlettebrook.github.io/p/go%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" target="_blank" rel="noopener"
 >单例模式&lt;/a>。&lt;/p>
@@ -12814,9 +12476,7 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>&lt;span class="s2">&amp;#34;TIME&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;2024-05-09T23:23:53+08:00&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;level&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;debug&amp;#34;&lt;/span>,&lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>:&lt;span class="s2">&amp;#34;debug msg&amp;#34;&lt;/span>&lt;span class="o">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="修改日志格式">
-&lt;a href="#%e4%bf%ae%e6%94%b9%e6%97%a5%e5%bf%97%e6%a0%bc%e5%bc%8f" class="header-anchor">#&lt;/a>
-修改日志格式
+&lt;/div>&lt;h4 id="修改日志格式">修改日志格式
 &lt;/h4>&lt;p>调用&lt;code>logrus.SetFormatter(formatter Formatter)&lt;/code>，即可修改日志格式。&lt;/p>
 &lt;p>&lt;code>logrus&lt;/code>支持两种日志格式，文本和 JSON，默认为文本格式。可以通过&lt;code>logrus.SetFormatter&lt;/code>设置日志格式：&lt;/p>
 &lt;p>Logrus 提供了 &lt;code>JSONFormatter&lt;/code> 和 &lt;code>TextFormatter&lt;/code> 来分别实现 JSON 和 Text 格式的日志输出，它们的&lt;strong>指针类型&lt;/strong>都实现了 &lt;code>Formatter&lt;/code> 接口。除此之外，这里还有一个第三方实现的 &lt;code>Formatter&lt;/code> &lt;a class="link" href="https://github.com/sirupsen/logrus#formatters" target="_blank" rel="noopener"
@@ -12865,9 +12525,7 @@ alt="连接终端"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">time&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;2024-05-09T22:06:29+08:00&amp;#34;&lt;/span> &lt;span class="nv">level&lt;/span>&lt;span class="o">=&lt;/span>info &lt;span class="nv">msg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;default formatter:TextFormatter&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h5 id="使用第三方格式">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e7%ac%ac%e4%b8%89%e6%96%b9%e6%a0%bc%e5%bc%8f" class="header-anchor">#&lt;/a>
-使用第三方格式
+&lt;/div>&lt;h5 id="使用第三方格式">使用第三方格式
 &lt;/h5>&lt;p>除了内置的&lt;code>TextFormatter&lt;/code>和&lt;code>JSONFormatter&lt;/code>，还有不少第三方格式支持。我们这里介绍一个&lt;a class="link" href="https://github.com/antonfisher/nested-logrus-formatter" target="_blank" rel="noopener"
 >nested-logrus-formatter&lt;/a>。&lt;/p>
 &lt;p>先安装：&lt;/p>
@@ -13047,9 +12705,7 @@ loading="lazy"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="hooks">
-&lt;a href="#hooks" class="header-anchor">#&lt;/a>
-Hooks
+&lt;h2 id="hooks">Hooks
 &lt;/h2>&lt;blockquote>
 &lt;p>Hooks本质是一些函数或方法，用于不修改原代码，&lt;strong>扩展程序&lt;/strong>。&lt;/p>
 &lt;/blockquote>
@@ -13145,12 +12801,8 @@ Hooks
 &lt;p>&lt;code>logrus&lt;/code>也内置了一个&lt;code>syslog&lt;/code>的钩子，将日志输出到系统日志&lt;code>syslog&lt;/code>中。它不适用用windows的系统日志。&lt;/p>
 &lt;p>Logrus 内置 Hooks 列表： &lt;a class="link" href="https://github.com/sirupsen/logrus/tree/master/hooks" target="_blank" rel="noopener"
 >https://github.com/sirupsen/logrus/tree/master/hooks&lt;/a>&lt;/p>
-&lt;h3 id="自定义hook">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89hook" class="header-anchor">#&lt;/a>
-自定义Hook
-&lt;/h3>&lt;h4 id="利用hook添加字段">
-&lt;a href="#%e5%88%a9%e7%94%a8hook%e6%b7%bb%e5%8a%a0%e5%ad%97%e6%ae%b5" class="header-anchor">#&lt;/a>
-利用Hook添加字段
+&lt;h3 id="自定义hook">自定义Hook
+&lt;/h3>&lt;h4 id="利用hook添加字段">利用Hook添加字段
 &lt;/h4>&lt;p>这里我们实现一个钩子，在输出的日志中增加一个&lt;code>app=awesome-web&lt;/code>字段。&lt;/p>
 &lt;p>示例代码如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -13229,9 +12881,7 @@ Hooks
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>总结：添加钩子（hook），只需要创建一个结构体实现&lt;code>Hook&lt;/code>接口，在Levels方法中设置触发hook函数的条件（日志级别），在Fire方法中定义hook函数行为。然后创建对象，利用&lt;code>AddHook(hook Hook)&lt;/code>将hook注册到logger当中。&lt;/p>
-&lt;h4 id="利用hook模拟邮件发送">
-&lt;a href="#%e5%88%a9%e7%94%a8hook%e6%a8%a1%e6%8b%9f%e9%82%ae%e4%bb%b6%e5%8f%91%e9%80%81" class="header-anchor">#&lt;/a>
-利用Hook模拟邮件发送
+&lt;h4 id="利用hook模拟邮件发送">利用Hook模拟邮件发送
 &lt;/h4>&lt;p>代码如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -13333,9 +12983,7 @@ Hooks
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>可以发现，在打印每条日志之前，都会执行Hook函数，也就是实现了发送邮件。&lt;/p>
-&lt;h3 id="第三方hook">
-&lt;a href="#%e7%ac%ac%e4%b8%89%e6%96%b9hook" class="header-anchor">#&lt;/a>
-第三方Hook
+&lt;h3 id="第三方hook">第三方Hook
 &lt;/h3>&lt;p>&lt;code>logrus&lt;/code>的第三方 Hook 有很多，我们可以使用一些现成的 Hook 。如：&lt;/p>
 &lt;ul>
 &lt;li>&lt;a class="link" href="https://github.com/weekface/mgorus" target="_blank" rel="noopener"
@@ -13349,9 +12997,7 @@ Hooks
 &lt;/ul>
 &lt;p>更多过内容请参考官方提供的&lt;a class="link" href="https://github.com/sirupsen/logrus/wiki/Hooks" target="_blank" rel="noopener"
 >第三方开发的 Hooks 列表&lt;/a>。&lt;/p>
-&lt;h4 id="lumberjackrus">
-&lt;a href="#lumberjackrus" class="header-anchor">#&lt;/a>
-lumberjackrus
+&lt;h4 id="lumberjackrus">lumberjackrus
 &lt;/h4>&lt;p>&lt;a class="link" href="https://github.com/orandin/lumberjackrus" target="_blank" rel="noopener"
 >lumberjackrus&lt;/a> ：实现了日志切割和归档功能，并且能够将不同级别的日志输出到不同文件。&lt;code>lumberjackrus&lt;/code> 是专门为 Logrus 而打造的文件日志 Hooks，其官方介绍为 &lt;code>local filesystem hook for Logrus&lt;/code>。&lt;/p>
 &lt;p>用于记录到本地文件系统的钩子（使用 logrotate 和可以将不同的日志级保存到一个文件）&lt;/p>
@@ -13499,9 +13145,7 @@ lumberjackrus
 &lt;/div>
 &lt;/div>&lt;p>至此，我们使用&lt;code>lumberjackrus&lt;/code>实现了&lt;strong>日志轮询&lt;/strong>以及&lt;strong>分级别保存&lt;/strong>。这个钩子，实现日志轮询是基于&lt;code>lumberjack&lt;/code>库实现的。&lt;/p>
 &lt;p>使用这个钩子，我们只需要利用&lt;code>NewHook(defaultLogger *LogFile, minLevel logrus.Level, formatter logrus.Formatter, opts *LogFileOpts) (*Hook, error)&lt;/code>创建对象，将对象添加logger中即可使用。代码中有对参数的介绍。最后一个参数（本质是map类型）如果为&lt;code>nil&lt;/code>或者为空map，那么日志将不会分级别保存，都会保存到&lt;code>defaultLogger&lt;/code>指定的文件中。&lt;/p>
-&lt;h4 id="logrus-redis-hook">
-&lt;a href="#logrus-redis-hook" class="header-anchor">#&lt;/a>
-logrus-redis-hook
+&lt;h4 id="logrus-redis-hook">logrus-redis-hook
 &lt;/h4>&lt;p>下面演示利用hook将日志发送到redis，我们用到的包是&lt;a class="link" href="https://github.com/rogierlommers/logrus-redis-hook" target="_blank" rel="noopener"
 >logrus-redis-hook&lt;/a>, 先安装&lt;code>logrus-redis-hook&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -13647,15 +13291,11 @@ logrus-redis-hook
 &lt;/div>&lt;p>我们看到&lt;code>demo_log&lt;/code>是一个&lt;code>list&lt;/code>，每过来一条日志，就在&lt;code>list&lt;/code>后新增一项。&lt;/p>
 &lt;p>默认的logger是输出到stderr，但修改为discard，将不会输出到任何地方，但是钩子依然执行。因为钩子里面指定发送到的是redis，不受影响。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文介绍了 Logrus 的基本特点，以及如何使用。&lt;/p>
 &lt;p>Logrus 完全兼容 log 标准库，所以可以实现无缝替换。其 API 设计思路跟 log 标准库的风格也有很多相似之处，都提供了一个默认的 &lt;code>std&lt;/code> 日志对象达到开箱即用的效果。Logrus 最实用的两个功能，一个是支持结构化日志，一个是支持 Hooks 机制，这极大的提升了可用性和灵活性，也使得 Logrus 成为最受欢迎的 Go 日志库。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://github.com/sirupsen/logrus" target="_blank" rel="noopener"
@@ -13670,9 +13310,7 @@ logrus-redis-hook
 >fsnotify&lt;/a>。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>先安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -13828,9 +13466,7 @@ logrus-redis-hook
 &lt;li>修改文件操作建议不要在IDE中操作，如GlLand。IDE的缓存和自动保存会响应输出结果。建议直接在系统文件管理器中操作，才会出现上面结果。&lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="事件">
-&lt;a href="#%e4%ba%8b%e4%bb%b6" class="header-anchor">#&lt;/a>
-事件
+&lt;h2 id="事件">事件
 &lt;/h2>&lt;p>上面示例中的事件是&lt;code>fsnotify.Event&lt;/code>类型：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -13963,9 +13599,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="应用">
-&lt;a href="#%e5%ba%94%e7%94%a8" class="header-anchor">#&lt;/a>
-应用
+&lt;h2 id="应用">应用
 &lt;/h2>&lt;p>&lt;code>fsnotify&lt;/code>的应用非常广泛，在 godoc 上，我们可以看到哪些库导入了&lt;code>fsnotify&lt;/code>。只需进入&lt;a class="link" href="https://pkg.go.dev/github.com/fsnotify/fsnotify" target="_blank" rel="noopener"
 >fsnotify godoc&lt;/a>点击&lt;a class="link" href="https://pkg.go.dev/github.com/fsnotify/fsnotify?tab=importedby" target="_blank" rel="noopener"
 >Imported by 9,171&lt;/a>，就能查看。有兴趣的可以打开看看。&lt;/p>
@@ -14229,14 +13863,10 @@ logrus-redis-hook
 &lt;li>如果注册了事件回调，以发生的事件为参数执行回调。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>&lt;code>fsnotify&lt;/code>的接口非常简单直接，所有系统相关的复杂性都被封装起来了。这也是我们平时设计模块和接口时可以参考的案例。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://docs.google.com/document/d/1-GQrFdDVrA57-ce0kbzSth4lQqfOMMRKpih3hPJmvoU/edit" target="_blank" rel="noopener"
@@ -14251,9 +13881,7 @@ logrus-redis-hook
 &lt;p>Viper 是一个功能齐全的 Go 应用程序配置库，支持很多场景。它可以处理各种类型的配置需求和格式，包括设置默认值、从多种配置文件和环境变量中读取配置信息、实时监视配置文件等。无论是小型应用还是大型分布式系统，Viper 都可以提供灵活而可靠的配置管理解决方案。在本文中，我们将深入探讨 Viper 的各种用法和使用场景，以帮助读者更好地了解和使用 Viper 来管理应用程序配置。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="为什么选择-viper">
-&lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%80%89%e6%8b%a9-viper" class="header-anchor">#&lt;/a>
-为什么选择 Viper
+&lt;h2 id="为什么选择-viper">为什么选择 Viper
 &lt;/h2>&lt;p>当我们在做技术选型时，肯定要知道为什么选择某一项技术，而之所以选择使用 Viper 来管理应用程序的配置，Viper 官方给出了如下答案：&lt;/p>
 &lt;p>当构建应用程序时，你不想担心配置文件格式，只想专注于构建出色的软件。Viper 就是为了帮助我们解决这个问题而存在的。&lt;/p>
 &lt;p>Viper 可以完成以下工作：&lt;/p>
@@ -14292,9 +13920,7 @@ logrus-redis-hook
 &lt;/blockquote>
 &lt;p>Viper 包中最核心的两个功能是：如何把配置值读入 Viper 和从 Viper 中读取配置值，接下来我将分别介绍这两个功能。&lt;/p>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -14457,9 +14083,7 @@ logrus-redis-hook
 &lt;li>viper 获取值时使用&lt;code>section.key&lt;/code>的形式，即传入嵌套的键名；&lt;/li>
 &lt;li>默认值可以调用&lt;code>viper.SetDefault&lt;/code>设置。&lt;/li>
 &lt;/ul>
-&lt;h3 id="读取键">
-&lt;a href="#%e8%af%bb%e5%8f%96%e9%94%ae" class="header-anchor">#&lt;/a>
-读取键
+&lt;h3 id="读取键">读取键
 &lt;/h3>&lt;p>viper 提供了多种形式的读取方法。在上面的例子中，我们看到了&lt;code>Get&lt;/code>方法的用法。&lt;code>Get&lt;/code>方法返回一个&lt;code>interface{}&lt;/code>的值，使用有所不便。&lt;/p>
 &lt;p>&lt;code>GetType&lt;/code>系列方法可以返回指定类型的值。 其中，Type 可以为&lt;code>Bool/Float64/Int/String/Time/Duration/IntSlice/StringSlice&lt;/code>。 但是请注意，&lt;strong>如果指定的键不存在或类型不正确，&lt;code>GetType&lt;/code>方法返回对应类型的零值&lt;/strong>。&lt;/p>
 &lt;p>如果要判断某个键是否存在，使用&lt;code>IsSet&lt;/code>方法。 另外，&lt;code>GetStringMap&lt;/code>和&lt;code>GetStringMapString&lt;/code>直接以 map 返回某个键下面所有的键值对，前者返回&lt;code>map[string]interface{}&lt;/code>，后者返回&lt;code>map[string]string&lt;/code>。 &lt;code>AllSettings&lt;/code>以&lt;code>map[string]interface{}&lt;/code>返回所有设置。&lt;/p>
@@ -14573,9 +14197,7 @@ logrus-redis-hook
 &lt;/div>
 &lt;/div>&lt;p>如果将配置中的&lt;code>redis.port&lt;/code>注释掉，将输出&lt;code>redis.port is not set&lt;/code>。&lt;/p>
 &lt;p>上面的示例中还演示了如何使用&lt;code>time.Duration&lt;/code>类型，只要是&lt;code>time.ParseDuration&lt;/code>接受的格式都可以，例如&lt;code>3s&lt;/code>、&lt;code>2min&lt;/code>、&lt;code>1min30s&lt;/code>等。&lt;/p>
-&lt;h3 id="设置键值">
-&lt;a href="#%e8%ae%be%e7%bd%ae%e9%94%ae%e5%80%bc" class="header-anchor">#&lt;/a>
-设置键值
+&lt;h3 id="设置键值">设置键值
 &lt;/h3>&lt;p>viper 支持在多个地方设置，使用下面的顺序依次读取：&lt;/p>
 &lt;ul>
 &lt;li>调用&lt;code>Set&lt;/code>显示设置的；&lt;/li>
@@ -14607,9 +14229,7 @@ logrus-redis-hook
 &lt;/div>
 &lt;/div>&lt;p>如果配置文件中没有配置&lt;code>log_level&lt;/code>,那么将使用INFO&lt;/p>
 &lt;hr>
-&lt;h2 id="把配置值读入viper">
-&lt;a href="#%e6%8a%8a%e9%85%8d%e7%bd%ae%e5%80%bc%e8%af%bb%e5%85%a5viper" class="header-anchor">#&lt;/a>
-把配置值读入Viper
+&lt;h2 id="把配置值读入viper">把配置值读入Viper
 &lt;/h2>&lt;p>Viper 支持多种方式读入配置：&lt;/p>
 &lt;ul>
 &lt;li>设置默认配置值&lt;/li>
@@ -14621,9 +14241,7 @@ logrus-redis-hook
 &lt;li>从远程 key/value 存储读取配置&lt;/li>
 &lt;/ul>
 &lt;p>我们一个一个来看。&lt;/p>
-&lt;h3 id="设置默认配置值">
-&lt;a href="#%e8%ae%be%e7%bd%ae%e9%bb%98%e8%ae%a4%e9%85%8d%e7%bd%ae%e5%80%bc" class="header-anchor">#&lt;/a>
-设置默认配置值
+&lt;h3 id="设置默认配置值">设置默认配置值
 &lt;/h3>&lt;p>一个好的配置系统应该支持默认值。Viper 支持使用 &lt;code>viper.SetDefault(key, value)&lt;/code> 为 &lt;code>key&lt;/code> 设置默认值 &lt;code>value&lt;/code>，在没有通过配置文件、环境变量、远程配置或命令行标志设置 &lt;code>key&lt;/code> 所对应值的情况下，这很有用。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -14678,9 +14296,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">server: map&lt;span class="o">[&lt;/span>ip:127.0.0.1 port:8080&lt;span class="o">]&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="从配置文件读取配置">
-&lt;a href="#%e4%bb%8e%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-从配置文件读取配置
+&lt;/div>&lt;h3 id="从配置文件读取配置">从配置文件读取配置
 &lt;/h3>&lt;p>Viper 支持从 JSON、TOML、YAML、HCL、INI、envfile 或 Java Properties 格式的配置文件中读取配置。Viper 可以搜索多个路径，但目前单个 Viper 实例只支持单个配置文件。&lt;strong>Viper 不会默认配置任何搜索路径，将默认决定留给应用程序&lt;/strong>。&lt;/p>
 &lt;p>主要有两种方式来加载配置文件：&lt;/p>
 &lt;ul>
@@ -14808,9 +14424,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">username: arlettebrook
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="监控并重新读取配置文件">
-&lt;a href="#%e7%9b%91%e6%8e%a7%e5%b9%b6%e9%87%8d%e6%96%b0%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-监控并重新读取配置文件
+&lt;/div>&lt;h3 id="监控并重新读取配置文件">监控并重新读取配置文件
 &lt;/h3>&lt;p>Viper 支持在应用程序运行过程中实时读取配置文件，即热加载配置。&lt;/p>
 &lt;p>只需要调用 &lt;code>viper.WatchConfig()&lt;/code> 即可开启此功能。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -14938,9 +14552,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>我这里修改一次回调函数不知道为什么执行了俩次，不过没有影响。&lt;/p>
-&lt;h4 id="监听文件修改">
-&lt;a href="#%e7%9b%91%e5%90%ac%e6%96%87%e4%bb%b6%e4%bf%ae%e6%94%b9" class="header-anchor">#&lt;/a>
-监听文件修改
+&lt;h4 id="监听文件修改">监听文件修改
 &lt;/h4>&lt;p>viper 可以监听文件修改，热加载配置。因此不需要重启服务器，就能让配置生效。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -15026,9 +14638,7 @@ logrus-redis-hook
 &lt;/div>&lt;p>这样文件修改时会执行这个回调。&lt;/p>
 &lt;p>viper 使用&lt;a class="link" href="https://github.com/fsnotify/fsnotify" target="_blank" rel="noopener"
 >fsnotify&lt;/a>这个库来实现监听文件修改的功能。&lt;/p>
-&lt;h3 id="从-ioreader-读取配置">
-&lt;a href="#%e4%bb%8e-ioreader-%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-从 &lt;code>io.Reader&lt;/code> 读取配置
+&lt;h3 id="从-ioreader-读取配置">从 &lt;code>io.Reader&lt;/code> 读取配置
 &lt;/h3>&lt;p>Viper 支持从任何实现了 &lt;code>io.Reader&lt;/code> 接口的配置源中读取配置。注意需要指定配置文件的类型，才能识别&lt;code>io.Reader&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -15106,9 +14716,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">username: arlettebrook
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="从ioreader中读取">
-&lt;a href="#%e4%bb%8eioreader%e4%b8%ad%e8%af%bb%e5%8f%96" class="header-anchor">#&lt;/a>
-从&lt;code>io.Reader&lt;/code>中读取
+&lt;/div>&lt;h4 id="从ioreader中读取">从&lt;code>io.Reader&lt;/code>中读取
 &lt;/h4>&lt;p>viper 支持从&lt;code>io.Reader&lt;/code>中读取配置。这种形式很灵活，来源可以是文件，也可以是程序中生成的字符串，甚至可以从网络连接中读取的字节流。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -15188,9 +14796,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="从环境变量读取配置">
-&lt;a href="#%e4%bb%8e%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-从环境变量读取配置
+&lt;/div>&lt;h3 id="从环境变量读取配置">从环境变量读取配置
 &lt;/h3>&lt;p>Viper 还支持从环境变量读取配置，有 5 个方法可以帮助我们使用环境变量:&lt;/p>
 &lt;ul>
 &lt;li>
@@ -15305,9 +14911,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nx">password&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">username&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="环境变量">
-&lt;a href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" class="header-anchor">#&lt;/a>
-环境变量
+&lt;/div>&lt;h4 id="环境变量">环境变量
 &lt;/h4>&lt;p>如果从命令行参数都没有获取到键值，将尝试从环境变量中读取。我们既可以一个个绑定，也可以自动全部绑定。&lt;/p>
 &lt;p>在&lt;code>init&lt;/code>方法中调用&lt;code>AutomaticEnv&lt;/code>方法绑定全部环境变量：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -15508,9 +15112,7 @@ logrus-redis-hook
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">username-a: arlettebrook
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="从命令行参数读取配置">
-&lt;a href="#%e4%bb%8e%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%8f%82%e6%95%b0%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-从命令行参数读取配置
+&lt;/div>&lt;h3 id="从命令行参数读取配置">从命令行参数读取配置
 &lt;/h3>&lt;p>Viper 支持 &lt;a class="link" href="https://github.com/spf13/pflag" target="_blank" rel="noopener"
 >pflag&lt;/a> 包（它们其实都在 &lt;a class="link" href="https://github.com/spf13" target="_blank" rel="noopener"
 >spf13&lt;/a> 仓库下），能够绑定命令行标志，从而读取命令行参数。&lt;/p>
@@ -15649,9 +15251,7 @@ logrus-redis-hook
 &lt;/div>
 &lt;/div>&lt;p>如果你不使用 flag 或 pflag，则 Viper 还提供了 Go 接口的形式来支持其他 Flags，具体用法可以参考&lt;a class="link" href="https://github.com/spf13/viper#flag-interfaces" target="_blank" rel="noopener"
 >官方文档&lt;/a>。&lt;/p>
-&lt;h4 id="命令行选项">
-&lt;a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%80%89%e9%a1%b9" class="header-anchor">#&lt;/a>
-命令行选项
+&lt;h4 id="命令行选项">命令行选项
 &lt;/h4>&lt;p>如果一个键没有通过&lt;code>viper.Set&lt;/code>显示设置值，那么获取时将尝试从命令行选项中读取。 如果有，优先使用。viper 使用 pflag 库来解析选项。 我们首先在&lt;code>init&lt;/code>方法中定义选项，并且调用&lt;code>viper.BindPFlags&lt;/code>绑定选项到配置中：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -15759,9 +15359,7 @@ logrus-redis-hook
 &lt;/div>&lt;p>如何不传入选项：&lt;/p>
 &lt;p>将使用环境变量的配置，没有，在使用配置文件的配置，没有，在使用默认，都没有，为对应类型的零值。&lt;/p>
 &lt;p>&lt;strong>将使用配置文件的配置&lt;/strong>&lt;code>redis port: 7381&lt;/code>，如果配置文件没有配置，才会使用默认值。这里没有默认值。&lt;/p>
-&lt;h3 id="从远程-keyvalue-存储读取配置">
-&lt;a href="#%e4%bb%8e%e8%bf%9c%e7%a8%8b-keyvalue-%e5%ad%98%e5%82%a8%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-从远程 key/value 存储读取配置
+&lt;h3 id="从远程-keyvalue-存储读取配置">从远程 key/value 存储读取配置
 &lt;/h3>&lt;p>要在 Viper 中启用远程支持，需要匿名导入 &lt;code>viper/remote&lt;/code> 包：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -15862,9 +15460,7 @@ data-flex-basis="383px"
 &lt;p>笔记：如果你想停止通过 Docker 安装的 Consul 容器，则可以执行 &lt;code>docker stop badger&lt;/code> 命令。如果需要删除，则可以执行 &lt;code>docker rm badger&lt;/code> 命令。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="从-viper-中读取配置值">
-&lt;a href="#%e4%bb%8e-viper-%e4%b8%ad%e8%af%bb%e5%8f%96%e9%85%8d%e7%bd%ae%e5%80%bc" class="header-anchor">#&lt;/a>
-从 Viper 中读取配置值
+&lt;h2 id="从-viper-中读取配置值">从 Viper 中读取配置值
 &lt;/h2>&lt;p>前文中我们介绍了各种将配置读入 Viper 的技巧，现在该学习如何使用这些配置了。&lt;/p>
 &lt;p>在 Viper 中，有如下几种方法可以获取配置值：&lt;/p>
 &lt;ul>
@@ -15873,9 +15469,7 @@ data-flex-basis="383px"
 &lt;li>&lt;code>AllSettings() map[string]interface{}&lt;/code>：返回所有配置。根据我的经验，如果使用环境变量指定配置，则只能获取到通过 &lt;code>BindEnv&lt;/code> 绑定的环境变量，无法获取到通过 &lt;code>AutomaticEnv&lt;/code> 绑定的环境变量。&lt;/li>
 &lt;li>&lt;code>IsSet(key string) bool&lt;/code>：值得注意的是，在使用 &lt;code>Get&lt;/code> 或 &lt;code>Get&amp;lt;Type&amp;gt;&lt;/code> 获取配置值，如果找不到，则每个 &lt;code>Get&lt;/code> 函数都会返回一个零值。为了检查给定的键是否存在，可以使用 &lt;code>IsSet&lt;/code> 方法，存在返回 &lt;code>true&lt;/code>，不存在返回 &lt;code>false&lt;/code>。&lt;/li>
 &lt;/ul>
-&lt;h3 id="访问嵌套的键">
-&lt;a href="#%e8%ae%bf%e9%97%ae%e5%b5%8c%e5%a5%97%e7%9a%84%e9%94%ae" class="header-anchor">#&lt;/a>
-访问嵌套的键
+&lt;h3 id="访问嵌套的键">访问嵌套的键
 &lt;/h3>&lt;p>有如下配置文件 &lt;code>config.yaml&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -16058,9 +15652,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>&lt;code>server.ip&lt;/code> 打印结果为 &lt;code>10.0.0.1&lt;/code>，而不再是 &lt;code>server&lt;/code> map 中所对应的值 &lt;code>127.0.0.1&lt;/code>。&lt;/p>
-&lt;h3 id="提取子树">
-&lt;a href="#%e6%8f%90%e5%8f%96%e5%ad%90%e6%a0%91" class="header-anchor">#&lt;/a>
-提取子树
+&lt;h3 id="提取子树">提取子树
 &lt;/h3>&lt;p>当使用 Viper 读取 &lt;code>config.yaml&lt;/code> 配置文件后，&lt;code>viper&lt;/code> 对象就包含了所有配置，并能通过 &lt;code>viper.Get(&amp;quot;server.ip&amp;quot;)&lt;/code> 获取子配置。&lt;/p>
 &lt;p>我们可以将这份配置理解为一颗树形结构，&lt;code>viper&lt;/code> 对象就包含了这个完整的树，可以使用如下方法获取 &lt;code>server&lt;/code> 子树。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -16134,9 +15726,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这里键没有出现覆盖的情况&lt;/p>
-&lt;h3 id="反序列化">
-&lt;a href="#%e5%8f%8d%e5%ba%8f%e5%88%97%e5%8c%96" class="header-anchor">#&lt;/a>
-反序列化
+&lt;h3 id="反序列化">反序列化
 &lt;/h3>&lt;p>Viper 提供了 2 个方法进行反序列化操作，以此来实现将所有或特定的值解析到结构体、map 等。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>Unmarshal(rawVal interface{}) : error&lt;/code>：反序列化所有配置项。&lt;/li>
@@ -16326,9 +15916,7 @@ data-flex-basis="383px"
 &lt;p>注意⚠️：Viper 在后台使用 &lt;a class="link" href="https://github.com/mitchellh/mapstructure" target="_blank" rel="noopener"
 >mapstructure&lt;/a> 来解析值，其默认情况下使用 &lt;code>mapstructure&lt;/code> tags。当我们需要将 Viper 读取的配置反序列到结构体中时，如果出现结构体字段跟配置项不匹配，则可以设置 &lt;code>mapstructure&lt;/code> tags 来解决。&lt;/p>
 &lt;/blockquote>
-&lt;h4 id="unmarshal">
-&lt;a href="#unmarshal" class="header-anchor">#&lt;/a>
-&lt;code>Unmarshal&lt;/code>
+&lt;h4 id="unmarshal">&lt;code>Unmarshal&lt;/code>
 &lt;/h4>&lt;p>viper 支持将配置&lt;code>Unmarshal&lt;/code>到一个结构体中，为结构体中的对应字段赋值。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -16441,13 +16029,9 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>127.0.0.1 &lt;span class="m">3306&lt;/span> dj &lt;span class="m">123456&lt;/span> awesome&lt;span class="o">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="序列化">
-&lt;a href="#%e5%ba%8f%e5%88%97%e5%8c%96" class="header-anchor">#&lt;/a>
-序列化
+&lt;/div>&lt;h3 id="序列化">序列化
 &lt;/h3>&lt;p>一个好用的配置包不仅能够支持反序列化操作，还要支持序列化操作。Viper 支持将配置序列化成字符串，或直接序列化到文件中。&lt;/p>
-&lt;h4 id="序列化成字符串">
-&lt;a href="#%e5%ba%8f%e5%88%97%e5%8c%96%e6%88%90%e5%ad%97%e7%ac%a6%e4%b8%b2" class="header-anchor">#&lt;/a>
-序列化成字符串
+&lt;h4 id="序列化成字符串">序列化成字符串
 &lt;/h4>&lt;p>我们可以将全部配置序列化配置为 YAML 格式字符串。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -16518,9 +16102,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">username: arlettebrook
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="写入配置文件">
-&lt;a href="#%e5%86%99%e5%85%a5%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-写入配置文件
+&lt;/div>&lt;h4 id="写入配置文件">写入配置文件
 &lt;/h4>&lt;p>Viper 还支持直接将配置序列化到文件中，提供了如下几个方法：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>WriteConfig&lt;/code>：将当前的 &lt;code>viper&lt;/code> 配置写入预定义路径。如果没有预定义路径，则会报错。如果预定义路径已经存在配置文件，将会被覆盖。&lt;/li>
@@ -16631,9 +16213,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">修改后的username: 哈哈哈
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h5 id="保存配置">
-&lt;a href="#%e4%bf%9d%e5%ad%98%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-保存配置
+&lt;/div>&lt;h5 id="保存配置">保存配置
 &lt;/h5>&lt;p>有时候，我们想要将程序中生成的配置，或者所做的修改保存下来。viper 提供了接口！&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>WriteConfig&lt;/code>：将当前的 viper 配置写到预定义路径，如果没有预定义路径，返回错误。将会覆盖当前配置；&lt;/li>
@@ -16707,9 +16287,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="多实例对象">
-&lt;a href="#%e5%a4%9a%e5%ae%9e%e4%be%8b%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-多实例对象
+&lt;h2 id="多实例对象">多实例对象
 &lt;/h2>&lt;p>由于大多数应用程序都希望使用单个配置实例对象来管理配置，因此 viper 包默认提供了这一功能，它类似于一个单例。当我们使用 Viper 时不需要配置或初始化，Viper 实现了开箱即用的效果。&lt;/p>
 &lt;p>在上面的所有示例中，演示了如何以单例方式使用 Viper。我们还可以创建多个不同的 Viper 实例以供应用程序中使用，每个实例都有自己单独的一组配置和值，并且它们可以从不同的配置文件、key/value 存储等位置读取配置信息。&lt;/p>
 &lt;p>Viper 包支持的所有功能都被镜像为 &lt;code>viper&lt;/code> 对象上的方法，这种设计思路在 Go 语言中非常常见，如标准库中的 log 包。&lt;/p>
@@ -16780,9 +16358,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">viper.username: 默认单实例对象
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h2 id="使用建议">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e5%bb%ba%e8%ae%ae" class="header-anchor">#&lt;/a>
-使用建议
+&lt;/div>&lt;h2 id="使用建议">使用建议
 &lt;/h2>&lt;p>Viper 提供了众多方法可以管理配置，在实际项目开发中我们可以根据需要进行使用。如果是小型项目，推荐直接使用 &lt;code>viper&lt;/code> 实例管理配置。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -16929,9 +16505,7 @@ data-flex-basis="383px"
 &lt;/div>
 &lt;/div>&lt;p>需要注意的是，直接使用 &lt;code>viper&lt;/code> 实例管理配置的情况下，当我们通过 &lt;code>viper.WatchConfig()&lt;/code> 监听了配置文件变化，如果配置变化，则变化会立刻体现在 &lt;code>viper&lt;/code> 实例对象上，下次通过 &lt;code>viper.Get()&lt;/code> 获取的配置即为最新配置。但是在使用结构体管理配置时，&lt;code>viper&lt;/code> 实例对象变化了，记录配置的结构体 &lt;code>Config&lt;/code> 是不会自动更新的，所以需要使用 &lt;code>viper.OnConfigChange&lt;/code> 在回调函数中重新将变更后的配置反序列化到 &lt;code>Config&lt;/code> 中。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文探讨 Viper 的各种用法和使用场景，首先说明了为什么使用 Viper，它的优势是什么。&lt;/p>
 &lt;p>接着讲解了 Viper 包中最核心的两个功能：如何把配置值读入 Viper 和从 Viper 中读取配置值。Viper 对着两个功能都提供了非常多的方法来支持。&lt;/p>
 &lt;p>然后又介绍了如何用 Viper 来管理多份配置，即使用多实例。&lt;/p>
@@ -16939,9 +16513,7 @@ data-flex-basis="383px"
 &lt;p>最后，Viper 正在向着 v2 版本迈进，欢迎读者在&lt;a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSeesGIS8Rya-iOXmXjUst8sT3NMSmdclBPa-aJT3HkPjDWnng/viewform" target="_blank" rel="noopener"
 >这里&lt;/a>分享想法，也期待下次来写一篇 v2 版本的文章与读者一起学习进步。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>Viper 源码仓库： &lt;a class="link" href="https://github.com/spf13/viper" target="_blank" rel="noopener"
@@ -16952,9 +16524,7 @@ data-flex-basis="383px"
 >Go 每日一库之 viper&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Go构建命令行程序之第三方库cobra</title><link>https://arlettebrook.github.io/p/go%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93cobra/</link><pubDate>Thu, 02 May 2024 23:33:49 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93cobra/</guid><description>&lt;hr>
-&lt;h2 id="介绍">
-&lt;a href="#%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-介绍
+&lt;h2 id="介绍">介绍
 &lt;/h2>&lt;p>&lt;a class="link" href="http://github.com/spf13/cobra" target="_blank" rel="noopener"
 >Cobra&lt;/a>是一个命令行程序库，可以用来编写命令行程序。同时，它也提供了一个脚手架， 用于生成基于 cobra 的应用程序框架。非常多知名的开源项目使用了 cobra 库构建命令行，如&lt;a class="link" href="http://kubernetes.io/" target="_blank" rel="noopener"
 >Kubernetes&lt;/a>、&lt;a class="link" href="http://gohugo.io/" target="_blank" rel="noopener"
@@ -16969,9 +16539,7 @@ data-flex-basis="383px"
 >spf13&lt;/a> 为 &lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
 >Hugo&lt;/a> 项目创建的，并已被许多流行的 Go 项目所采用，如 Kubernetes、Helm、Docker (distribution)、Etcd 等。&lt;/p>
 &lt;hr>
-&lt;h2 id="概念">
-&lt;a href="#%e6%a6%82%e5%bf%b5" class="header-anchor">#&lt;/a>
-概念
+&lt;h2 id="概念">概念
 &lt;/h2>&lt;p>Cobra 建立在命令、参数和标志这三个结构之上。要使用 Cobra 编写一个命令行程序，需要明确这三个概念。&lt;/p>
 &lt;ul>
 &lt;li>命令（COMMAND）：命令表示要执行的操作。&lt;/li>
@@ -17001,9 +16569,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>以上示例中，&lt;code>clone&lt;/code> 是一个命令（子命令），&lt;code>URL&lt;/code> 是命令的参数，&lt;code>bare&lt;/code> 是标志。&lt;/p>
-&lt;h2 id="特性">
-&lt;a href="#%e7%89%b9%e6%80%a7" class="header-anchor">#&lt;/a>
-特性
+&lt;h2 id="特性">特性
 &lt;/h2>&lt;p>cobra 提供非常丰富的功能：&lt;/p>
 &lt;ul>
 &lt;li>轻松支持子命令，如&lt;code>app server&lt;/code>，&lt;code>app fetch&lt;/code>等；&lt;/li>
@@ -17014,9 +16580,7 @@ data-flex-basis="383px"
 &lt;li>等。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>要使用 Cobra 创建命令行程序，需要先通过如下命令进行下载并添加到项目：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17035,9 +16599,7 @@ data-flex-basis="383px"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;github.com/spf13/cobra&amp;#34;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="创建一个命令">
-&lt;a href="#%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aa%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-创建一个命令
+&lt;/div>&lt;h3 id="创建一个命令">创建一个命令
 &lt;/h3>&lt;p>假设我们要创建的命令行程序叫作 &lt;code>hugo&lt;/code>，可以编写如下代码创建一个命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17087,9 +16649,7 @@ data-flex-basis="383px"
 &lt;p>&lt;code>Long&lt;/code> 表示当前命令的完整描述。&lt;/p>
 &lt;p>&lt;code>Run&lt;/code> 属性是一个函数，当执行命令时会调用此函数。&lt;/p>
 &lt;p>&lt;code>rootCmd.Execute()&lt;/code> 是命令的执行入口，其内部会解析 &lt;code>os.Args[1:]&lt;/code> 参数列表（默认情况下是这样，也可以通过 &lt;code>Command.SetArgs&lt;/code> 方法设置参数），然后遍历命令树，为命令找到合适的匹配项和对应的标志。&lt;/p>
-&lt;h3 id="创建-maingo">
-&lt;a href="#%e5%88%9b%e5%bb%ba-maingo" class="header-anchor">#&lt;/a>
-创建 &lt;code>main.go&lt;/code>
+&lt;h3 id="创建-maingo">创建 &lt;code>main.go&lt;/code>
 &lt;/h3>&lt;p>按照编写 Go 程序的惯例，我们要为 &lt;code>hugo&lt;/code> 程序编写一个 &lt;code>main.go&lt;/code> 文件，作为程序的启动入口。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17118,9 +16678,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>&lt;code>main.go&lt;/code> 代码实现非常简单，只在 &lt;code>main&lt;/code> 函数中调用了 &lt;code>cmd.Execute()&lt;/code> 函数，来执行命令。&lt;/p>
-&lt;h3 id="编译并运行命令">
-&lt;a href="#%e7%bc%96%e8%af%91%e5%b9%b6%e8%bf%90%e8%a1%8c%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-编译并运行命令
+&lt;h3 id="编译并运行命令">编译并运行命令
 &lt;/h3>&lt;p>现在，我们就可以编译并运行这个命令行程序了。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17201,9 +16759,7 @@ data-flex-basis="383px"
 &lt;p>&lt;code>Run&lt;/code>是实际执行操作的函数。&lt;/p>
 &lt;p>定义新的子命令很简单，就是创建一个&lt;code>cobra.Command&lt;/code>变量，设置一些字段，然后添加到根命令中&lt;/p>
 &lt;hr>
-&lt;h2 id="添加子命令">
-&lt;a href="#%e6%b7%bb%e5%8a%a0%e5%ad%90%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-添加子命令
+&lt;h2 id="添加子命令">添加子命令
 &lt;/h2>&lt;p>与定义 &lt;code>rootCmd&lt;/code> 一样，我们可以使用 &lt;code>cobra.Command&lt;/code> 定义其他命令，并通过 &lt;code>rootCmd.AddCommand()&lt;/code> 方法将其添加为 &lt;code>rootCmd&lt;/code> 的一个子命令。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17322,18 +16878,14 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="使用命令行标志">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-使用命令行标志
+&lt;h2 id="使用命令行标志">使用命令行标志
 &lt;/h2>&lt;p>Cobra 完美适配 &lt;a class="link" href="https://github.com/spf13/pflag" target="_blank" rel="noopener"
 >pflag&lt;/a>，结合 pflag 可以更灵活的使用标志功能。&lt;/p>
 &lt;blockquote>
 &lt;p>提示：对 pflag 不熟悉的读者可以参考我的另一篇文章&lt;a class="link" href="https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93pflag/" target="_blank" rel="noopener"
 >《Go解析命令行参数之第三方库pflag》&lt;/a>。&lt;/p>
 &lt;/blockquote>
-&lt;h3 id="持久标志">
-&lt;a href="#%e6%8c%81%e4%b9%85%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-持久标志
+&lt;h3 id="持久标志">持久标志
 &lt;/h3>&lt;p>如果一个标志是&lt;code>持久的&lt;/code>，则意味着该标志将可用于它所分配的命令以及该命令下的&lt;strong>所有子命令&lt;/strong>。&lt;/p>
 &lt;p>对于全局标志，可以定义在根命令 &lt;code>rootCmd&lt;/code> 上。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -17352,9 +16904,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="本地标志">
-&lt;a href="#%e6%9c%ac%e5%9c%b0%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-本地标志
+&lt;/div>&lt;h3 id="本地标志">本地标志
 &lt;/h3>&lt;p>标志也可以是&lt;code>本地的&lt;/code>，这意味着它只适用于&lt;strong>该指定命令&lt;/strong>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17372,9 +16922,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="父命令的本地标志">
-&lt;a href="#%e7%88%b6%e5%91%bd%e4%bb%a4%e7%9a%84%e6%9c%ac%e5%9c%b0%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-父命令的本地标志
+&lt;/div>&lt;h3 id="父命令的本地标志">父命令的本地标志
 &lt;/h3>&lt;p>默认情况下，Cobra 仅解析目标命令上的本地标志，忽略父命令上的本地标志。通过在父命令上启用 &lt;code>Command.TraverseChildren&lt;/code> 属性，Cobra 将在执行目标命令之前解析每个命令的本地标志。(在执行子命令之前解析所有父级上的标志。)&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17393,9 +16941,7 @@ data-flex-basis="383px"
 &lt;/div>&lt;blockquote>
 &lt;p>提示：如果你不理解，没关系，继续往下看，稍后会有示例代码演示讲解。&lt;/p>
 &lt;/blockquote>
-&lt;h3 id="必选标志">
-&lt;a href="#%e5%bf%85%e9%80%89%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-必选标志
+&lt;h3 id="必选标志">必选标志
 &lt;/h3>&lt;p>默认情况下，标志是可选的。我们可以将其标记为必选，如果运行目标命令时没有提供，则会报错。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -17637,9 +17183,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>总结：在父命令上设置穿越儿童为true，运行子命令时会解析父命令的本地选项，反之，只解析子命令的本地选项以及持久选项。&lt;/p>
-&lt;h2 id="处理配置">
-&lt;a href="#%e5%a4%84%e7%90%86%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-处理配置
+&lt;h2 id="处理配置">处理配置
 &lt;/h2>&lt;p>除了将命令行标志的值绑定到变量，我们也可以将标志绑定到 &lt;a class="link" href="https://github.com/spf13/viper" target="_blank" rel="noopener"
 >Viper&lt;/a>，这样就可以使用 &lt;code>viper.Get()&lt;/code> 来获取标志的值了。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -17799,9 +17343,7 @@ data-flex-basis="383px"
 >spf13&lt;/a>。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="参数验证">
-&lt;a href="#%e5%8f%82%e6%95%b0%e9%aa%8c%e8%af%81" class="header-anchor">#&lt;/a>
-参数验证
+&lt;h2 id="参数验证">参数验证
 &lt;/h2>&lt;p>在执行命令行程序时，我们可能需要对命令参数进行合法性验证，&lt;code>cobra.Command&lt;/code> 的 &lt;code>Args&lt;/code> 属性提供了此功能。&lt;/p>
 &lt;p>&lt;code>Args&lt;/code> 属性类型为一个函数：&lt;code>func(cmd *Command, args []string) error&lt;/code>，可以用来验证参数。&lt;/p>
 &lt;p>Cobra 内置了以下验证函数：&lt;/p>
@@ -17940,9 +17482,7 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="hooks">
-&lt;a href="#hooks" class="header-anchor">#&lt;/a>
-Hooks
+&lt;h2 id="hooks">Hooks
 &lt;/h2>&lt;p>在执行 &lt;code>Run&lt;/code> 函数前后，我么可以执行一些钩子函数，其作用和执行顺序如下：&lt;/p>
 &lt;ol>
 &lt;li>&lt;code>PersistentPreRun&lt;/code>：在 &lt;code>PreRun&lt;/code> 函数执行之前执行，对此命令的子命令同样生效。&lt;/li>
@@ -18224,9 +17764,7 @@ Hooks
 &lt;/div>&lt;blockquote>
 &lt;p>注意事项：&lt;code>cobra.OnInitialize()&lt;/code>传入调用命令时执行的函数（可以用来&lt;a class="link" href="#%e5%a4%84%e7%90%86%e9%85%8d%e7%bd%ae" >初始化配置&lt;/a>）：执行顺序都在Hooks函数的前面。&lt;/p>
 &lt;/blockquote>
-&lt;h2 id="定义自己的-help-命令">
-&lt;a href="#%e5%ae%9a%e4%b9%89%e8%87%aa%e5%b7%b1%e7%9a%84-help-%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-定义自己的 Help 命令
+&lt;h2 id="定义自己的-help-命令">定义自己的 Help 命令
 &lt;/h2>&lt;p>如果你对 Cobra 自动生成的帮助命令不满意，我们可以自定义帮助命令或模板。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -18491,9 +18029,7 @@ Hooks
 &lt;/div>
 &lt;/div>&lt;p>可以发现，无论使用 &lt;code>help&lt;/code> 命令查看帮助信息，还是使用 &lt;code>-h&lt;/code> 查看帮助信息，其输出内容都遵循我们自定义的模版格式。&lt;/p>
 &lt;hr>
-&lt;h2 id="定义自己的-usage-message">
-&lt;a href="#%e5%ae%9a%e4%b9%89%e8%87%aa%e5%b7%b1%e7%9a%84-usage-message" class="header-anchor">#&lt;/a>
-定义自己的 Usage Message
+&lt;h2 id="定义自己的-usage-message">定义自己的 Usage Message
 &lt;/h2>&lt;p>当用户提供无效标志或无效命令时，Cobra 通过向用户显示 &lt;code>Usage&lt;/code> 来提示用户如何正确的使用命令。&lt;/p>
 &lt;p>例如，当用户输入无效的标志 &lt;code>--demo&lt;/code> 时，将得到如下输出：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -18559,9 +18095,7 @@ Hooks
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="未知命令建议">
-&lt;a href="#%e6%9c%aa%e7%9f%a5%e5%91%bd%e4%bb%a4%e5%bb%ba%e8%ae%ae" class="header-anchor">#&lt;/a>
-未知命令建议
+&lt;h2 id="未知命令建议">未知命令建议
 &lt;/h2>&lt;p>在我们使用 &lt;code>git&lt;/code> 命令时，有一个非常好用的功能，能够对用户输错的未知命令智能提示。&lt;/p>
 &lt;p>示例如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -18638,9 +18172,7 @@ Hooks
 &lt;/div>
 &lt;/div>&lt;p>&lt;code>SuggestionsMinimumDistance&lt;/code> 是一个正整数，表示输错的命令与正确的命令最多有几个不匹配的字符（最小距离），才会给出建议。如当值为 &lt;code>1&lt;/code> 时，用户输入 &lt;code>hugo versiox&lt;/code> 会给出建议，而如果用户输入 &lt;code>hugo versixx&lt;/code> 时，则不会给出建议，因为已经有两个字母不匹配 &lt;code>version&lt;/code> 了。&lt;/p>
 &lt;hr>
-&lt;h2 id="shell-补全">
-&lt;a href="#shell-%e8%a1%a5%e5%85%a8" class="header-anchor">#&lt;/a>
-Shell 补全
+&lt;h2 id="shell-补全">Shell 补全
 &lt;/h2>&lt;p>本文在讲&lt;a class="link" href="#%e6%b7%bb%e5%8a%a0%e5%ad%90%e5%91%bd%e4%bb%a4" >添加子命令&lt;/a>小节时，我们见到过 &lt;code>completion&lt;/code> 子命令，可以为指定的 Shell 生成自动补全脚本，现在我们就来讲解它的用法。&lt;/p>
 &lt;p>直接执行 &lt;code>hugo completion -h&lt;/code> 命令，我们可以查看它支持的几种 Shell 类型 &lt;code>bash&lt;/code>、&lt;code>fish&lt;/code>、&lt;code>powershell&lt;/code>、&lt;code>zsh&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -18820,9 +18352,7 @@ Shell 补全
 &lt;p>还有要注意：主命令要与项目名（构建之后的命令）一直，不然也不会自动补全。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="生成文档">
-&lt;a href="#%e7%94%9f%e6%88%90%e6%96%87%e6%a1%a3" class="header-anchor">#&lt;/a>
-生成文档
+&lt;h2 id="生成文档">生成文档
 &lt;/h2>&lt;p>Cobra 支持生成 &lt;code>Markdown&lt;/code>、&lt;code>ReStructured Text&lt;/code>、&lt;code>Man Page&lt;/code> 三种格式文档。&lt;/p>
 &lt;p>这里以生成 &lt;code>Markdown&lt;/code> 格式文档为例，来演示下 Cobra 这一强大功能。&lt;/p>
 &lt;p>我们可以定义一个标志 &lt;code>md-docs&lt;/code> 来决定是否生成文档：&lt;/p>
@@ -18928,9 +18458,7 @@ Shell 补全
 &lt;/div>
 &lt;/div>&lt;p>可以发现，Cobra 不仅为 &lt;code>hugo&lt;/code> 命令生成了文档，并且还生成了子命令的文档以及命令行补全的文档。&lt;/p>
 &lt;hr>
-&lt;h2 id="使用-cobra-命令创建项目">
-&lt;a href="#%e4%bd%bf%e7%94%a8-cobra-%e5%91%bd%e4%bb%a4%e5%88%9b%e5%bb%ba%e9%a1%b9%e7%9b%ae" class="header-anchor">#&lt;/a>
-使用 Cobra 命令创建项目
+&lt;h2 id="使用-cobra-命令创建项目">使用 Cobra 命令创建项目
 &lt;/h2>&lt;p>文章读到这里，我们可以发现，其实 Cobra 项目是遵循一定套路的，目录结构、文件、模板代码都比较固定。&lt;/p>
 &lt;p>此时，脚手架工具就派上用场了。Cobra 提供了 &lt;code>cobra-cli&lt;/code> 命令行工具，可以通过命令的方式快速创建一个命令行项目。&lt;/p>
 &lt;p>安装：&lt;/p>
@@ -18994,9 +18522,7 @@ Shell 补全
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>可以发现，&lt;code>cobra-cli&lt;/code> 脚手架工具仅提供了少量命令和标志，所以上手难度不大。&lt;/p>
-&lt;h3 id="初始化模块">
-&lt;a href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e6%a8%a1%e5%9d%97" class="header-anchor">#&lt;/a>
-初始化模块
+&lt;h3 id="初始化模块">初始化模块
 &lt;/h3>&lt;p>要使用 &lt;code>cobra-cli&lt;/code> 生成一个项目，首先要手动创建项目根目录并使用 &lt;code>go mod&lt;/code> 命令进行初始化。&lt;/p>
 &lt;p>假设我们要编写的命令行程序叫作 &lt;code>cob&lt;/code>，模块初始化过程如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -19017,9 +18543,7 @@ Shell 补全
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ go mod init github.com/arlettebrook/cob
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="初始化命令行程序">
-&lt;a href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e5%91%bd%e4%bb%a4%e8%a1%8c%e7%a8%8b%e5%ba%8f" class="header-anchor">#&lt;/a>
-初始化命令行程序
+&lt;/div>&lt;h3 id="初始化命令行程序">初始化命令行程序
 &lt;/h3>&lt;p>有了初始化好的 Go 项目，我们就可以初始化命令行程序了。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -19211,9 +18735,7 @@ Shell 补全
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>以上两个文件跟我们手动编写的代码没什么两样，套路完全相同，唯一不同的是每个文件头部都会多出来一个 &lt;code>Copyright&lt;/code> 头信息，用来标记代码的 &lt;code>LICENSE&lt;/code>。&lt;/p>
-&lt;h3 id="可选标志">
-&lt;a href="#%e5%8f%af%e9%80%89%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-可选标志
+&lt;h3 id="可选标志">可选标志
 &lt;/h3>&lt;p>&lt;code>cobra-cli&lt;/code> 提供了如下三个标志分别用来设置项目的作者、许可证类型、是否使用 Viper 管理配置。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -19270,9 +18792,7 @@ Shell 补全
 &lt;p>提示：如果你对开源许可证不熟悉，可以参考我的另一篇文章&lt;a class="link" href="https://arlettebrook.github.io/p/open-source-license-introduction/" target="_blank" rel="noopener"
 >《Open Source License Introduction》&lt;/a>。&lt;/p>
 &lt;/blockquote>
-&lt;h3 id="添加命令">
-&lt;a href="#%e6%b7%bb%e5%8a%a0%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-添加命令
+&lt;h3 id="添加命令">添加命令
 &lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -19334,9 +18854,7 @@ Shell 补全
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>其他新添加的命令同理。&lt;/p>
-&lt;h3 id="使用配置取代标志">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e9%85%8d%e7%bd%ae%e5%8f%96%e4%bb%a3%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-使用配置取代标志
+&lt;h3 id="使用配置取代标志">使用配置取代标志
 &lt;/h3>&lt;p>如果你不想每次生成或添加命令时都指定选项参数，则可以定义 &lt;code>~/.cobra.yaml&lt;/code> 文件来保存配置信息：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -19401,9 +18919,7 @@ Shell 补全
 &lt;/div>&lt;p>如果你不想把配置保存在 &lt;code>~/.cobra.yaml&lt;/code> 中，&lt;code>cobra-cli&lt;/code> 还提供了 &lt;code>--config&lt;/code> 标志来指定任意目录下的配置文件。&lt;/p>
 &lt;p>至此，&lt;code>cobra-cli&lt;/code> 的功能我们就都讲解完成了，还是非常方便实用的。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>在我们日常开发中，编写命令行程序是必不可少，很多开源软件都具备强大的命令行工具，如 K8s、Docker、Git 等。&lt;/p>
 &lt;p>一款复杂的命令行程序通常有上百种使用组合，所以如何组织和编写出好用的命令行程序是很考验开发者功底的，而 Cobra 则为我们开发命令行程序提供了足够的便利。这也是为什么我将其称为命令行框架，而不仅仅是一个 Go 第三方库。&lt;/p>
 &lt;p>Cobra 功能非常强大，要使用它来编写命令行程序首先要明白三个概念：命令、参数和标志。&lt;/p>
@@ -19415,9 +18931,7 @@ Shell 补全
 &lt;p>本文完整 &lt;a class="link" href="https://github.com/jianghushinian/blog-go-example/tree/main/cobra/getting-started" target="_blank" rel="noopener"
 >代码&lt;/a> (参考&lt;a class="link" href="https://github.com/jianghushinian/" target="_blank" rel="noopener"
 >@jianghushinian&lt;/a>），欢迎点击查看。&lt;/p>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>Cobra 官网：https://cobra.dev/&lt;/li>
@@ -19431,9 +18945,7 @@ Shell 补全
 &lt;blockquote>
 &lt;p>在使用 Go 进行开发的过程中，命令行参数解析是我们经常遇到的需求。尽管 Go 标准库提供了 flag 包用于实现命令行参数解析，但只能满足基本需要，不支持高级特性。于是 Go 社区中出现了一个叫 pflag 的第三方包，功能更加全面且足够强大。在本文中，我们将学习并掌握如何使用 pflag。&lt;/p>
 &lt;/blockquote>
-&lt;h2 id="特点">
-&lt;a href="#%e7%89%b9%e7%82%b9" class="header-anchor">#&lt;/a>
-特点
+&lt;h2 id="特点">特点
 &lt;/h2>&lt;p>pflag 作为 Go 内置 flag 包的替代品，具有如下特点：&lt;/p>
 &lt;ul>
 &lt;li>实现了 POSIX/GNU 风格的 –flags。&lt;/li>
@@ -19443,12 +18955,8 @@ Shell 补全
 &lt;li>兼容 Go 标准库中的 flag 包。如果直接使用 flag 包定义的全局 &lt;code>FlagSet&lt;/code> 对象 &lt;code>CommandLine&lt;/code>，则完全兼容；否则当你手动实例化了 &lt;code>FlagSet&lt;/code> 对象，这时就需要为每个标志设置一个简短标志（&lt;code>Shorthand&lt;/code>）。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="使用">
-&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-使用
-&lt;/h2>&lt;h3 id="基本用法">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" class="header-anchor">#&lt;/a>
-基本用法
+&lt;h2 id="使用">使用
+&lt;/h2>&lt;h3 id="基本用法">基本用法
 &lt;/h3>&lt;p>安装&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -19621,9 +19129,7 @@ Shell 补全
 &lt;/div>
 &lt;/div>&lt;p>&lt;code>ip&lt;/code> 标志的默认值已被命令行参数 &lt;code>1&lt;/code> 所覆盖，由于没有传递 &lt;code>port&lt;/code> 标志，所以打印结果为默认值 &lt;code>8080&lt;/code>，&lt;code>host&lt;/code> 标志的值也能够被正常打印。&lt;/p>
 &lt;p>还有 4 个非选项参数数 &lt;code>x&lt;/code>、&lt;code>y&lt;/code>、&lt;code>a&lt;/code>、&lt;code>b&lt;/code> 也都被 pflag 识别并记录了下来。这点比 flag 要强大，在 flag 包中，非选项参数数只能写在所有命令行参数最后，&lt;code>x&lt;/code>、&lt;code>y&lt;/code> 出现在这里程序是会报错的。&lt;/p>
-&lt;h3 id="进阶用法">
-&lt;a href="#%e8%bf%9b%e9%98%b6%e7%94%a8%e6%b3%95" class="header-anchor">#&lt;/a>
-进阶用法
+&lt;h3 id="进阶用法">进阶用法
 &lt;/h3>&lt;p>除了像 flag 包一样的用法，pflag 还支持一些独有的用法，以下是用法示例。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -19798,9 +19304,7 @@ Shell 补全
 &lt;/div>&lt;p>通过 &lt;code>--ip 1&lt;/code> 使用完整标志指定 &lt;code>ip&lt;/code> 参数值。&lt;/p>
 &lt;p>通过 &lt;code>-H localhost&lt;/code> 使用简短标志指定 &lt;code>host&lt;/code> 参数值。&lt;/p>
 &lt;p>布尔类型的标志指定参数 &lt;code>--boolVar=false&lt;/code> 需要使用等号 &lt;code>=&lt;/code> 而非空格。&lt;/p>
-&lt;h3 id="命令行标志语法">
-&lt;a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%a0%87%e5%bf%97%e8%af%ad%e6%b3%95" class="header-anchor">#&lt;/a>
-命令行标志语法
+&lt;h3 id="命令行标志语法">命令行标志语法
 &lt;/h3>&lt;p>命令行标志遵循如下语法：&lt;/p>
 &lt;table>
 &lt;thead>
@@ -19832,9 +19336,7 @@ Shell 补全
 &lt;p>整数标志接受 1234、0664、0x1234，并且可能为负数。&lt;/p>
 &lt;p>布尔标志接受 1, 0, t, f, true, false, TRUE, FALSE, True, False。&lt;/p>
 &lt;p>&lt;code>Duration&lt;/code> 标志接受任何对 &lt;code>time.ParseDuration&lt;/code> 有效的输入。&lt;/p>
-&lt;h3 id="标志名-normalize">
-&lt;a href="#%e6%a0%87%e5%bf%97%e5%90%8d-normalize" class="header-anchor">#&lt;/a>
-标志名 Normalize
+&lt;h3 id="标志名-normalize">标志名 Normalize
 &lt;/h3>&lt;p>标准化Normalize&lt;/p>
 &lt;p>借助 &lt;code>pflag.NormalizedName&lt;/code> 我们能够给标志起一个或多个别名、规范化标志名等。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -19961,9 +19463,7 @@ Shell 补全
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">myFlag: &lt;span class="m">200&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="nooptdefval">
-&lt;a href="#nooptdefval" class="header-anchor">#&lt;/a>
-NoOptDefVal
+&lt;/div>&lt;h3 id="nooptdefval">NoOptDefVal
 &lt;/h3>&lt;p>&lt;code>NoOptDefVal&lt;/code> 是 &lt;code>no option default values&lt;/code> 的简写。&lt;/p>
 &lt;p>创建标志后，可以为标志设置 &lt;code>NoOptDefVal&lt;/code> 属性，如果标志具有 &lt;code>NoOptDefVal&lt;/code> 属性并且在命令行上设置了标志而没有参数选项，则标志将设置为 &lt;code>NoOptDefVal&lt;/code> 指定的值。&lt;/p>
 &lt;p>如下示例：&lt;/p>
@@ -20053,9 +19553,7 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">true&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="弃用隐藏标志">
-&lt;a href="#%e5%bc%83%e7%94%a8%e9%9a%90%e8%97%8f%e6%a0%87%e5%bf%97" class="header-anchor">#&lt;/a>
-弃用/隐藏标志
+&lt;/div>&lt;h3 id="弃用隐藏标志">弃用/隐藏标志
 &lt;/h3>&lt;p>使用 &lt;code>flags.MarkDeprecated&lt;/code> 可以弃用一个标志，使用 &lt;code>flags.MarkShorthandDeprecated&lt;/code> 可以弃用一个简短标志，使用 &lt;code>flags.MarkHidden&lt;/code> 可以隐藏一个标志。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -20195,9 +19693,7 @@ NoOptDefVal
 &lt;/div>
 &lt;/div>&lt;p>打印信息中增加了一条简短标志 &lt;code>-b&lt;/code> 已被弃用的提示，指定参数值依然生效。&lt;/p>
 &lt;p>对于弃用的 &lt;code>ip&lt;/code> 标志，使用简短标志形式传惨 &lt;code>-i 1&lt;/code> 同样生效。&lt;/p>
-&lt;h3 id="支持-flag-类型">
-&lt;a href="#%e6%94%af%e6%8c%81-flag-%e7%b1%bb%e5%9e%8b" class="header-anchor">#&lt;/a>
-支持 flag 类型
+&lt;h3 id="支持-flag-类型">支持 flag 类型
 &lt;/h3>&lt;p>由于 pflag 对 flag 包兼容，所以可以在一个程序中混用二者：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -20258,18 +19754,14 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文主要介绍了 Go第三方标志包 pflag 的特点及用法。&lt;/p>
 &lt;p>首先介绍了 pflag 的基本使用方法，包括声明标志、解析命令行参数、获取标志值等。接着介绍了 pflag 的进阶用法，例如自定义 &lt;code>FlagSet&lt;/code>、使用 &lt;code>pflag.&amp;lt;Type&amp;gt;P&lt;/code> 方法来支持简短标志。之后又对命令行标志语法进行了讲解，对于布尔值、非布尔值和简短标志，都有各自不同的语法。我们还讲解了如何借助 &lt;code>pflag.NormalizedName&lt;/code> 给标志起一个或多个别名、规范化标志名。然后介绍了 &lt;code>NoOptDefVal&lt;/code> 的作用和如何弃用/隐藏标志。最后通过示例演示了如何在一个程序中混用 flag 和 pflag。&lt;/p>
 &lt;blockquote>
 &lt;p>彩蛋：不知道你有没有发现，示例中的 &lt;code>ip&lt;/code> 标志的名称其实代表的是 &lt;code>int pointer&lt;/code> 而非 &lt;code>Internet Protocol Address&lt;/code>。&lt;code>ip&lt;/code> 标志源自官方示例，不过我顺势而为又声明了 &lt;code>port&lt;/code>、&lt;code>host&lt;/code> 标志，算是一个程序中的谐音梗 :)。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>pflag 源码: &lt;a class="link" href="https://github.com/spf13/pflag" target="_blank" rel="noopener"
@@ -20282,9 +19774,7 @@ NoOptDefVal
 >Go 命令行参数解析工具 pflag 使用&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Go解析命令行参数之第三方库go-flags</title><link>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/</link><pubDate>Wed, 01 May 2024 21:50:22 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93go-flags/</guid><description>&lt;hr>
-&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="简介">简介
 &lt;/h2>&lt;p>在&lt;a class="link" href="https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/" target="_blank" rel="noopener"
 >Go flag库介绍&lt;/a>中，我们介绍了&lt;code>flag&lt;/code>库。&lt;code>flag&lt;/code>库是用于解析命令行选项的标准库。但是&lt;code>flag&lt;/code>有几个缺点：&lt;/p>
 &lt;ul>
@@ -20307,9 +19797,7 @@ NoOptDefVal
 &lt;/ul>
 &lt;p>上面只是粗略介绍了&lt;code>go-flags&lt;/code>的特性，下面我们依次来介绍。&lt;/p>
 &lt;hr>
-&lt;h2 id="快速开始">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e5%bc%80%e5%a7%8b" class="header-anchor">#&lt;/a>
-快速开始
+&lt;h2 id="快速开始">快速开始
 &lt;/h2>&lt;p>学习从使用开始！我们先来看看&lt;code>go-flags&lt;/code>的基本使用。&lt;/p>
 &lt;p>由于是第三方库，使用前需要安装，执行下面的命令安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -20493,12 +19981,8 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="基本特性">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e7%89%b9%e6%80%a7" class="header-anchor">#&lt;/a>
-基本特性
-&lt;/h2>&lt;h3 id="支持丰富的数据类型">
-&lt;a href="#%e6%94%af%e6%8c%81%e4%b8%b0%e5%af%8c%e7%9a%84%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" class="header-anchor">#&lt;/a>
-支持丰富的数据类型
+&lt;h2 id="基本特性">基本特性
+&lt;/h2>&lt;h3 id="支持丰富的数据类型">支持丰富的数据类型
 &lt;/h3>&lt;p>&lt;code>go-flags&lt;/code>相比标准库&lt;code>flag&lt;/code>支持更丰富的数据类型：&lt;/p>
 &lt;ul>
 &lt;li>所有的基本类型（包括有符号整数&lt;code>int/int8/int16/int32/int64&lt;/code>，无符号整数&lt;code>uint/uint8/uint16/uint32/uint64&lt;/code>，浮点数&lt;code>float32/float64&lt;/code>，布尔类型&lt;code>bool&lt;/code>和字符串&lt;code>string&lt;/code>）和&lt;strong>它们的切片&lt;/strong>；&lt;/li>
@@ -20659,9 +20143,7 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">int map: map&lt;span class="o">[&lt;/span>key1:12 key2:58&lt;span class="o">]&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="常用设置">
-&lt;a href="#%e5%b8%b8%e7%94%a8%e8%ae%be%e7%bd%ae" class="header-anchor">#&lt;/a>
-常用设置
+&lt;/div>&lt;h3 id="常用设置">常用设置
 &lt;/h3>&lt;p>&lt;code>go-flags&lt;/code>提供了非常多的设置选项，具体可参见&lt;a class="link" href="https://godoc.org/github.com/jessevdk/go-flags" target="_blank" rel="noopener"
 >文档&lt;/a>。这里重点介绍两个&lt;code>required&lt;/code>和&lt;code>default&lt;/code>。&lt;/p>
 &lt;p>&lt;code>required&lt;/code>非空时，表示对应的选项必须设置值，否则解析时返回&lt;code>ErrRequired&lt;/code>错误。&lt;/p>
@@ -20751,12 +20233,8 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="高级特性">
-&lt;a href="#%e9%ab%98%e7%ba%a7%e7%89%b9%e6%80%a7" class="header-anchor">#&lt;/a>
-高级特性
-&lt;/h2>&lt;h3 id="选项分组">
-&lt;a href="#%e9%80%89%e9%a1%b9%e5%88%86%e7%bb%84" class="header-anchor">#&lt;/a>
-选项分组
+&lt;h2 id="高级特性">高级特性
+&lt;/h2>&lt;h3 id="选项分组">选项分组
 &lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -20896,9 +20374,7 @@ NoOptDefVal
 &lt;/div>
 &lt;/div>&lt;p>输出的帮助信息中，也是按照我们设定的分组显示了，便于查看。&lt;/p>
 &lt;p>&lt;code>group&lt;/code>标签字段用于分组并命名。当在结构体字段上指定时，使该结构体字段具有给定名称的单独组（可选）&lt;/p>
-&lt;h3 id="子命令">
-&lt;a href="#%e5%ad%90%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-子命令
+&lt;h3 id="子命令">子命令
 &lt;/h3>&lt;p>&lt;code>go-flags&lt;/code>支持子命令。我们经常使用的 Go 和 Git 命令行程序就有大量的子命令。例如&lt;code>go version&lt;/code>、&lt;code>go build&lt;/code>、&lt;code>go run&lt;/code>、&lt;code>git status&lt;/code>、&lt;code>git commit&lt;/code>这些命令中&lt;code>version/build/run/status/commit&lt;/code>就是子命令。 使用&lt;code>go-flags&lt;/code>定义子命令比较简单：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -21119,14 +20595,10 @@ NoOptDefVal
 &lt;/div>
 &lt;/div>&lt;p>注意，不能使用乘法符号&lt;code>*&lt;/code>和除法符号&lt;code>/&lt;/code>，它们都不可识别。&lt;/p>
 &lt;hr>
-&lt;h2 id="其他">
-&lt;a href="#%e5%85%b6%e4%bb%96" class="header-anchor">#&lt;/a>
-其他
+&lt;h2 id="其他">其他
 &lt;/h2>&lt;p>&lt;code>go-flags&lt;/code>库还有很多有意思的特性，例如支持 Windows 选项格式（&lt;code>/v&lt;/code>和&lt;code>/verbose&lt;/code>）、从环境变量中读取默认值、从 ini 文件中读取默认设置等等。大家有兴趣可以自行去研究~&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://godoc.org/github.com/jessevdk/go-flags" target="_blank" rel="noopener"
@@ -21139,9 +20611,7 @@ NoOptDefVal
 &lt;p>zap 是由 Uber 公司开源的一款 Go 日志库，就像它的命名一样，zap 以快著称。官方 GitHub 仓库中只用一句话来概括 zap：「在 Go 中进行快速、结构化、分级的日志记录」。这句话简单明了的概括了 zap 的核心特性，今天我们就来介绍下 zap 日志库的基本使用和高级特性，以及如何在实际应用程序中使用，来提高应用程序的可靠性。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="特点">
-&lt;a href="#%e7%89%b9%e7%82%b9" class="header-anchor">#&lt;/a>
-特点
+&lt;h2 id="特点">特点
 &lt;/h2>&lt;p>zap 具有如下特点：&lt;/p>
 &lt;ul>
 &lt;li>快，非常快，这也是 zap 最显著的特点。速度快的原因是 zap 避免使用 &lt;code>interface{}&lt;/code> 和反射，并且使用 &lt;code>sync.Pool&lt;/code> 减少堆内存分配。在 zap 面前 Logrus 的执行速度只有被吊打的份，你可以在官方 &lt;a class="link" href="https://github.com/uber-go/zap#performance" target="_blank" rel="noopener"
@@ -21152,12 +20622,8 @@ NoOptDefVal
 &lt;li>支持 Hooks 机制。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="使用">
-&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-使用
-&lt;/h2>&lt;h3 id="基本使用">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-基本使用
+&lt;h2 id="使用">使用
+&lt;/h2>&lt;h3 id="基本使用">基本使用
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>先安装&lt;code>go get -u go.uber.org/zap&lt;/code>&lt;/p>
@@ -21556,9 +21022,7 @@ NoOptDefVal
 &lt;p>除了提供 &lt;code>zap.NewProduction()&lt;/code> 和 &lt;code>zap.NewDevelopment()&lt;/code> 两个构造函数外，zap 还提供了 &lt;code>zap.NewExample()&lt;/code> 来创建一个 &lt;code>Logger&lt;/code> 对象，这个方法主要用于测试，这里就不多介绍了。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="记录层级关系">
-&lt;a href="#%e8%ae%b0%e5%bd%95%e5%b1%82%e7%ba%a7%e5%85%b3%e7%b3%bb" class="header-anchor">#&lt;/a>
-记录层级关系
+&lt;h3 id="记录层级关系">记录层级关系
 &lt;/h3>&lt;p>前面我们记录的日志都是一层结构，没有嵌套的层级。我们可以使用&lt;code>zap.Namespace(key string) Field&lt;/code>构建一个&lt;strong>命名空间&lt;/strong>，后续的&lt;code>Field&lt;/code>都记录在此命名空间中：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -21632,9 +21096,7 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="预设日志字段">
-&lt;a href="#%e9%a2%84%e8%ae%be%e6%97%a5%e5%bf%97%e5%ad%97%e6%ae%b5" class="header-anchor">#&lt;/a>
-预设日志字段
+&lt;/div>&lt;h3 id="预设日志字段">预设日志字段
 &lt;/h3>&lt;p>如果每条日志都要记录一些共用的字段，那么使用&lt;code>zap.Fields(fs ...Field)&lt;/code>创建的选项。例如在服务器日志中记录可能都需要记录&lt;code>serverId&lt;/code>和&lt;code>serverName&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -21668,9 +21130,7 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>与&lt;code>logger.with()&lt;/code>差不多&lt;/p>
-&lt;h3 id="给语法加点糖">
-&lt;a href="#%e7%bb%99%e8%af%ad%e6%b3%95%e5%8a%a0%e7%82%b9%e7%b3%96" class="header-anchor">#&lt;/a>
-给语法加点糖
+&lt;h3 id="给语法加点糖">给语法加点糖
 &lt;/h3>&lt;p>zap 虽然速度足够快，但是多数情况下，我们并不需要极致的性能，而是想让代码写起来更爽一些。zap 为我们提供了解决方案 —— &lt;code>SugaredLogger&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -21748,9 +21208,7 @@ NoOptDefVal
 &lt;/div>
 &lt;/div>&lt;p>我们知道，这种方便的写法是有一定代价的，所以开发中是否需要使用 &lt;code>SugaredLogger&lt;/code> 来记录日志，需要根据程序的特点来决定。&lt;code>SugaredLogger&lt;/code> 与 &lt;code>Logger&lt;/code> 的性能对比同样可以在官方 &lt;a class="link" href="https://github.com/uber-go/zap#performance" target="_blank" rel="noopener"
 >GitHub 仓库&lt;/a>中看到。&lt;/p>
-&lt;h3 id="定制-logger">
-&lt;a href="#%e5%ae%9a%e5%88%b6-logger" class="header-anchor">#&lt;/a>
-定制 Logger
+&lt;h3 id="定制-logger">定制 Logger
 &lt;/h3>&lt;p>通过查看 &lt;code>zap.NewProduction()&lt;/code> 和 &lt;code>zap.NewDevelopment()&lt;/code> 两个构造函数源码，我们知道可以使用 &lt;code>zap.Config&lt;/code> 对象的 &lt;code>Build&lt;/code> 方法创建 &lt;code>Logger&lt;/code> 对象。那么我们很容易能够想到，如果要定制 &lt;code>Logger&lt;/code>，只需要创建一个定制的 &lt;code>zap.Config&lt;/code> 即可。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -21864,9 +21322,7 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="mi">2023&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mo">03&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">19&lt;/span> &lt;span class="mi">11&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">19&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mf">18.44921&lt;/span> &lt;span class="o">+&lt;/span>&lt;span class="mo">0000&lt;/span> &lt;span class="nx">UTC&lt;/span> &lt;span class="nx">Logger&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">check&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">failed&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="nx">get&lt;/span> &lt;span class="nx">caller&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="选项">
-&lt;a href="#%e9%80%89%e9%a1%b9" class="header-anchor">#&lt;/a>
-选项
+&lt;/div>&lt;h4 id="选项">选项
 &lt;/h4>&lt;p>&lt;code>logger.WithOptions()&lt;/code> 支持的选项如下：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>WrapCore(f func(zapcore.Core) zapcore.Core)&lt;/code>: 使用一个新的 &lt;code>zapcore.Core&lt;/code> 替换掉 &lt;code>Logger&lt;/code> 内部原有的的 &lt;code>zapcore.Core&lt;/code> 属性。&lt;/li>
@@ -22043,9 +21499,7 @@ NoOptDefVal
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;level&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s">&amp;#34;info&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s">&amp;#34;server start work successfully!&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s">&amp;#34;dj&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="全局logger">
-&lt;a href="#%e5%85%a8%e5%b1%80logger" class="header-anchor">#&lt;/a>
-全局&lt;code>Logger&lt;/code>
+&lt;/div>&lt;h3 id="全局logger">全局&lt;code>Logger&lt;/code>
 &lt;/h3>&lt;p>为了方便使用，&lt;code>zap&lt;/code>提供了两个全局的&lt;code>Logger&lt;/code>，一个是&lt;code>*zap.Logger&lt;/code>，可调用&lt;code>zap.L()&lt;/code>获得；另一个是&lt;code>*zap.SugaredLogger&lt;/code>，可调用&lt;code>zap.S()&lt;/code>获得。需要注意的是，全局的&lt;code>Logger&lt;/code>默认并不会记录日志！它是一个无实际效果的&lt;code>Logger&lt;/code>。看源码:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -22106,9 +21560,7 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>可以看到在调用&lt;code>ReplaceGlobals&lt;/code>之前记录的日志并没有输出。&lt;/p>
-&lt;h3 id="与标准日志库搭配使用">
-&lt;a href="#%e4%b8%8e%e6%a0%87%e5%87%86%e6%97%a5%e5%bf%97%e5%ba%93%e6%90%ad%e9%85%8d%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-与标准日志库搭配使用
+&lt;h3 id="与标准日志库搭配使用">与标准日志库搭配使用
 &lt;/h3>&lt;p>如果项目一开始使用的是标准日志库&lt;code>log&lt;/code>，后面想转为&lt;code>zap&lt;/code>。这时不必修改每一个文件。我们可以调用&lt;code>zap.NewStdLog(l *Logger) *log.Logger&lt;/code>返回一个标准的&lt;code>log.Logger&lt;/code>，内部实际上写入的还是我们之前创建的&lt;code>zap.Logger&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -22179,9 +21631,7 @@ NoOptDefVal
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>当然&lt;code>RedirectStdLog&lt;/code>也有一个对应的&lt;code>RedirectStdLogAt&lt;/code>以特定的级别调用内部的&lt;code>*zap.Logger&lt;/code>方法。&lt;/p>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://darjun.github.io/2020/04/23/godailylib/zap/" target="_blank" rel="noopener"
@@ -22196,9 +21646,7 @@ NoOptDefVal
 >如何基于 zap 封装一个更好用的日志库&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Go-homedir库介绍</title><link>https://arlettebrook.github.io/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/</link><pubDate>Wed, 24 Apr 2024 22:47:45 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-homedir%E5%BA%93%E4%BB%8B%E7%BB%8D/</guid><description>&lt;hr>
-&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="简介">简介
 &lt;/h2>&lt;p>今天我们来看一个很小，很实用的库&lt;a class="link" href="https://github.com/mitchellh/go-homedir" target="_blank" rel="noopener"
 >go-homedir&lt;/a>。顾名思义，&lt;code>go-homedir&lt;/code>用来获取用户的主目录。 实际上，使用标准库&lt;code>os/user&lt;/code>或者&lt;code>os.UserHomeDir()&lt;/code>我们也可以得到这个信息：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -22289,9 +21737,7 @@ NoOptDefVal
 &lt;/div>
 &lt;/div>&lt;p>还有就是官方的库也只是从环境变量中获取用户的家目录，没有考虑&lt;code>$HOME&lt;/code>不存在的情况。&lt;/p>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>&lt;code>go-homedir&lt;/code>是第三方包，使用前需要先安装：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -22364,9 +21810,7 @@ NoOptDefVal
 &lt;li>&lt;code>Expand&lt;/code>：将路径中的第一个&lt;code>~&lt;/code>扩展成用户主目录。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="高级用法">
-&lt;a href="#%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95" class="header-anchor">#&lt;/a>
-高级用法
+&lt;h2 id="高级用法">高级用法
 &lt;/h2>&lt;p>由于&lt;code>Dir&lt;/code>的调用可能涉及一些系统调用和外部执行命令，多次调用费性能。所以&lt;code>go-homedir&lt;/code>提供了缓存的功能。默认情况下，缓存是开启的。 我们也可以将&lt;code>DisableCache&lt;/code>设置为&lt;code>true&lt;/code>来关闭它。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -22414,9 +21858,7 @@ NoOptDefVal
 &lt;/div>
 &lt;/div>&lt;p>使用缓存时，如果程序运行中修改了主目录，再次调用&lt;code>Dir&lt;/code>还是返回之前的目录。如果需要获取最新的主目录，可以先调用&lt;code>Reset&lt;/code>清除缓存。&lt;/p>
 &lt;hr>
-&lt;h2 id="实现">
-&lt;a href="#%e5%ae%9e%e7%8e%b0" class="header-anchor">#&lt;/a>
-实现
+&lt;h2 id="实现">实现
 &lt;/h2>&lt;p>&lt;code>go-homedir&lt;/code>源码只有一个文件&lt;a class="link" href="https://github.com/mitchellh/go-homedir/blob/master/homedir.go" target="_blank" rel="noopener"
 >homedir.go&lt;/a>，今天我们大概看一下&lt;code>Dir&lt;/code>的实现，去掉缓存相关代码：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -22639,9 +22081,7 @@ NoOptDefVal
 &lt;/ul>
 &lt;p>&lt;strong>这里分析源码并不是表示使用任何库都要熟悉它的源码，毕竟使用库就是为了方便开发。&lt;/strong> &lt;strong>但是源码是我们学习和提高的一个非常重要的途径。我们在使用库遇到问题的时候也要有能力从文档或甚至源码中查找原因。&lt;/strong>&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;ol>
 &lt;li>&lt;a class="link" href="https://github.com/mitchellh/go-homedir" target="_blank" rel="noopener"
 >home-dir&lt;/a> GitHub 仓库&lt;/li>

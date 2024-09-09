@@ -1,13 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vim on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/vim/</link><description>Recent content in Vim on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Thu, 30 May 2024 21:52:12 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>Vim Introduction</title><link>https://arlettebrook.github.io/p/vim-introduction/</link><pubDate>Thu, 30 May 2024 21:52:12 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-introduction/</guid><description>&lt;hr>
-&lt;h2 id="安装vim">
-&lt;a href="#%e5%ae%89%e8%a3%85vim" class="header-anchor">#&lt;/a>
-安装vim
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vim on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/vim/</link><description>Recent content in Vim on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Mon, 03 Jun 2024 10:43:37 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>Vim Introduction</title><link>https://arlettebrook.github.io/p/vim-introduction/</link><pubDate>Thu, 30 May 2024 21:52:12 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-introduction/</guid><description>&lt;hr>
+&lt;h2 id="安装vim">安装vim
 &lt;/h2>&lt;p>&lt;a class="link" href="https://github.com/vim/vim" target="_blank" rel="noopener"
 >Vim&lt;/a> （&lt;a class="link" href="https://www.vim.org/" target="_blank" rel="noopener"
 >官网&lt;/a>） 是一个非常流行的文本编辑器，可以在多种操作系统上安装和使用。下面是如何在不同系统上安装 Vim 的方法：&lt;/p>
-&lt;h3 id="在-linux-上安装-vim">
-&lt;a href="#%e5%9c%a8-linux-%e4%b8%8a%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-在 Linux 上安装 Vim
+&lt;h3 id="在-linux-上安装-vim">在 Linux 上安装 Vim
 &lt;/h3>&lt;p>大多数 Linux 发行版都在其软件包管理器中包含 Vim。可以使用包管理器来安装它。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -35,9 +31,7 @@
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h3 id="在-macos-上安装-vim">
-&lt;a href="#%e5%9c%a8-macos-%e4%b8%8a%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-在 macOS 上安装 Vim
+&lt;h3 id="在-macos-上安装-vim">在 macOS 上安装 Vim
 &lt;/h3>&lt;p>macOS 通常预装了 Vim，但可能不是最新版本。你可以使用 Homebrew 来安装或更新 Vim。&lt;/p>
 &lt;p>使用 Homebrew 安装&lt;/p>
 &lt;ul>
@@ -66,9 +60,7 @@
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h3 id="在-windows-上安装-vim">
-&lt;a href="#%e5%9c%a8-windows-%e4%b8%8a%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-&lt;strong>在 Windows 上安装 Vim&lt;/strong>
+&lt;h3 id="在-windows-上安装-vim">&lt;strong>在 Windows 上安装 Vim&lt;/strong>
 &lt;/h3>&lt;p>在 Windows 上，你可以通过以下方法安装 Vim：&lt;/p>
 &lt;p>&lt;strong>直接下载安装程序&lt;/strong>:&lt;/p>
 &lt;ol>
@@ -135,9 +127,7 @@ Diff 是用来对比两个文件内容用的，直接打开挺没用的，不过
 Easy启动的时候是insert模式，适合普通windows用户的习惯；
 Read-Only的用途：比如用read-only打开已经用vim打开过的文件，就不会提示让人烦躁的.swp文件存在的问题；&lt;/li>
 &lt;/ol>
-&lt;h3 id="通用方法编译安装-vim">
-&lt;a href="#%e9%80%9a%e7%94%a8%e6%96%b9%e6%b3%95%e7%bc%96%e8%af%91%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-通用方法：编译安装 Vim
+&lt;h3 id="通用方法编译安装-vim">通用方法：编译安装 Vim
 &lt;/h3>&lt;p>如果你希望安装最新版本的 Vim 或自定义编译选项，可以从源代码编译安装。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -191,9 +181,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h3 id="在ide中安装vim插件">
-&lt;a href="#%e5%9c%a8ide%e4%b8%ad%e5%ae%89%e8%a3%85vim%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-在IDE中安装vim插件
+&lt;h3 id="在ide中安装vim插件">在IDE中安装vim插件
 &lt;/h3>&lt;p>许多现代集成开发环境（IDE）提供了 Vim 模拟插件。我们在享受 IDE 强大功能的同时，可以继续使用Vim的编辑风格。&lt;/p>
 &lt;p>要在IDE中安装vim插件，只需要在对应IDE的插件市场搜索安装即可，我常用的：&lt;/p>
 &lt;ul>
@@ -215,13 +203,9 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;li>……&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="配置vim">
-&lt;a href="#%e9%85%8d%e7%bd%aevim" class="header-anchor">#&lt;/a>
-配置vim
+&lt;h2 id="配置vim">配置vim
 &lt;/h2>&lt;p>Vim 是一个高度可配置的文本编辑器，可以通过编辑其配置文件来调整和扩展其功能。&lt;/p>
-&lt;h3 id="配置文件介绍">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-配置文件介绍
+&lt;h3 id="配置文件介绍">配置文件介绍
 &lt;/h3>&lt;p>Vim没有提供图形化的配置界面，配置Vim都是通过配置文件（&lt;code>.vimrc&lt;/code>）实现的：&lt;/p>
 &lt;ul>
 &lt;li>
@@ -277,9 +261,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="常见的-vim-配置项">
-&lt;a href="#%e5%b8%b8%e8%a7%81%e7%9a%84-vim-%e9%85%8d%e7%bd%ae%e9%a1%b9" class="header-anchor">#&lt;/a>
-常见的 Vim 配置项
+&lt;h3 id="常见的-vim-配置项">常见的 Vim 配置项
 &lt;/h3>&lt;p>&lt;code>.vimrc&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -423,16 +405,12 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/div>
 &lt;/div>&lt;p>注意配置了上面大部分设置，在大多数主题中只需要在&lt;code>vim-plug&lt;/code>后面选择颜色方案&lt;code>colorscheme&lt;/code>即可。&lt;/p>
 &lt;hr>
-&lt;h2 id="插件使用">
-&lt;a href="#%e6%8f%92%e4%bb%b6%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-插件使用
+&lt;h2 id="插件使用">插件使用
 &lt;/h2>&lt;p>Vim 的功能可以通过插件进一步扩展。使用插件可以增强Vim的功能，如语法高亮、代码补全、文件浏览器、版本控制集成、模糊搜索等。&lt;/p>
 &lt;p>为了方便安装，更新，删除插件，我们一般使用插件管理器进行插件管理。&lt;/p>
 &lt;p>推荐使用的插件管理器是&lt;a class="link" href="https://github.com/junegunn/vim-plug" target="_blank" rel="noopener"
 >vim-plug&lt;/a>。与其他插件管理器（如 Vundle 和 Pathogen）相比，&lt;code>vim-plug&lt;/code> 提供了更快的性能和更多的功能，如并行安装插件、延迟加载插件、使用简单等。&lt;/p>
-&lt;h3 id="安装-vim-plug">
-&lt;a href="#%e5%ae%89%e8%a3%85-vim-plug" class="header-anchor">#&lt;/a>
-安装 &lt;code>vim-plug&lt;/code>
+&lt;h3 id="安装-vim-plug">安装 &lt;code>vim-plug&lt;/code>
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>下载并安装 &lt;code>vim-plug&lt;/code>&lt;/strong>： 在终端中运行以下命令，这会将 &lt;code>vim-plug&lt;/code> 下载到你的 Vim 自动加载目录下：&lt;/p>
@@ -463,9 +441,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 >plug.vim&lt;/a>，并将文件放在 windows 中的 &lt;code>~/vimfiles/autoload&lt;/code> 或 Linux 中的 &lt;code>~/.vim/autoload&lt;/code> 文件夹内，没有手动创建。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="插件推荐">
-&lt;a href="#%e6%8f%92%e4%bb%b6%e6%8e%a8%e8%8d%90" class="header-anchor">#&lt;/a>
-插件推荐
+&lt;h3 id="插件推荐">插件推荐
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>状态栏和主题&lt;/strong>&lt;/p>
@@ -598,9 +574,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="配置插件">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-配置插件
+&lt;h3 id="配置插件">配置插件
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>编辑 &lt;code>.vimrc&lt;/code> 文件，添加插件管理器配置&lt;/strong>：&lt;/p>
@@ -703,9 +677,7 @@ data-flex-basis="426px"
 &lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="效果展示">
-&lt;a href="#%e6%95%88%e6%9e%9c%e5%b1%95%e7%a4%ba" class="header-anchor">#&lt;/a>
-&lt;strong>效果展示&lt;/strong>
+&lt;h2 id="效果展示">&lt;strong>效果展示&lt;/strong>
 &lt;/h2>&lt;p>vim配置效果：&lt;/p>
 &lt;p>material：default：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/vim-introduction/index.assets/image-20240601115134165.png"
@@ -744,12 +716,8 @@ data-flex-basis="426px"
 &lt;p>我的&lt;a class="link" href="https://github.com/arlettebrook/arlettebrook/tree/main/vim.cfg" target="_blank" rel="noopener"
 >完整配置&lt;/a>。&lt;/p>
 &lt;hr>
-&lt;h2 id="扩展">
-&lt;a href="#%e6%89%a9%e5%b1%95" class="header-anchor">#&lt;/a>
-扩展
-&lt;/h2>&lt;h3 id="自定义快捷键">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%bf%ab%e6%8d%b7%e9%94%ae" class="header-anchor">#&lt;/a>
-自定义快捷键
+&lt;h2 id="扩展">扩展
+&lt;/h2>&lt;h3 id="自定义快捷键">自定义快捷键
 &lt;/h3>&lt;p>在Vim中自定义快捷键，其实就创建快捷键与命令之间的映射关系。&lt;/p>
 &lt;p>用到的命令是&lt;code>map&lt;/code>或&lt;code>noremap&lt;/code>。注意：要将命令配置在&lt;code>.vimrc&lt;/code>中。&lt;/p>
 &lt;p>格式：&lt;code>映射命令 自定义快捷键 命令&lt;/code>，中间用空格分隔开。&lt;/p>
@@ -953,9 +921,7 @@ data-flex-basis="426px"
 &lt;/div>&lt;p>需要注意的是不要配置普通模式下的&lt;code>ctrl-v&lt;/code>，它是可视块的快捷键，可以配置visual模式的，需要按两次才能粘贴。不过够用了。&lt;/p>
 &lt;p>&lt;strong>命令参考&lt;/strong>：&lt;a class="link" href="https://arlettebrook.github.io/p/vim-common-commands/" target="_blank" rel="noopener"
 >Vim Common Commands&lt;/a>&lt;/p></description></item><item><title>Vim Common Commands</title><link>https://arlettebrook.github.io/p/vim-common-commands/</link><pubDate>Mon, 27 May 2024 00:43:37 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-common-commands/</guid><description>&lt;hr>
-&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="简介">简介
 &lt;/h2>&lt;p>Vim是一个高度可配置的文本编辑器，主要用于编写和编辑文本和源代码。它最初由Bram Moolenaar在1991年发布，至今已经成为了许多程序员和系统管理员的首选工具。&lt;/p>
 &lt;p>Vim的特点包括：&lt;/p>
 &lt;ol>
@@ -1005,9 +971,7 @@ data-flex-basis="426px"
 &lt;/li>
 &lt;/ul>
 &lt;/blockquote>
-&lt;h3 id="史上最好用的文本编辑器vim">
-&lt;a href="#%e5%8f%b2%e4%b8%8a%e6%9c%80%e5%a5%bd%e7%94%a8%e7%9a%84%e6%96%87%e6%9c%ac%e7%bc%96%e8%be%91%e5%99%a8vim" class="header-anchor">#&lt;/a>
-史上最好用的文本编辑器VIM
+&lt;h3 id="史上最好用的文本编辑器vim">史上最好用的文本编辑器VIM
 &lt;/h3>&lt;p>对于vi/vim只是点评一点：这是一个你不需要使用鼠标，不需使用小键盘，只需要使用大键盘就可以完成很多复杂功能文本编辑的编辑器。不然主流IDE也不会有vim插件，如：jetbrains全系列都支持的&lt;a class="link" href="https://github.com/JetBrains/ideavim" target="_blank" rel="noopener"
 >ideavim插件&lt;/a>。&lt;/p>
 &lt;ul>
@@ -1048,12 +1012,8 @@ data-flex-basis="426px"
 &lt;div align="center" style='color:red'>
 ——————————正文开始——————————
 &lt;/div>
-&lt;h2 id="vim常用命令总结">
-&lt;a href="#vim%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-vim常用命令总结
-&lt;/h2>&lt;h3 id="第一级--存活">
-&lt;a href="#%e7%ac%ac%e4%b8%80%e7%ba%a7--%e5%ad%98%e6%b4%bb" class="header-anchor">#&lt;/a>
-第一级 – 存活
+&lt;h2 id="vim常用命令总结">vim常用命令总结
+&lt;/h2>&lt;h3 id="第一级--存活">第一级 – 存活
 &lt;/h3>&lt;p>在Normal模式下【用vim正常打开的文件都会进入该普通模式】的常用命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1154,9 +1114,7 @@ vim常用命令总结
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">:q &lt;span class="c1"># 只退出命令，可以退出未修改的文件、退出帮助等退出作用。&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="第二级--感觉良好">
-&lt;a href="#%e7%ac%ac%e4%ba%8c%e7%ba%a7--%e6%84%9f%e8%a7%89%e8%89%af%e5%a5%bd" class="header-anchor">#&lt;/a>
-第二级 – 感觉良好
+&lt;/div>&lt;h3 id="第二级--感觉良好">第二级 – 感觉良好
 &lt;/h3>&lt;p>vim常用命令（难度一下就上来了）：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1451,9 +1409,7 @@ vim常用命令总结
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="第三级--更好更强更快">
-&lt;a href="#%e7%ac%ac%e4%b8%89%e7%ba%a7--%e6%9b%b4%e5%a5%bd%e6%9b%b4%e5%bc%ba%e6%9b%b4%e5%bf%ab" class="header-anchor">#&lt;/a>
-第三级 – 更好，更强，更快
+&lt;h3 id="第三级--更好更强更快">第三级 – 更好，更强，更快
 &lt;/h3>&lt;p>先恭喜你！你干的很不错。我们可以开始一些更为有趣的事了。&lt;/p>
 &lt;p>这里你将会学到以下常用vim常用命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1715,9 +1671,7 @@ vim常用命令总结
 &lt;/ol>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="第四级--vim-超能力">
-&lt;a href="#%e7%ac%ac%e5%9b%9b%e7%ba%a7--vim-%e8%b6%85%e8%83%bd%e5%8a%9b" class="header-anchor">#&lt;/a>
-第四级 – Vim 超能力
+&lt;h3 id="第四级--vim-超能力">第四级 – Vim 超能力
 &lt;/h3>&lt;p>你只需要掌握前面的命令，你就可以很舒服的使用VIM了。但是，现在，我们向你介绍的是VIM杀手级的功能。下面这些功能是我只用vim的原因。&lt;/p>
 &lt;p>其实是对上面的命令再次复习😂（不在解释其作用，如果你还看不懂，证明练得还不够。）：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1932,9 +1886,7 @@ vim常用命令总结
 &lt;/ol>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="标记">
-&lt;a href="#%e6%a0%87%e8%ae%b0" class="header-anchor">#&lt;/a>
-标记
+&lt;h4 id="标记">标记
 &lt;/h4>&lt;p>在 Vim 中，&lt;code>m&lt;/code> 命令用于设置标记（mark）。标记是 Vim 提供的一种功能，用于在文件中记住特定的位置，以便以后快速跳转到这些位置。标记可以是局部标记（仅在当前文件中有效）或全局标记（在所有文件中有效）。以下是 &lt;code>m&lt;/code> 命令的详细使用方法：&lt;/p>
 &lt;p>&lt;strong>设置标记&lt;/strong>：&lt;/p>
 &lt;ol>
@@ -2070,9 +2022,7 @@ vim常用命令总结
 &lt;p>Vim 内置的特殊标记是 Vim 自动管理的，用于记录特定的编辑位置和选择范围。这些标记不能手动删除，因为它们是为特定功能设计的，并且在相应操作时会动态更新。用户可以删除自己设置的标记，但不能删除这些内置特殊标记。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="寄存器">
-&lt;a href="#%e5%af%84%e5%ad%98%e5%99%a8" class="header-anchor">#&lt;/a>
-寄存器
+&lt;h4 id="寄存器">寄存器
 &lt;/h4>&lt;p>在 Vim 中，寄存器（register）是一个&lt;strong>临时存储位置&lt;/strong>，用于&lt;strong>存储和检索文本、命令、宏等&lt;/strong>。寄存器的使用可以大大提高编辑效率。以下是对寄存器的详细介绍和使用方法：&lt;/p>
 &lt;p>&lt;strong>寄存器的分类&lt;/strong>：&lt;/p>
 &lt;p>Vim 中有多种类型的寄存器，每种类型都有特定的用途：&lt;/p>
@@ -2260,9 +2210,7 @@ vim常用命令总结
 &lt;p>最后，多说一句，寄存器的生命周期是很长的，即使服务器重启什么的，只要能正常进入系统，寄存器里的内容都是一直存在的。&lt;/p>
 &lt;/blockquote>
 &lt;p>Vim 的寄存器功能强大而灵活，通过熟练掌握寄存器的使用，可以极大地提升编辑效率。寄存器不仅可以用于基本的复制和粘贴，还可以存储宏、命令等，更好地管理和重用编辑内容。&lt;/p>
-&lt;h4 id="宏录制">
-&lt;a href="#%e5%ae%8f%e5%bd%95%e5%88%b6" class="header-anchor">#&lt;/a>
-宏录制
+&lt;h4 id="宏录制">宏录制
 &lt;/h4>&lt;p>在 Vim 中，宏是一组记录的&lt;strong>按键序列&lt;/strong>，可以重复执行以自动化重复性的任务。以下是使用宏的详细步骤和相关命令：&lt;/p>
 &lt;p>&lt;strong>宏录制&lt;/strong>其实就是记录宏到&lt;a class="link" href="#%e5%af%84%e5%ad%98%e5%99%a8" >寄存器&lt;/a>（都是在&lt;strong>普通模式&lt;/strong>下开始、结束）：&lt;/p>
 &lt;ol>
@@ -2370,9 +2318,7 @@ vim常用命令总结
 &lt;p>&lt;code>@@&lt;/code> → 在2 正面写下3&lt;/p>
 &lt;p>现在做 &lt;code>100@@&lt;/code> 会创建新的100行，并把数据增加到 103.&lt;/p>
 &lt;p>通过使用宏，你可以在 Vim 中有效地自动化重复性任务，提高编辑效率。录制、执行和编辑宏的灵活性使得它们成为强大的工具，适用于各种编辑场景。&lt;/p>
-&lt;h4 id="分屏">
-&lt;a href="#%e5%88%86%e5%b1%8f" class="header-anchor">#&lt;/a>
-分屏
+&lt;h4 id="分屏">分屏
 &lt;/h4>&lt;p>在 Vim 中，分屏（split screen）功能非常强大，允许你在同一个 Vim 会话中同时查看和编辑多个文件或同一个文件的不同部分。以下是 Vim 分屏操作的详细介绍：&lt;/p>
 &lt;p>&lt;strong>分类&lt;/strong>：&lt;/p>
 &lt;ul>
@@ -2456,9 +2402,7 @@ vim常用命令总结
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="结束语">
-&lt;a href="#%e7%bb%93%e6%9d%9f%e8%af%ad" class="header-anchor">#&lt;/a>
-结束语
+&lt;h3 id="结束语">结束语
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>上面是作者最常用的90%的命令。&lt;/p>
@@ -2492,14 +2436,10 @@ vim常用命令总结
 &lt;div align="center" style='color:red'>
 ——————————正文结束——————————
 &lt;/div>
-&lt;h2 id="扩展">
-&lt;a href="#%e6%89%a9%e5%b1%95" class="header-anchor">#&lt;/a>
-扩展
+&lt;h2 id="扩展">扩展
 &lt;/h2>&lt;p>更多内容参考&lt;a class="link" href="https://arlettebrook.github.io/p/vim-introduction/" target="_blank" rel="noopener"
 >vim-introduction&lt;/a>。&lt;/p>
-&lt;h3 id="目录操作">
-&lt;a href="#%e7%9b%ae%e5%bd%95%e6%93%8d%e4%bd%9c" class="header-anchor">#&lt;/a>
-目录操作
+&lt;h3 id="目录操作">目录操作
 &lt;/h3>&lt;p>Vim 自带的 &lt;code>netrw&lt;/code> 插件提供了文件浏览器功能，可以用来&lt;strong>浏览、操作目录和文件&lt;/strong>。&lt;/p>
 &lt;ul>
 &lt;li>
@@ -2573,9 +2513,7 @@ vim常用命令总结
 &lt;/ul>
 &lt;p>部分vim版本不带该目录浏览插件。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>原文地址&lt;a class="link" href="https://blog.csdn.net/niushuai666/article/details/7275406" target="_blank" rel="noopener"

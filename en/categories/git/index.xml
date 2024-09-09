@@ -1,20 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on Arlettebrook's blog</title><link>https://arlettebrook.github.io/en/categories/git/</link><description>Recent content in Git on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Arlettebrook</copyright><lastBuildDate>Mon, 22 Apr 2024 22:18:17 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/en/categories/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Git常用命令</title><link>https://arlettebrook.github.io/en/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Mon, 22 Apr 2024 22:18:17 +0800</pubDate><guid>https://arlettebrook.github.io/en/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on Arlettebrook's blog</title><link>https://arlettebrook.github.io/en/categories/git/</link><description>Recent content in Git on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>Arlettebrook</copyright><lastBuildDate>Sat, 18 May 2024 19:04:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/en/categories/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Git常用命令</title><link>https://arlettebrook.github.io/en/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><pubDate>Mon, 22 Apr 2024 22:18:17 +0800</pubDate><guid>https://arlettebrook.github.io/en/p/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid><description>&lt;blockquote>
 &lt;p>注意：要学会使用-h &amp;ndash;help选项，查看命令，看不懂在查阅。&lt;code>git help &amp;lt;command&amp;gt;&lt;/code>可进入官方文档。&lt;strong>Git&lt;/strong>&lt;a class="link" href="https://www.liaoxuefeng.com/wiki/896043488029600" target="_blank" rel="noopener"
 >入门参考&lt;/a>。以下常用命令个人收集总结。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="git简单命令">
-&lt;a href="#git%e7%ae%80%e5%8d%95%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-git简单命令
-&lt;/h2>&lt;h3 id="git-init">
-&lt;a href="#git-init" class="header-anchor">#&lt;/a>
-git init
+&lt;h2 id="git简单命令">git简单命令
+&lt;/h2>&lt;h3 id="git-init">git init
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git init &amp;lt;directory&amp;gt;&lt;/code>在指定的⽬录下创建⼀个空的git repo。不带参数将在当前⽬录下创建⼀个git repo。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-clone">
-&lt;a href="#git-clone" class="header-anchor">#&lt;/a>
-git clone
+&lt;h3 id="git-clone">git clone
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git clone &amp;lt;repo&amp;gt;&lt;/code>克隆⼀个指定repo到本地。指定的repo可以是本地⽂件系统或者由HTTP或SSH指定的远程路径。&lt;/li>
 &lt;li>&lt;code>git clone -b &amp;lt;branch&amp;gt; &amp;lt;repo&amp;gt;&lt;/code>克隆指定仓库的分支&lt;/li>
@@ -25,29 +19,21 @@ git clone
 &lt;/li>
 &lt;li>可组合使用&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-add">
-&lt;a href="#git-add" class="header-anchor">#&lt;/a>
-git add
+&lt;h3 id="git-add">git add
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git add &amp;lt;directory&amp;gt;&lt;/code>将指定⽬录的所有修改加⼊到下⼀次 commit中。把&lt;code>&amp;lt;directory&amp;gt;&lt;/code>替换成&lt;code>&amp;lt;file&amp;gt;&lt;/code>将添加指定⽂件的修改。&lt;/li>
 &lt;li>&lt;code>git add *&lt;/code>、&lt;code>git add .&lt;/code>、&lt;code>git add -A&lt;/code>三条命令但是一样的，将所以修改提交到暂存区。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-commit">
-&lt;a href="#git-commit" class="header-anchor">#&lt;/a>
-git commit
+&lt;h3 id="git-commit">git commit
 &lt;/h3>&lt;ul>
 &lt;li>这个命令通常带&lt;code>-m&lt;/code>选项&lt;code>git commit -m &amp;quot;&amp;lt;message&amp;gt;&amp;quot;&lt;/code>提交暂存区的修改，使⽤指定的 &lt;code>&amp;lt;message&amp;gt;&lt;/code>作为提交信息，⽽不是打开⽂本编辑器输⼊提交信息。&lt;/li>
 &lt;li>&lt;code>git commit -m &amp;lt;message&amp;gt; --amend&lt;/code>将当前staged修改合并到最近⼀次的commit中。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-status">
-&lt;a href="#git-status" class="header-anchor">#&lt;/a>
-git status
+&lt;h3 id="git-status">git status
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git status&lt;/code>显示哪些⽂件已被staged、以及未跟踪(untracked)。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-reflog">
-&lt;a href="#git-reflog" class="header-anchor">#&lt;/a>
-git reflog
+&lt;h3 id="git-reflog">git reflog
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git reflog&lt;/code>显示本地repo的所有commit⽇志。&lt;/li>
 &lt;li>与&lt;code>git log&lt;/code>的区别
@@ -58,9 +44,7 @@ git reflog
 &lt;/ol>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-rm">
-&lt;a href="#git-rm" class="header-anchor">#&lt;/a>
-git rm
+&lt;h3 id="git-rm">git rm
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git rm fileName&lt;/code>删除指定的文件。
 &lt;ul>
@@ -75,9 +59,7 @@ git rm
 &lt;li>注意删除之后都需要提交操作。&lt;/li>
 &lt;li>撤销操作不用记，git都会有提示&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-switch">
-&lt;a href="#git-switch" class="header-anchor">#&lt;/a>
-git switch
+&lt;h3 id="git-switch">git switch
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>该命令适用于特定git版本。&lt;/p>
@@ -92,9 +74,7 @@ git switch
 &lt;p>&lt;code>git switch -c &amp;lt;branch&amp;gt;&lt;/code>创建并切换指定分支&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-branch">
-&lt;a href="#git-branch" class="header-anchor">#&lt;/a>
-git branch
+&lt;h3 id="git-branch">git branch
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>git branch&lt;/code>显示本地repo的所有分⽀。&lt;/p>
@@ -128,9 +108,7 @@ git branch
 &lt;p>&lt;code>git branch -d &amp;lt;branch&amp;gt;&lt;/code>删除指定的分支，如果没有合并到当前分支，git会阻止操作。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-merge">
-&lt;a href="#git-merge" class="header-anchor">#&lt;/a>
-git merge
+&lt;h3 id="git-merge">git merge
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git merge &amp;lt;branch&amp;gt;&lt;/code>合并指定分支。将指定&lt;code>&amp;lt;branch&amp;gt;&lt;/code>分⽀合并到当前分⽀。
 &lt;ul>
@@ -141,12 +119,8 @@ git merge
 &lt;li>&lt;code>git merge --abort&lt;/code>放弃本次合并&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="git一般命令">
-&lt;a href="#git%e4%b8%80%e8%88%ac%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-git一般命令
-&lt;/h2>&lt;h3 id="git-revert">
-&lt;a href="#git-revert" class="header-anchor">#&lt;/a>
-git revert
+&lt;h2 id="git一般命令">git一般命令
+&lt;/h2>&lt;h3 id="git-revert">git revert
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git revert &amp;lt;commit&amp;gt; &lt;/code>对指定&lt;code>&amp;lt;commit&amp;gt;&lt;/code>创建⼀个undo的commit，并应⽤到当前分⽀。就是撤销指定的提交并保留记录
 &lt;ul>
@@ -155,9 +129,7 @@ git revert
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-reset">
-&lt;a href="#git-reset" class="header-anchor">#&lt;/a>
-git reset
+&lt;h3 id="git-reset">git reset
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>git reset &amp;lt;commit&amp;gt;&lt;/code>&lt;strong>重置&lt;/strong>到指定的提交，不会保留commit历史。工作区和暂存区会变成未跟踪。&lt;code>--hard&lt;/code>选项完全重置到指定提交。未跟踪的重置不了。重置历史可以通过&lt;code>git reflog&lt;/code>查看，利用这个可以重置已经重置的版本库。&lt;/p>
@@ -182,9 +154,7 @@ git reset
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-restore">
-&lt;a href="#git-restore" class="header-anchor">#&lt;/a>
-git restore
+&lt;h3 id="git-restore">git restore
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git restore &amp;lt;file&amp;gt;...&lt;/code>撤销对工作区的修改，是对以跟踪的文件当未添加到暂存区的文件。多个文件用空格分开。
 &lt;ul>
@@ -198,9 +168,7 @@ git restore
 &lt;/li>
 &lt;li>具体用哪一个，git都会有提示，不用记。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-checkout">
-&lt;a href="#git-checkout" class="header-anchor">#&lt;/a>
-git checkout
+&lt;h3 id="git-checkout">git checkout
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>git checkout &amp;lt;branch&amp;gt;&lt;/code>切换到指定的分支&lt;/p>
@@ -230,9 +198,7 @@ git checkout
 &lt;p>&lt;code>git checkout -&lt;/code>切换到前一个分支。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-remote">
-&lt;a href="#git-remote" class="header-anchor">#&lt;/a>
-git remote
+&lt;h3 id="git-remote">git remote
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>用来管理远程仓库列表，&lt;code>origin&lt;/code>为远程仓库的默认别名。这些远端仓库的信息都被保存在&lt;code>./git/config&lt;/code> 文件中。&lt;/p>
@@ -280,9 +246,7 @@ git remote
 &lt;/ol>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="gjit-push">
-&lt;a href="#gjit-push" class="header-anchor">#&lt;/a>
-gjit push
+&lt;h3 id="gjit-push">gjit push
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>将本地仓库推送到远程仓库&lt;/p>
@@ -319,9 +283,7 @@ gjit push
 &lt;p>``git push &lt;remote> &amp;ndash;tags`推送所用标签到远程&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-pull">
-&lt;a href="#git-pull" class="header-anchor">#&lt;/a>
-git pull
+&lt;h3 id="git-pull">git pull
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git pull &amp;lt;remote_repository&amp;gt; &amp;lt;远程分支名&amp;gt;:&amp;lt;本地分支名&amp;gt;&lt;/code>从远程仓库拉取最新代码到本地仓库。
 &lt;ul>
@@ -332,9 +294,7 @@ git pull
 &lt;/li>
 &lt;li>&lt;code>git pull --rebase&amp;lt;remote&amp;gt;&lt;/code> 抓取远程分⽀，并以rebase模式并⼊本地repo⽽不是merge。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-fetch">
-&lt;a href="#git-fetch" class="header-anchor">#&lt;/a>
-git fetch
+&lt;h3 id="git-fetch">git fetch
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git fetch origin&lt;/code>获取远程仓库最新的更改。不会合并。默认仓库是&lt;code>origin&lt;/code>，分支是当前分支，这里可以省略&lt;code>origin&lt;/code>
 &lt;ul>
@@ -356,9 +316,7 @@ git fetch
 &lt;/ol>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-stash">
-&lt;a href="#git-stash" class="header-anchor">#&lt;/a>
-git stash
+&lt;h3 id="git-stash">git stash
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git stash&lt;/code>保存工作区、暂存区，可以切换分支去完成别的任务。不保存修改，未提交的修改会错乱到别的分支。并且只能保存已追踪的文件。&lt;/li>
 &lt;li>&lt;code>git stash list&lt;/code>查看保存的工作区以及暂存区。&lt;/li>
@@ -376,9 +334,7 @@ git stash
 &lt;/li>
 &lt;li>每个分支共用一个stash。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-tag">
-&lt;a href="#git-tag" class="header-anchor">#&lt;/a>
-git tag
+&lt;h3 id="git-tag">git tag
 &lt;/h3>&lt;ul>
 &lt;li>作用：用于标记项目的版本发布或重要的里程碑。&lt;/li>
 &lt;li>分类
@@ -437,12 +393,8 @@ git tag
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="git复杂命令">
-&lt;a href="#git%e5%a4%8d%e6%9d%82%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-git复杂命令
-&lt;/h2>&lt;h3 id="git-log">
-&lt;a href="#git-log" class="header-anchor">#&lt;/a>
-git log
+&lt;h2 id="git复杂命令">git复杂命令
+&lt;/h2>&lt;h3 id="git-log">git log
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git log&lt;/code>以缺省格式显示全部commit历史。更多⾃定义参数请参考后续部分。&lt;code>q&lt;/code>退出，&lt;code>空格&lt;/code>下一页，&lt;code>h&lt;/code>查看帮助
 &lt;ul>
@@ -457,9 +409,7 @@ git log
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-diff">
-&lt;a href="#git-diff" class="header-anchor">#&lt;/a>
-git diff
+&lt;h3 id="git-diff">git diff
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>git diff&lt;/code>⽐较⼯作区和暂存区的修改。&lt;/li>
 &lt;li>&lt;code>git diff HEAD&lt;/code>⽐较⼯作区和上⼀次commit后的修改。
@@ -473,9 +423,7 @@ git diff
 &lt;li>&lt;code>git diff &amp;lt;filename&amp;gt;&lt;/code>后面指定文件，只查看该文件的修改情况，没有参数查询全部&lt;/li>
 &lt;li>用&lt;code>git diff HEAD -- readme.txt&lt;/code>命令可以查看版本库和工作区里面最新版本的区别&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-config">
-&lt;a href="#git-config" class="header-anchor">#&lt;/a>
-git config
+&lt;h3 id="git-config">git config
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>作用：通过&lt;code>git config&lt;/code>命令配置git的配置文件&lt;/p>
@@ -580,9 +528,7 @@ git config
 &lt;p>&lt;code>git config --global core.editor &amp;lt;editor&amp;gt;&lt;/code>配置⽂本编辑器，例如vi，在必要时⾃动打开此⽂本编辑器。安装的时候也可以指定默认编辑器。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-submodule">
-&lt;a href="#git-submodule" class="header-anchor">#&lt;/a>
-git submodule
+&lt;h3 id="git-submodule">git submodule
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>git submodule init&lt;/code>初始化子模块，将子模块的配置信息存储在父仓库中。&lt;/p>
@@ -610,9 +556,7 @@ git submodule
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="git-subtree">
-&lt;a href="#git-subtree" class="header-anchor">#&lt;/a>
-git subtree
+&lt;h3 id="git-subtree">git subtree
 &lt;/h3>&lt;ul>
 &lt;li>作用：将一个仓库中的目录作为另一个仓库，可以指定分支&lt;/li>
 &lt;li>用途：搭建项目网站时，将项目网站资源推送到gh-pages分支上
@@ -628,9 +572,7 @@ git subtree
 &lt;li>&lt;code>git subtree pull --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code>这个命令用于从远程仓库更新子目录的内容。它会拉取远程仓库的最新代码，并更新到当前仓库的子目录中。&lt;/li>
 &lt;li>&lt;code>git subtree add --prefix=&amp;lt;prefix&amp;gt; &amp;lt;repository&amp;gt; &amp;lt;branch&amp;gt;&lt;/code>这个命令用于将远程仓库的内容作为子目录添加到当前仓库中。&lt;code>&amp;lt;prefix&amp;gt;&lt;/code>是子目录的名称，&lt;code>&amp;lt;repository&amp;gt;&lt;/code>是远程仓库的地址，&lt;code>&amp;lt;branch&amp;gt;&lt;/code>是要合并的分支。&lt;/li>
 &lt;/ul>
-&lt;h3 id="git-rebase">
-&lt;a href="#git-rebase" class="header-anchor">#&lt;/a>
-git rebase
+&lt;h3 id="git-rebase">git rebase
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>作用：rebase翻译成变基，顾名思义：改变基准点。可以使提交历史更加清晰和线性。&lt;/p>
@@ -662,12 +604,8 @@ git rebase
 &lt;/ul>
 &lt;p>​&lt;/p>
 &lt;hr>
-&lt;h2 id="扩展">
-&lt;a href="#%e6%89%a9%e5%b1%95" class="header-anchor">#&lt;/a>
-扩展
-&lt;/h2>&lt;h3 id="gitignore文件">
-&lt;a href="#gitignore%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-.gitignore文件
+&lt;h2 id="扩展">扩展
+&lt;/h2>&lt;h3 id="gitignore文件">.gitignore文件
 &lt;/h3>&lt;p>Git提供了&lt;code>.gitignore&lt;/code>文件，用于指定哪些文件或目录应该被Git忽略，不纳入版本控制系统中。&lt;code>.gitignore&lt;/code>文件是一个文本文件，可以包含一些简单的规则，指定应该忽略哪些文件或目录。以下是一些.gitignore文件的示例规则：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -775,9 +713,7 @@ git rebase
 &lt;/ul>
 &lt;p>可以在.gitignore文件中使用通配符、路径、注释等语法，以更精确地指定需要忽略的文件或目录。同时，可以在仓库的根目录下创建一个.gitignore文件，也可以在子目录中创建独立的.gitignore文件。&lt;/p>
 &lt;hr>
-&lt;h3 id="git账户认证">
-&lt;a href="#git%e8%b4%a6%e6%88%b7%e8%ae%a4%e8%af%81" class="header-anchor">#&lt;/a>
-git账户认证
+&lt;h3 id="git账户认证">git账户认证
 &lt;/h3>&lt;ul>
 &lt;li>当我们对远程仓库就行修改时，需要对应的权限，不是什么人都能够修改仓库。只有通过了git账户认证，才能修改对应的仓库。&lt;/li>
 &lt;li>常见git账户认证的方式：
@@ -804,9 +740,7 @@ git账户认证
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h4 id="ssh-keygen">
-&lt;a href="#ssh-keygen" class="header-anchor">#&lt;/a>
-ssh-keygen
+&lt;h4 id="ssh-keygen">ssh-keygen
 &lt;/h4>&lt;p>&lt;code>ssh-keygen&lt;/code>命令是一个用于生成、管理和转换SSH认证密钥的工具。它支持RSA和DSA两种认证密钥类型，并且提供了多种选项和参数，以满足不同的需求。&lt;/p>
 &lt;p>使用&lt;code>ssh-keygen&lt;/code>命令，你可以生成新的密钥对，指定密钥的长度、类型以及保存的文件名。生成的私钥将保存在本地，而公钥则用于在SSH服务器上进行身份验证。&lt;/p>
 &lt;p>以下是一些常用的&lt;code>ssh-keygen&lt;/code>命令选项：&lt;/p>
@@ -819,14 +753,10 @@ ssh-keygen
 &lt;/ul>
 &lt;p>在生成密钥对后，你可以将公钥复制到需要访问的SSH服务器上，通常是将公钥内容追加到服务器的&lt;code>~/.ssh/authorized_keys&lt;/code>文件中。这样，当你使用SSH客户端连接到服务器时，客户端将使用私钥进行身份验证，如果验证成功，你将能够无需输入密码即可登录到服务器。&lt;/p>
 &lt;p>请注意，私钥的安全性至关重要。私钥应该妥善保管，并且不应该与其他人共享。同时，定期更换密钥对也是保持安全性的好习惯。&lt;/p>
-&lt;p>除了生成和管理密钥对，&lt;code>ssh-keygen&lt;/code>还提供了其他功能，如转换密钥格式、读取密钥文件等。你可以通过查看&lt;code>ssh-keygen&lt;/code>的帮助文档或手册页（通过运行&lt;code>man ssh-keygen&lt;/code>命令）来获取更详细的信息和用法示例。&lt;/p></description></item><item><title>基于Hugo和gh-pages快速搭建静态网站</title><link>https://arlettebrook.github.io/en/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</link><pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate><guid>https://arlettebrook.github.io/en/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</guid><description>&lt;img src="https://arlettebrook.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/hugo.jpg" alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站" />&lt;h2 id="静态网页生成器">
-&lt;a href="#%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8" class="header-anchor">#&lt;/a>
-静态网页生成器
+&lt;p>除了生成和管理密钥对，&lt;code>ssh-keygen&lt;/code>还提供了其他功能，如转换密钥格式、读取密钥文件等。你可以通过查看&lt;code>ssh-keygen&lt;/code>的帮助文档或手册页（通过运行&lt;code>man ssh-keygen&lt;/code>命令）来获取更详细的信息和用法示例。&lt;/p></description></item><item><title>基于Hugo和gh-pages快速搭建静态网站</title><link>https://arlettebrook.github.io/en/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</link><pubDate>Mon, 22 Apr 2024 16:12:26 +0800</pubDate><guid>https://arlettebrook.github.io/en/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</guid><description>&lt;img src="https://arlettebrook.github.io/p/%E5%9F%BA%E4%BA%8Ehugo%E5%92%8Cgh-pages%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/hugo.jpg" alt="Featured image of post 基于Hugo和gh-pages快速搭建静态网站" />&lt;h2 id="静态网页生成器">静态网页生成器
 &lt;/h2>&lt;p>无论您需要搭建个人博客还是为您的项目创建文档，静态网页生成器（static site generator）都是一个不错的选择。无需服务器、数据库，只要你熟悉 Markdown，喜欢GitHub，使用生成器创建静态 HTML 文件，然后推送到 &lt;a class="link" href="https://pages.github.com/" target="_blank" rel="noopener"
 >GitHub Pages&lt;/a> 等免费服务即可。&lt;/p>
-&lt;h3 id="常见的静态网页生成器">
-&lt;a href="#%e5%b8%b8%e8%a7%81%e7%9a%84%e9%9d%99%e6%80%81%e7%bd%91%e9%a1%b5%e7%94%9f%e6%88%90%e5%99%a8" class="header-anchor">#&lt;/a>
-常见的静态网页生成器
+&lt;h3 id="常见的静态网页生成器">常见的静态网页生成器
 &lt;/h3>&lt;ul>
 &lt;li>Hugo是由Go语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。&lt;/li>
 &lt;li>jekyll 是一个静态网页、博客生成器&lt;/li>
@@ -837,12 +767,8 @@ ssh-keygen
 &lt;p>参考：&lt;a class="link" href="https://github.com/collections/static-site-generators" target="_blank" rel="noopener"
 >静态网页生成器&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;h2 id="快速使用hugo搭建个人博客站点">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8hugo%e6%90%ad%e5%bb%ba%e4%b8%aa%e4%ba%ba%e5%8d%9a%e5%ae%a2%e7%ab%99%e7%82%b9" class="header-anchor">#&lt;/a>
-快速使用Hugo搭建个人博客站点
-&lt;/h2>&lt;h3 id="安装hugo">
-&lt;a href="#%e5%ae%89%e8%a3%85hugo" class="header-anchor">#&lt;/a>
-安装Hugo
+&lt;h2 id="快速使用hugo搭建个人博客站点">快速使用Hugo搭建个人博客站点
+&lt;/h2>&lt;h3 id="安装hugo">安装Hugo
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>根据自己的操作系统，下载已经构建好的Hugo二进制文件&lt;a class="link" href="https://github.com/gohugoio/hugo/releases/latest" target="_blank" rel="noopener"
@@ -867,9 +793,7 @@ ssh-keygen
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h3 id="使用hugo">
-&lt;a href="#%e4%bd%bf%e7%94%a8hugo" class="header-anchor">#&lt;/a>
-使用Hugo
+&lt;h3 id="使用hugo">使用Hugo
 &lt;/h3>&lt;blockquote>
 &lt;p>hugo需要配合git一起使用，并且官方推荐使用bash作为终端&lt;/p>
 &lt;/blockquote>
@@ -1040,9 +964,7 @@ ssh-keygen
 &lt;/li>
 &lt;/ol>
 &lt;/blockquote>
-&lt;h3 id="目录结构">
-&lt;a href="#%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84" class="header-anchor">#&lt;/a>
-目录结构
+&lt;h3 id="目录结构">目录结构
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>archetypes&lt;/code>目录包含新内容的模板&lt;/p>
@@ -1170,9 +1092,7 @@ ssh-keygen
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="配置文件">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-配置文件
+&lt;h3 id="配置文件">配置文件
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>hugo支持三种配置文件&lt;code>hugo.tomal&lt;/code>、&lt;code>hugo.yaml&lt;/code>、&lt;code>hugo.json&lt;/code>，喜欢用那个就用那个。&lt;/p>
@@ -1221,9 +1141,7 @@ ssh-keygen
 >Hugo theme&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote>
-&lt;h3 id="文章评论">
-&lt;a href="#%e6%96%87%e7%ab%a0%e8%af%84%e8%ae%ba" class="header-anchor">#&lt;/a>
-文章评论
+&lt;h3 id="文章评论">文章评论
 &lt;/h3>&lt;p>使用&lt;a class="link" href="https://waline.js.org/guide/get-started/" target="_blank" rel="noopener"
 >Waline&lt;/a>，其教程很完整。&lt;/p>
 &lt;p>根据Waline教程从头完成到使用&lt;a class="link" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwalinejs%2Fwaline%2Ftree%2Fmain%2Fexample" target="_blank" rel="noopener"
@@ -1291,9 +1209,7 @@ ssh-keygen
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">placeholder&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">🎉留下你的脚印...&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="搜索引擎优化seo">
-&lt;a href="#%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e%e4%bc%98%e5%8c%96seo" class="header-anchor">#&lt;/a>
-搜索引擎优化（SEO）
+&lt;/div>&lt;h3 id="搜索引擎优化seo">搜索引擎优化（SEO）
 &lt;/h3>&lt;p>本网站使用Hugo搭建，而且使用的stack主题支持自动生成基于Open Graph协议（OG协议）的标签，此处记录一下如何在Hugo搭建的网站中做搜索引擎优化（SEO）。&lt;/p>
 &lt;p>目的：提升网站在搜索引擎中的排名&lt;/p>
 &lt;p>Open Graph（开放图谱）协议，简称OG协议，是Facebook在2010年公布的一项协议，用来标记网页内容。简单来讲，OG协议就是嵌在网页头部的一些标签，这些标签标记了网页的标题、描述等特征，使得网页成为一个“富媒体对象”，可以被其他社交网站引用。&lt;/p>
@@ -1359,9 +1275,7 @@ ssh-keygen
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这样，Hugo在生成和部署网站时就会在网页HTML文件中自动嵌入OG标签。&lt;/p>
-&lt;h4 id="谷歌搜索优化">
-&lt;a href="#%e8%b0%b7%e6%ad%8c%e6%90%9c%e7%b4%a2%e4%bc%98%e5%8c%96" class="header-anchor">#&lt;/a>
-谷歌搜索优化
+&lt;h4 id="谷歌搜索优化">谷歌搜索优化
 &lt;/h4>&lt;p>在将我们的站点信息提交给谷歌时，谷歌需要验证我们对网站的所有权。验证方式有好几种，例如&lt;/p>
 &lt;ul>
 &lt;li>在网站根目录下放一个谷歌生成的验证文件&lt;/li>
@@ -1369,9 +1283,7 @@ ssh-keygen
 &lt;li>使用谷歌分析的Tracking ID（或者Measurement ID）&lt;/li>
 &lt;/ul>
 &lt;p>由于stack主题集成了对谷歌分析的支持，这里我们使用第三种验证方式。&lt;/p>
-&lt;h5 id="开启谷歌分析">
-&lt;a href="#%e5%bc%80%e5%90%af%e8%b0%b7%e6%ad%8c%e5%88%86%e6%9e%90" class="header-anchor">#&lt;/a>
-开启谷歌分析
+&lt;h5 id="开启谷歌分析">开启谷歌分析
 &lt;/h5>&lt;p>&lt;a class="link" href="https://analytics.google.com/analytics/web/provision/#/provision" target="_blank" rel="noopener"
 >谷歌分析&lt;/a>（Google Analytics）是一个分析网站流量的工具，用它可以统计网站的访问量等信息。&lt;/p>
 &lt;ol>
@@ -1404,9 +1316,7 @@ ssh-keygen
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h5 id="提交站点地图">
-&lt;a href="#%e6%8f%90%e4%ba%a4%e7%ab%99%e7%82%b9%e5%9c%b0%e5%9b%be" class="header-anchor">#&lt;/a>
-提交站点地图
+&lt;h5 id="提交站点地图">提交站点地图
 &lt;/h5>&lt;p>站点地图（Site Map）是一个存储有站点网页信息的XML数据文件，通常命名为&lt;code>sitemap.xml&lt;/code>，将它提交给搜索引擎，搜索引擎将可以获取我们网站的网页信息。&lt;/p>
 &lt;p>Hugo会在生成和部署网站时在&lt;code>public&lt;/code>文件夹下自动生成&lt;code>sitemap.xml&lt;/code>文件。&lt;/p>
 &lt;p>我们把站点地图提交到谷歌搜索，具体说明可参见谷歌站长页面的&lt;a class="link" href="https://developers.google.com/search/docs/beginner/get-started" target="_blank" rel="noopener"
@@ -1428,9 +1338,7 @@ ssh-keygen
 &lt;/li>
 &lt;/ol>
 &lt;p>一般在站点地图成功提交之后大约1到2天后，就可以看到自己的网站已经被谷歌收录了。可以在谷歌搜索框中输入&lt;code>site:xxx.com&lt;/code>来查看某个网站是否被谷歌搜索收录。&lt;/p>
-&lt;h4 id="百度搜索优化">
-&lt;a href="#%e7%99%be%e5%ba%a6%e6%90%9c%e7%b4%a2%e4%bc%98%e5%8c%96" class="header-anchor">#&lt;/a>
-百度搜索优化
+&lt;h4 id="百度搜索优化">百度搜索优化
 &lt;/h4>&lt;p>针对百度搜索的优化是在&lt;a class="link" href="https://ziyuan.baidu.com/" target="_blank" rel="noopener"
 >百度资源搜索平台&lt;/a>上完成的。&lt;/p>
 &lt;ol>
@@ -1450,9 +1358,7 @@ ssh-keygen
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="其他平台收录">
-&lt;a href="#%e5%85%b6%e4%bb%96%e5%b9%b3%e5%8f%b0%e6%94%b6%e5%bd%95" class="header-anchor">#&lt;/a>
-其他平台收录
+&lt;h4 id="其他平台收录">其他平台收录
 &lt;/h4>&lt;p>其他平台收录就不仔细讲解了，提供一下链接供大家参考。都差不多一样的验证方式。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -1484,9 +1390,7 @@ ssh-keygen
 >从零开始搭建个人博客网站系列 五、让搜索引擎收录你的个人博客网站&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote>
-&lt;h2 id="额外的一些知识">
-&lt;a href="#%e9%a2%9d%e5%a4%96%e7%9a%84%e4%b8%80%e4%ba%9b%e7%9f%a5%e8%af%86" class="header-anchor">#&lt;/a>
-额外的一些知识
+&lt;h2 id="额外的一些知识">额外的一些知识
 &lt;/h2>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>gh-pages&lt;/code> 是GitHub 所提供的一个服务，简单来讲就是可以让你不用花钱也可以部署一个静态网页作为展示用，因此对于前端工程师来讲就非常方便而且很实用，但是部署方式有很多。&lt;/p>
@@ -1513,9 +1417,7 @@ ssh-keygen
 &lt;/ul>
 &lt;p>最后要稍微注意一下gh-pages 虽然是免费提供的静态网页托管服务，但是它并不能拿来作为商业用途或是违法用途，否则你的帐号可能会被封锁&lt;/p>
 &lt;p>简单说一下如何查看一个仓库是否启用&lt;code>gh-pages&lt;/code>：进入项目settings-pages查看即可，有绿色钩就启动成功，没有需要指定分支和根目录，保存，稍等一会就行。&lt;/p>
-&lt;h3 id="用gh-pages分支展示自己的项目">
-&lt;a href="#%e7%94%a8gh-pages%e5%88%86%e6%94%af%e5%b1%95%e7%a4%ba%e8%87%aa%e5%b7%b1%e7%9a%84%e9%a1%b9%e7%9b%ae" class="header-anchor">#&lt;/a>
-用gh-pages分支展示自己的项目
+&lt;h3 id="用gh-pages分支展示自己的项目">用gh-pages分支展示自己的项目
 &lt;/h3>&lt;p>我们只需要将网页资源上传至gh-pages分支即可&lt;/p>
 &lt;p>搭建项目网站：将项目网站资源推送到gh-pages分支上,静态资源必须提交了才会成功&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1550,9 +1452,7 @@ ssh-keygen
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>如果要项目中不含自己网站的源码，可以忽略public目录，将public目录创建为一个私有仓库的子目录，然后将子目录作为，项目的gh-pages分支。&lt;/p>
-&lt;h3 id="通过github-actions自动部署gh-pages">
-&lt;a href="#%e9%80%9a%e8%bf%87github-actions%e8%87%aa%e5%8a%a8%e9%83%a8%e7%bd%b2gh-pages" class="header-anchor">#&lt;/a>
-通过GitHub Actions自动部署gh-pages
+&lt;h3 id="通过github-actions自动部署gh-pages">通过GitHub Actions自动部署gh-pages
 &lt;/h3>&lt;blockquote>
 &lt;p>简单介绍一下GitHub Actions:&lt;/p>
 &lt;ol>

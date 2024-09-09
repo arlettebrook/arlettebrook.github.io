@@ -5,9 +5,7 @@
 &lt;p>而 Go 语言从语法上是不支持默认参数的，所以为了实现既能通过默认参数创建对象，又能通过传递自定义参数创建对象，我们就需要通过一些编程技巧来实现。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="通过多构造函数实现">
-&lt;a href="#%e9%80%9a%e8%bf%87%e5%a4%9a%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%ae%9e%e7%8e%b0" class="header-anchor">#&lt;/a>
-通过多构造函数实现
+&lt;h2 id="通过多构造函数实现">通过多构造函数实现
 &lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -84,9 +82,7 @@
 &lt;/div>
 &lt;/div>&lt;p>这里我们为 &lt;code>Server&lt;/code> 结构体实现了两个构造函数，其中 &lt;code>NewServer&lt;/code> 无需传递参数即可直接返回 &lt;code>Server&lt;/code> 对象，&lt;code>NewServerWithOptions&lt;/code> 则需要传递 &lt;code>addr&lt;/code> 和 &lt;code>port&lt;/code> 两个参数来构造 &lt;code>Server&lt;/code> 对象。当我们无需对 &lt;code>Server&lt;/code> 进行定制，通过默认参数创建的对象即可满足需求时，我们可以使用 &lt;code>NewServer&lt;/code> 来生成对象（&lt;code>s1&lt;/code>），而当我们需要对其进行定制时，则可以使用 &lt;code>NewServerWithOptions&lt;/code> 来生成对象（&lt;code>s2&lt;/code>）。&lt;/p>
 &lt;hr>
-&lt;h2 id="通过默认参数选项实现">
-&lt;a href="#%e9%80%9a%e8%bf%87%e9%bb%98%e8%ae%a4%e5%8f%82%e6%95%b0%e9%80%89%e9%a1%b9%e5%ae%9e%e7%8e%b0" class="header-anchor">#&lt;/a>
-通过默认参数选项实现
+&lt;h2 id="通过默认参数选项实现">通过默认参数选项实现
 &lt;/h2>&lt;p>另外一种实现默认参数的方案是，我们可以为要生成的结构体对象定义一个选项结构体，用来生成要创建对象的默认参数，代码实现如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -180,9 +176,7 @@
 &lt;/div>
 &lt;/div>&lt;p>我们为 &lt;code>Server&lt;/code> 结构体专门实现了一个 &lt;code>ServerOptions&lt;/code> 用来生成默认参数，调用 &lt;code>NewServerOptions&lt;/code> 函数即可获得默认参数配置，构造函数 &lt;code>NewServerWithOptions&lt;/code> 接收一个 &lt;code>*ServerOptions&lt;/code> 类型作为参数，所以我们可以直接将调用 &lt;code>NewServerOptions&lt;/code> 函数的返回值传递给 &lt;code>NewServerWithOptions&lt;/code> 来实现通过默认参数生成对象（&lt;code>s1&lt;/code>），也可以通过手动构造 &lt;code>ServerOptions&lt;/code> 配置来生成定制对象（&lt;code>s2&lt;/code>）。&lt;/p>
 &lt;hr>
-&lt;h2 id="通过选项模式实现">
-&lt;a href="#%e9%80%9a%e8%bf%87%e9%80%89%e9%a1%b9%e6%a8%a1%e5%bc%8f%e5%ae%9e%e7%8e%b0" class="header-anchor">#&lt;/a>
-通过选项模式实现
+&lt;h2 id="通过选项模式实现">通过选项模式实现
 &lt;/h2>&lt;p>以上两种方式虽然都能够完成功能，但实现上却都不够优雅，接下来我们一起来看下如何通过选项模式更优雅的解决这个问题，代码实现如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -338,9 +332,7 @@
 &lt;p>我们可以分别为每个默认参数都定义一个 &lt;code>WithXXX&lt;/code> 函数用来配置参数，如这里定义的 &lt;code>WithAddr&lt;/code> 和 &lt;code>WithPort&lt;/code> ，这样用户就可以通过调用 &lt;code>WithXXX&lt;/code> 函数来定制需要覆盖的默认参数。&lt;/p>
 &lt;p>此时默认参数定义在构造函数 &lt;code>NewServer&lt;/code> 中，构造函数的接收一个不定长参数，类型为 &lt;code>ServerOption&lt;/code>，在构造函数内部通过一个 &lt;code>for&lt;/code> 循环调用每个传进来的 &lt;code>ServerOption&lt;/code> 对象的 &lt;code>apply&lt;/code> 方法，将用户配置的参数依次赋值给构造函数内部的默认参数对象 &lt;code>options&lt;/code> 中，以此来替换默认参数，&lt;code>for&lt;/code> 循环执行完成后，得到的 &lt;code>options&lt;/code> 对象将是最终配置，将其属性依次赋值给 &lt;code>Server&lt;/code> 即可生成新的对象。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>通过 &lt;code>s2&lt;/code> 和 &lt;code>s3&lt;/code> 的打印结果可以发现，使用选项模式实现的构造函数更加灵活，相较于前两种实现，选项模式中我们可以自由的更改其中任意一项或多项默认配置。&lt;/p>
 &lt;p>虽然选项模式确实会多写一些代码，但多数情况下这是值得的，Google 的 &lt;code>gRPC&lt;/code> 框架 Go 语言实现中创建 &lt;code>gRPC&lt;/code> server 的构造函数 &lt;a class="link" href="https://github.com/grpc/grpc-go/blob/master/server.go#L561" target="_blank" rel="noopener"
 >&lt;code>NewServer&lt;/code>&lt;/a> 就使用了选项模式，感兴趣的同学可以看下其源码的实现思想其实和这里的示例程序如出一辙。&lt;/p>
@@ -353,9 +345,7 @@
 &lt;p>&lt;strong>单例模式&lt;/strong>是设计模式中最简单的一种模式，单例模式能够确保无论对象被实例化多少次，全局都&lt;strong>只有一个&lt;/strong>实例存在。根据单例模式的特性，我们可以将其应用到全局唯一性配置、数据库连接对象、文件访问对象等。Go 语言有多种方式可以实现单例模式，我们今天就来一起学习下。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="饿汉式">
-&lt;a href="#%e9%a5%bf%e6%b1%89%e5%bc%8f" class="header-anchor">#&lt;/a>
-饿汉式
+&lt;h2 id="饿汉式">饿汉式
 &lt;/h2>&lt;p>饿汉式实现单例模式非常简单，直接看代码：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -385,9 +375,7 @@
 &lt;p>由于单例对象是在包加载时立即被创建出来，所以也就有了这个形象的名称叫作饿汉式。与之对应的另一种实现方式叫作懒汉式，当实例被第一次使用时才会被创建。&lt;/p>
 &lt;p>需要注意的是，尽管饿汉式实现单例模式如此简单，但大多数情况下仍不被推荐使用，因为如果单例实例化时初始化内容过多，可能造成程序加载用时较长。&lt;/p>
 &lt;hr>
-&lt;h2 id="懒汉式">
-&lt;a href="#%e6%87%92%e6%b1%89%e5%bc%8f" class="header-anchor">#&lt;/a>
-懒汉式
+&lt;h2 id="懒汉式">懒汉式
 &lt;/h2>&lt;p>接下来我们再来看下如何通过懒汉式实现单例模式：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -421,9 +409,7 @@
 &lt;/div>
 &lt;/div>&lt;p>相较于饿汉式的实现，我们把实例化 &lt;code>Singleton&lt;/code> 结构体部分的代码移到了 &lt;code>GetSingleton()&lt;/code> 函数内部。这样一来，就将对象实例化的步骤延迟到了 &lt;code>GetSingleton()&lt;/code> 被第一次调用时。&lt;/p>
 &lt;p>通过 &lt;code>instance == nil&lt;/code> 的判断来实现单例并不十分可靠，当有多个 &lt;code>goroutine&lt;/code> 同时调用 &lt;code>GetSingleton()&lt;/code> 时无法保证并发安全。&lt;/p>
-&lt;h3 id="支持并发的单例">
-&lt;a href="#%e6%94%af%e6%8c%81%e5%b9%b6%e5%8f%91%e7%9a%84%e5%8d%95%e4%be%8b" class="header-anchor">#&lt;/a>
-支持并发的单例
+&lt;h3 id="支持并发的单例">支持并发的单例
 &lt;/h3>&lt;p>如果你用 Go 语言写过并发编程，那么应该可以很快想到解决懒汉式单例模式并发安全问题的方案：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -482,9 +468,7 @@
 &lt;/div>
 &lt;/div>&lt;p>通过加锁的机制，就可以保证这个实现单例模式的函数是并发安全的。&lt;/p>
 &lt;p>不过这样也有些问题，因为用了锁机制，每次调用 &lt;code>GetSingleton()&lt;/code> 时程序都会进行加锁、解锁的步骤，这样会导致程序性能的下降。&lt;/p>
-&lt;h3 id="双重锁定">
-&lt;a href="#%e5%8f%8c%e9%87%8d%e9%94%81%e5%ae%9a" class="header-anchor">#&lt;/a>
-双重锁定
+&lt;h3 id="双重锁定">双重锁定
 &lt;/h3>&lt;p>加锁导致程序性能下降，但我们又不得不用锁来保证程序的并发安全，于是有人想出了双重锁定（&lt;code>Double-Check Locking&lt;/code>）的方案：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -537,9 +521,7 @@
 &lt;/div>&lt;p>可以看到，所谓的双重锁定实际上就是在程序加锁前又加了一层 &lt;code>instance == nil&lt;/code> 判断，这样就兼顾了性能和安全两个方面。&lt;/p>
 &lt;p>不过这段代码看起来有些奇怪，既然外层已经判断了 &lt;code>instance == nil&lt;/code>，加锁后却又进行了第二次 &lt;code>instance == nil&lt;/code> 判断。其实外层的 &lt;code>instance == nil&lt;/code> 判断是为了提高程序的执行效率，因为如果 &lt;code>instance&lt;/code> 已经存在，则无需进入 &lt;code>if&lt;/code> 逻辑，程序直接返回 &lt;code>instance&lt;/code> 即可。这样就免去了原来每次调用 &lt;code>GetSingleton()&lt;/code> 都上锁的操作，将加锁的粒度更加精细化。而内层的 &lt;code>instance == nil&lt;/code> 判断则是考虑了并发安全，在极端情况下，多个 &lt;code>goroutine&lt;/code> 同时走到了加锁这一步，内层判断就起到作用了。&lt;/p>
 &lt;hr>
-&lt;h2 id="gopher-惯用方案">
-&lt;a href="#gopher-%e6%83%af%e7%94%a8%e6%96%b9%e6%a1%88" class="header-anchor">#&lt;/a>
-Gopher 惯用方案
+&lt;h2 id="gopher-惯用方案">Gopher 惯用方案
 &lt;/h2>&lt;blockquote>
 &lt;p>gopher原意地鼠，在golang 的世界里解释为&lt;strong>地道的go程序员&lt;/strong>。在其他语言的世界里也有PHPer，Pythonic的说法，反而Java是个例外。虽然也有Javaer之类的说法，但似乎并不被认可。而&lt;strong>地道&lt;/strong>或者说&lt;strong>道地&lt;/strong>，说的是gopher写的代码无不透露出go的独特气息，比如项目结构、命名方式、代码格式、编码风格、构建方式等等。用gopher的话说，用go编写代码就像是在画一幅中国山水画，成品美不胜收，心旷神怡。&lt;/p>
 &lt;/blockquote>
@@ -585,14 +567,10 @@ Gopher 惯用方案
 &lt;/div>&lt;p>&lt;code>Once&lt;/code> 是一个结构体，在执行 &lt;code>Do&lt;/code> 方法的内部通过 &lt;code>atomic&lt;/code> 操作和加锁机制来保证并发安全，且 &lt;code>once.Do&lt;/code> 能够保证多个 &lt;code>goroutine&lt;/code> 同时执行时 &lt;code>&amp;amp;singleton{}&lt;/code> 只被创建一次。&lt;/p>
 &lt;p>其实 &lt;code>Once&lt;/code> 并不神秘，其内部实现跟上面使用的双重锁定机制非常类似，只不过把 &lt;code>instance == nil&lt;/code> 换成了 &lt;code>atomic&lt;/code> 操作，感兴趣的同学可以查看下其对应源码。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>以上就是 Go 语言中实现单例模式的几种常用套路，经过对比可以得出结论，最推荐的方式是使用 &lt;code>once.Do&lt;/code> 来实现，&lt;code>sync.Once&lt;/code> 包帮我们隐藏了部分细节，却可以让代码可读性得到很大提升。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;ol>
 &lt;li>&lt;a class="link" href="https://www.cnblogs.com/laud/p/gopher.html" target="_blank" rel="noopener"
 >不一样的go语言-gopher&lt;/a>&lt;/li>

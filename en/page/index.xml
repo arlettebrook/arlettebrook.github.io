@@ -94,9 +94,7 @@ alt="Stats"
 &lt;!-- START_SECTION:data-section -->
 &lt;/details>
 &lt;hr>
-&lt;h2 id="star-history">
-&lt;a href="#star-history" class="header-anchor">#&lt;/a>
-Star History
+&lt;h2 id="star-history">Star History
 &lt;/h2>&lt;p>&lt;a class="link" href="https://github.com/arlettebrook" target="_blank" rel="noopener"
 >&lt;img src="https://api.star-history.com/svg?repos=Arlettebrook/autoCheck-in,Arlettebrook/arlettebrook&amp;amp;type=Date"
 loading="lazy"

@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go标准库 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</link><description>Recent content in Go标准库 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Sun, 26 May 2024 14:00:53 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Template Introduction</title><link>https://arlettebrook.github.io/p/template-introduction/</link><pubDate>Sun, 26 May 2024 14:00:53 +0800</pubDate><guid>https://arlettebrook.github.io/p/template-introduction/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go标准库 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/</link><description>Recent content in Go标准库 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Tue, 04 Jun 2024 14:00:53 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go%E6%A0%87%E5%87%86%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Template Introduction</title><link>https://arlettebrook.github.io/p/template-introduction/</link><pubDate>Sun, 26 May 2024 14:00:53 +0800</pubDate><guid>https://arlettebrook.github.io/p/template-introduction/</guid><description>&lt;hr>
 &lt;blockquote>
 &lt;p>模板渲染是指根据特定的&lt;strong>模板语法&lt;/strong>，将这些模板渲染成文本，通常用于生成 &lt;strong>HTML&lt;/strong>、&lt;strong>邮件&lt;/strong>、&lt;strong>配置文件&lt;/strong>等。在Go语言中提供了两个标准库来渲染模板，它们都具有相同的模板语法，分别是&lt;code>text/template&lt;/code> 和 &lt;code>html/template&lt;/code> ，接下来将介绍这两个标准库如何使用。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>二者都是go语言的标准库，直接使用：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -103,9 +101,7 @@
 &lt;/div>
 &lt;/div>&lt;p>二者的主要区别就是&lt;code>html/template&lt;/code>会将&lt;strong>渲染的HTML内容转义&lt;/strong>。意思就是让绑定的HTML数据变成普通文本，失去其原来的作用，能够防止&lt;strong>跨站脚本攻击&lt;/strong> (XSS)。因此当我们的模板是HTML时，推荐使用&lt;code>html/template&lt;/code>包渲染，并且该包也是专门为渲染HTML模板准备的，确保生成的 HTML 是安全的。&lt;/p>
 &lt;hr>
-&lt;h2 id="template介绍">
-&lt;a href="#template%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-template介绍
+&lt;h2 id="template介绍">template介绍
 &lt;/h2>&lt;p>在 Go 语言中，&lt;code>text/template&lt;/code> 和 &lt;code>html/template&lt;/code> 都是用于模板处理的包，它们在功能上有许多相似之处，但也有重要的区别，尤其是在处理 HTML 时。&lt;/p>
 &lt;p>&lt;strong>作用&lt;/strong>：&lt;/p>
 &lt;ul>
@@ -190,9 +186,7 @@ template介绍
 &lt;/blockquote>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="template使用">
-&lt;a href="#template%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-template使用
+&lt;h2 id="template使用">template使用
 &lt;/h2>&lt;p>提前介绍模板语法中的&lt;strong>定义模板&lt;/strong>：&lt;/p>
 &lt;ul>
 &lt;li>
@@ -229,9 +223,7 @@ template使用
 &lt;/li>
 &lt;/ul>
 &lt;p>更多内容&lt;a class="link" href="#define" >参考&lt;/a>。&lt;/p>
-&lt;h3 id="渲染template对象">
-&lt;a href="#%e6%b8%b2%e6%9f%93template%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-渲染Template对象
+&lt;h3 id="渲染template对象">渲染Template对象
 &lt;/h3>&lt;p>渲染Template对象就是渲染模板，用到的方法是&lt;code>func (t *Template) Execute(wr io.Writer, data any) error&lt;/code>或&lt;code>func (t *Template) ExecuteTemplate(wr io.Writer, name string, data any) error&lt;/code>。&lt;/p>
 &lt;p>二者的区别是：&lt;/p>
 &lt;ul>
@@ -252,9 +244,7 @@ template使用
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="创建template对象">
-&lt;a href="#%e5%88%9b%e5%bb%batemplate%e5%af%b9%e8%b1%a1" class="header-anchor">#&lt;/a>
-创建Template对象
+&lt;h3 id="创建template对象">创建Template对象
 &lt;/h3>&lt;p>创建&lt;code>Template&lt;/code>对象的方法主要有以下几种：&lt;/p>
 &lt;p>&lt;strong>解析并创建Template对象&lt;/strong>：&lt;/p>
 &lt;ol>
@@ -428,12 +418,8 @@ template使用
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="模板语法介绍">
-&lt;a href="#%e6%a8%a1%e6%9d%bf%e8%af%ad%e6%b3%95%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-模板语法介绍
-&lt;/h2>&lt;h3 id="基础语法">
-&lt;a href="#%e5%9f%ba%e7%a1%80%e8%af%ad%e6%b3%95" class="header-anchor">#&lt;/a>
-基础语法
+&lt;h2 id="模板语法介绍">模板语法介绍
+&lt;/h2>&lt;h3 id="基础语法">基础语法
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>模板语法都包含在&lt;code>{{&lt;/code>和&lt;code>}}&lt;/code>中间。&lt;code>{{.}}&lt;/code>：点表示当前对象。&lt;/p>
@@ -737,9 +723,7 @@ template使用
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="流程控制语句">
-&lt;a href="#%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6%e8%af%ad%e5%8f%a5" class="header-anchor">#&lt;/a>
-流程控制语句
+&lt;h3 id="流程控制语句">流程控制语句
 &lt;/h3>&lt;p>介绍流程控制语句前，先介绍&lt;strong>比较函数&lt;/strong>（也叫逻辑运算函数）。&lt;strong>将逻辑运算封装成了函数形式&lt;/strong>。&lt;/p>
 &lt;p>常用的比较函数如下：&lt;/p>
 &lt;ul>
@@ -763,9 +747,7 @@ template使用
 &lt;/div>
 &lt;/div>&lt;p>比较函数可以与条件判断（if语句）组合使用。&lt;/p>
 &lt;p>模版语法的流程控制语句主要指if/range/with三种语句。&lt;/p>
-&lt;h4 id="条件判断">
-&lt;a href="#%e6%9d%a1%e4%bb%b6%e5%88%a4%e6%96%ad" class="header-anchor">#&lt;/a>
-条件判断
+&lt;h4 id="条件判断">条件判断
 &lt;/h4>&lt;p>&lt;code>if&lt;/code>（ &lt;code>else&lt;/code>, &lt;code>else if&lt;/code>）语句用于根据条件来&lt;strong>控制模板的输出&lt;/strong>。可以使用&lt;code>else&lt;/code>和&lt;code>else if&lt;/code>来处理其他情况。&lt;/p>
 &lt;p>&lt;strong>格式&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -955,9 +937,7 @@ template使用
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2024/06/04 15:44:17 Exit successful
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="循环">
-&lt;a href="#%e5%be%aa%e7%8e%af" class="header-anchor">#&lt;/a>
-循环
+&lt;/div>&lt;h4 id="循环">循环
 &lt;/h4>&lt;p>循环&lt;code>range&lt;/code>语句用于迭代数组、切片、映射等集合类型的数据。跟go语言的&lt;code>for-range&lt;/code>差不多，甚至比go语言更简洁。&lt;/p>
 &lt;p>&lt;strong>格式&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1192,12 +1172,8 @@ template使用
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">爱好2：没有任何爱好
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="变量声明with-define-block">
-&lt;a href="#%e5%8f%98%e9%87%8f%e5%a3%b0%e6%98%8ewith-define-block" class="header-anchor">#&lt;/a>
-变量声明（&lt;code>with&lt;/code>, &lt;code>define&lt;/code>, &lt;code>block&lt;/code>）
-&lt;/h4>&lt;h5 id="with">
-&lt;a href="#with" class="header-anchor">#&lt;/a>
-with
+&lt;/div>&lt;h4 id="变量声明with-define-block">变量声明（&lt;code>with&lt;/code>, &lt;code>define&lt;/code>, &lt;code>block&lt;/code>）
+&lt;/h4>&lt;h5 id="with">with
 &lt;/h5>&lt;p>&lt;code>with&lt;/code>语句用于&lt;strong>重定义模板的作用域&lt;/strong>。常用于&lt;strong>缩短长的字段访问路径&lt;/strong>。就是可以&lt;strong>缩短结构体对象属性的访问路径&lt;/strong>。简单理解：重定义&lt;code>.&lt;/code>的作用域（&lt;code>var . := .User&lt;/code>）：将当前对象的&lt;code>User&lt;/code>属性复制给&lt;code>.&lt;/code>。如：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1308,9 +1284,7 @@ with
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">邮箱：arlettebrook@proton.me
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h5 id="define">
-&lt;a href="#define" class="header-anchor">#&lt;/a>
-define
+&lt;/div>&lt;h5 id="define">define
 &lt;/h5>&lt;p>&lt;code>define&lt;/code>语句用于定义一个模板，通常用于&lt;strong>复用模板片段&lt;/strong>，实现&lt;strong>模板嵌套&lt;/strong>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1541,9 +1515,7 @@ define
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">这里是共享模块2
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h5 id="block">
-&lt;a href="#block" class="header-anchor">#&lt;/a>
-block
+&lt;/div>&lt;h5 id="block">block
 &lt;/h5>&lt;p>&lt;code>block&lt;/code>语句用于定义一个&lt;strong>可重写的模板块&lt;/strong>。通常用于嵌套模板或布局模板。意思就是：没有重写的模板将使用默认模板渲染。&lt;/p>
 &lt;p>格式：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1700,13 +1672,9 @@ block
 &lt;/div>
 &lt;/div>&lt;p>实现重写模板。&lt;/p>
 &lt;hr>
-&lt;h2 id="模板函数介绍">
-&lt;a href="#%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-模板函数介绍
+&lt;h2 id="模板函数介绍">模板函数介绍
 &lt;/h2>&lt;p>go的模板引擎为我们提供了函数机制，方面我们在处理模板时执行一些特定的功能，例如格式化输出内容、字母大小写转换等等。&lt;/p>
-&lt;h3 id="模板函数调用语法">
-&lt;a href="#%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e8%af%ad%e6%b3%95" class="header-anchor">#&lt;/a>
-模板函数调用语法
+&lt;h3 id="模板函数调用语法">模板函数调用语法
 &lt;/h3>&lt;p>语法格式：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1757,9 +1725,7 @@ block
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">年龄: &lt;span class="m">18&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="预定义模板函数">
-&lt;a href="#%e9%a2%84%e5%ae%9a%e4%b9%89%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0" class="header-anchor">#&lt;/a>
-预定义模板函数
+&lt;/div>&lt;h3 id="预定义模板函数">预定义模板函数
 &lt;/h3>&lt;p>预定义模板函数也可以叫内置模板函数，是模板引擎预定义好了的，可以直接在模板中拿来使用。下面介绍常用的内置函数：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -2007,9 +1973,7 @@ block
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h3 id="管道pipeline">
-&lt;a href="#%e7%ae%a1%e9%81%93pipeline" class="header-anchor">#&lt;/a>
-管道(pipeline)
+&lt;h3 id="管道pipeline">管道(pipeline)
 &lt;/h3>&lt;p>pipeline 翻译过来可以称为管道或者流水线， pipeline运算的作用是将多个函数调用或者值串起来，从左往右执行，左边执行的结果会传递给右边，形成一个任务流水。&lt;/p>
 &lt;p>pipeline运算符：| (竖线)&lt;/p>
 &lt;p>语法格式:&lt;/p>
@@ -2061,9 +2025,7 @@ block
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>注意：如果函数有多个参数，pipeline运算会&lt;strong>将值传递给函数的最后一个参数&lt;/strong>, 例如: &lt;code>{{ 100 | printf &amp;quot;value=%d&amp;quot; }}&lt;/code>, 这里将100传递给printf函数的最后一个参数。&lt;/p>
-&lt;h3 id="自定义模板函数">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a8%a1%e6%9d%bf%e5%87%bd%e6%95%b0" class="header-anchor">#&lt;/a>
-自定义模板函数
+&lt;h3 id="自定义模板函数">自定义模板函数
 &lt;/h3>&lt;p>内置的模板函数使用有限，我们可以自己定义模板函数。&lt;/p>
 &lt;p>&lt;strong>步骤&lt;/strong>：&lt;/p>
 &lt;ol>
@@ -2218,9 +2180,7 @@ block
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="修改默认的标识符">
-&lt;a href="#%e4%bf%ae%e6%94%b9%e9%bb%98%e8%ae%a4%e7%9a%84%e6%a0%87%e8%af%86%e7%ac%a6" class="header-anchor">#&lt;/a>
-修改默认的标识符
+&lt;h2 id="修改默认的标识符">修改默认的标识符
 &lt;/h2>&lt;p>Go标准库的模板引擎使用的花括号&lt;code>{{&lt;/code>和&lt;code>}}&lt;/code>作为标识，而许多前端框架（如&lt;code>Vue&lt;/code>和 &lt;code>AngularJS&lt;/code>）也使用&lt;code>{{&lt;/code>和&lt;code>}}&lt;/code>作为标识符，所以当我们同时使用Go语言模板引擎和以上前端框架时就会出现冲突，这个时候我们需要修改标识符，修改前端的或者修改Go语言的。这里演示如何修改Go语言模板引擎默认的标识符：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2236,9 +2196,7 @@ block
 &lt;/div>
 &lt;/div>&lt;p>用到的方法是&lt;code>Delims&lt;/code>，分别接收两端的分隔符为参数。&lt;/p>
 &lt;hr>
-&lt;h2 id="应用">
-&lt;a href="#%e5%ba%94%e7%94%a8" class="header-anchor">#&lt;/a>
-应用
+&lt;h2 id="应用">应用
 &lt;/h2>&lt;p>在Go语言中，&lt;code>text/template&lt;/code>和&lt;code>html/template&lt;/code>包用于生成文本和HTML输出，常见的应用场景如下：&lt;/p>
 &lt;p>&lt;strong>&lt;code>text/template&lt;/code>包&lt;/strong>：&lt;/p>
 &lt;ol>
@@ -2783,21 +2741,15 @@ block
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h3 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h3 id="总结">总结
 &lt;/h3>&lt;ul>
 &lt;li>&lt;code>text/template&lt;/code>主要用于生成纯文本内容，如配置文件、代码、文档等。&lt;/li>
 &lt;li>&lt;code>html/template&lt;/code>主要用于生成安全的HTML内容，如动态网页、邮件内容、HTML报告等。&lt;/li>
 &lt;/ul>
 &lt;p>这两个包都通过模板提供了强大的文本处理功能，可以根据需要选择适用的包来生成所需的输出。&lt;/p>
 &lt;hr>
-&lt;h2 id="补充">
-&lt;a href="#%e8%a1%a5%e5%85%85" class="header-anchor">#&lt;/a>
-补充
-&lt;/h2>&lt;h3 id="不转义html内容">
-&lt;a href="#%e4%b8%8d%e8%bd%ac%e4%b9%89html%e5%86%85%e5%ae%b9" class="header-anchor">#&lt;/a>
-不转义HTML内容
+&lt;h2 id="补充">补充
+&lt;/h2>&lt;h3 id="不转义html内容">不转义HTML内容
 &lt;/h3>&lt;p>如果你需要安全地显示用户输入的 HTML 内容，可以使用以下几种方法：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -3120,9 +3072,7 @@ block
 &lt;/ul>
 &lt;p>这几种方法可以在保证安全性的前提下，允许一定程度的 HTML 内容显示。选择具体方法时，应根据应用场景和安全需求做出适当选择。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://www.tizi365.com/archives/85.html" target="_blank" rel="noopener"
@@ -3135,9 +3085,7 @@ block
 &lt;p>Go 语言标准库中的 log 包设计简洁明了，易于上手，可以轻松记录程序运行时的信息、调试错误以及跟踪代码执行过程中的问题等。使用 log 包无需繁琐的配置即可直接使用。本文旨在深入探究 log 包的使用和原理，帮助读者更好地了解和掌握它。&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="使用">
-&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-使用
+&lt;h2 id="使用">使用
 &lt;/h2>&lt;p>先来看一个 log 包的使用示例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3455,9 +3403,7 @@ block
 &lt;p>因为后续通过 &lt;code>logger.SetXXX&lt;/code> 对 &lt;code>logger&lt;/code> 对象的属性进行了动态修改，所以最后两条日志输出到系统的标准输出。&lt;/p>
 &lt;p>以上，基本涵盖了 log 包的所有常用功能。接下来我们就通过走读源码的方式来更深入的了解 log 包了。&lt;/p>
 &lt;hr>
-&lt;h2 id="源码">
-&lt;a href="#%e6%ba%90%e7%a0%81" class="header-anchor">#&lt;/a>
-源码
+&lt;h2 id="源码">源码
 &lt;/h2>&lt;blockquote>
 &lt;p>注意：本文以 &lt;a class="link" href="https://github.com/golang/go/tree/go1.19.4/src/log" target="_blank" rel="noopener"
 >Go 1.19.4 源码&lt;/a>为例，其他版本可能存在差异。&lt;/p>
@@ -4248,9 +4194,7 @@ data-flex-basis="1055px"
 &lt;/div>
 &lt;/div>&lt;p>至此，log 包的全部代码我们就一起走读完成了。&lt;/p>
 &lt;p>总结一下：log 包主要设计了 &lt;code>Logger&lt;/code> 对象和其方法，并且为了开箱即用，在包级别又对外提供了默认的 &lt;code>Logger&lt;/code> 对象 &lt;code>std&lt;/code> 和一些包级别的对外函数。&lt;code>Logger&lt;/code> 对象的方法，和包级别的函数基本上是一一对应的，签名一样，这样就大大降低了使用难度。并且log包是并发安全的。&lt;/p>
-&lt;h2 id="使用建议">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e5%bb%ba%e8%ae%ae" class="header-anchor">#&lt;/a>
-使用建议
+&lt;h2 id="使用建议">使用建议
 &lt;/h2>&lt;p>关于 log 包的使用，我还有几条建议分享给你：&lt;/p>
 &lt;ul>
 &lt;li>
@@ -4281,9 +4225,7 @@ data-flex-basis="1055px"
 >slog&lt;/a> 现已进入实验阶段，如果项目发展顺利，将可能成为 log 包的替代品。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文我与读者一起深入探究了 Go log 标准库，首先向大家介绍了 log 包如何使用，接着又带领大家一起走读了 log 包的源码，最后我也给出了一些自己对 log 包的使用建议。&lt;/p>
 &lt;blockquote>
 &lt;p>参考：&lt;/p>
@@ -4296,15 +4238,11 @@ data-flex-basis="1055px"
 >深入探究 Go log 标准库&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;/blockquote></description></item><item><title>Go调用外部命令os/exec库介绍</title><link>https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/</link><pubDate>Wed, 24 Apr 2024 23:41:31 +0800</pubDate><guid>https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/</guid><description>&lt;hr>
-&lt;h2 id="引子">
-&lt;a href="#%e5%bc%95%e5%ad%90" class="header-anchor">#&lt;/a>
-引子
+&lt;h2 id="引子">引子
 &lt;/h2>&lt;p>在工作中，我时不时地会需要在Go中调用外部命令。前段时间我做了一个工具，在钉钉群中添加了一个机器人，@这个机器人可以让它执行一些写好的脚本程序完成指定的任务。机器人倒是不难，照着钉钉开发者文档添加好机器人，然后@这个机器人就会向一个你指定的服务器发送一个POST请求，请求中会附带文本消息。所以我要做的就是搭一个Web服务器，可以用go原生的net/http包，也可以用gin/fasthttp/fiber这些Web框架。收到请求之后，检查附带文本中的关键字去调用对应的程序，然后返回结果。&lt;/p>
 &lt;p>go标准库中的os/exec包对调用外部程序提供了支持，本文详细介绍os/exec的使用姿势。&lt;/p>
 &lt;hr>
-&lt;h2 id="运行命令">
-&lt;a href="#%e8%bf%90%e8%a1%8c%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-运行命令
+&lt;h2 id="运行命令">运行命令
 &lt;/h2>&lt;p>Linux中有个&lt;code>cal&lt;/code>命令，它可以显示指定年、月的日历，如果不指定年、月，默认为当前时间对应的年月。如果使用的是Windows，推荐安装msys2，这个软件包含了绝大多数的Linux常用命令。&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370.png"
 width="508"
@@ -4340,13 +4278,9 @@ data-flex-basis="170px"
 &lt;/div>&lt;p>首先，我们调用&lt;code>exec.Command&lt;/code>传入命令名，创建一个命令对象&lt;code>exec.Cmd&lt;/code>。接着调用该命令对象的&lt;code>Run()&lt;/code>方法运行它。&lt;/p>
 &lt;p>如果你实际运行了，你会发现什么也没有发生，哈哈。事实上，使用os/exec执行命令，标准输出和标准错误默认会被丢弃。&lt;/p>
 &lt;hr>
-&lt;h2 id="显示输出">
-&lt;a href="#%e6%98%be%e7%a4%ba%e8%be%93%e5%87%ba" class="header-anchor">#&lt;/a>
-显示输出
+&lt;h2 id="显示输出">显示输出
 &lt;/h2>&lt;p>&lt;code>exec.Cmd&lt;/code>对象有两个字段&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>，类型皆为&lt;code>io.Writer&lt;/code>。我们可以将任意实现了&lt;code>io.Writer&lt;/code>接口的类型实例赋给这两个字段，继而实现标准输出和标准错误的重定向。&lt;code>io.Writer&lt;/code>接口在 Go 标准库和第三方库中随处可见，例如&lt;code>*os.File&lt;/code>、&lt;code>*bytes.Buffer&lt;/code>、&lt;code>net.Conn&lt;/code>。所以我们可以将命令的输出重定向到文件、内存缓存甚至发送到网络中。&lt;/p>
-&lt;h3 id="显示到标准输出">
-&lt;a href="#%e6%98%be%e7%a4%ba%e5%88%b0%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba" class="header-anchor">#&lt;/a>
-显示到标准输出
+&lt;h3 id="显示到标准输出">显示到标准输出
 &lt;/h3>&lt;p>将&lt;code>exec.Cmd&lt;/code>对象的&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>这两个字段都设置为&lt;code>os.Stdout&lt;/code>，那么输出内容都将显示到标准输出：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4407,9 +4341,7 @@ class="gallery-image"
 data-flex-grow="189"
 data-flex-basis="454px"
 >&lt;/p>
-&lt;h3 id="输出到文件">
-&lt;a href="#%e8%be%93%e5%87%ba%e5%88%b0%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-输出到文件
+&lt;h3 id="输出到文件">输出到文件
 &lt;/h3>&lt;p>打开或创建文件，然后将文件句柄赋给&lt;code>exec.Cmd&lt;/code>对象的&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>这两个字段即可实现输出到文件的功能。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4471,9 +4403,7 @@ data-flex-basis="454px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="m">27&lt;/span> &lt;span class="m">28&lt;/span> &lt;span class="m">29&lt;/span> &lt;span class="m">30&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="发送到网络">
-&lt;a href="#%e5%8f%91%e9%80%81%e5%88%b0%e7%bd%91%e7%bb%9c" class="header-anchor">#&lt;/a>
-发送到网络
+&lt;/div>&lt;h3 id="发送到网络">发送到网络
 &lt;/h3>&lt;p>现在我们来编写一个日历服务，接收年、月信息，返回该月的日历。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4536,9 +4466,7 @@ class="gallery-image"
 data-flex-grow="104"
 data-flex-basis="250px"
 >&lt;/p>
-&lt;h3 id="保存到内存对象中">
-&lt;a href="#%e4%bf%9d%e5%ad%98%e5%88%b0%e5%86%85%e5%ad%98%e5%af%b9%e8%b1%a1%e4%b8%ad" class="header-anchor">#&lt;/a>
-保存到内存对象中
+&lt;h3 id="保存到内存对象中">保存到内存对象中
 &lt;/h3>&lt;p>&lt;code>*bytes.Buffer&lt;/code>同样也实现了&lt;code>io.Writer&lt;/code>接口，故如果我们创建一个&lt;code>*bytes.Buffer&lt;/code>对象，并将其赋给&lt;code>exec.Cmd&lt;/code>的&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>这两个字段，那么命令执行之后，该&lt;code>*bytes.Buffer&lt;/code>对象中保存的就是命令的输出。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4594,9 +4522,7 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>运行命令，然后得到输出的字符串或字节切片这种模式是如此的普遍，并且使用便利，&lt;code>os/exec&lt;/code>包提供了一个便捷方法：&lt;code>CombinedOutput&lt;/code>。&lt;/p>
-&lt;h3 id="输出到多个目的地">
-&lt;a href="#%e8%be%93%e5%87%ba%e5%88%b0%e5%a4%9a%e4%b8%aa%e7%9b%ae%e7%9a%84%e5%9c%b0" class="header-anchor">#&lt;/a>
-输出到多个目的地
+&lt;h3 id="输出到多个目的地">输出到多个目的地
 &lt;/h3>&lt;p>有时，我们希望能输出到文件和网络，同时保存到内存对象。使用go提供的&lt;code>io.MultiWriter&lt;/code>可以很容易实现这个需求。&lt;code>io.MultiWriter&lt;/code>很方便地将多个&lt;code>io.Writer&lt;/code>转为一个&lt;code>io.Writer&lt;/code>。&lt;/p>
 &lt;p>我们稍微修改上面的web程序：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -4645,9 +4571,7 @@ data-flex-basis="250px"
 &lt;/div>
 &lt;/div>&lt;p>调用&lt;code>io.MultiWriter&lt;/code>将多个&lt;code>io.Writer&lt;/code>整合成一个&lt;code>io.Writer&lt;/code>，然后将cmd对象的&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>都赋值为这个&lt;code>io.Writer&lt;/code>。这样，命令运行时产出的输出会分别送往&lt;code>http.ResponseWriter&lt;/code>、&lt;code>*os.File&lt;/code>以及&lt;code>*bytes.Buffer&lt;/code>。&lt;/p>
 &lt;hr>
-&lt;h2 id="运行命令获取输出">
-&lt;a href="#%e8%bf%90%e8%a1%8c%e5%91%bd%e4%bb%a4%e8%8e%b7%e5%8f%96%e8%be%93%e5%87%ba" class="header-anchor">#&lt;/a>
-运行命令，获取输出
+&lt;h2 id="运行命令获取输出">运行命令，获取输出
 &lt;/h2>&lt;p>前面提到，我们常常需要运行命令，返回输出。&lt;code>exec.Cmd&lt;/code>对象提供了一个便捷方法：&lt;code>CombinedOutput()&lt;/code>。该方法运行命令，将输出内容以一个字节切片返回便于后续处理。所以，上面获取输出的程序可以简化为：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4710,9 +4634,7 @@ data-flex-basis="250px"
 &lt;/div>&lt;p>&lt;code>CombinedOutput&lt;/code>方法前几行判断表明，&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>必须是未设置状态。这其实很好理解，一般情况下，如果已经打算使用&lt;code>CombinedOutput&lt;/code>方法获取输出内容，不会再自找麻烦地再去设置&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>字段了。&lt;/p>
 &lt;p>与&lt;code>CombinedOutput&lt;/code>类似的还有&lt;code>Output&lt;/code>方法，区别是&lt;code>Output&lt;/code>只会返回运行命令产出的标准输出内容。&lt;/p>
 &lt;hr>
-&lt;h2 id="分别获取标准输出和标准错误">
-&lt;a href="#%e5%88%86%e5%88%ab%e8%8e%b7%e5%8f%96%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba%e5%92%8c%e6%a0%87%e5%87%86%e9%94%99%e8%af%af" class="header-anchor">#&lt;/a>
-分别获取标准输出和标准错误
+&lt;h2 id="分别获取标准输出和标准错误">分别获取标准输出和标准错误
 &lt;/h2>&lt;p>创建两个&lt;code>*bytes.Buffer&lt;/code>对象，分别赋给&lt;code>exec.Cmd&lt;/code>对象的&lt;code>Stdout&lt;/code>和&lt;code>Stderr&lt;/code>这两个字段，然后运行命令即可分别获取标准输出和标准错误。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4745,9 +4667,7 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="标准输入">
-&lt;a href="#%e6%a0%87%e5%87%86%e8%be%93%e5%85%a5" class="header-anchor">#&lt;/a>
-标准输入
+&lt;h2 id="标准输入">标准输入
 &lt;/h2>&lt;p>&lt;code>exec.Cmd&lt;/code>对象有一个类型为&lt;code>io.Reader&lt;/code>的字段&lt;code>Stdin&lt;/code>。命令运行时会从这个&lt;code>io.Reader&lt;/code>读取输入。先来看一个最简单的例子：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4828,9 +4748,7 @@ data-flex-basis="250px"
 &lt;/div>
 &lt;/div>&lt;p>运行程序，输出&amp;quot;hello world&amp;quot;。&lt;/p>
 &lt;hr>
-&lt;h2 id="环境变量">
-&lt;a href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" class="header-anchor">#&lt;/a>
-环境变量
+&lt;h2 id="环境变量">环境变量
 &lt;/h2>&lt;p>环境变量可以在一定程度上微调程序的行为，当然这需要程序的支持。例如，设置&lt;code>ENV=production&lt;/code>会抑制调试日志的输出。每个环境变量都是一个键值对。&lt;code>exec.Cmd&lt;/code>对象中有一个类型为&lt;code>[]string&lt;/code>的字段&lt;code>Env&lt;/code>。我们可以通过修改它来达到控制命令运行时的环境变量的目的。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4921,9 +4839,7 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="检查命令是否存在">
-&lt;a href="#%e6%a3%80%e6%9f%a5%e5%91%bd%e4%bb%a4%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8" class="header-anchor">#&lt;/a>
-检查命令是否存在
+&lt;h2 id="检查命令是否存在">检查命令是否存在
 &lt;/h2>&lt;p>一般在运行命令之前，我们通过希望能检查要运行的命令是否存在，如果存在则直接运行，否则提示用户安装此命令。&lt;code>os/exec&lt;/code>包提供了函数&lt;code>LookPath&lt;/code>可以获取命令所在目录，如果命令不存在，则返回一个error。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -4975,9 +4891,7 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="封装">
-&lt;a href="#%e5%b0%81%e8%a3%85" class="header-anchor">#&lt;/a>
-封装
+&lt;h2 id="封装">封装
 &lt;/h2>&lt;p>执行外部命令的流程比较固定：&lt;/p>
 &lt;ul>
 &lt;li>调用&lt;code>exec.Command()&lt;/code>创建命令对象；&lt;/li>
@@ -4985,31 +4899,23 @@ data-flex-basis="250px"
 &lt;/ul>
 &lt;p>可以自己封装成一个工具包。&lt;/p>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>本文介绍了使用&lt;code>os/exec&lt;/code>这个标准库调用外部命令的各种姿势。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;ol>
 &lt;li>Advanced command execution in go with os/exec: &lt;a class="link" href="https://https//blog.kowalczyk.info/article/wOYk/advanced-command-execution-in-go-with-osexec.html" target="_blank" rel="noopener"
 >https://blog.kowalczyk.info/article/wOYk/advanced-command-execution-in-go-with-osexec.html&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://darjun.github.io/2022/11/01/godailylib/osexec/" target="_blank" rel="noopener"
 >Go中调用外部命令的几种姿势&lt;/a>搬运自该篇文章。&lt;/li>
-&lt;/ol></description></item><item><title>Go flag库介绍</title><link>https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/</link><pubDate>Mon, 22 Apr 2024 18:02:17 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/</guid><description>&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;/ol></description></item><item><title>Go flag库介绍</title><link>https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/</link><pubDate>Mon, 22 Apr 2024 18:02:17 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-flag%E5%BA%93%E4%BB%8B%E7%BB%8D/</guid><description>&lt;h2 id="简介">简介
 &lt;/h2>&lt;p>&lt;code>flag&lt;/code>用于解析命令行选项。有过类 Unix 系统使用经验的童鞋对命令行选项应该不陌生。例如命令&lt;code>ls -al&lt;/code>列出当前目录下所有文件和目录的详细信息，其中&lt;code>-al&lt;/code>就是命令行选项。&lt;/p>
 &lt;p>命令行选项在实际开发中很常用，特别是在写工具的时候。&lt;/p>
 &lt;ul>
 &lt;li>指定配置文件的路径，如&lt;code>redis-server ./redis.conf&lt;/code>以当前目录下的配置文件&lt;code>redis.conf&lt;/code>启动 Redis 服务器；&lt;/li>
 &lt;li>自定义某些参数，如&lt;code>python -m SimpleHTTPServer 8080&lt;/code>启动一个 HTTP 服务器，监听 8080 端口。如果不指定，则默认监听 8000 端口。&lt;/li>
 &lt;/ul>
-&lt;h2 id="快速使用">
-&lt;a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-快速使用
+&lt;h2 id="快速使用">快速使用
 &lt;/h2>&lt;p>学习一个库的第一步当然是使用它。我们先看看&lt;code>flag&lt;/code>库的基本使用：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5156,9 +5062,7 @@ data-flex-basis="250px"
 &lt;/ul>
 &lt;p>注意点：&lt;/p>
 &lt;p>&lt;code>flag.Parse&lt;/code>方法必须在所有选项都定义之后调用，且&lt;code>flag.Parse&lt;/code>调用之后不能再定义选项。如果按照前面的步骤，基本不会出现问题。 因为&lt;code>init&lt;/code>在所有代码之前执行，将选项定义都放在&lt;code>init&lt;/code>中，&lt;code>main&lt;/code>函数中执行&lt;code>flag.Parse&lt;/code>时所有选项都已经定义了。&lt;/p>
-&lt;h2 id="选项格式">
-&lt;a href="#%e9%80%89%e9%a1%b9%e6%a0%bc%e5%bc%8f" class="header-anchor">#&lt;/a>
-选项格式
+&lt;h2 id="选项格式">选项格式
 &lt;/h2>&lt;p>&lt;code>flag&lt;/code>库支持三种命令行选项格式。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5292,9 +5196,7 @@ data-flex-basis="250px"
 &lt;li>取值为&lt;code>true&lt;/code>的：1、t、T、true、TRUE、True；&lt;/li>
 &lt;li>取值为&lt;code>false&lt;/code>的：0、f、F、false、FALSE、False。&lt;/li>
 &lt;/ul>
-&lt;h2 id="另一种定义选项的方式">
-&lt;a href="#%e5%8f%a6%e4%b8%80%e7%a7%8d%e5%ae%9a%e4%b9%89%e9%80%89%e9%a1%b9%e7%9a%84%e6%96%b9%e5%bc%8f" class="header-anchor">#&lt;/a>
-另一种定义选项的方式
+&lt;h2 id="另一种定义选项的方式">另一种定义选项的方式
 &lt;/h2>&lt;p>上面我们介绍了使用&lt;code>flag.TypeVar&lt;/code>定义选项，这种方式需要我们先定义变量，然后变量的地址。 还有一种方式，调用&lt;code>flag.Type&lt;/code>（其中&lt;code>Type&lt;/code>可以为&lt;code>Int/Uint/Bool/Float64/String/Duration&lt;/code>等）会自动为我们分配变量，返回该变量的地址。用法与前一种方式类似：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5379,12 +5281,8 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>除了使用时需要解引用，其它与前一种方式基本相同。&lt;/p>
-&lt;h2 id="高级用法">
-&lt;a href="#%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95" class="header-anchor">#&lt;/a>
-高级用法
-&lt;/h2>&lt;h3 id="定义短选项">
-&lt;a href="#%e5%ae%9a%e4%b9%89%e7%9f%ad%e9%80%89%e9%a1%b9" class="header-anchor">#&lt;/a>
-定义短选项
+&lt;h2 id="高级用法">高级用法
+&lt;/h2>&lt;h3 id="定义短选项">定义短选项
 &lt;/h3>&lt;p>&lt;code>flag&lt;/code>库并没有显示支持短选项，但是可以通过给某个相同的变量设置不同的选项来实现。即两个选项共享同一个变量。 由于初始化顺序不确定，必须保证它们拥有相同的默认值。否则不传该选项时，行为是不确定的。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5473,9 +5371,7 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">log level: DEBUG
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="解析时间间隔">
-&lt;a href="#%e8%a7%a3%e6%9e%90%e6%97%b6%e9%97%b4%e9%97%b4%e9%9a%94" class="header-anchor">#&lt;/a>
-解析时间间隔
+&lt;/div>&lt;h3 id="解析时间间隔">解析时间间隔
 &lt;/h3>&lt;p>除了能使用基本类型作为选项，&lt;code>flag&lt;/code>库还支持&lt;code>time.Duration&lt;/code>类型，即时间间隔。时间间隔支持的格式非常之多，例如&amp;quot;300ms&amp;quot;、&amp;quot;-1.5h&amp;quot;、“2h45m&amp;quot;等等等等。 时间单位可以是 ns/us/ms/s/m/h/day 等。实际上&lt;code>flag&lt;/code>内部会调用&lt;code>time.ParseDuration&lt;/code>。具体支持的格式可以参见&lt;a class="link" href="https://golang.org/pkg/time/#ParseDuration" target="_blank" rel="noopener"
 >time&lt;/a>（需fq）库的文档。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -5547,9 +5443,7 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Sleeping &lt;span class="k">for&lt;/span> 1m30s...
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="自定义选项">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e9%80%89%e9%a1%b9" class="header-anchor">#&lt;/a>
-自定义选项
+&lt;/div>&lt;h3 id="自定义选项">自定义选项
 &lt;/h3>&lt;p>除了使用&lt;code>flag&lt;/code>库提供的选项类型，我们还可以自定义选项类型。我们分析一下标准库中提供的案例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5697,9 +5591,7 @@ data-flex-basis="250px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> comma-seperated list of intervals to use between events
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="解析程序中的字符串">
-&lt;a href="#%e8%a7%a3%e6%9e%90%e7%a8%8b%e5%ba%8f%e4%b8%ad%e7%9a%84%e5%ad%97%e7%ac%a6%e4%b8%b2" class="header-anchor">#&lt;/a>
-解析程序中的字符串
+&lt;/div>&lt;h3 id="解析程序中的字符串">解析程序中的字符串
 &lt;/h3>&lt;p>有时候选项并不是通过命令行传递的。例如，从配置表中读取或程序生成的。这时候可以使用&lt;code>flag.FlagSet&lt;/code>结构的相关方法来解析这些选项。&lt;/p>
 &lt;p>实际上，我们前面调用的&lt;code>flag&lt;/code>库的方法，都会间接调用&lt;code>FlagSet&lt;/code>结构的方法。&lt;code>flag&lt;/code>库中定义了一个&lt;code>FlagSet&lt;/code>类型的全局变量&lt;code>CommandLine&lt;/code>专门用于解析命令行选项。 前面调用的&lt;code>flag&lt;/code>库的方法只是为了提供便利，它们内部都是调用的&lt;code>CommandLine&lt;/code>的相应方法：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -5870,9 +5762,7 @@ data-flex-basis="250px"
 &lt;/div>
 &lt;/div>&lt;p>与直接使用&lt;code>flag&lt;/code>库的方法有一点不同，&lt;code>FlagSet&lt;/code>调用&lt;code>Parse&lt;/code>方法时需要显示传入字符串切片作为参数。因为&lt;code>flag.Parse&lt;/code>在内部调用了&lt;code>CommandLine.Parse(os.Args[1:])&lt;/code>。 示例代码都放在&lt;a class="link" href="https://github.com/darjun/go-daily-lib" target="_blank" rel="noopener"
 >GitHub&lt;/a>上了。&lt;/p>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;ol>
 &lt;li>&lt;a class="link" href="https://golang.org/pkg/flag/" target="_blank" rel="noopener"
 >flag&lt;/a>库文档&lt;/li>

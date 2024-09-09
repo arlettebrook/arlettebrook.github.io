@@ -1,17 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/linux/</link><description>Recent content in Linux on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Sat, 03 Aug 2024 23:59:44 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH Introduction</title><link>https://arlettebrook.github.io/p/ssh-introduction/</link><pubDate>Sat, 03 Aug 2024 23:59:44 +0800</pubDate><guid>https://arlettebrook.github.io/p/ssh-introduction/</guid><description>&lt;hr>
-&lt;h2 id="ssh-介绍">
-&lt;a href="#ssh-%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-SSH 介绍
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/linux/</link><description>Recent content in Linux on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Fri, 16 Aug 2024 19:24:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH Introduction</title><link>https://arlettebrook.github.io/p/ssh-introduction/</link><pubDate>Sat, 03 Aug 2024 23:59:44 +0800</pubDate><guid>https://arlettebrook.github.io/p/ssh-introduction/</guid><description>&lt;hr>
+&lt;h2 id="ssh-介绍">SSH 介绍
 &lt;/h2>&lt;p>SSH（Secure Shell 的缩写）是一种网络协议，用于加密两台计算机之间的通信，并且支持各种身份验证机制。&lt;/p>
 &lt;p>实际中，它主要用于保证远程登录和远程通信的安全，任何网络服务都可以用这个协议来加密。&lt;/p>
-&lt;h3 id="ssh-是什么">
-&lt;a href="#ssh-%e6%98%af%e4%bb%80%e4%b9%88" class="header-anchor">#&lt;/a>
-SSH 是什么
+&lt;h3 id="ssh-是什么">SSH 是什么
 &lt;/h3>&lt;p>历史上，网络主机之间的通信是不加密的，属于明文通信。这使得通信很不安全，一个典型的例子就是服务器登录。登录远程服务器的时候，需要将用户输入的密码传给服务器，如果这个过程是明文通信，就意味着传递过程中，线路经过的中间计算机都能看到密码，这是很可怕的。&lt;/p>
 &lt;p>SSH 就是为了解决这个问题而诞生的，它能够加密计算机之间的通信，保证不被窃听或篡改。它还能对操作者进行认证（authentication）和授权（authorization）。明文的网络协议可以套用在它里面，从而实现加密。&lt;/p>
-&lt;h3 id="历史">
-&lt;a href="#%e5%8e%86%e5%8f%b2" class="header-anchor">#&lt;/a>
-历史
+&lt;h3 id="历史">历史
 &lt;/h3>&lt;p>1995年，芬兰赫尔辛基工业大学的研究员 Tatu Ylönen 设计了 SSH 协议的第一个版本（现称为 SSH 1），同时写出了第一个实现（称为 SSH1）。&lt;/p>
 &lt;p>当时，他所在的大学网络一直发生密码嗅探攻击，他不得不为服务器设计一个更安全的登录方式。写完以后，他就把这个工具公开了，允许其他人免费使用。&lt;/p>
 &lt;p>SSH 可以替换 rlogin、TELNET、FTP 和 rsh 这些不安全的协议，所以大受欢迎，用户快速增长，1995年底已经发展到五十个国家的20,000个用户。SSH 1 协议也变成 IETF 的标准文档。&lt;/p>
@@ -19,19 +13,13 @@ SSH 是什么
 &lt;p>SSH 1 协议存在一些安全漏洞，所以1996年又提出了 SSH 2 协议（或者称为 SSH 2.0）。这个协议与1.0版不兼容，在1997年进行了标准化，1998年推出了软件实现 SSH2。但是，官方的 SSH2 软件是一个专有软件，不能免费使用，而且 SSH1 的有些功能也没有提供。&lt;/p>
 &lt;p>1999年，OpenBSD 的开发人员决定写一个 SSH 2 协议的开源实现，这就是 OpenSSH 项目。该项目最初是基于 SSH 1.2.12 版本，那是当时 SSH1 最后一个开源版本。但是，OpenSSH 很快就完全摆脱了原始的官方代码，在许多开发者的参与下，按照自己的路线发展。OpenSSH 随 OpenBSD 2.6 版本一起提供，以后又移植到其他操作系统，成为最流行的 SSH 实现。目前，Linux 的所有发行版几乎都自带 OpenSSH。&lt;/p>
 &lt;p>现在，SSH-2 有多种实现，既有免费的，也有收费的。本书的内容主要是针对 OpenSSH。&lt;/p>
-&lt;h3 id="ssh-架构">
-&lt;a href="#ssh-%e6%9e%b6%e6%9e%84" class="header-anchor">#&lt;/a>
-SSH 架构
+&lt;h3 id="ssh-架构">SSH 架构
 &lt;/h3>&lt;p>SSH 的软件架构是服务器-客户端模式（Server - Client）。在这个架构中，SSH 软件分成两个部分：向服务器发出请求的部分，称为客户端（client），OpenSSH 的实现为 &lt;strong>ssh&lt;/strong>；接收客户端发出的请求的部分，称为服务器（server），OpenSSH 的实现为 &lt;strong>sshd&lt;/strong>。&lt;/p>
 &lt;p>本教程约定，大写的 SSH 表示协议，小写的 ssh 表示客户端软件。&lt;/p>
 &lt;p>另外，OpenSSH 还提供一些辅助工具软件（比如 ssh-keygen 、ssh-agent）和专门的客户端工具（比如 scp 和 sftp），这个教程也会予以介绍。&lt;/p>
 &lt;hr>
-&lt;h2 id="ssh-客户端">
-&lt;a href="#ssh-%e5%ae%a2%e6%88%b7%e7%ab%af" class="header-anchor">#&lt;/a>
-SSH 客户端
-&lt;/h2>&lt;h3 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="ssh-客户端">SSH 客户端
+&lt;/h2>&lt;h3 id="简介">简介
 &lt;/h3>&lt;p>OpenSSH 的&lt;strong>客户端&lt;/strong>是&lt;strong>二进制程序 ssh&lt;/strong>。它在 Linux/Unix 系统的位置是&lt;code>/usr/local/bin/ssh&lt;/code>。&lt;/p>
 &lt;ul>
 &lt;li>
@@ -94,9 +82,7 @@ SSH 客户端
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ ssh -V
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="基本用法">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" class="header-anchor">#&lt;/a>
-基本用法
+&lt;/div>&lt;h3 id="基本用法">基本用法
 &lt;/h3>&lt;p>ssh 最常见的用途就是&lt;strong>登录服务器&lt;/strong>，这要求服务器安装并&lt;strong>正在运行 SSH 服务器软件&lt;/strong>(sshd)。&lt;/p>
 &lt;p>ssh 登录服务器的命令如下:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -136,9 +122,7 @@ SSH 客户端
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面命令连接服务器&lt;code>foo.com&lt;/code>的8821端口，用户名为当前客户端主机登录的用户名。&lt;/p>
-&lt;h3 id="连接流程">
-&lt;a href="#%e8%bf%9e%e6%8e%a5%e6%b5%81%e7%a8%8b" class="header-anchor">#&lt;/a>
-连接流程
+&lt;h3 id="连接流程">连接流程
 &lt;/h3>&lt;p>ssh 连接远程服务器后，首先有一个&lt;strong>验证过程&lt;/strong>，&lt;strong>验证远程服务器是否为陌生地址&lt;/strong>。&lt;/p>
 &lt;p>如果是第一次连接某一台服务器，命令行会显示一段文字，表示不认识这台机器，提醒用户确认是否需要连接。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -178,9 +162,7 @@ SSH 客户端
 &lt;/div>
 &lt;/div>&lt;p>上面的例子中，&lt;code>ssh-keygen -l -f&lt;/code>命令会输出公钥&lt;code>/etc/ssh/ssh_host_ecdsa_key.pub&lt;/code>的指纹。&lt;/p>
 &lt;p>ssh 会将本机连接过的所有服务器公钥的指纹，都储存在本机的&lt;code>~/.ssh/known_hosts&lt;/code>文件中。每次连接服务器时，通过该文件判断是否为陌生主机（陌生公钥）。&lt;/p>
-&lt;h3 id="加密参数">
-&lt;a href="#%e5%8a%a0%e5%af%86%e5%8f%82%e6%95%b0" class="header-anchor">#&lt;/a>
-加密参数
+&lt;h3 id="加密参数">加密参数
 &lt;/h3>&lt;p>SSH 连接的握手阶段，客户端必须跟服务端约定加密参数集（cipher suite）。&lt;/p>
 &lt;p>加密参数集包含了若干不同的加密参数，它们之间使用下划线连接在一起，下面是一个例子：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -296,9 +278,7 @@ SSH 客户端
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面的回应信息（ServerHello）中，&lt;code>Cipher Suite&lt;/code>字段就是服务器最终选定的加密参数。&lt;/p>
-&lt;h3 id="服务器密钥变更">
-&lt;a href="#%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%af%86%e9%92%a5%e5%8f%98%e6%9b%b4" class="header-anchor">#&lt;/a>
-服务器密钥变更
+&lt;h3 id="服务器密钥变更">服务器密钥变更
 &lt;/h3>&lt;p>服务器指纹可以防止有人恶意冒充远程主机。如果服务器的密钥发生变更（比如重装了 SSH 服务器），客户端再次连接时，就会发生公钥指纹不吻合的情况。这时，客户端就会中断连接，并显示一段警告信息。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -341,9 +321,7 @@ SSH 客户端
 &lt;/div>&lt;p>上面命令中，&lt;code>hostname&lt;/code>是发生公钥变更的主机名。&lt;/p>
 &lt;p>除了使用上面的命令，你也可以手工修改&lt;code>known_hosts&lt;/code>文件，将公钥指纹删除。&lt;/p>
 &lt;p>删除了原来的公钥指纹以后，重新执行 ssh 命令连接远程服务器，将新的指纹加入&lt;code>known_hosts&lt;/code>文件，就可以顺利连接了。&lt;/p>
-&lt;h3 id="ssh-命令行配置项">
-&lt;a href="#ssh-%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%85%8d%e7%bd%ae%e9%a1%b9" class="header-anchor">#&lt;/a>
-ssh 命令行配置项
+&lt;h3 id="ssh-命令行配置项">ssh 命令行配置项
 &lt;/h3>&lt;p>&lt;strong>-c&lt;/strong>&lt;/p>
 &lt;p>&lt;code>-c&lt;/code>参数指定加密算法。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -602,9 +580,7 @@ ssh 命令行配置项
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ ssh -6 server.example.com
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="执行远程命令">
-&lt;a href="#%e6%89%a7%e8%a1%8c%e8%bf%9c%e7%a8%8b%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-执行远程命令
+&lt;/div>&lt;h3 id="执行远程命令">执行远程命令
 &lt;/h3>&lt;p>SSH 登录成功后，用户就进入了远程主机的命令行环境，所看到的提示符，就是远程主机的提示符。这时，你就可以输入想要在远程主机执行的命令。&lt;/p>
 &lt;p>另一种&lt;strong>执行远程命令的方法&lt;/strong>，是将命令直接写在&lt;code>ssh&lt;/code>命令的后面。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -648,12 +624,8 @@ ssh 命令行配置项
 &lt;/div>
 &lt;/div>&lt;p>上面代码中，&lt;code>emacs&lt;/code>命令需要一个互动式 Shell，所以报错。只有加上&lt;code>-t&lt;/code>参数，ssh 才会分配一个互动式 Shell。&lt;/p>
 &lt;p>不是交互式命令，使用&lt;code>-t&lt;/code>参数之后，&lt;strong>也会立即退出连接&lt;/strong>。交互命令需要主动退出。&lt;/p>
-&lt;h3 id="客户端配置文件">
-&lt;a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-客户端配置文件
-&lt;/h3>&lt;h4 id="位置">
-&lt;a href="#%e4%bd%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-位置
+&lt;h3 id="客户端配置文件">客户端配置文件
+&lt;/h3>&lt;h4 id="位置">位置
 &lt;/h4>&lt;p>SSH 客户端的全局配置文件是&lt;code>/etc/ssh/ssh_config&lt;/code>，用户个人的配置文件在&lt;code>~/.ssh/config&lt;/code>，优先级高于全局配置文件。&lt;/p>
 &lt;p>除了配置文件，&lt;code>~/.ssh&lt;/code>目录还有一些用户个人的密钥文件和其他文件。下面是其中一些常见的文件：&lt;/p>
 &lt;ul>
@@ -665,9 +637,7 @@ ssh 命令行配置项
 &lt;li>&lt;code>~/.ssh/identity.pub&lt;/code>：用于 SSH 协议版本1 的 RSA 公钥。&lt;/li>
 &lt;li>&lt;code>~/.ssh/known_hosts&lt;/code>：包含 SSH 服务器的公钥指纹。&lt;/li>
 &lt;/ul>
-&lt;h4 id="主机设置">
-&lt;a href="#%e4%b8%bb%e6%9c%ba%e8%ae%be%e7%bd%ae" class="header-anchor">#&lt;/a>
-主机设置
+&lt;h4 id="主机设置">主机设置
 &lt;/h4>&lt;p>用户个人的配置文件&lt;code>~/.ssh/config&lt;/code>，可以按照不同服务器，列出各自的连接参数，从而不必每一次登录都输入重复的参数。&lt;/p>
 &lt;p>下面是一个例子：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -707,9 +677,7 @@ ssh 命令行配置项
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>&lt;code>Host&lt;/code>命令的值可以使用通配符，比如&lt;code>Host *&lt;/code>表示对所有主机都有效的设置，&lt;code>Host *.edu&lt;/code>表示只对一级域名为&lt;code>.edu&lt;/code>的主机有效的设置。它们的设置都可以被单个主机的设置覆盖。&lt;/p>
-&lt;h4 id="配置命令的语法">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e5%91%bd%e4%bb%a4%e7%9a%84%e8%af%ad%e6%b3%95" class="header-anchor">#&lt;/a>
-配置命令的语法
+&lt;h4 id="配置命令的语法">配置命令的语法
 &lt;/h4>&lt;p>ssh 客户端配置文件的每一行，就是一个配置命令。配置命令与对应的值之间，可以使用空格，也可以使用等号。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -724,9 +692,7 @@ ssh 命令行配置项
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>&lt;code>#&lt;/code>开头的行表示注释，会被忽略。空行等同于注释。&lt;/p>
-&lt;h4 id="主要配置命令">
-&lt;a href="#%e4%b8%bb%e8%a6%81%e9%85%8d%e7%bd%ae%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-主要配置命令
+&lt;h4 id="主要配置命令">主要配置命令
 &lt;/h4>&lt;p>下面是 ssh 客户端的一些主要配置命令，以及它们的范例值。&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>AddressFamily inet&lt;/code>：表示只使用 IPv4 协议。如果设为&lt;code>inet6&lt;/code>，表示只使用 IPv6 协议。&lt;/li>
@@ -762,19 +728,13 @@ ssh 命令行配置项
 &lt;li>&lt;code>VerifyHostKeyDNS yes&lt;/code>：是否通过检查 SSH 服务器的 DNS 记录，确认公钥指纹是否与&lt;code>known_hosts&lt;/code>文件保存的一致。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="ssh-密钥登录">
-&lt;a href="#ssh-%e5%af%86%e9%92%a5%e7%99%bb%e5%bd%95" class="header-anchor">#&lt;/a>
-SSH 密钥登录
+&lt;h2 id="ssh-密钥登录">SSH 密钥登录
 &lt;/h2>&lt;p>SSH 默认采用密码登录，这种方法有很多缺点，简单的密码不安全，复杂的密码不容易记忆，每次手动输入也很麻烦。&lt;strong>密钥登录是比密码登录更好的解决方案&lt;/strong>。&lt;/p>
-&lt;h3 id="密钥是什么">
-&lt;a href="#%e5%af%86%e9%92%a5%e6%98%af%e4%bb%80%e4%b9%88" class="header-anchor">#&lt;/a>
-密钥是什么
+&lt;h3 id="密钥是什么">密钥是什么
 &lt;/h3>&lt;p>密钥（key）是一个非常大的数字，通过加密算法得到。对称加密只需要一个密钥，非对称加密需要两个密钥成对使用，分为公钥（public key）和私钥（private key）。&lt;/p>
 &lt;p>&lt;strong>SSH 密钥登录采用的是非对称加密&lt;/strong>，每个用户通过自己的密钥登录。其中，&lt;strong>私钥必须私密保存，不能泄漏&lt;/strong>；&lt;strong>公钥则是公开的，可以对外发送&lt;/strong>。它们的关系是，&lt;strong>公钥和私钥是一一对应的&lt;/strong>，&lt;strong>每一个私钥都有且仅有一个对应的公钥&lt;/strong>，&lt;strong>反之亦然&lt;/strong>。&lt;/p>
 &lt;p>&lt;strong>如果数据使用公钥加密，那么只有使用对应的私钥才能解密，其他密钥都不行&lt;/strong>；&lt;strong>反过来，如果使用私钥加密（这个过程一般称为“签名”），也只有使用对应的公钥解密。&lt;/strong>&lt;/p>
-&lt;h3 id="密钥登录的过程">
-&lt;a href="#%e5%af%86%e9%92%a5%e7%99%bb%e5%bd%95%e7%9a%84%e8%bf%87%e7%a8%8b" class="header-anchor">#&lt;/a>
-密钥登录的过程
+&lt;h3 id="密钥登录的过程">密钥登录的过程
 &lt;/h3>&lt;p>SSH 密钥登录分为以下的步骤:&lt;/p>
 &lt;p>预备步骤，客户端通过&lt;code>ssh-keygen&lt;/code>生成自己的公钥和私钥。&lt;/p>
 &lt;p>第一步，手动将客户端的公钥放入远程服务器的指定位置。&lt;/p>
@@ -782,12 +742,8 @@ SSH 密钥登录
 &lt;p>第三步，服务器收到用户 SSH 登录的请求，发送一些随机数据给用户，要求用户证明自己的身份。&lt;/p>
 &lt;p>第四步，客户端收到服务器发来的数据，使用私钥对数据进行签名，然后再发还给服务器。&lt;/p>
 &lt;p>第五步，服务器收到客户端发来的加密签名后，使用对应的公钥解密，然后跟原始数据比较。如果一致，就允许用户登录。&lt;/p>
-&lt;h3 id="ssh-keygen命令生成密钥">
-&lt;a href="#ssh-keygen%e5%91%bd%e4%bb%a4%e7%94%9f%e6%88%90%e5%af%86%e9%92%a5" class="header-anchor">#&lt;/a>
-&lt;code>ssh-keygen&lt;/code>命令：生成密钥
-&lt;/h3>&lt;h4 id="基本用法-1">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95-1" class="header-anchor">#&lt;/a>
-基本用法
+&lt;h3 id="ssh-keygen命令生成密钥">&lt;code>ssh-keygen&lt;/code>命令：生成密钥
+&lt;/h3>&lt;h4 id="基本用法-1">基本用法
 &lt;/h4>&lt;p>密钥登录时，首先需要生成公钥和私钥。OpenSSH 提供了一个工具程序&lt;code>ssh-keygen&lt;/code>命令，&lt;strong>用来生成密钥&lt;/strong>。&lt;/p>
 &lt;p>直接输入&lt;code>ssh-keygen&lt;/code>，程序会询问一系列问题，然后生成密钥:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -874,9 +830,7 @@ SSH 密钥登录
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ chmod &lt;span class="m">600&lt;/span> ~/.ssh/id_rsa.pub
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h4 id="配置项">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e9%a1%b9" class="header-anchor">#&lt;/a>
-配置项
+&lt;/div>&lt;h4 id="配置项">配置项
 &lt;/h4>&lt;p>&lt;code>ssh-keygen&lt;/code>的命令行配置项，主要有下面这些:&lt;/p>
 &lt;p>&lt;strong>（1）&lt;code>-b&lt;/code>&lt;/strong>&lt;/p>
 &lt;p>&lt;code>-b&lt;/code>参数指定密钥的二进制位数。这个参数值越大，密钥就越不容易破解，但是加密解密的计算开销也会加大。&lt;/p>
@@ -937,9 +891,7 @@ SSH 密钥登录
 &lt;/div>
 &lt;/div>&lt;p>&lt;strong>（8）&lt;code>-t&lt;/code>&lt;/strong>&lt;/p>
 &lt;p>&lt;code>-t&lt;/code>参数用于指定生成密钥的加密算法，一般为&lt;code>dsa&lt;/code>或&lt;code>rsa&lt;/code>&lt;/p>
-&lt;h3 id="手动上传公钥">
-&lt;a href="#%e6%89%8b%e5%8a%a8%e4%b8%8a%e4%bc%a0%e5%85%ac%e9%92%a5" class="header-anchor">#&lt;/a>
-手动上传公钥
+&lt;h3 id="手动上传公钥">手动上传公钥
 &lt;/h3>&lt;p>&lt;strong>生成密钥以后，公钥必须上传到服务器，才能使用公钥登录&lt;/strong>。&lt;/p>
 &lt;p>&lt;strong>OpenSSH 规定，用户公钥保存在服务器的&lt;code>~/.ssh/authorized_keys&lt;/code>文件&lt;/strong>。你要以哪个用户的身份登录到服务器，密钥就必须保存在&lt;strong>该用户主目录&lt;/strong>的&lt;code>~/.ssh/authorized_keys&lt;/code>文件。只要把公钥添加到这个文件之中，就相当于公钥上传到服务器了。&lt;strong>每个公钥占据一行&lt;/strong>。如果该文件不存在，可以手动创建。&lt;/p>
 &lt;p>用户可以手动编辑该文件，把公钥粘贴进去，也可以在本机计算机上，执行下面的命令：&lt;/p>
@@ -977,9 +929,7 @@ SSH 密钥登录
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面例子中，SSH 客户端使用私钥之前，会要求用户输入密码（passphrase），用来解开私钥。如果秘钥有密码，那么每次都需要输入密码。&lt;/p>
-&lt;h3 id="ssh-copy-id-命令自动上传公钥">
-&lt;a href="#ssh-copy-id-%e5%91%bd%e4%bb%a4%e8%87%aa%e5%8a%a8%e4%b8%8a%e4%bc%a0%e5%85%ac%e9%92%a5" class="header-anchor">#&lt;/a>
-ssh-copy-id 命令：自动上传公钥
+&lt;h3 id="ssh-copy-id-命令自动上传公钥">ssh-copy-id 命令：自动上传公钥
 &lt;/h3>&lt;p>OpenSSH 自带一个&lt;code>ssh-copy-id&lt;/code>命令，可以自动将公钥拷贝到远程服务器的&lt;code>~/.ssh/authorized_keys&lt;/code>文件。如果&lt;code>~/.ssh/authorized_keys&lt;/code>文件不存在，&lt;code>ssh-copy-id&lt;/code>命令会自动创建该文件。&lt;/p>
 &lt;p>用户在本地计算机执行下面的命令，就可以把本地的公钥拷贝到服务器。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1004,12 +954,8 @@ ssh-copy-id 命令：自动上传公钥
 &lt;/div>
 &lt;/div>&lt;p>上面命令中，公钥文件会自动匹配到&lt;code>~/.ssh/id_rsa.pub&lt;/code>。&lt;/p>
 &lt;p>&lt;strong>注意&lt;/strong>，&lt;code>ssh-copy-id&lt;/code>是直接将公钥添加到&lt;code>authorized_keys&lt;/code>文件的末尾。如果&lt;code>authorized_keys&lt;/code>文件的末尾不是一个换行符，会导致新的公钥添加到前一个公钥的末尾，两个公钥连在一起，使得它们都无法生效。所以，如果&lt;code>authorized_keys&lt;/code>文件已经存在，使用&lt;code>ssh-copy-id&lt;/code>命令之前，务必保证&lt;code>authorized_keys&lt;/code>文件的末尾是换行符（假设该文件已经存在）。&lt;/p>
-&lt;h3 id="ssh-agent-命令ssh-add-命令">
-&lt;a href="#ssh-agent-%e5%91%bd%e4%bb%a4ssh-add-%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-ssh-agent 命令，ssh-add 命令
-&lt;/h3>&lt;h4 id="基本用法-2">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95-2" class="header-anchor">#&lt;/a>
-基本用法
+&lt;h3 id="ssh-agent-命令ssh-add-命令">ssh-agent 命令，ssh-add 命令
+&lt;/h3>&lt;h4 id="基本用法-2">基本用法
 &lt;/h4>&lt;p>私钥设置了密码以后，每次使用都必须输入密码，有时让人感觉非常麻烦。比如，连续使用&lt;code>scp&lt;/code>命令远程拷贝文件时，每次都要求输入密码。&lt;/p>
 &lt;p>&lt;code>ssh-agent&lt;/code>命令就是为了解决这个问题而设计的，它让用户在整个 Bash 对话（session）之中，&lt;strong>只在第一次使用 SSH 命令时输入密码，然后将私钥保存在内存中，后面都不需要再输入私钥的密码了&lt;/strong>。&lt;/p>
 &lt;p>第一步，使用下面的命令新建一次命令行对话:&lt;/p>
@@ -1099,9 +1045,7 @@ ssh-agent 命令，ssh-add 命令
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ ssh-agent -k
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="ssh-add命令">
-&lt;a href="#ssh-add%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-&lt;code>ssh-add&lt;/code>命令
+&lt;/div>&lt;h3 id="ssh-add命令">&lt;code>ssh-add&lt;/code>命令
 &lt;/h3>&lt;p>&lt;code>ssh-add&lt;/code>命令用来将私钥加入&lt;code>ssh-agent&lt;/code>，它有如下的参数:&lt;/p>
 &lt;p>&lt;strong>（1）&lt;code>-d&lt;/code>&lt;/strong>&lt;/p>
 &lt;p>&lt;code>-d&lt;/code>参数从内存中删除指定的私钥。&lt;/p>
@@ -1133,9 +1077,7 @@ ssh-agent 命令，ssh-add 命令
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ ssh-add -l
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="关闭密码登录">
-&lt;a href="#%e5%85%b3%e9%97%ad%e5%af%86%e7%a0%81%e7%99%bb%e5%bd%95" class="header-anchor">#&lt;/a>
-关闭密码登录
+&lt;/div>&lt;h3 id="关闭密码登录">关闭密码登录
 &lt;/h3>&lt;p>&lt;strong>为了安全性，启用密钥登录之后，最好关闭服务器的密码登录&lt;/strong>。&lt;/p>
 &lt;p>对于 OpenSSH，具体方法就是打开服务器 sshd 的配置文件&lt;code>/etc/ssh/sshd_config&lt;/code>，将&lt;code>PasswordAuthentication&lt;/code>这一项设为&lt;code>no&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1148,26 +1090,18 @@ ssh-agent 命令，ssh-add 命令
 &lt;/div>
 &lt;/div>&lt;p>修改配置文件以后，不要忘了重新启动 sshd，否则不会生效。&lt;/p>
 &lt;hr>
-&lt;h2 id="ssh-证书登录">
-&lt;a href="#ssh-%e8%af%81%e4%b9%a6%e7%99%bb%e5%bd%95" class="header-anchor">#&lt;/a>
-SSH 证书登录
+&lt;h2 id="ssh-证书登录">SSH 证书登录
 &lt;/h2>&lt;p>SSH 是服务器登录工具，一般情况下都采用密码登录或密钥登录。&lt;/p>
 &lt;p>但是，SSH 还有第三种登录方法，那就是证书登录。某些情况下，它是更合理、更安全的登录方法，本文就介绍这种登录方法。&lt;/p>
-&lt;h3 id="非证书登录的缺点">
-&lt;a href="#%e9%9d%9e%e8%af%81%e4%b9%a6%e7%99%bb%e5%bd%95%e7%9a%84%e7%bc%ba%e7%82%b9" class="header-anchor">#&lt;/a>
-非证书登录的缺点
+&lt;h3 id="非证书登录的缺点">非证书登录的缺点
 &lt;/h3>&lt;p>密码登录和密钥登录，都有各自的缺点。&lt;/p>
 &lt;p>密码登录需要输入服务器密码，这非常麻烦，也不安全，存在被暴力破解的风险。&lt;/p>
 &lt;p>密钥登录需要服务器保存用户的公钥，也需要用户保存服务器公钥的指纹。这对于多用户、多服务器的大型机构很不方便，如果有员工离职，需要将他的公钥从每台服务器删除。&lt;/p>
-&lt;h3 id="证书登录是什么">
-&lt;a href="#%e8%af%81%e4%b9%a6%e7%99%bb%e5%bd%95%e6%98%af%e4%bb%80%e4%b9%88" class="header-anchor">#&lt;/a>
-证书登录是什么？
+&lt;h3 id="证书登录是什么">证书登录是什么？
 &lt;/h3>&lt;p>证书登录就是为了解决上面的缺点而设计的。它引入了一个&lt;strong>证书颁发机构&lt;/strong>（Certificate Authority，简称 CA），对信任的服务器颁发服务器证书，对信任的用户颁发用户证书。&lt;/p>
 &lt;p>登录时，用户和服务器不需要提前知道彼此的公钥，只需要交换各自的证书，验证是否可信即可。&lt;/p>
 &lt;p>证书登录的主要优点有两个：（1）用户和服务器不用交换公钥，这更容易管理，也具有更好的可扩展性。（2）证书可以设置到期时间，而公钥没有到期时间。针对不同的情况，可以设置有效期很短的证书，进一步提高安全性。&lt;/p>
-&lt;h3 id="证书登录的流程">
-&lt;a href="#%e8%af%81%e4%b9%a6%e7%99%bb%e5%bd%95%e7%9a%84%e6%b5%81%e7%a8%8b" class="header-anchor">#&lt;/a>
-证书登录的流程
+&lt;h3 id="证书登录的流程">证书登录的流程
 &lt;/h3>&lt;p>SSH 证书登录之前，如果还没有证书，需要生成证书。具体方法是：（1）用户和服务器都将自己的公钥，发给 CA；（2）CA 使用服务器公钥，生成服务器证书，发给服务器；（3）CA 使用用户的公钥，生成用户证书，发给用户。&lt;/p>
 &lt;p>有了证书以后，用户就可以登录服务器了。整个过程都是 SSH 自动处理，用户无感知。&lt;/p>
 &lt;p>第一步，用户登录服务器时，SSH 自动将用户证书发给服务器。&lt;/p>
@@ -1175,9 +1109,7 @@ SSH 证书登录
 &lt;p>第三步，SSH 自动将服务器证书发给用户。&lt;/p>
 &lt;p>第四步，用户检查服务器证书是否有效，以及是否由信任的 CA 颁发。证实以后，就可以信任服务器。&lt;/p>
 &lt;p>第五步，双方建立连接，服务器允许用户登录。&lt;/p>
-&lt;h3 id="生成-ca-的密钥">
-&lt;a href="#%e7%94%9f%e6%88%90-ca-%e7%9a%84%e5%af%86%e9%92%a5" class="header-anchor">#&lt;/a>
-生成 CA 的密钥
+&lt;h3 id="生成-ca-的密钥">生成 CA 的密钥
 &lt;/h3>&lt;p>证书登录的前提是，必须有一个 CA，而 CA 本质上就是一对密钥，跟其他密钥没有不同，CA 就用这对密钥去签发证书。&lt;/p>
 &lt;p>虽然 CA 可以用同一对密钥签发用户证书和服务器证书，但是出于安全性和灵活性，最好用不同的密钥分别签发。所以，CA 至少需要两对密钥，一对是签发用户证书的密钥，假设叫做&lt;code>user_ca&lt;/code>，另一对是签发服务器证书的密钥，假设叫做&lt;code>host_ca&lt;/code>。&lt;/p>
 &lt;p>使用下面的命令，生成&lt;code>user_ca&lt;/code>。&lt;/p>
@@ -1218,9 +1150,7 @@ SSH 证书登录
 &lt;li>&lt;code>~/.ssh/host_ca&lt;/code>&lt;/li>
 &lt;li>&lt;code>~/.ssh/host_ca.pub&lt;/code>&lt;/li>
 &lt;/ul>
-&lt;h3 id="ca-签发服务器证书">
-&lt;a href="#ca-%e7%ad%be%e5%8f%91%e6%9c%8d%e5%8a%a1%e5%99%a8%e8%af%81%e4%b9%a6" class="header-anchor">#&lt;/a>
-CA 签发服务器证书
+&lt;h3 id="ca-签发服务器证书">CA 签发服务器证书
 &lt;/h3>&lt;p>有了秘钥以后，就可以签发服务器证书CA了。&lt;/p>
 &lt;p>签发证书，除了 CA 的密钥以外，还需要&lt;strong>服务器的公钥&lt;/strong>。一般来说，SSH 服务器（通常是&lt;code>sshd&lt;/code>）安装时，已经生成密钥&lt;code>/etc/ssh/ssh_host_rsa_key&lt;/code>了。如果没有的话，可以用下面的命令生成：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1268,9 +1198,7 @@ CA 签发服务器证书
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ chmod &lt;span class="m">600&lt;/span> ssh_host_rsa_key-cert.pub
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="ca-签发用户证书">
-&lt;a href="#ca-%e7%ad%be%e5%8f%91%e7%94%a8%e6%88%b7%e8%af%81%e4%b9%a6" class="header-anchor">#&lt;/a>
-CA 签发用户证书
+&lt;/div>&lt;h3 id="ca-签发用户证书">CA 签发用户证书
 &lt;/h3>&lt;p>下面，再用 CA 签发用户证书。这时需要用户的公钥，如果没有的话，客户端可以用下面的命令生成一对密钥：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1316,9 +1244,7 @@ CA 签发用户证书
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ chmod &lt;span class="m">600&lt;/span> user_key-cert.pub
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="服务器安装证书">
-&lt;a href="#%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%ae%89%e8%a3%85%e8%af%81%e4%b9%a6" class="header-anchor">#&lt;/a>
-服务器安装证书
+&lt;/div>&lt;h3 id="服务器安装证书">服务器安装证书
 &lt;/h3>&lt;p>CA 生成服务器证书&lt;code>ssh_host_rsa_key-cert.pub&lt;/code>以后，需要将该证书发回服务器，可以使用下面的&lt;code>scp&lt;/code>命令，将证书拷贝过去：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1351,9 +1277,7 @@ CA 签发用户证书
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo service sshd restart
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="服务器安装-ca-公钥">
-&lt;a href="#%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%ae%89%e8%a3%85-ca-%e5%85%ac%e9%92%a5" class="header-anchor">#&lt;/a>
-服务器安装 CA 公钥
+&lt;/div>&lt;h3 id="服务器安装-ca-公钥">服务器安装 CA 公钥
 &lt;/h3>&lt;p>为了让服务器信任用户证书，必须将 CA 签发用户证书的公钥&lt;code>user_ca.pub&lt;/code>，拷贝到服务器：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1398,13 +1322,9 @@ CA 签发用户证书
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>至此，SSH 服务器已配置为信任&lt;code>user_ca&lt;/code>签发的证书。&lt;/p>
-&lt;h3 id="客户端安装证书">
-&lt;a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e5%ae%89%e8%a3%85%e8%af%81%e4%b9%a6" class="header-anchor">#&lt;/a>
-客户端安装证书
+&lt;h3 id="客户端安装证书">客户端安装证书
 &lt;/h3>&lt;p>客户端安装用户证书很简单，就是从 CA 将用户证书&lt;code>user_key-cert.pub&lt;/code>复制到客户端，与用户的密钥&lt;code>user_key&lt;/code>保存在同一个目录即可。&lt;/p>
-&lt;h3 id="客户端安装-ca-公钥">
-&lt;a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e5%ae%89%e8%a3%85-ca-%e5%85%ac%e9%92%a5" class="header-anchor">#&lt;/a>
-客户端安装 CA 公钥
+&lt;h3 id="客户端安装-ca-公钥">客户端安装 CA 公钥
 &lt;/h3>&lt;p>为了让客户端信任服务器证书，必须将 CA 签发服务器证书的公钥&lt;code>host_ca.pub&lt;/code>，加到客户端的&lt;code>/etc/ssh/ssh_known_hosts&lt;/code>文件（全局级别）或者&lt;code>~/.ssh/known_hosts&lt;/code>文件（用户级别）。&lt;/p>
 &lt;p>具体做法是打开&lt;code>ssh_known_hosts&lt;/code>或&lt;code>known_hosts&lt;/code>文件，追加一行，开头为&lt;code>@cert-authority *.example.com&lt;/code>，然后将&lt;code>host_ca.pub&lt;/code>文件的内容（即公钥）粘贴在后面，大概是下面这个样子：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1426,9 +1346,7 @@ CA 签发用户证书
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面命令的&lt;code>-i&lt;/code>参数用来指定用户的密钥。如果证书与密钥在同一个目录，则连接服务器时将自动使用该证书。&lt;/p>
-&lt;h3 id="废除证书">
-&lt;a href="#%e5%ba%9f%e9%99%a4%e8%af%81%e4%b9%a6" class="header-anchor">#&lt;/a>
-废除证书
+&lt;h3 id="废除证书">废除证书
 &lt;/h3>&lt;p>废除证书的操作，分成用户证书的废除和服务器证书的废除两种。&lt;/p>
 &lt;p>服务器证书的废除，用户需要在&lt;code>known_hosts&lt;/code>文件里面，修改或删除对应的&lt;code>@cert-authority&lt;/code>命令的那一行。&lt;/p>
 &lt;p>用户证书的废除，需要在服务器新建一个&lt;code>/etc/ssh/revoked_keys&lt;/code>文件，然后在配置文件&lt;code>sshd_config&lt;/code>添加一行，内容如下：&lt;/p>
@@ -1459,9 +1377,7 @@ CA 签发用户证书
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ ssh-keygen -ukf /etc/ssh/revoked_keys -z &lt;span class="m">2&lt;/span> ~/.ssh/user2_key.pub
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="参考链接">
-&lt;a href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5" class="header-anchor">#&lt;/a>
-参考链接
+&lt;/div>&lt;h3 id="参考链接">参考链接
 &lt;/h3>&lt;ul>
 &lt;li>&lt;a class="link" href="https://smallstep.com/blog/ssh-emergency-access/" target="_blank" rel="noopener"
 >SSH Emergency Access&lt;/a>, Carl Tashian&lt;/li>
@@ -1471,13 +1387,9 @@ CA 签发用户证书
 >How to SSH Properly&lt;/a>, Gus Luxton&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="scp-命令">
-&lt;a href="#scp-%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-scp 命令
+&lt;h2 id="scp-命令">scp 命令
 &lt;/h2>&lt;p>&lt;code>scp&lt;/code>是 SSH 提供的一个&lt;strong>客户端程序&lt;/strong>，用来在两台主机之间加密传送文件（即复制文件）。&lt;/p>
-&lt;h3 id="简介-1">
-&lt;a href="#%e7%ae%80%e4%bb%8b-1" class="header-anchor">#&lt;/a>
-简介
+&lt;h3 id="简介-1">简介
 &lt;/h3>&lt;p>&lt;code>scp&lt;/code>是 secure copy 的缩写，相当于&lt;code>cp&lt;/code>命令 + SSH。它的底层是 SSH 协议，默认端口是22，相当于先使用&lt;code>ssh&lt;/code>命令登录远程主机，然后再执行拷贝操作。&lt;/p>
 &lt;p>&lt;code>scp&lt;/code>主要用于以下三种复制操作：&lt;/p>
 &lt;ul>
@@ -1486,9 +1398,7 @@ scp 命令
 &lt;li>两个远程系统之间的复制。&lt;/li>
 &lt;/ul>
 &lt;p>使用&lt;code>scp&lt;/code>传输数据时，文件和密码都是加密的，不会泄漏敏感信息。&lt;/p>
-&lt;h3 id="基本语法">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95" class="header-anchor">#&lt;/a>
-基本语法
+&lt;h3 id="基本语法">基本语法
 &lt;/h3>&lt;p>&lt;code>scp&lt;/code>的语法类似&lt;code>cp&lt;/code>的语法：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1521,9 +1431,7 @@ scp 命令
 &lt;/div>
 &lt;/div>&lt;p>上面命令会将&lt;code>source1&lt;/code>和&lt;code>source2&lt;/code>两个文件，复制到&lt;code>destination&lt;/code>。&lt;/p>
 &lt;p>注意，如果所要复制的文件，在目标位置已经存在同名文件，&lt;code>scp&lt;/code>会在没有警告的情况下覆盖同名文件。&lt;/p>
-&lt;h3 id="用法示例">
-&lt;a href="#%e7%94%a8%e6%b3%95%e7%a4%ba%e4%be%8b" class="header-anchor">#&lt;/a>
-用法示例
+&lt;h3 id="用法示例">用法示例
 &lt;/h3>&lt;p>&lt;strong>（1）本地文件复制到远程&lt;/strong>&lt;/p>
 &lt;p>复制本机文件到远程系统的用法如下:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1624,9 +1532,7 @@ scp 命令
 &lt;/div>
 &lt;/div>&lt;p>系统将提示你输入两个远程帐户的密码。数据将直接从一个远程主机传输到另一个远程主机。&lt;/p>
 &lt;p>&lt;strong>注意&lt;/strong>：远程目录存在，则复制，不存在则改名。&lt;strong>注意只能改一级目录&lt;/strong>。&lt;/p>
-&lt;h3 id="配置项-1">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e9%a1%b9-1" class="header-anchor">#&lt;/a>
-配置项
+&lt;h3 id="配置项-1">配置项
 &lt;/h3>&lt;p>&lt;strong>（1）&lt;code>-c&lt;/code>&lt;/strong>&lt;/p>
 &lt;p>&lt;code>-c&lt;/code>参数用来指定文件拷贝数据传输的加密算法。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1722,9 +1628,7 @@ scp 命令
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="sftp-命令">
-&lt;a href="#sftp-%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-sftp 命令
+&lt;h2 id="sftp-命令">sftp 命令
 &lt;/h2>&lt;p>FTP（File Transfer Protocol，文件传输协议），提供文件的上传和下载功能。&lt;code>sftp&lt;/code>是基于SSH协议的文件传输协议，提供了加密和认证功能。&lt;/p>
 &lt;p>&lt;code>sftp&lt;/code>是 SSH 提供的一个客户端应用程序（&lt;strong>意味着认证方式通用&lt;/strong>），主要用来安全地访问 FTP。因为 FTP 是不加密协议，很不安全，&lt;code>sftp&lt;/code>就相当于将 FTP 放入了 SSH。&lt;/p>
 &lt;p>下面的命令连接 FTP 主机：&lt;/p>
@@ -1801,12 +1705,8 @@ sftp 命令
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="rsync-命令">
-&lt;a href="#rsync-%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-rsync 命令
-&lt;/h2>&lt;h3 id="简介-2">
-&lt;a href="#%e7%ae%80%e4%bb%8b-2" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="rsync-命令">rsync 命令
+&lt;/h2>&lt;h3 id="简介-2">简介
 &lt;/h3>&lt;p>rsync 是一个常用的 Linux 应用程序，&lt;strong>用于文件同步&lt;/strong>。&lt;/p>
 &lt;p>它可以在本地计算机与远程计算机之间，或者两个本地目录之间同步文件（但不支持两台远程计算机之间的同步）。它也可以当作文件复制工具，替代&lt;code>cp&lt;/code>和&lt;code>mv&lt;/code>命令。与&lt;code>scp&lt;/code>类似。&lt;/p>
 &lt;p>它名称里面的&lt;code>r&lt;/code>指的是 remote，rsync 其实就是“远程同步”（remote sync）的意思。与其他文件传输工具（如 FTP 或 scp）不同，rsync 的最大特点是会检查发送方和接收方已有的文件，&lt;strong>仅传输有变动的部分&lt;/strong>（默认规则是文件大小或修改时间有变动）。&lt;/p>
@@ -1822,9 +1722,7 @@ rsync 命令
 &lt;li>&lt;strong>文件权限和所有权保留&lt;/strong>：能够保留文件的权限、所有者和时间戳信息。&lt;/li>
 &lt;li>&lt;strong>广泛的选项和参数&lt;/strong>：提供了丰富的选项和参数来满足各种需求。&lt;/li>
 &lt;/ul>
-&lt;h3 id="安装">
-&lt;a href="#%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-安装
+&lt;h3 id="安装">安装
 &lt;/h3>&lt;p>如果本机或者远程计算机没有安装 rsync，可以用下面的命令安装:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1867,9 +1765,7 @@ rsync 命令
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>&lt;strong>注意&lt;/strong>，传输的双方都必须安装 rsync。&lt;/p>
-&lt;h3 id="基本用法-3">
-&lt;a href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95-3" class="header-anchor">#&lt;/a>
-基本用法
+&lt;h3 id="基本用法-3">基本用法
 &lt;/h3>&lt;p>&lt;code>rsync&lt;/code>的基本语法如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1948,9 +1844,7 @@ rsync 命令
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面命令中，&lt;code>--delete&lt;/code>参数会使得&lt;code>destination&lt;/code>成为&lt;code>source&lt;/code>的一个镜像。&lt;/p>
-&lt;h3 id="排除文件">
-&lt;a href="#%e6%8e%92%e9%99%a4%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-排除文件
+&lt;h3 id="排除文件">排除文件
 &lt;/h3>&lt;p>&lt;code>--exclude&lt;/code>参数&lt;/p>
 &lt;p>有时，我们希望同步时排除某些文件或目录，这时可以用&lt;code>--exclude&lt;/code>参数指定排除模式：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -2014,12 +1908,8 @@ rsync 命令
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面命令指定同步时，排除所有文件，但是会包括 TXT 文件。&lt;/p>
-&lt;h3 id="远程同步">
-&lt;a href="#%e8%bf%9c%e7%a8%8b%e5%90%8c%e6%ad%a5" class="header-anchor">#&lt;/a>
-远程同步
-&lt;/h3>&lt;h4 id="ssh-协议">
-&lt;a href="#ssh-%e5%8d%8f%e8%ae%ae" class="header-anchor">#&lt;/a>
-SSH 协议
+&lt;h3 id="远程同步">远程同步
+&lt;/h3>&lt;h4 id="ssh-协议">SSH 协议
 &lt;/h4>&lt;p>rsync 除了支持本地两个目录之间的同步，也支持远程同步。它可以将本地内容，同步到远程服务器：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2058,9 +1948,7 @@ SSH 协议
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面命令中，&lt;code>-e&lt;/code>参数指定 SSH 使用2234端口。&lt;/p>
-&lt;h4 id="rsync-协议">
-&lt;a href="#rsync-%e5%8d%8f%e8%ae%ae" class="header-anchor">#&lt;/a>
-rsync 协议
+&lt;h4 id="rsync-协议">rsync 协议
 &lt;/h4>&lt;p>除了使用 SSH，如果另一台服务器安装并运行了 rsync 守护程序，则也可以用&lt;code>rsync://&lt;/code>协议（默认端口873）进行传输。具体写法是服务器与目标目录之间使用双冒号分隔&lt;code>::&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2089,9 +1977,7 @@ rsync 协议
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ rsync -av source/ rsync://192.168.122.32/module/destination
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="增量备份">
-&lt;a href="#%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bd" class="header-anchor">#&lt;/a>
-增量备份
+&lt;/div>&lt;h3 id="增量备份">增量备份
 &lt;/h3>&lt;p>rsync 的最大特点就是它可以完成增量备份，也就是默认只复制有变动的文件。&lt;/p>
 &lt;p>除了源目录与目标目录直接比较，rsync 还支持使用基准目录，即将源目录与基准目录之间变动的部分，同步到目标目录。&lt;/p>
 &lt;p>具体做法是，第一次同步是全量备份，所有文件在基准目录里面同步一份。以后每一次同步都是增量备份，只同步源目录与基准目录之间有变动的部分，将这部分保存在一个新的目标目录。这个新的目标目录之中，也是包含所有文件，但实际上，只有那些变动过的文件是存在于该目录，其他没有变动的文件都是指向基准目录文件的硬链接。&lt;/p>
@@ -2161,9 +2047,7 @@ rsync 协议
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面脚本中，每一次同步都会生成一个新目录&lt;code>${BACKUP_DIR}/${DATETIME}&lt;/code>，并将软链接&lt;code>${BACKUP_DIR}/latest&lt;/code>指向这个目录。下一次备份时，就将&lt;code>${BACKUP_DIR}/latest&lt;/code>作为基准目录，生成新的备份目录。最后，再将软链接&lt;code>${BACKUP_DIR}/latest&lt;/code>指向新的备份目录。&lt;/p>
-&lt;h3 id="配置项-2">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e9%a1%b9-2" class="header-anchor">#&lt;/a>
-配置项
+&lt;h3 id="配置项-2">配置项
 &lt;/h3>&lt;p>&lt;code>-a&lt;/code>、&lt;code>--archive&lt;/code>参数表示存档模式，保存所有的元数据，比如修改时间（modification time）、权限、所有者等，并且软链接也会同步过去。&lt;/p>
 &lt;p>&lt;code>--append&lt;/code>参数指定文件接着上次中断的地方，继续传输。&lt;/p>
 &lt;p>&lt;code>--append-verify&lt;/code>参数跟&lt;code>--append&lt;/code>参数类似，但会对传输完成后的文件进行一次校验。如果校验失败，将重新发送整个文件。&lt;/p>
@@ -2198,9 +2082,7 @@ rsync 协议
 &lt;p>&lt;code>-v&lt;/code>参数表示输出细节。&lt;code>-vv&lt;/code>表示输出更详细的信息，&lt;code>-vvv&lt;/code>表示输出最详细的信息。&lt;/p>
 &lt;p>&lt;code>--version&lt;/code>参数返回 rsync 的版本。&lt;/p>
 &lt;p>&lt;code>-z&lt;/code>参数指定同步时压缩数据。&lt;/p>
-&lt;h3 id="参考链接-1">
-&lt;a href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5-1" class="header-anchor">#&lt;/a>
-参考链接
+&lt;h3 id="参考链接-1">参考链接
 &lt;/h3>&lt;ul>
 &lt;li>&lt;a class="link" href="https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps" target="_blank" rel="noopener"
 >How To Use Rsync to Sync Local and Remote Directories on a VPS&lt;/a>, Justin Ellingwood&lt;/li>
@@ -2212,12 +2094,8 @@ rsync 协议
 >How to create incremental backups using rsync on Linux&lt;/a>, Egidio Docile&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="ssh-服务器">
-&lt;a href="#ssh-%e6%9c%8d%e5%8a%a1%e5%99%a8" class="header-anchor">#&lt;/a>
-SSH 服务器
-&lt;/h2>&lt;h3 id="简介-3">
-&lt;a href="#%e7%ae%80%e4%bb%8b-3" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="ssh-服务器">SSH 服务器
+&lt;/h2>&lt;h3 id="简介-3">简介
 &lt;/h3>&lt;p>SSH 的架构是服务器/客户端模式，两端运行的软件是不一样的。OpenSSH 的客户端软件是 ssh，服务器软件是 sshd。本章介绍 sshd 的各种知识。&lt;/p>
 &lt;p>如果没有安装 sshd，可以用下面的命令安装:&lt;/p>
 &lt;p>&lt;strong>在Linux上安装SSH服务端&lt;/strong>&lt;/p>
@@ -2375,9 +2253,7 @@ SSH 服务器
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ sudo systemctl restart sshd
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="sshd-配置文件">
-&lt;a href="#sshd-%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-sshd 配置文件
+&lt;/div>&lt;h3 id="sshd-配置文件">sshd 配置文件
 &lt;/h3>&lt;p>sshd 的配置文件在&lt;code>/etc/ssh&lt;/code>目录，主配置文件是&lt;code>sshd_config&lt;/code>，此外还有一些安装时生成的密钥：&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>/etc/ssh/sshd_config&lt;/code>：配置文件&lt;/li>
@@ -2457,9 +2333,7 @@ sshd 配置文件
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo systemctl restart sshd
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="sshd-密钥">
-&lt;a href="#sshd-%e5%af%86%e9%92%a5" class="header-anchor">#&lt;/a>
-sshd 密钥
+&lt;/div>&lt;h3 id="sshd-密钥">sshd 密钥
 &lt;/h3>&lt;p>sshd 有自己的一对或多对密钥。&lt;strong>它使用密钥向客户端证明自己的身份&lt;/strong>。所有密钥都是公钥和私钥成对出现，公钥的文件名一般是私钥文件名加上后缀&lt;code>.pub&lt;/code>。&lt;/p>
 &lt;p>DSA 格式的密钥文件默认为&lt;code>/etc/ssh/ssh_host_dsa_key&lt;/code>（公钥为&lt;code>ssh_host_dsa_key.pub&lt;/code>），RSA 格式的密钥为&lt;code>/etc/ssh/ssh_host_rsa_key&lt;/code>（公钥为&lt;code>ssh_host_rsa_key.pub&lt;/code>）。如果需要支持 SSH 1 协议，则必须有密钥&lt;code>/etc/ssh/ssh_host_key&lt;/code>。&lt;/p>
 &lt;p>如果密钥不是默认文件，那么可以通过配置文件&lt;code>sshd_config&lt;/code>的&lt;code>HostKey&lt;/code>配置项指定。默认密钥的&lt;code>HostKey&lt;/code>设置如下：&lt;/p>
@@ -2495,9 +2369,7 @@ sshd 密钥
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">HostKey /usr/local/ssh/my_old_ssh1_key
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="sshd-配置项">
-&lt;a href="#sshd-%e9%85%8d%e7%bd%ae%e9%a1%b9" class="header-anchor">#&lt;/a>
-sshd 配置项
+&lt;/div>&lt;h3 id="sshd-配置项">sshd 配置项
 &lt;/h3>&lt;p>以下是&lt;code>/etc/ssh/sshd_config&lt;/code>文件里面的配置项：&lt;/p>
 &lt;p>&lt;strong>AcceptEnv&lt;/strong>&lt;/p>
 &lt;p>&lt;code>AcceptEnv&lt;/code>指定允许接受客户端通过&lt;code>SendEnv&lt;/code>命令发来的哪些环境变量，即允许客户端设置服务器的环境变量清单，变量名之间使用空格分隔（&lt;code>AcceptEnv PATH TERM&lt;/code>）。&lt;/p>
@@ -2639,9 +2511,7 @@ sshd 配置项
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ sudo systemctl restart sshd
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="sshd-的命令行配置项">
-&lt;a href="#sshd-%e7%9a%84%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%85%8d%e7%bd%ae%e9%a1%b9" class="header-anchor">#&lt;/a>
-sshd 的命令行配置项
+&lt;/div>&lt;h3 id="sshd-的命令行配置项">sshd 的命令行配置项
 &lt;/h3>&lt;p>sshd 命令有一些配置项。这些配置项在调用时指定，可以覆盖配置文件的设置：&lt;/p>
 &lt;p>（1）&lt;code>-d&lt;/code>&lt;/p>
 &lt;p>&lt;code>-d&lt;/code>参数用于显示 debug 信息。&lt;/p>
@@ -2729,14 +2599,10 @@ sshd 的命令行配置项
 &lt;/div>&lt;p>（8）&lt;code>-t&lt;/code>&lt;/p>
 &lt;p>&lt;code>-t&lt;/code>参数检查配置文件的语法是否正确。&lt;/p>
 &lt;hr>
-&lt;h2 id="ssh-日志">
-&lt;a href="#ssh-%e6%97%a5%e5%bf%97" class="header-anchor">#&lt;/a>
-SSH 日志
+&lt;h2 id="ssh-日志">SSH 日志
 &lt;/h2>&lt;p>SSH 在服务器端可以生成日志，记录登录当前服务器的情况。&lt;/p>
 &lt;p>SSH 日志是写在系统日志当中的，查看的时候需要从系统日志里面找到跟 SSH 相关的记录。&lt;/p>
-&lt;h3 id="journalctl-命令">
-&lt;a href="#journalctl-%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-journalctl 命令
+&lt;h3 id="journalctl-命令">journalctl 命令
 &lt;/h3>&lt;p>如果系统使用 Systemd，可以使用&lt;code>journalctl&lt;/code>命令查看日志:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2803,9 +2669,7 @@ journalctl 命令
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ journalctl -fu ssh
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="其他命令">
-&lt;a href="#%e5%85%b6%e4%bb%96%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-其他命令
+&lt;/div>&lt;h3 id="其他命令">其他命令
 &lt;/h3>&lt;p>如果系统没有使用 Systemd，可以在&lt;code>/var/log/auth.log&lt;/code>文件中找到 sshd 的日志。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2842,9 +2706,7 @@ journalctl 命令
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ lastlog
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="日志设置">
-&lt;a href="#%e6%97%a5%e5%bf%97%e8%ae%be%e7%bd%ae" class="header-anchor">#&lt;/a>
-日志设置
+&lt;/div>&lt;h3 id="日志设置">日志设置
 &lt;/h3>&lt;p>sshd 的配置文件&lt;code>/etc/ssh/sshd_config&lt;/code>，可以调整日志级别。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2864,12 +2726,8 @@ journalctl 命令
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="fail2ban-教程">
-&lt;a href="#fail2ban-%e6%95%99%e7%a8%8b" class="header-anchor">#&lt;/a>
-Fail2Ban 教程
-&lt;/h2>&lt;h3 id="简介-4">
-&lt;a href="#%e7%ae%80%e4%bb%8b-4" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="fail2ban-教程">Fail2Ban 教程
+&lt;/h2>&lt;h3 id="简介-4">简介
 &lt;/h3>&lt;p>Fail2Ban 是一个 Linux 系统的应用软件，用来防止系统入侵，主要是防止暴力破解系统密码。它是用 Python 开发的。&lt;/p>
 &lt;p>它主要通过监控日志文件（比如&lt;code>/var/log/auth.log&lt;/code>、&lt;code>/var/log/apache/access.log&lt;/code>等）来生效。一旦发现恶意攻击的登录请求，它会封锁对方的 IP 地址，使得对方无法再发起请求。&lt;/p>
 &lt;p>Fail2Ban 可以防止有人反复尝试 SSH 密码登录，但是如果 SSH 采用的是密钥登录，禁止了密码登录，就不需要 Fail2Ban 来保护。&lt;/p>
@@ -2936,9 +2794,7 @@ Fail2Ban 教程
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ sudo systemctl &lt;span class="nb">enable&lt;/span> fail2ban
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="fail2ban-client">
-&lt;a href="#fail2ban-client" class="header-anchor">#&lt;/a>
-fail2ban-client
+&lt;/div>&lt;h3 id="fail2ban-client">fail2ban-client
 &lt;/h3>&lt;p>Fail2Ban 自带一个客户端 fail2ban-client，用来操作 Fail2Ban：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3034,12 +2890,8 @@ fail2ban-client
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo fail2ban-client &lt;span class="nb">set&lt;/span> sshd banip &amp;lt;IP地址&amp;gt;
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="配置">
-&lt;a href="#%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-配置
-&lt;/h3>&lt;h4 id="主配置文件">
-&lt;a href="#%e4%b8%bb%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-主配置文件
+&lt;/div>&lt;h3 id="配置">配置
+&lt;/h3>&lt;h4 id="主配置文件">主配置文件
 &lt;/h4>&lt;p>Fail2Ban 主配置文件是在&lt;code>/etc/fail2ban/fail2ban.conf&lt;/code>，可以新建一份副本&lt;code>/etc/fail2ban/fail2ban.local&lt;/code>作为本地配置文件，修改都针对本地配置文件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3061,9 +2913,7 @@ fail2ban-client
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>修改配置以后，需要重新启动&lt;code>fail2ban.service&lt;/code>，让其生效。&lt;/p>
-&lt;h4 id="封禁配置">
-&lt;a href="#%e5%b0%81%e7%a6%81%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-封禁配置
+&lt;h4 id="封禁配置">封禁配置
 &lt;/h4>&lt;p>Fail2Ban 封禁行为的配置文件是&lt;code>/etc/fail2ban/jail.conf&lt;/code>。为了便于修改，可以把它复制一份&lt;code>/etc/fail2ban/jail.local&lt;/code>本地配置文件，后面的修改都针对&lt;code>jail.local&lt;/code>这个文件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3124,9 +2974,7 @@ fail2ban-client
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面声明表示，Fail2Ban 对 sshd 开启。&lt;/p>
-&lt;h4 id="配置项-3">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e9%a1%b9-3" class="header-anchor">#&lt;/a>
-配置项
+&lt;h4 id="配置项-3">配置项
 &lt;/h4>&lt;p>下面是配置文件&lt;code>jail.local&lt;/code>的配置项含义，所有配置项的格式都是&lt;code>key=value&lt;/code>。&lt;/p>
 &lt;p>（1）bantime&lt;/p>
 &lt;p>封禁的时间长度，单位&lt;code>m&lt;/code>表示分钟，&lt;code>d&lt;/code>表示天，&lt;code>h&lt;/code>表示小时，如果不写单位，则表示秒。Fail2Ban 默认封禁10分钟（10m 或 600）。&lt;/p>
@@ -3250,9 +3098,7 @@ fail2ban-client
 &lt;/div>
 &lt;/div>&lt;p>（9）port&lt;/p>
 &lt;p>指定要监控的端口。可以设为任何端口号或服务名称，比如&lt;code>ssh&lt;/code>、&lt;code>22&lt;/code>、&lt;code>2200&lt;/code>等。&lt;/p>
-&lt;h3 id="ssh-配置">
-&lt;a href="#ssh-%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-ssh 配置
+&lt;h3 id="ssh-配置">ssh 配置
 &lt;/h3>&lt;p>下面是 sshd 的设置范例：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3282,20 +3128,14 @@ ssh 配置
 &lt;/div>
 &lt;/div>&lt;p>首先需要注意，为了让 Fail2Ban 能够完整发挥作用，最好在&lt;code>/etc/ssh/sshd_config&lt;/code>里面设置&lt;code>LogLevel VERBOSE&lt;/code>，保证日志有足够的信息。&lt;/p>
 &lt;hr>
-&lt;h2 id="ssh-端口转发-">
-&lt;a href="#ssh-%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91-" class="header-anchor">#&lt;/a>
-SSH 端口转发: ?
-&lt;/h2>&lt;h3 id="简介-5">
-&lt;a href="#%e7%ae%80%e4%bb%8b-5" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="ssh-端口转发-">SSH 端口转发: ?
+&lt;/h2>&lt;h3 id="简介-5">简介
 &lt;/h3>&lt;p>SSH 除了登录服务器，还有一大用途，就是作为加密通信的中介，充当两台服务器之间的通信加密跳板，使得原本不加密的通信变成加密通信。这个功能称为&lt;strong>端口转发&lt;/strong>（port forwarding），又称 &lt;strong>SSH 隧道&lt;/strong>（tunnel）。&lt;/p>
 &lt;p>端口转发有两个主要作用：&lt;/p>
 &lt;p>（1）将不加密的数据放在 SSH 安全连接里面传输，使得原本不安全的网络服务增加了安全性，比如通过端口转发访问 Telnet、FTP 等明文服务，数据传输就都会加密。&lt;/p>
 &lt;p>（2）作为数据通信的加密跳板，绕过网络防火墙。&lt;/p>
 &lt;p>端口转发有三种使用方法：动态转发，本地转发，远程转发。下面逐一介绍。&lt;/p>
-&lt;h3 id="动态转发">
-&lt;a href="#%e5%8a%a8%e6%80%81%e8%bd%ac%e5%8f%91" class="header-anchor">#&lt;/a>
-动态转发
+&lt;h3 id="动态转发">动态转发
 &lt;/h3>&lt;p>动态转发指的是，本机与 SSH 服务器之间创建了一个加密连接，然后本机内部针对某个端口的通信，都通过这个加密连接转发。它的一个使用场景就是，访问所有外部网站，都通过 SSH 转发。&lt;/p>
 &lt;p>动态转发需要把本地端口绑定到 SSH 服务器。至于 SSH 服务器要去访问哪一个网站，完全是动态的，取决于原始通信，所以叫做动态转发。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -3336,9 +3176,7 @@ SSH 端口转发: ?
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">DynamicForward tunnel-host:local-port
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="本地转发">
-&lt;a href="#%e6%9c%ac%e5%9c%b0%e8%bd%ac%e5%8f%91" class="header-anchor">#&lt;/a>
-本地转发
+&lt;/div>&lt;h3 id="本地转发">本地转发
 &lt;/h3>&lt;p>本地转发（local forwarding）指的是，SSH 服务器作为中介的跳板机，建立本地计算机与特定目标网站之间的加密连接。本地转发是在本地计算机的 SSH 客户端建立的转发规则。&lt;/p>
 &lt;p>它会指定一个本地端口（local-port），所有发向那个端口的请求，都会转发到 SSH 跳板机（tunnel-host），然后 SSH 跳板机作为中介，将收到的请求发到目标服务器（target-host）的目标端口（target-port）。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -3402,9 +3240,7 @@ SSH 端口转发: ?
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">LocalForward client-IP:client-port server-IP:server-port
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="远程转发">
-&lt;a href="#%e8%bf%9c%e7%a8%8b%e8%bd%ac%e5%8f%91" class="header-anchor">#&lt;/a>
-远程转发
+&lt;/div>&lt;h3 id="远程转发">远程转发
 &lt;/h3>&lt;p>远程转发指的是在远程 SSH 服务器建立的转发规则。&lt;/p>
 &lt;p>它跟本地转发正好反过来。建立本地计算机到远程计算机的 SSH 隧道以后，本地转发是通过本地计算机访问远程计算机，而远程转发则是通过远程计算机访问本地计算机。它的命令格式如下:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -3477,13 +3313,9 @@ SSH 端口转发: ?
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ ssh -R remote-port:target-host:target-port -N test.example.com
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="实例">
-&lt;a href="#%e5%ae%9e%e4%be%8b" class="header-anchor">#&lt;/a>
-实例
+&lt;/div>&lt;h3 id="实例">实例
 &lt;/h3>&lt;p>下面看两个端口转发的实例。&lt;/p>
-&lt;h4 id="简易-vpn">
-&lt;a href="#%e7%ae%80%e6%98%93-vpn" class="header-anchor">#&lt;/a>
-简易 VPN
+&lt;h4 id="简易-vpn">简易 VPN
 &lt;/h4>&lt;p>VPN 用来在外网与内网之间建立一条加密通道。内网的服务器不能从外网直接访问，必须通过一个跳板机，如果本机可以访问跳板机，就可以使用 SSH 本地转发，简单实现一个 VPN。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3494,9 +3326,7 @@ SSH 端口转发: ?
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>上面命令通过 SSH 跳板机，将本机的&lt;code>2080&lt;/code>端口绑定内网服务器的&lt;code>80&lt;/code>端口，本机的&lt;code>2443&lt;/code>端口绑定内网服务器的&lt;code>443&lt;/code>端口。&lt;/p>
-&lt;h4 id="两级跳板">
-&lt;a href="#%e4%b8%a4%e7%ba%a7%e8%b7%b3%e6%9d%bf" class="header-anchor">#&lt;/a>
-两级跳板
+&lt;h4 id="两级跳板">两级跳板
 &lt;/h4>&lt;p>端口转发可以有多级，比如新建两个 SSH 隧道，第一个隧道转发给第二个隧道，第二个隧道才能访问目标服务器。&lt;/p>
 &lt;p>首先，在本机新建第一级隧道。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -3520,9 +3350,7 @@ SSH 端口转发: ?
 &lt;/div>&lt;p>上面命令将第一台跳板机&lt;code>tunnel1-host&lt;/code>的&lt;code>2999&lt;/code>端口，通过第二台跳板机&lt;code>tunnel2-host&lt;/code>，连接到目标服务器&lt;code>target-host&lt;/code>的&lt;code>7999&lt;/code>端口。&lt;/p>
 &lt;p>最终效果就是，访问本机的&lt;code>7999&lt;/code>端口，就会转发到&lt;code>target-host&lt;/code>的&lt;code>7999&lt;/code>端口。&lt;/p>
 &lt;p>在远程机器上&lt;code>/etc/ssh/sshd_config&lt;/code> 打开 &lt;code>GatewayPorts yes&lt;/code> ，才能通过公网访问 远程8080转发 的本地80服务。&lt;/p>
-&lt;h3 id="参考链接-2">
-&lt;a href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5-2" class="header-anchor">#&lt;/a>
-参考链接
+&lt;h3 id="参考链接-2">参考链接
 &lt;/h3>&lt;ul>
 &lt;li>&lt;a class="link" href="https://solitum.net/posts/an-illustrated-guide-to-ssh-tunnels/" target="_blank" rel="noopener"
 >An Illustrated Guide to SSH Tunnels&lt;/a>, Scott Wiersdorf&lt;/li>
@@ -3530,24 +3358,18 @@ SSH 端口转发: ?
 >An Excruciatingly Detailed Guide To SSH&lt;/a>, Graham Helton&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ul>
 &lt;li>原文地址： &lt;a class="link" href="https://wangdoc.com/ssh/" target="_blank" rel="noopener"
 >https://wangdoc.com/ssh/&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/blockquote></description></item><item><title>Vim Introduction</title><link>https://arlettebrook.github.io/p/vim-introduction/</link><pubDate>Thu, 30 May 2024 21:52:12 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-introduction/</guid><description>&lt;hr>
-&lt;h2 id="安装vim">
-&lt;a href="#%e5%ae%89%e8%a3%85vim" class="header-anchor">#&lt;/a>
-安装vim
+&lt;h2 id="安装vim">安装vim
 &lt;/h2>&lt;p>&lt;a class="link" href="https://github.com/vim/vim" target="_blank" rel="noopener"
 >Vim&lt;/a> （&lt;a class="link" href="https://www.vim.org/" target="_blank" rel="noopener"
 >官网&lt;/a>） 是一个非常流行的文本编辑器，可以在多种操作系统上安装和使用。下面是如何在不同系统上安装 Vim 的方法：&lt;/p>
-&lt;h3 id="在-linux-上安装-vim">
-&lt;a href="#%e5%9c%a8-linux-%e4%b8%8a%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-在 Linux 上安装 Vim
+&lt;h3 id="在-linux-上安装-vim">在 Linux 上安装 Vim
 &lt;/h3>&lt;p>大多数 Linux 发行版都在其软件包管理器中包含 Vim。可以使用包管理器来安装它。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -3575,9 +3397,7 @@ SSH 端口转发: ?
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h3 id="在-macos-上安装-vim">
-&lt;a href="#%e5%9c%a8-macos-%e4%b8%8a%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-在 macOS 上安装 Vim
+&lt;h3 id="在-macos-上安装-vim">在 macOS 上安装 Vim
 &lt;/h3>&lt;p>macOS 通常预装了 Vim，但可能不是最新版本。你可以使用 Homebrew 来安装或更新 Vim。&lt;/p>
 &lt;p>使用 Homebrew 安装&lt;/p>
 &lt;ul>
@@ -3606,9 +3426,7 @@ SSH 端口转发: ?
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h3 id="在-windows-上安装-vim">
-&lt;a href="#%e5%9c%a8-windows-%e4%b8%8a%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-&lt;strong>在 Windows 上安装 Vim&lt;/strong>
+&lt;h3 id="在-windows-上安装-vim">&lt;strong>在 Windows 上安装 Vim&lt;/strong>
 &lt;/h3>&lt;p>在 Windows 上，你可以通过以下方法安装 Vim：&lt;/p>
 &lt;p>&lt;strong>直接下载安装程序&lt;/strong>:&lt;/p>
 &lt;ol>
@@ -3675,9 +3493,7 @@ Diff 是用来对比两个文件内容用的，直接打开挺没用的，不过
 Easy启动的时候是insert模式，适合普通windows用户的习惯；
 Read-Only的用途：比如用read-only打开已经用vim打开过的文件，就不会提示让人烦躁的.swp文件存在的问题；&lt;/li>
 &lt;/ol>
-&lt;h3 id="通用方法编译安装-vim">
-&lt;a href="#%e9%80%9a%e7%94%a8%e6%96%b9%e6%b3%95%e7%bc%96%e8%af%91%e5%ae%89%e8%a3%85-vim" class="header-anchor">#&lt;/a>
-通用方法：编译安装 Vim
+&lt;h3 id="通用方法编译安装-vim">通用方法：编译安装 Vim
 &lt;/h3>&lt;p>如果你希望安装最新版本的 Vim 或自定义编译选项，可以从源代码编译安装。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -3731,9 +3547,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h3 id="在ide中安装vim插件">
-&lt;a href="#%e5%9c%a8ide%e4%b8%ad%e5%ae%89%e8%a3%85vim%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-在IDE中安装vim插件
+&lt;h3 id="在ide中安装vim插件">在IDE中安装vim插件
 &lt;/h3>&lt;p>许多现代集成开发环境（IDE）提供了 Vim 模拟插件。我们在享受 IDE 强大功能的同时，可以继续使用Vim的编辑风格。&lt;/p>
 &lt;p>要在IDE中安装vim插件，只需要在对应IDE的插件市场搜索安装即可，我常用的：&lt;/p>
 &lt;ul>
@@ -3755,13 +3569,9 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;li>……&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="配置vim">
-&lt;a href="#%e9%85%8d%e7%bd%aevim" class="header-anchor">#&lt;/a>
-配置vim
+&lt;h2 id="配置vim">配置vim
 &lt;/h2>&lt;p>Vim 是一个高度可配置的文本编辑器，可以通过编辑其配置文件来调整和扩展其功能。&lt;/p>
-&lt;h3 id="配置文件介绍">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-配置文件介绍
+&lt;h3 id="配置文件介绍">配置文件介绍
 &lt;/h3>&lt;p>Vim没有提供图形化的配置界面，配置Vim都是通过配置文件（&lt;code>.vimrc&lt;/code>）实现的：&lt;/p>
 &lt;ul>
 &lt;li>
@@ -3817,9 +3627,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="常见的-vim-配置项">
-&lt;a href="#%e5%b8%b8%e8%a7%81%e7%9a%84-vim-%e9%85%8d%e7%bd%ae%e9%a1%b9" class="header-anchor">#&lt;/a>
-常见的 Vim 配置项
+&lt;h3 id="常见的-vim-配置项">常见的 Vim 配置项
 &lt;/h3>&lt;p>&lt;code>.vimrc&lt;/code>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3963,16 +3771,12 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/div>
 &lt;/div>&lt;p>注意配置了上面大部分设置，在大多数主题中只需要在&lt;code>vim-plug&lt;/code>后面选择颜色方案&lt;code>colorscheme&lt;/code>即可。&lt;/p>
 &lt;hr>
-&lt;h2 id="插件使用">
-&lt;a href="#%e6%8f%92%e4%bb%b6%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-插件使用
+&lt;h2 id="插件使用">插件使用
 &lt;/h2>&lt;p>Vim 的功能可以通过插件进一步扩展。使用插件可以增强Vim的功能，如语法高亮、代码补全、文件浏览器、版本控制集成、模糊搜索等。&lt;/p>
 &lt;p>为了方便安装，更新，删除插件，我们一般使用插件管理器进行插件管理。&lt;/p>
 &lt;p>推荐使用的插件管理器是&lt;a class="link" href="https://github.com/junegunn/vim-plug" target="_blank" rel="noopener"
 >vim-plug&lt;/a>。与其他插件管理器（如 Vundle 和 Pathogen）相比，&lt;code>vim-plug&lt;/code> 提供了更快的性能和更多的功能，如并行安装插件、延迟加载插件、使用简单等。&lt;/p>
-&lt;h3 id="安装-vim-plug">
-&lt;a href="#%e5%ae%89%e8%a3%85-vim-plug" class="header-anchor">#&lt;/a>
-安装 &lt;code>vim-plug&lt;/code>
+&lt;h3 id="安装-vim-plug">安装 &lt;code>vim-plug&lt;/code>
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>下载并安装 &lt;code>vim-plug&lt;/code>&lt;/strong>： 在终端中运行以下命令，这会将 &lt;code>vim-plug&lt;/code> 下载到你的 Vim 自动加载目录下：&lt;/p>
@@ -4003,9 +3807,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 >plug.vim&lt;/a>，并将文件放在 windows 中的 &lt;code>~/vimfiles/autoload&lt;/code> 或 Linux 中的 &lt;code>~/.vim/autoload&lt;/code> 文件夹内，没有手动创建。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="插件推荐">
-&lt;a href="#%e6%8f%92%e4%bb%b6%e6%8e%a8%e8%8d%90" class="header-anchor">#&lt;/a>
-插件推荐
+&lt;h3 id="插件推荐">插件推荐
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>状态栏和主题&lt;/strong>&lt;/p>
@@ -4138,9 +3940,7 @@ Read-Only的用途：比如用read-only打开已经用vim打开过的文件，�
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="配置插件">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-配置插件
+&lt;h3 id="配置插件">配置插件
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>编辑 &lt;code>.vimrc&lt;/code> 文件，添加插件管理器配置&lt;/strong>：&lt;/p>
@@ -4243,9 +4043,7 @@ data-flex-basis="426px"
 &lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="效果展示">
-&lt;a href="#%e6%95%88%e6%9e%9c%e5%b1%95%e7%a4%ba" class="header-anchor">#&lt;/a>
-&lt;strong>效果展示&lt;/strong>
+&lt;h2 id="效果展示">&lt;strong>效果展示&lt;/strong>
 &lt;/h2>&lt;p>vim配置效果：&lt;/p>
 &lt;p>material：default：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/vim-introduction/index.assets/image-20240601115134165.png"
@@ -4284,12 +4082,8 @@ data-flex-basis="426px"
 &lt;p>我的&lt;a class="link" href="https://github.com/arlettebrook/arlettebrook/tree/main/vim.cfg" target="_blank" rel="noopener"
 >完整配置&lt;/a>。&lt;/p>
 &lt;hr>
-&lt;h2 id="扩展">
-&lt;a href="#%e6%89%a9%e5%b1%95" class="header-anchor">#&lt;/a>
-扩展
-&lt;/h2>&lt;h3 id="自定义快捷键">
-&lt;a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%bf%ab%e6%8d%b7%e9%94%ae" class="header-anchor">#&lt;/a>
-自定义快捷键
+&lt;h2 id="扩展">扩展
+&lt;/h2>&lt;h3 id="自定义快捷键">自定义快捷键
 &lt;/h3>&lt;p>在Vim中自定义快捷键，其实就创建快捷键与命令之间的映射关系。&lt;/p>
 &lt;p>用到的命令是&lt;code>map&lt;/code>或&lt;code>noremap&lt;/code>。注意：要将命令配置在&lt;code>.vimrc&lt;/code>中。&lt;/p>
 &lt;p>格式：&lt;code>映射命令 自定义快捷键 命令&lt;/code>，中间用空格分隔开。&lt;/p>
@@ -4493,9 +4287,7 @@ data-flex-basis="426px"
 &lt;/div>&lt;p>需要注意的是不要配置普通模式下的&lt;code>ctrl-v&lt;/code>，它是可视块的快捷键，可以配置visual模式的，需要按两次才能粘贴。不过够用了。&lt;/p>
 &lt;p>&lt;strong>命令参考&lt;/strong>：&lt;a class="link" href="https://arlettebrook.github.io/p/vim-common-commands/" target="_blank" rel="noopener"
 >Vim Common Commands&lt;/a>&lt;/p></description></item><item><title>Terminal And Shell Introduction</title><link>https://arlettebrook.github.io/p/terminal-and-shell-introduction/</link><pubDate>Mon, 27 May 2024 15:17:13 +0800</pubDate><guid>https://arlettebrook.github.io/p/terminal-and-shell-introduction/</guid><description>&lt;hr>
-&lt;h2 id="概念">
-&lt;a href="#%e6%a6%82%e5%bf%b5" class="header-anchor">#&lt;/a>
-概念
+&lt;h2 id="概念">概念
 &lt;/h2>&lt;ul>
 &lt;li>&lt;strong>终端&lt;/strong>：命令行&lt;strong>交互界面&lt;/strong>。如：
 &lt;ul>
@@ -4516,15 +4308,11 @@ data-flex-basis="426px"
 >命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？&lt;/a>&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="zsh安装">
-&lt;a href="#zsh%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-zsh安装
+&lt;h2 id="zsh安装">zsh安装
 &lt;/h2>&lt;p>Bash是Linux系统内置的shell，提供了强大的命令行编辑、脚本编写和命令历史功能，广泛用于 Linux 和 macOS 系统中。是目前最流行的 Shell 之一。&lt;/p>
 &lt;p>而&lt;strong>Zsh&lt;/strong> 是一个功能强大的 Shell，具有比 Bash 更多的特性，如更高级的自动补全、更强大的脚本能力和更丰富的配置选项，还提供了诸如共享历史、拼写校正、主题支持和插件系统等&lt;strong>增强功能&lt;/strong>，使其成为高级用户和开发者的首选。&lt;/p>
 &lt;p>接下来介绍如何安装：&lt;/p>
-&lt;h3 id="windows上安装">
-&lt;a href="#windows%e4%b8%8a%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-windows上安装
+&lt;h3 id="windows上安装">windows上安装
 &lt;/h3>&lt;blockquote>
 &lt;p>注意：windows上安装zsh是建立在git bash基础上的。&lt;/p>
 &lt;p>所以只有安装了git，我们才能在windows上使用zsh。&lt;/p>
@@ -4678,9 +4466,7 @@ data-flex-basis="1072px"
 &lt;p>至此windows上安装zsh完成。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="linux上安装">
-&lt;a href="#linux%e4%b8%8a%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-Linux上安装
+&lt;h3 id="linux上安装">Linux上安装
 &lt;/h3>&lt;ol>
 &lt;li>
 &lt;p>准备：&lt;/p>
@@ -4797,9 +4583,7 @@ data-flex-basis="1688px"
 &lt;p>至此Linux安装zsh完成。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="安装-oh-my-zsh">
-&lt;a href="#%e5%ae%89%e8%a3%85-oh-my-zsh" class="header-anchor">#&lt;/a>
-安装 Oh My Zsh
+&lt;h3 id="安装-oh-my-zsh">安装 Oh My Zsh
 &lt;/h3>&lt;blockquote>
 &lt;blockquote>
 &lt;p>成功安装了zsh，还需要安装Oh My Zsh，它对zsh进行了扩展，这也是为什么要使用zsh了，而不是bash的原因。&lt;/p>
@@ -4874,9 +4658,7 @@ class="gallery-image"
 data-flex-grow="213"
 data-flex-basis="512px"
 >&lt;/p>
-&lt;h4 id="配置-zsh">
-&lt;a href="#%e9%85%8d%e7%bd%ae-zsh" class="header-anchor">#&lt;/a>
-配置 zsh
+&lt;h4 id="配置-zsh">配置 zsh
 &lt;/h4>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>Zsh&lt;/code>的配置文件在用户的家目录，文件名是 &lt;code>.zshrc&lt;/code>，编辑配置文件，可以对 &lt;code>Zsh&lt;/code>进行一些定制化配置：&lt;/p>
@@ -4902,9 +4684,7 @@ data-flex-basis="512px"
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ul>
-&lt;h5 id="配置主题">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e4%b8%bb%e9%a2%98" class="header-anchor">#&lt;/a>
-&lt;strong>配置主题&lt;/strong>
+&lt;h5 id="配置主题">&lt;strong>配置主题&lt;/strong>
 &lt;/h5>&lt;ol>
 &lt;li>
 &lt;p>就是对.zshrc配置&lt;/p>
@@ -4940,9 +4720,7 @@ data-flex-basis="356px"
 &lt;/ol>
 &lt;/li>
 &lt;/ol>
-&lt;h5 id="配置插件">
-&lt;a href="#%e9%85%8d%e7%bd%ae%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-&lt;strong>配置插件&lt;/strong>
+&lt;h5 id="配置插件">&lt;strong>配置插件&lt;/strong>
 &lt;/h5>&lt;ol>
 &lt;li>
 &lt;p>插件Oh My Zsh 附带了大量插件供您使用。您可以查看&lt;a class="link" href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins" target="_blank" rel="noopener"
@@ -4979,9 +4757,7 @@ data-flex-basis="1249px"
 >&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h6 id="自动补全">
-&lt;a href="#%e8%87%aa%e5%8a%a8%e8%a1%a5%e5%85%a8" class="header-anchor">#&lt;/a>
-&lt;strong>自动补全&lt;/strong>
+&lt;h6 id="自动补全">&lt;strong>自动补全&lt;/strong>
 &lt;/h6>&lt;ol>
 &lt;li>
 &lt;p>&lt;code>zsh-autosuggestions&lt;/code> 插件，可以在你历史指令中找到与你当前输入指令匹配的记录，并高亮显示，如果想直接使用，可以直接通过右方向键补全。 安装插件，在终端分别执行下面两条命令：官方&lt;a class="link" href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="noopener"
@@ -5058,9 +4834,7 @@ data-flex-basis="2654px"
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h6 id="目录跳转">
-&lt;a href="#%e7%9b%ae%e5%bd%95%e8%b7%b3%e8%bd%ac" class="header-anchor">#&lt;/a>
-&lt;strong>目录跳转&lt;/strong>
+&lt;h6 id="目录跳转">&lt;strong>目录跳转&lt;/strong>
 &lt;/h6>&lt;ol>
 &lt;li>
 &lt;p>&lt;code>Zsh&lt;/code> 自带有一个插件 &lt;code>z&lt;/code>，可以让我们在访问过的目录中快速跳转，将该插件配置到 &lt;code>~/.zshrc&lt;/code> 文件中即可使用：&lt;/p>
@@ -5092,9 +4866,7 @@ data-flex-basis="1218px"
 &lt;/blockquote>
 &lt;/li>
 &lt;/ol>
-&lt;h6 id="其他插件">
-&lt;a href="#%e5%85%b6%e4%bb%96%e6%8f%92%e4%bb%b6" class="header-anchor">#&lt;/a>
-&lt;strong>其他插件&lt;/strong>
+&lt;h6 id="其他插件">&lt;strong>其他插件&lt;/strong>
 &lt;/h6>&lt;ol>
 &lt;li>
 &lt;p>&lt;code>zsh-syntax-highlighting&lt;/code>：这个插件可以识别的 &lt;code>shell&lt;/code> 命令并高亮显示&lt;/p>
@@ -5189,18 +4961,14 @@ data-flex-basis="475px"
 &lt;/li>
 &lt;/ol>
 &lt;hr>
-&lt;h2 id="shell使用">
-&lt;a href="#shell%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-Shell使用
+&lt;h2 id="shell使用">Shell使用
 &lt;/h2>&lt;p>在不同的终端中我们可以指定不同的Shell来使用。如：&lt;/p>
 &lt;ol>
 &lt;li>在&lt;a class="link" href="#Linux%e4%b8%8a%e5%ae%89%e8%a3%85" >Linux安装zsh&lt;/a>中我们就指定了Linux终端的默认Shell为zsh。&lt;/li>
 &lt;li>在稍后介绍的[Windows Terminal](#Windows Terminal)中，也会指定Windows Terminal终端的默认Shell为Git bash。&lt;/li>
 &lt;li>下面介绍在IDE终端中设置自己的Shell。&lt;/li>
 &lt;/ol>
-&lt;h3 id="设置ide终端的shell为git-bash">
-&lt;a href="#%e8%ae%be%e7%bd%aeide%e7%bb%88%e7%ab%af%e7%9a%84shell%e4%b8%bagit-bash" class="header-anchor">#&lt;/a>
-设置IDE终端的Shell为git bash
+&lt;h3 id="设置ide终端的shell为git-bash">设置IDE终端的Shell为git bash
 &lt;/h3>&lt;p>如果你按照上面的教程成功在windows上安装了zsh，那么设置Shell为git bash，也就是设置为zsh。&lt;/p>
 &lt;p>注意：没有安装zsh的情况下也能设置为git bash。&lt;strong>优点：高亮、个人爱好&lt;/strong>。&lt;/p>
 &lt;p>这里以goland开发工具为例，jetBrains全系列差不多：&lt;/p>
@@ -5271,12 +5039,8 @@ data-flex-basis="915px"
 >&lt;/p>
 &lt;p>vscode默认为git bash设置了启动参数，很方便。&lt;/p>
 &lt;hr>
-&lt;h2 id="terminal使用">
-&lt;a href="#terminal%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-Terminal使用
-&lt;/h2>&lt;h3 id="windows-terminal">
-&lt;a href="#windows-terminal" class="header-anchor">#&lt;/a>
-Windows Terminal
+&lt;h2 id="terminal使用">Terminal使用
+&lt;/h2>&lt;h3 id="windows-terminal">Windows Terminal
 &lt;/h3>&lt;p>&lt;strong>Windows Terminal&lt;/strong>可以理解为：是cmd窗口和PowerShell终端的增强版，它将windows环境下的终端（cmd、PowerShell）都集成在了一起。我们只需要指定对应的Shell（cmd、PowerShell、git bash），即可使用。&lt;a class="link" href="https://learn.microsoft.com/zh-cn/windows/terminal/" target="_blank" rel="noopener"
 >官方文档&lt;/a>。&lt;/p>
 &lt;p>&lt;strong>主要特性&lt;/strong>：&lt;/p>
@@ -5322,9 +5086,7 @@ Windows Terminal
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h4 id="安装">
-&lt;a href="#%e5%ae%89%e8%a3%85" class="header-anchor">#&lt;/a>
-安装
+&lt;h4 id="安装">安装
 &lt;/h4>&lt;p>Win11系统自带Windows Terminal终端，并且从Windows 11 22H2 版本开始，Windows Terminal 将&lt;a class="link" href="https://devblogs.microsoft.com/commandline/windows-terminal-is-now-the-default-in-windows-11/" target="_blank" rel="noopener"
 >正式成为&lt;/a> Windows 11 的&lt;strong>默认终端&lt;/strong>。&lt;/p>
 &lt;p>对于Win10系统需要额外安装，最低要求是Windows 10 2004（内部版本 19041）或更高版本。&lt;/p>
@@ -5360,9 +5122,7 @@ data-flex-basis="453px"
 &lt;p>推荐文章：&lt;a class="link" href="https://blog.csdn.net/2201_75372778/article/details/131342522" target="_blank" rel="noopener"
 >Windows终端（windows terminal）从下载到运行&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;h4 id="修改默认shell为git-bash">
-&lt;a href="#%e4%bf%ae%e6%94%b9%e9%bb%98%e8%ae%a4shell%e4%b8%bagit-bash" class="header-anchor">#&lt;/a>
-修改默认Shell为Git Bash
+&lt;h4 id="修改默认shell为git-bash">修改默认Shell为Git Bash
 &lt;/h4>&lt;p>可以根据自己的爱好判断是否修改。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -5408,9 +5168,7 @@ data-flex-basis="474px"
 >&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="美化">
-&lt;a href="#%e7%be%8e%e5%8c%96" class="header-anchor">#&lt;/a>
-美化
+&lt;h4 id="美化">美化
 &lt;/h4>&lt;p>我在windows环境下使用的Shell一般是git bash，可定制化并不高，配置的zsh也没有使用，不过对我来说够用了。&lt;/p>
 &lt;p>效果如下：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/image-20240527230837406.png"
@@ -5507,9 +5265,7 @@ data-flex-basis="426px"
 >Oh My Posh&lt;/a>美化它，跟前面介绍的Oh My Zsh差不多。&lt;/p>
 &lt;p>推荐文章：&lt;a class="link" href="https://blog.sunguoqi.com/posts/oh-my-posh/" target="_blank" rel="noopener"
 >Oh My Posh | Windows Terminal 美化指南&lt;/a>&lt;/p>
-&lt;h3 id="windterm">
-&lt;a href="#windterm" class="header-anchor">#&lt;/a>
-WindTerm
+&lt;h3 id="windterm">WindTerm
 &lt;/h3>&lt;p>&lt;a class="link" href="https://github.com/kingToolbox/WindTerm" target="_blank" rel="noopener"
 >WindTerm&lt;/a>是一款跨平台的终端应用，同时也是 SSH/Telnet/Serial/Shell/Sftp 客户端。通常用于&lt;strong>远程连接&lt;/strong>。类似于FinalShell，它有的功能，WindTerm同样支持，并且拥有更多的配色方案，直接上图：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/terminal-and-shell-introduction/index.assets/WindTerm-dark.png"
@@ -5532,33 +5288,25 @@ class="gallery-image"
 data-flex-grow="168"
 data-flex-basis="404px"
 >&lt;/p>
-&lt;h4 id="安装-1">
-&lt;a href="#%e5%ae%89%e8%a3%85-1" class="header-anchor">#&lt;/a>
-安装
+&lt;h4 id="安装-1">安装
 &lt;/h4>&lt;p>WindTerm是一款部分开源的软件，现目前(2024/5/28)仍存在部分小问题，不过不影响正常使用。&lt;/p>
 &lt;p>安装可以从&lt;a class="link" href="https://github.com/kingToolbox/WindTerm" target="_blank" rel="noopener"
 >github仓库&lt;/a>的&lt;a class="link" href="https://github.com/kingToolbox/WindTerm/releases" target="_blank" rel="noopener"
 >发布页面&lt;/a>根据自己的操作系统手动下载已发布的版本。&lt;/p>
-&lt;h4 id="使用">
-&lt;a href="#%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-使用
+&lt;h4 id="使用">使用
 &lt;/h4>&lt;p>使用WindTerm也很简单，语言支持中文。花点时间就能学会。&lt;/p>
 &lt;p>WindTerm在windows环境下建议将默认的shell修改为git bash。个人爱好。&lt;/p>
 &lt;p>Windows Terminal和WindTerm两款终端应用都建议安装，各有各的优点和用图。不过我一般使用WindTerm多一点，因为Windows Terminal有的功能WindTerm都有，并且后者有更好的配色方案，支持文件传输，内置远程连接。&lt;/p>
 &lt;p>安装Windows Terminal主要是因为Windows Terminal集成了Win10的cmd、PowerShell终端。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ul>
 &lt;li>原文地址: &lt;a class="link" href="https://juejin.cn/post/7229507721795993661" target="_blank" rel="noopener"
 >https://juejin.cn/post/7229507721795993661&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/blockquote></description></item><item><title>Vim Common Commands</title><link>https://arlettebrook.github.io/p/vim-common-commands/</link><pubDate>Mon, 27 May 2024 00:43:37 +0800</pubDate><guid>https://arlettebrook.github.io/p/vim-common-commands/</guid><description>&lt;hr>
-&lt;h2 id="简介">
-&lt;a href="#%e7%ae%80%e4%bb%8b" class="header-anchor">#&lt;/a>
-简介
+&lt;h2 id="简介">简介
 &lt;/h2>&lt;p>Vim是一个高度可配置的文本编辑器，主要用于编写和编辑文本和源代码。它最初由Bram Moolenaar在1991年发布，至今已经成为了许多程序员和系统管理员的首选工具。&lt;/p>
 &lt;p>Vim的特点包括：&lt;/p>
 &lt;ol>
@@ -5608,9 +5356,7 @@ data-flex-basis="404px"
 &lt;/li>
 &lt;/ul>
 &lt;/blockquote>
-&lt;h3 id="史上最好用的文本编辑器vim">
-&lt;a href="#%e5%8f%b2%e4%b8%8a%e6%9c%80%e5%a5%bd%e7%94%a8%e7%9a%84%e6%96%87%e6%9c%ac%e7%bc%96%e8%be%91%e5%99%a8vim" class="header-anchor">#&lt;/a>
-史上最好用的文本编辑器VIM
+&lt;h3 id="史上最好用的文本编辑器vim">史上最好用的文本编辑器VIM
 &lt;/h3>&lt;p>对于vi/vim只是点评一点：这是一个你不需要使用鼠标，不需使用小键盘，只需要使用大键盘就可以完成很多复杂功能文本编辑的编辑器。不然主流IDE也不会有vim插件，如：jetbrains全系列都支持的&lt;a class="link" href="https://github.com/JetBrains/ideavim" target="_blank" rel="noopener"
 >ideavim插件&lt;/a>。&lt;/p>
 &lt;ul>
@@ -5651,12 +5397,8 @@ data-flex-basis="404px"
 &lt;div align="center" style='color:red'>
 ——————————正文开始——————————
 &lt;/div>
-&lt;h2 id="vim常用命令总结">
-&lt;a href="#vim%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-vim常用命令总结
-&lt;/h2>&lt;h3 id="第一级--存活">
-&lt;a href="#%e7%ac%ac%e4%b8%80%e7%ba%a7--%e5%ad%98%e6%b4%bb" class="header-anchor">#&lt;/a>
-第一级 – 存活
+&lt;h2 id="vim常用命令总结">vim常用命令总结
+&lt;/h2>&lt;h3 id="第一级--存活">第一级 – 存活
 &lt;/h3>&lt;p>在Normal模式下【用vim正常打开的文件都会进入该普通模式】的常用命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -5757,9 +5499,7 @@ vim常用命令总结
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">:q &lt;span class="c1"># 只退出命令，可以退出未修改的文件、退出帮助等退出作用。&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="第二级--感觉良好">
-&lt;a href="#%e7%ac%ac%e4%ba%8c%e7%ba%a7--%e6%84%9f%e8%a7%89%e8%89%af%e5%a5%bd" class="header-anchor">#&lt;/a>
-第二级 – 感觉良好
+&lt;/div>&lt;h3 id="第二级--感觉良好">第二级 – 感觉良好
 &lt;/h3>&lt;p>vim常用命令（难度一下就上来了）：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -6054,9 +5794,7 @@ vim常用命令总结
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="第三级--更好更强更快">
-&lt;a href="#%e7%ac%ac%e4%b8%89%e7%ba%a7--%e6%9b%b4%e5%a5%bd%e6%9b%b4%e5%bc%ba%e6%9b%b4%e5%bf%ab" class="header-anchor">#&lt;/a>
-第三级 – 更好，更强，更快
+&lt;h3 id="第三级--更好更强更快">第三级 – 更好，更强，更快
 &lt;/h3>&lt;p>先恭喜你！你干的很不错。我们可以开始一些更为有趣的事了。&lt;/p>
 &lt;p>这里你将会学到以下常用vim常用命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -6318,9 +6056,7 @@ vim常用命令总结
 &lt;/ol>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="第四级--vim-超能力">
-&lt;a href="#%e7%ac%ac%e5%9b%9b%e7%ba%a7--vim-%e8%b6%85%e8%83%bd%e5%8a%9b" class="header-anchor">#&lt;/a>
-第四级 – Vim 超能力
+&lt;h3 id="第四级--vim-超能力">第四级 – Vim 超能力
 &lt;/h3>&lt;p>你只需要掌握前面的命令，你就可以很舒服的使用VIM了。但是，现在，我们向你介绍的是VIM杀手级的功能。下面这些功能是我只用vim的原因。&lt;/p>
 &lt;p>其实是对上面的命令再次复习😂（不在解释其作用，如果你还看不懂，证明练得还不够。）：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -6535,9 +6271,7 @@ vim常用命令总结
 &lt;/ol>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="标记">
-&lt;a href="#%e6%a0%87%e8%ae%b0" class="header-anchor">#&lt;/a>
-标记
+&lt;h4 id="标记">标记
 &lt;/h4>&lt;p>在 Vim 中，&lt;code>m&lt;/code> 命令用于设置标记（mark）。标记是 Vim 提供的一种功能，用于在文件中记住特定的位置，以便以后快速跳转到这些位置。标记可以是局部标记（仅在当前文件中有效）或全局标记（在所有文件中有效）。以下是 &lt;code>m&lt;/code> 命令的详细使用方法：&lt;/p>
 &lt;p>&lt;strong>设置标记&lt;/strong>：&lt;/p>
 &lt;ol>
@@ -6673,9 +6407,7 @@ vim常用命令总结
 &lt;p>Vim 内置的特殊标记是 Vim 自动管理的，用于记录特定的编辑位置和选择范围。这些标记不能手动删除，因为它们是为特定功能设计的，并且在相应操作时会动态更新。用户可以删除自己设置的标记，但不能删除这些内置特殊标记。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h4 id="寄存器">
-&lt;a href="#%e5%af%84%e5%ad%98%e5%99%a8" class="header-anchor">#&lt;/a>
-寄存器
+&lt;h4 id="寄存器">寄存器
 &lt;/h4>&lt;p>在 Vim 中，寄存器（register）是一个&lt;strong>临时存储位置&lt;/strong>，用于&lt;strong>存储和检索文本、命令、宏等&lt;/strong>。寄存器的使用可以大大提高编辑效率。以下是对寄存器的详细介绍和使用方法：&lt;/p>
 &lt;p>&lt;strong>寄存器的分类&lt;/strong>：&lt;/p>
 &lt;p>Vim 中有多种类型的寄存器，每种类型都有特定的用途：&lt;/p>
@@ -6863,9 +6595,7 @@ vim常用命令总结
 &lt;p>最后，多说一句，寄存器的生命周期是很长的，即使服务器重启什么的，只要能正常进入系统，寄存器里的内容都是一直存在的。&lt;/p>
 &lt;/blockquote>
 &lt;p>Vim 的寄存器功能强大而灵活，通过熟练掌握寄存器的使用，可以极大地提升编辑效率。寄存器不仅可以用于基本的复制和粘贴，还可以存储宏、命令等，更好地管理和重用编辑内容。&lt;/p>
-&lt;h4 id="宏录制">
-&lt;a href="#%e5%ae%8f%e5%bd%95%e5%88%b6" class="header-anchor">#&lt;/a>
-宏录制
+&lt;h4 id="宏录制">宏录制
 &lt;/h4>&lt;p>在 Vim 中，宏是一组记录的&lt;strong>按键序列&lt;/strong>，可以重复执行以自动化重复性的任务。以下是使用宏的详细步骤和相关命令：&lt;/p>
 &lt;p>&lt;strong>宏录制&lt;/strong>其实就是记录宏到&lt;a class="link" href="#%e5%af%84%e5%ad%98%e5%99%a8" >寄存器&lt;/a>（都是在&lt;strong>普通模式&lt;/strong>下开始、结束）：&lt;/p>
 &lt;ol>
@@ -6973,9 +6703,7 @@ vim常用命令总结
 &lt;p>&lt;code>@@&lt;/code> → 在2 正面写下3&lt;/p>
 &lt;p>现在做 &lt;code>100@@&lt;/code> 会创建新的100行，并把数据增加到 103.&lt;/p>
 &lt;p>通过使用宏，你可以在 Vim 中有效地自动化重复性任务，提高编辑效率。录制、执行和编辑宏的灵活性使得它们成为强大的工具，适用于各种编辑场景。&lt;/p>
-&lt;h4 id="分屏">
-&lt;a href="#%e5%88%86%e5%b1%8f" class="header-anchor">#&lt;/a>
-分屏
+&lt;h4 id="分屏">分屏
 &lt;/h4>&lt;p>在 Vim 中，分屏（split screen）功能非常强大，允许你在同一个 Vim 会话中同时查看和编辑多个文件或同一个文件的不同部分。以下是 Vim 分屏操作的详细介绍：&lt;/p>
 &lt;p>&lt;strong>分类&lt;/strong>：&lt;/p>
 &lt;ul>
@@ -7059,9 +6787,7 @@ vim常用命令总结
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="结束语">
-&lt;a href="#%e7%bb%93%e6%9d%9f%e8%af%ad" class="header-anchor">#&lt;/a>
-结束语
+&lt;h3 id="结束语">结束语
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>上面是作者最常用的90%的命令。&lt;/p>
@@ -7095,14 +6821,10 @@ vim常用命令总结
 &lt;div align="center" style='color:red'>
 ——————————正文结束——————————
 &lt;/div>
-&lt;h2 id="扩展">
-&lt;a href="#%e6%89%a9%e5%b1%95" class="header-anchor">#&lt;/a>
-扩展
+&lt;h2 id="扩展">扩展
 &lt;/h2>&lt;p>更多内容参考&lt;a class="link" href="https://arlettebrook.github.io/p/vim-introduction/" target="_blank" rel="noopener"
 >vim-introduction&lt;/a>。&lt;/p>
-&lt;h3 id="目录操作">
-&lt;a href="#%e7%9b%ae%e5%bd%95%e6%93%8d%e4%bd%9c" class="header-anchor">#&lt;/a>
-目录操作
+&lt;h3 id="目录操作">目录操作
 &lt;/h3>&lt;p>Vim 自带的 &lt;code>netrw&lt;/code> 插件提供了文件浏览器功能，可以用来&lt;strong>浏览、操作目录和文件&lt;/strong>。&lt;/p>
 &lt;ul>
 &lt;li>
@@ -7176,9 +6898,7 @@ vim常用命令总结
 &lt;/ul>
 &lt;p>部分vim版本不带该目录浏览插件。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>原文地址&lt;a class="link" href="https://blog.csdn.net/niushuai666/article/details/7275406" target="_blank" rel="noopener"
@@ -7195,9 +6915,7 @@ vim常用命令总结
 &lt;p>&lt;strong>持续更新中&amp;hellip;&lt;/strong>&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="ln">
-&lt;a href="#ln" class="header-anchor">#&lt;/a>
-ln
+&lt;h2 id="ln">ln
 &lt;/h2>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>ln&lt;/code>命令在Linux系统中用于&lt;strong>创建文件链接&lt;/strong>。&lt;/p>
@@ -7290,13 +7008,12 @@ ln
 &lt;/span>&lt;span class="lnt">21
 &lt;/span>&lt;span class="lnt">22
 &lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ls -lh
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">total 20K
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw-r--r--. &lt;span class="m">1&lt;/span> root root 19K May &lt;span class="m">8&lt;/span> 22:49 abc.txt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">3&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:15 demo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">2&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:15 demo
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># l显示详细信息，h文件大小用人类可读懂的方式显示。&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw- r-- r--
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-开头表示文件，d表示目录，l表示链接，三位为一组用rwx
@@ -7306,8 +7023,7 @@ ln
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">数字1表示硬链接数，理解为别名，别名为0，文件才会被删除。
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">有多少种方式可以访问该文件或目录
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 文件一般为1：绝对路径
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 目录只有一层一般为2：绝对和cd .
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 2层为3：绝对、cd . 、cd ..
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 目录只有一层一般为2&lt;span class="o">(&lt;/span>不包含子目录）：绝对和cd ..
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">root ：拥有者
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">root ：所在组，没指定默认同名。
@@ -7349,7 +7065,7 @@ ln
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">localhost &lt;span class="nb">test&lt;/span> $ ls -lh
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">total 20K
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw-r--r--. &lt;span class="m">1&lt;/span> root root 19K May &lt;span class="m">8&lt;/span> 22:49 abc.txt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">3&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 demo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">2&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 demo
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">localhost &lt;span class="nb">test&lt;/span> $ ln -sv ~/test/abc.txt ./demo/soft
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">‘./demo/soft’ -&amp;gt; ‘/root/test/abc.txt’
@@ -7370,11 +7086,14 @@ ln
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">lrwxrwxrwx. &lt;span class="m">1&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 soft -&amp;gt; /root/test/abc.txt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>注意：测试环境是在Linux中，&lt;code>ln&lt;/code>命令并不适用于windows环境。创建的文件链接无效。&lt;/p>
+&lt;/div>&lt;p>注意：&lt;/p>
+&lt;ul>
+&lt;li>测试环境是在Linux中，&lt;code>ln&lt;/code>命令并不适用于windows环境。创建的文件链接无效。&lt;/li>
+&lt;li>&lt;strong>目录只能创建软链接，不能创建硬链接&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>文件两种链接都可以创建&lt;/strong>。&lt;/li>
+&lt;/ul>
 &lt;hr>
-&lt;h2 id="curl">
-&lt;a href="#curl" class="header-anchor">#&lt;/a>
-curl
+&lt;h2 id="curl">curl
 &lt;/h2>&lt;p>&lt;code>curl&lt;/code>命令是一个利用URL规则在命令行下工作的文件传输工具，它支持文件的上传和下载，因此被视为综合传输工具，但传统上习惯称其为下载工具。curl支持包括HTTP、HTTPS、FTP等众多协议，并具备多种特性，如POST、cookies、认证、从指定偏移处下载部分文件、用户代理字符串、限速、文件大小、进度条等。这些特性使得curl在处理网页处理流程和数据检索自动化方面非常有用。&lt;/p>
 &lt;p>总结：用于发送网络请求，可以下载和上传文件。而&lt;code>wget&lt;/code>只能用于下载文件，但&lt;a class="link" href="#wget" >wget&lt;/a>下载文件的功能比&lt;code>curl&lt;/code>强大。&lt;/p>
 &lt;p>安装：&lt;/p>
@@ -7523,9 +7242,7 @@ curl
 &lt;li>L接受重定向。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="wget">
-&lt;a href="#wget" class="header-anchor">#&lt;/a>
-wget
+&lt;h2 id="wget">wget
 &lt;/h2>&lt;p>&lt;code>wget&lt;/code> 是一个在 Unix 和 Linux 系统上常用的命令行工具，用于从网络上下载文件。&lt;/p>
 &lt;p>优点：&lt;/p>
 &lt;ul>
@@ -7672,9 +7389,7 @@ wget
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="bash--c">
-&lt;a href="#bash--c" class="header-anchor">#&lt;/a>
-bash -c
+&lt;h2 id="bash--c">bash -c
 &lt;/h2>&lt;p>&lt;code>bash -c&lt;/code> 命令用于在 Bash shell 中执行一个字符串作为命令。&lt;/p>
 &lt;p>&lt;strong>基本语法&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -7716,9 +7431,7 @@ bash -c
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="pacman">
-&lt;a href="#pacman" class="header-anchor">#&lt;/a>
-pacman
+&lt;h2 id="pacman">pacman
 &lt;/h2>&lt;p>Pacman是Arch Linux及其衍生发行版（如Manjaro、EndeavourOS等）使用的包管理器。总结它，是因为我们可以在Windows上安装msys2来使用pacman包管理器，进而在Windows上安装Linux命令。&lt;/p>
 &lt;p>&lt;strong>基本用法&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">

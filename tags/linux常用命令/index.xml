@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux常用命令 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><description>Recent content in Linux常用命令 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Wed, 08 May 2024 19:24:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Common Commands</title><link>https://arlettebrook.github.io/p/linux-common-commands/</link><pubDate>Wed, 08 May 2024 19:24:26 +0800</pubDate><guid>https://arlettebrook.github.io/p/linux-common-commands/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux常用命令 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link><description>Recent content in Linux常用命令 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Fri, 16 Aug 2024 19:24:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Common Commands</title><link>https://arlettebrook.github.io/p/linux-common-commands/</link><pubDate>Wed, 08 May 2024 19:24:26 +0800</pubDate><guid>https://arlettebrook.github.io/p/linux-common-commands/</guid><description>&lt;hr>
 &lt;blockquote>
 &lt;p>Linux常用命令有很多，本文不会逐个介绍。以下命令是我在后期使用中遇到的，算是我对Linux常用命令的补充、回顾、总结。本篇文章阅读需要一定的Linux基础。更多常见命令可参考：&lt;a class="link" href="https://wiki.deepin.org/zh/04_%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98FAQ/600%E6%9D%A1Linux%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93" target="_blank" rel="noopener"
 >600条Linux命令总结&lt;/a>。&lt;/p>
 &lt;p>&lt;strong>持续更新中&amp;hellip;&lt;/strong>&lt;/p>
 &lt;/blockquote>
 &lt;hr>
-&lt;h2 id="ln">
-&lt;a href="#ln" class="header-anchor">#&lt;/a>
-ln
+&lt;h2 id="ln">ln
 &lt;/h2>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>ln&lt;/code>命令在Linux系统中用于&lt;strong>创建文件链接&lt;/strong>。&lt;/p>
@@ -100,13 +98,12 @@ ln
 &lt;/span>&lt;span class="lnt">21
 &lt;/span>&lt;span class="lnt">22
 &lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">$ ls -lh
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">total 20K
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw-r--r--. &lt;span class="m">1&lt;/span> root root 19K May &lt;span class="m">8&lt;/span> 22:49 abc.txt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">3&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:15 demo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">2&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:15 demo
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># l显示详细信息，h文件大小用人类可读懂的方式显示。&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw- r-- r--
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-开头表示文件，d表示目录，l表示链接，三位为一组用rwx
@@ -116,8 +113,7 @@ ln
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">数字1表示硬链接数，理解为别名，别名为0，文件才会被删除。
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">有多少种方式可以访问该文件或目录
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 文件一般为1：绝对路径
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 目录只有一层一般为2：绝对和cd .
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 2层为3：绝对、cd . 、cd ..
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 目录只有一层一般为2&lt;span class="o">(&lt;/span>不包含子目录）：绝对和cd ..
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">root ：拥有者
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">root ：所在组，没指定默认同名。
@@ -159,7 +155,7 @@ ln
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">localhost &lt;span class="nb">test&lt;/span> $ ls -lh
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">total 20K
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw-r--r--. &lt;span class="m">1&lt;/span> root root 19K May &lt;span class="m">8&lt;/span> 22:49 abc.txt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">3&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 demo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">drwxr-xr-x. &lt;span class="m">2&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 demo
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">localhost &lt;span class="nb">test&lt;/span> $ ln -sv ~/test/abc.txt ./demo/soft
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">‘./demo/soft’ -&amp;gt; ‘/root/test/abc.txt’
@@ -180,11 +176,14 @@ ln
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">lrwxrwxrwx. &lt;span class="m">1&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 soft -&amp;gt; /root/test/abc.txt
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>注意：测试环境是在Linux中，&lt;code>ln&lt;/code>命令并不适用于windows环境。创建的文件链接无效。&lt;/p>
+&lt;/div>&lt;p>注意：&lt;/p>
+&lt;ul>
+&lt;li>测试环境是在Linux中，&lt;code>ln&lt;/code>命令并不适用于windows环境。创建的文件链接无效。&lt;/li>
+&lt;li>&lt;strong>目录只能创建软链接，不能创建硬链接&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>文件两种链接都可以创建&lt;/strong>。&lt;/li>
+&lt;/ul>
 &lt;hr>
-&lt;h2 id="curl">
-&lt;a href="#curl" class="header-anchor">#&lt;/a>
-curl
+&lt;h2 id="curl">curl
 &lt;/h2>&lt;p>&lt;code>curl&lt;/code>命令是一个利用URL规则在命令行下工作的文件传输工具，它支持文件的上传和下载，因此被视为综合传输工具，但传统上习惯称其为下载工具。curl支持包括HTTP、HTTPS、FTP等众多协议，并具备多种特性，如POST、cookies、认证、从指定偏移处下载部分文件、用户代理字符串、限速、文件大小、进度条等。这些特性使得curl在处理网页处理流程和数据检索自动化方面非常有用。&lt;/p>
 &lt;p>总结：用于发送网络请求，可以下载和上传文件。而&lt;code>wget&lt;/code>只能用于下载文件，但&lt;a class="link" href="#wget" >wget&lt;/a>下载文件的功能比&lt;code>curl&lt;/code>强大。&lt;/p>
 &lt;p>安装：&lt;/p>
@@ -333,9 +332,7 @@ curl
 &lt;li>L接受重定向。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="wget">
-&lt;a href="#wget" class="header-anchor">#&lt;/a>
-wget
+&lt;h2 id="wget">wget
 &lt;/h2>&lt;p>&lt;code>wget&lt;/code> 是一个在 Unix 和 Linux 系统上常用的命令行工具，用于从网络上下载文件。&lt;/p>
 &lt;p>优点：&lt;/p>
 &lt;ul>
@@ -482,9 +479,7 @@ wget
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="bash--c">
-&lt;a href="#bash--c" class="header-anchor">#&lt;/a>
-bash -c
+&lt;h2 id="bash--c">bash -c
 &lt;/h2>&lt;p>&lt;code>bash -c&lt;/code> 命令用于在 Bash shell 中执行一个字符串作为命令。&lt;/p>
 &lt;p>&lt;strong>基本语法&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -526,9 +521,7 @@ bash -c
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;hr>
-&lt;h2 id="pacman">
-&lt;a href="#pacman" class="header-anchor">#&lt;/a>
-pacman
+&lt;h2 id="pacman">pacman
 &lt;/h2>&lt;p>Pacman是Arch Linux及其衍生发行版（如Manjaro、EndeavourOS等）使用的包管理器。总结它，是因为我们可以在Windows上安装msys2来使用pacman包管理器，进而在Windows上安装Linux命令。&lt;/p>
 &lt;p>&lt;strong>基本用法&lt;/strong>：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">

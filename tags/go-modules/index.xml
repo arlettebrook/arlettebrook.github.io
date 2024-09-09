@@ -1,13 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go Modules on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go-modules/</link><description>Recent content in Go Modules on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Sun, 28 Apr 2024 10:57:17 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go-modules/index.xml" rel="self" type="application/rss+xml"/><item><title>Go modules详解</title><link>https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/</link><pubDate>Sun, 28 Apr 2024 10:57:17 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/</guid><description>&lt;hr>
-&lt;h2 id="概述">
-&lt;a href="#%e6%a6%82%e8%bf%b0" class="header-anchor">#&lt;/a>
-概述
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go Modules on Arlettebrook's blog</title><link>https://arlettebrook.github.io/tags/go-modules/</link><description>Recent content in Go Modules on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Wed, 15 May 2024 10:57:17 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/tags/go-modules/index.xml" rel="self" type="application/rss+xml"/><item><title>Go modules详解</title><link>https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/</link><pubDate>Sun, 28 Apr 2024 10:57:17 +0800</pubDate><guid>https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/</guid><description>&lt;hr>
+&lt;h2 id="概述">概述
 &lt;/h2>&lt;p>大多数语言都有“依赖”、“包”等概念，&lt;code>Go&lt;/code>语言的依赖处理经历了几次变革。&lt;/p>
 &lt;p>最早的时候，&lt;code>Go&lt;/code>所依赖的所有的第三方库都放在&lt;code>GOPATH&lt;/code>这个目录下面。从&lt;code>v1.5&lt;/code>开始引入&lt;code>vendor&lt;/code>模式，如果项目目录下有&lt;code>vendor&lt;/code>目录，那么&lt;code>go&lt;/code>工具链会优先使用&lt;code>vendor&lt;/code>内的包进行编译、测试等。&lt;/p>
 &lt;p>从&lt;code>v1.11&lt;/code>开始，引入了&lt;code>Go Modules&lt;/code> 作为依赖解决方案，到&lt;code>v1.14&lt;/code>宣布&lt;code>Go Modules&lt;/code>已经可以用于生产环境，到&lt;code>v1.16&lt;/code>版本开始&lt;code>Go Module&lt;/code>默认开启。&lt;/p>
-&lt;h3 id="什么是-go-modules">
-&lt;a href="#%e4%bb%80%e4%b9%88%e6%98%af-go-modules" class="header-anchor">#&lt;/a>
-什么是 Go Modules
+&lt;h3 id="什么是-go-modules">什么是 Go Modules
 &lt;/h3>&lt;p>Go modules 是 Go 语言的依赖解决方案，发布于 Go1.11，成长于 Go1.12，丰富于 Go1.13，正式于 Go1.14 推荐在生产上使用。&lt;/p>
 &lt;p>Go Modules使得Go语言开发者能够更方便地管理代码包及其版本，并能够与现有的版本控制工具（如Git、SVN等）集成使用。&lt;/p>
 &lt;p>在传统的GOPATH模式中，所有Go代码都必须位于一个全局的GOPATH路径之下，这使得在不同项目中使用不同版本的依赖包变得非常困难。然而，在Go Modules模式下，每个项目都可以独立管理自己的依赖关系，具有更好的兼容性。当使用Go Modules模式后，项目中会自动创建go.mod文件，其中记录了项目所依赖的模块及其版本信息。&lt;strong>go.mod是Go语言项目中的模块文件&lt;/strong>，用于管理项目的依赖关系和版本信息。&lt;/p>
@@ -26,9 +22,7 @@
 &lt;li>要有一个能够罗列当前项目所依赖包的列表。这个的好处是当我们发布项目时不用同时发布所依赖的包。Go能够根据该文件自动下载对应的包。&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="go-path介绍">
-&lt;a href="#go-path%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-GO PATH介绍
+&lt;h2 id="go-path介绍">GO PATH介绍
 &lt;/h2>&lt;p>安装好go开发环境之后，可以运行&lt;code>go env&lt;/code>查看go运行时的环境变量。要修改这些环境变量，可以通过配置环境变量来覆盖默认值(覆盖了就不能通过命令设置)，如临时设置&lt;code>export GO111MODULE=on&lt;/code>。或者通过命令&lt;code>go env -w key=value&lt;/code>，如&lt;code>go env -w GO111MODULE=on&lt;/code>。通过命令修改的环境变量保存在&lt;code>GOENV&lt;/code>这个环境变量指向的文件。&lt;/p>
 &lt;p>有两个比较重要的环境变量：&lt;/p>
 &lt;ul>
@@ -42,9 +36,7 @@ GO PATH介绍
 &lt;/li>
 &lt;/ul>
 &lt;p>因此在使用 GOPATH 模式下，我们需要将应用代码存放在固定的&lt;code>$GOPATH/src&lt;/code>目录下，并且如果执行go get来拉取外部依赖会自动下载并安装到&lt;code>$GOPATH&lt;/code>目录下。&lt;/p>
-&lt;h3 id="gopath模式的弊端">
-&lt;a href="#gopath%e6%a8%a1%e5%bc%8f%e7%9a%84%e5%bc%8a%e7%ab%af" class="header-anchor">#&lt;/a>
-GOPATH模式的弊端
+&lt;h3 id="gopath模式的弊端">GOPATH模式的弊端
 &lt;/h3>&lt;p>在 GOPATH 的 &lt;code>$GOPATH/src&lt;/code> 下进行 &lt;code>.go&lt;/code> 文件或源代码的存储，我们可以称其为 GOPATH 的模式，这个模式拥有一些弊端。&lt;/p>
 &lt;ul>
 &lt;li>A. &lt;strong>无版本控制概念&lt;/strong>. 在执行go get的时候，你无法传达任何的版本信息的期望，也就是说你也无法知道自己当前更新的是哪一个版本，也无法通过指定来拉取自己所期望的具体版本。&lt;/li>
@@ -53,13 +45,9 @@ GOPATH模式的弊端
 &lt;/ul>
 &lt;p>Go 语言官方从 Go1.11 起开始推进 Go modules（前身vgo，知道即可，不需要深入了解），Go1.13 起不再推荐使用 GOPATH 的使用模式，Go modules 也渐趋稳定，因此新项目也没有必要继续使用GOPATH模式。&lt;/p>
 &lt;hr>
-&lt;h2 id="go-module-语义化版本规范">
-&lt;a href="#go-module-%e8%af%ad%e4%b9%89%e5%8c%96%e7%89%88%e6%9c%ac%e8%a7%84%e8%8c%83" class="header-anchor">#&lt;/a>
-Go Module 语义化版本规范
+&lt;h2 id="go-module-语义化版本规范">Go Module 语义化版本规范
 &lt;/h2>&lt;p>Go Module 的设计采用了语义化版本规范，语义化版本规范非常流行且具有指导意义，本文就来聊聊语义化版本规范的设计和在 Go 中的应用。&lt;/p>
-&lt;h3 id="语义化版本规范">
-&lt;a href="#%e8%af%ad%e4%b9%89%e5%8c%96%e7%89%88%e6%9c%ac%e8%a7%84%e8%8c%83" class="header-anchor">#&lt;/a>
-语义化版本规范
+&lt;h3 id="语义化版本规范">语义化版本规范
 &lt;/h3>&lt;p>语义化版本规范（SemVer）是由 Gravatars 创办者兼 GitHub 共同创办者 Tom Preston-Werner 所建立，旨在解决 &lt;a class="link" href="https://hwikizh.cyou/wiki/Dependency_hell" target="_blank" rel="noopener"
 >&lt;code>依赖地狱&lt;/code>&lt;/a> 问题。&lt;/p>
 &lt;p>它清楚明了的规定了版本格式、版本号递增规：&lt;/p>
@@ -111,9 +99,7 @@ data-flex-basis="362px"
 &lt;li>1.0.0 的版本号用于界定公共 API 的形成。这一版本之后所有的版本号更新都基于公共 API 及其修改内容。&lt;/li>
 &lt;li>社区中还存在一个不成文的规定，对于次版本号，偶数为稳定版本，奇数为开发版本。当然不是所有项目都这样设计。&lt;/li>
 &lt;/ol>
-&lt;h3 id="使用语义化版本规范可能遇到的问题">
-&lt;a href="#%e4%bd%bf%e7%94%a8%e8%af%ad%e4%b9%89%e5%8c%96%e7%89%88%e6%9c%ac%e8%a7%84%e8%8c%83%e5%8f%af%e8%83%bd%e9%81%87%e5%88%b0%e7%9a%84%e9%97%ae%e9%a2%98" class="header-anchor">#&lt;/a>
-使用语义化版本规范可能遇到的问题
+&lt;h3 id="使用语义化版本规范可能遇到的问题">使用语义化版本规范可能遇到的问题
 &lt;/h3>&lt;p>在使用语义化版本规范过程中，可能人为或程序编写错误导致出现如下几种可预见的问题：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -130,9 +116,7 @@ data-flex-basis="362px"
 &lt;p>&lt;code>v1.2.3&lt;/code> 并不是的一个语义化的版本号。但是，在语义化版本号之前增加前缀 &lt;code>v&lt;/code> 是用来表示版本号的常用做法。在版本控制系统中，将 &lt;code>version&lt;/code> 缩写为 &lt;code>v&lt;/code> 是很常见的。比如：&lt;code>git tag v1.2.3 -m &amp;quot;Release version 1.2.3&amp;quot;&lt;/code> 中，&lt;code>v1.2.3&lt;/code> 表示标签名称，而 &lt;code>1.2.3&lt;/code> 是语义化版本号。go modules的模块版本也是在前面加&lt;code>v&lt;/code>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="如何验证语义化版本规范正确性">
-&lt;a href="#%e5%a6%82%e4%bd%95%e9%aa%8c%e8%af%81%e8%af%ad%e4%b9%89%e5%8c%96%e7%89%88%e6%9c%ac%e8%a7%84%e8%8c%83%e6%ad%a3%e7%a1%ae%e6%80%a7" class="header-anchor">#&lt;/a>
-如何验证语义化版本规范正确性
+&lt;h3 id="如何验证语义化版本规范正确性">如何验证语义化版本规范正确性
 &lt;/h3>&lt;p>官方提供了两个正则可以检查语义化版本号的正确性。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -294,12 +278,8 @@ data-flex-basis="362px"
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;h3 id="go-modules版本设计">
-&lt;a href="#go-modules%e7%89%88%e6%9c%ac%e8%ae%be%e8%ae%a1" class="header-anchor">#&lt;/a>
-Go Modules版本设计
-&lt;/h3>&lt;h4 id="依赖地狱">
-&lt;a href="#%e4%be%9d%e8%b5%96%e5%9c%b0%e7%8b%b1" class="header-anchor">#&lt;/a>
-依赖地狱
+&lt;h3 id="go-modules版本设计">Go Modules版本设计
+&lt;/h3>&lt;h4 id="依赖地狱">依赖地狱
 &lt;/h4>&lt;p>我们先来看下早期 Go 依赖包存在的依赖地狱问题：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428182831893.png"
 width="1097"
@@ -312,9 +292,7 @@ data-flex-grow="213"
 data-flex-basis="513px"
 >&lt;/p>
 &lt;p>首先存在两个包 &lt;code>pkg1&lt;/code> 和 &lt;code>pkg2&lt;/code>，分别依赖 &lt;code>pkg3&lt;/code> 的 &lt;code>v1.0.0&lt;/code> 版本和 &lt;code>v2.0.0&lt;/code> 版本，现在我们开发一个 &lt;code>app&lt;/code> 包，它依赖 &lt;code>pkg1&lt;/code> 和 &lt;code>pkg2&lt;/code>，那么此时由于 &lt;code>app&lt;/code> 包只允许包含一个 &lt;code>pkg3&lt;/code> 依赖，所以 Go 构建工具无法抉择应该使用哪个版本的 &lt;code>pkg3&lt;/code>。这就是所谓的依赖地狱问题。&lt;/p>
-&lt;h4 id="语义导入版本">
-&lt;a href="#%e8%af%ad%e4%b9%89%e5%af%bc%e5%85%a5%e7%89%88%e6%9c%ac" class="header-anchor">#&lt;/a>
-语义导入版本
+&lt;h4 id="语义导入版本">语义导入版本
 &lt;/h4>&lt;p>为了解决依赖地狱问题，Go 在 1.11 版本时引入和 Go Modules：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428183011710.png"
 width="1096"
@@ -361,12 +339,8 @@ data-flex-basis="527px"
 &lt;/div>
 &lt;/div>&lt;p>可以看到导入路径为 &lt;code>&amp;quot;go-micro.dev/v4&amp;quot;&lt;/code>，其中 &lt;code>v4&lt;/code> 就代表了需要引入 &lt;code>go-micro&lt;/code> 的 &lt;code>v4.y.z&lt;/code> 版本。&lt;/p>
 &lt;hr>
-&lt;h2 id="go-modules基本使用">
-&lt;a href="#go-modules%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8" class="header-anchor">#&lt;/a>
-Go Modules基本使用
-&lt;/h2>&lt;h3 id="go-modules相关命令">
-&lt;a href="#go-modules%e7%9b%b8%e5%85%b3%e5%91%bd%e4%bb%a4" class="header-anchor">#&lt;/a>
-go modules相关命令
+&lt;h2 id="go-modules基本使用">Go Modules基本使用
+&lt;/h2>&lt;h3 id="go-modules相关命令">go modules相关命令
 &lt;/h3>&lt;p>在 Go modules 中，我们能够使用如下命令进行操作：&lt;/p>
 &lt;table>
 &lt;thead>
@@ -410,9 +384,7 @@ go modules相关命令
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;h3 id="go-modules参数配置">
-&lt;a href="#go-modules%e5%8f%82%e6%95%b0%e9%85%8d%e7%bd%ae" class="header-anchor">#&lt;/a>
-go modules参数配置
+&lt;h3 id="go-modules参数配置">go modules参数配置
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>&lt;strong>GO111MODULE&lt;/strong>&lt;/p>
@@ -494,9 +466,7 @@ go modules参数配置
 &lt;p>此外，如果公司内部自建了 GOPROXY 服务，那么我们可以通过设置 &lt;code>GONOPROXY=none&lt;/code>，允许通内部代理拉取私有仓库的包。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="go-modules模块文件">
-&lt;a href="#go-modules%e6%a8%a1%e5%9d%97%e6%96%87%e4%bb%b6" class="header-anchor">#&lt;/a>
-go modules模块文件
+&lt;h3 id="go-modules模块文件">go modules模块文件
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>初识化项目&lt;/p>
@@ -591,9 +561,7 @@ go modules模块文件
 &lt;p>&lt;code>go.mod&lt;/code>和&lt;code>go.sum&lt;/code>都应该被提交到git仓库中去。当别人使用你的项目时，mod保证依赖版本一直，sum保证依赖不被篡改。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h3 id="go-modules模块下载">
-&lt;a href="#go-modules%e6%a8%a1%e5%9d%97%e4%b8%8b%e8%bd%bd" class="header-anchor">#&lt;/a>
-go modules模块下载
+&lt;h3 id="go-modules模块下载">go modules模块下载
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>我们下载、添加模块使用&lt;code>go get -u &amp;lt;module path&amp;gt;&lt;/code>。&lt;/p>
@@ -650,9 +618,7 @@ go modules模块下载
 &lt;/ol>
 &lt;/li>
 &lt;/ul>
-&lt;h4 id="go-modules全局缓存">
-&lt;a href="#go-modules%e5%85%a8%e5%b1%80%e7%bc%93%e5%ad%98" class="header-anchor">#&lt;/a>
-go modules全局缓存
+&lt;h4 id="go-modules全局缓存">go modules全局缓存
 &lt;/h4>&lt;p>Go module 会把下载到本地的依赖包会以类似下面的形式保存在 &lt;code>$GOPATH/pkg/mod&lt;/code>目录下，每个依赖包都会带有版本号进行区分，这样就允许在本地存在同一个包的多个不同版本。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -675,9 +641,7 @@ go modules全局缓存
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>如果想清除所有本地已缓存的依赖包数据，可以执行 &lt;code>go clean -modcache&lt;/code> 命令。&lt;/p>
-&lt;h3 id="go-modules模块导入">
-&lt;a href="#go-modules%e6%a8%a1%e5%9d%97%e5%af%bc%e5%85%a5" class="header-anchor">#&lt;/a>
-go modules模块导入
+&lt;h3 id="go-modules模块导入">go modules模块导入
 &lt;/h3>&lt;ul>
 &lt;li>
 &lt;p>go模块导入用&lt;code>import &amp;quot;模块路径&amp;quot;&lt;/code>&lt;/p>
@@ -753,9 +717,7 @@ go modules模块导入
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="gopkgin介绍">
-&lt;a href="#gopkgin%e4%bb%8b%e7%bb%8d" class="header-anchor">#&lt;/a>
-gopkg.in介绍
+&lt;h2 id="gopkgin介绍">gopkg.in介绍
 &lt;/h2>&lt;ul>
 &lt;li>
 &lt;p>&lt;code>gopkg.in&lt;/code>是旧go包管理工具中的一个，并不是官方包管理工具。作用是下载时重定向到相应github仓库。优点是： URL 更干净、更短、导入路径稳定、易于使用、支持版本控制。&lt;/p>
@@ -802,15 +764,11 @@ gopkg.in介绍
 &lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;h2 id="总结">
-&lt;a href="#%e6%80%bb%e7%bb%93" class="header-anchor">#&lt;/a>
-总结
+&lt;h2 id="总结">总结
 &lt;/h2>&lt;p>至此我们大致介绍了 Go modules 的前世今生、语义化版本规范以及基本使用。&lt;/p>
 &lt;p>Go modules 的成长和发展经历了一定的过程，如果你是刚接触的读者，直接基于 Go modules 的项目开始即可，如果既有老项目，那么是时候考虑切换过来了，Go1.14起已经准备就绪，并推荐你使用。&lt;/p>
 &lt;hr>
-&lt;h2 id="参考">
-&lt;a href="#%e5%8f%82%e8%80%83" class="header-anchor">#&lt;/a>
-参考
+&lt;h2 id="参考">参考
 &lt;/h2>&lt;blockquote>
 &lt;ol>
 &lt;li>&lt;a class="link" href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener"
