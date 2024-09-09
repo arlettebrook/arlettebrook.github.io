@@ -61,7 +61,7 @@
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428181429712.png"
 width="594"
 height="393"
-srcset="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428181429712_hu4e93c4fe90e112c1b95a6a33697eab15_28580_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428181429712_hu4e93c4fe90e112c1b95a6a33697eab15_28580_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428181429712_hu7415340185830530992.png 480w, https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428181429712_hu6924091137123421277.png 1024w"
 loading="lazy"
 alt="版本格式"
 class="gallery-image"
@@ -284,7 +284,7 @@ data-flex-basis="362px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428182831893.png"
 width="1097"
 height="513"
-srcset="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428182831893_hu10246893e1c443d1187588789017c05f_64039_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428182831893_hu10246893e1c443d1187588789017c05f_64039_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428182831893_hu9422822737538672074.png 480w, https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428182831893_hu4896879539931565207.png 1024w"
 loading="lazy"
 alt="依赖地狱"
 class="gallery-image"
@@ -297,7 +297,7 @@ data-flex-basis="513px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428183011710.png"
 width="1096"
 height="499"
-srcset="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428183011710_hu26cf2410430fcf457ac5158230a0c061_64758_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428183011710_hu26cf2410430fcf457ac5158230a0c061_64758_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428183011710_hu4651040633617945446.png 480w, https://arlettebrook.github.io/p/go-modules%E8%AF%A6%E8%A7%A3/index.assets/image-20240428183011710_hu2311917351195682335.png 1024w"
 loading="lazy"
 alt="Go Modules"
 class="gallery-image"
@@ -345,42 +345,42 @@ data-flex-basis="527px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>命令&lt;/th>
-&lt;th>介绍&lt;/th>
+&lt;th style="text-align: left">命令&lt;/th>
+&lt;th style="text-align: left">介绍&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>&lt;code>go mod init &amp;lt;project&amp;gt;&lt;/code>&lt;/td>
-&lt;td>初始化项目依赖，生成go.mod模块文件&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod init &amp;lt;project&amp;gt;&lt;/code>&lt;/td>
+&lt;td style="text-align: left">初始化项目依赖，生成go.mod模块文件&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>go mod download&lt;/code>&lt;/td>
-&lt;td>根据go.mod文件下载依赖&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod download&lt;/code>&lt;/td>
+&lt;td style="text-align: left">根据go.mod文件下载依赖&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>go mod tidy&lt;/code>&lt;/td>
-&lt;td>比对项目文件中引入的依赖与go.mod进行比对,整理模块文件，去除没有用到的依赖&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod tidy&lt;/code>&lt;/td>
+&lt;td style="text-align: left">比对项目文件中引入的依赖与go.mod进行比对,整理模块文件，去除没有用到的依赖&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>go mod graph&lt;/code>&lt;/td>
-&lt;td>输出依赖关系图、查看现有的依赖结构&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod graph&lt;/code>&lt;/td>
+&lt;td style="text-align: left">输出依赖关系图、查看现有的依赖结构&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>go mod edit&lt;/code>&lt;/td>
-&lt;td>编辑go.mod文件&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod edit&lt;/code>&lt;/td>
+&lt;td style="text-align: left">编辑go.mod文件&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>go mod vendor&lt;/code>&lt;/td>
-&lt;td>将项目的所有依赖导出至vendor目录&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod vendor&lt;/code>&lt;/td>
+&lt;td style="text-align: left">将项目的所有依赖导出至vendor目录&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>go mod verify&lt;/code>&lt;/td>
-&lt;td>检验一个依赖包是否被篡改过&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod verify&lt;/code>&lt;/td>
+&lt;td style="text-align: left">检验一个依赖包是否被篡改过&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>go mod why&lt;/code>&lt;/td>
-&lt;td>解释为什么需要某个依赖&lt;/td>
+&lt;td style="text-align: left">&lt;code>go mod why&lt;/code>&lt;/td>
+&lt;td style="text-align: left">解释为什么需要某个依赖&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -392,22 +392,22 @@ data-flex-basis="527px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>参数&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">参数&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>auto&lt;/td>
-&lt;td>只要项目包含了 go.mod 文件的话启用 Go modules，目前在 Go1.11 至 Go1.14 中仍然是默认值。&lt;/td>
+&lt;td style="text-align: left">auto&lt;/td>
+&lt;td style="text-align: left">只要项目包含了 go.mod 文件的话启用 Go modules，目前在 Go1.11 至 Go1.14 中仍然是默认值。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>on&lt;/td>
-&lt;td>启用 Go modules，推荐设置，将会是Go1.16版本之后的默认值。&lt;/td>
+&lt;td style="text-align: left">on&lt;/td>
+&lt;td style="text-align: left">启用 Go modules，推荐设置，将会是Go1.16版本之后的默认值。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>off&lt;/td>
-&lt;td>禁用 Go modules，不推荐设置。&lt;/td>
+&lt;td style="text-align: left">off&lt;/td>
+&lt;td style="text-align: left">禁用 Go modules，不推荐设置。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -580,30 +580,30 @@ data-flex-basis="527px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>命令&lt;/th>
-&lt;th>作用&lt;/th>
+&lt;th style="text-align: left">命令&lt;/th>
+&lt;th style="text-align: left">作用&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>go get golang.org/x/text@latest&lt;/td>
-&lt;td>拉取最新的版本，若存在tag，则优先使用。可以省略。&lt;/td>
+&lt;td style="text-align: left">go get golang.org/x/text@latest&lt;/td>
+&lt;td style="text-align: left">拉取最新的版本，若存在tag，则优先使用。可以省略。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>go get golang.org/x/text@master&lt;/td>
-&lt;td>拉取 master 分支的最新 commit。@branch&lt;/td>
+&lt;td style="text-align: left">go get golang.org/x/text@master&lt;/td>
+&lt;td style="text-align: left">拉取 master 分支的最新 commit。@branch&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>go get &lt;a class="link" href="mailto:golang.org/x/text@v0.3.2" >golang.org/x/text@v0.3.2&lt;/a>&lt;/td>
-&lt;td>拉取 tag 为 v0.3.2 的 commit。@version，version必须满足语义化版本规范且前面加v。&lt;/td>
+&lt;td style="text-align: left">go get &lt;a class="link" href="mailto:golang.org/x/text@v0.3.2" >golang.org/x/text@v0.3.2&lt;/a>&lt;/td>
+&lt;td style="text-align: left">拉取 tag 为 v0.3.2 的 commit。@version，version必须满足语义化版本规范且前面加v。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>go get golang.org/x/text@342b2e&lt;/td>
-&lt;td>拉取 hash 为 342b231 的 commit，最终会被转换为 v0.3.2。@commit&lt;/td>
+&lt;td style="text-align: left">go get golang.org/x/text@342b2e&lt;/td>
+&lt;td style="text-align: left">拉取 hash 为 342b231 的 commit，最终会被转换为 v0.3.2。@commit&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>go get golang.org/x/text/v2&lt;/td>
-&lt;td>下载主版本号为2的最新版&lt;/td>
+&lt;td style="text-align: left">go get golang.org/x/text/v2&lt;/td>
+&lt;td style="text-align: left">下载主版本号为2的最新版&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

@@ -2076,37 +2076,37 @@ weird
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;html/template&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;os&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">User&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Name&lt;/span> &lt;span class="kt">string&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Email&lt;/span> &lt;span class="kt">string&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Data&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">User&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">const&lt;/span> &lt;span class="nx">info&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">`&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">define&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;userinfo.tmpl&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">with&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.User&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">姓名: &lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.Name&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">邮箱：&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.Email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}{{&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">const&lt;/span> &lt;span class="nx">tmpl&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">`用户信息：&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="k">template&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;userinfo.tmpl&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">t&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">template&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Must&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">template&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">New&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;example&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">Parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">tmpl&lt;/span>&lt;span class="p">))&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">info&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Fail to parse template: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">data&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">Data&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">User&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">Name&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Email&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook@proton.me&amp;#34;&lt;/span>&lt;span class="p">}}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Execute&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Stdout&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Fail to execute template: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="err">&amp;#34;&lt;/span>&lt;span class="nx">html&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">template&lt;/span>&lt;span class="s">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> &amp;#34;&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="s">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> &amp;#34;&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="s">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">type User struct {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> Name string
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> Email string
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">type Data struct {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> User
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">func main() {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> const info = `{{ define &amp;#34;&lt;/span>&lt;span class="nx">userinfo&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tmpl&lt;/span>&lt;span class="s">&amp;#34; }}{{ with .User }}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">姓名: {{ .Name }}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">邮箱：{{ .Email }}{{ end }}{{end}}`
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> const tmpl = `用户信息：{{template &amp;#34;&lt;/span>&lt;span class="nx">userinfo&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tmpl&lt;/span>&lt;span class="s">&amp;#34; . }}`
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> t := template.Must(template.New(&amp;#34;&lt;/span>&lt;span class="nx">example&lt;/span>&lt;span class="s">&amp;#34;).Parse(tmpl))
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> t, err := t.Parse(info)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> if err != nil {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> log.Fatalf(&amp;#34;&lt;/span>&lt;span class="nx">Fail&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="nx">parse&lt;/span> &lt;span class="nx">template&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">%&lt;/span>&lt;span class="nx">s&lt;/span>&lt;span class="s">&amp;#34;, err)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> data := Data{User{Name: &amp;#34;&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>&lt;span class="s">&amp;#34;, Email: &amp;#34;&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="nx">proton&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">me&lt;/span>&lt;span class="s">&amp;#34;}}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> err = t.Execute(os.Stdout, data)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> if err != nil {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> log.Fatalf(&amp;#34;&lt;/span>&lt;span class="nx">Fail&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="nx">execute&lt;/span> &lt;span class="nx">template&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">%&lt;/span>&lt;span class="nx">s&lt;/span>&lt;span class="err">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
@@ -3818,51 +3818,51 @@ weird
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>字段名&lt;/th>
-&lt;th>类型&lt;/th>
-&lt;th>描述&lt;/th>
+&lt;th style="text-align: left">字段名&lt;/th>
+&lt;th style="text-align: left">类型&lt;/th>
+&lt;th style="text-align: left">描述&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>openapi&lt;/td>
-&lt;td>string&lt;/td>
-&lt;td>必选，必须是 OpenAPI 已发布的合法版本，如 &lt;code>3.0.1&lt;/code>。&lt;/td>
+&lt;td style="text-align: left">openapi&lt;/td>
+&lt;td style="text-align: left">string&lt;/td>
+&lt;td style="text-align: left">必选，必须是 OpenAPI 已发布的合法版本，如 &lt;code>3.0.1&lt;/code>。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>info&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>必选，此字段提供 API 相关的元数据（如描述、作者和联系信息）。&lt;/td>
+&lt;td style="text-align: left">info&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">必选，此字段提供 API 相关的元数据（如描述、作者和联系信息）。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>servers&lt;/td>
-&lt;td>array[object]&lt;/td>
-&lt;td>这是一个 Server 对象的数组，提供到服务器的连接信息。&lt;/td>
+&lt;td style="text-align: left">servers&lt;/td>
+&lt;td style="text-align: left">array[object]&lt;/td>
+&lt;td style="text-align: left">这是一个 Server 对象的数组，提供到服务器的连接信息。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>paths&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>必选，API 提供的可用的路径和操作。&lt;/td>
+&lt;td style="text-align: left">paths&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">必选，API 提供的可用的路径和操作。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>components&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>一个包含多种结构的元素，可复用组件。&lt;/td>
+&lt;td style="text-align: left">components&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">一个包含多种结构的元素，可复用组件。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>security&lt;/td>
-&lt;td>array&lt;/td>
-&lt;td>声明 API 使用的安全认证机制，目前支持 &lt;code>HTTP Basic Auth&lt;/code>、&lt;code>HTTP Bearer Auth&lt;/code>、&lt;code>ApiKey Auth&lt;/code> 以及 &lt;code>OAuth2&lt;/code>。&lt;/td>
+&lt;td style="text-align: left">security&lt;/td>
+&lt;td style="text-align: left">array&lt;/td>
+&lt;td style="text-align: left">声明 API 使用的安全认证机制，目前支持 &lt;code>HTTP Basic Auth&lt;/code>、&lt;code>HTTP Bearer Auth&lt;/code>、&lt;code>ApiKey Auth&lt;/code> 以及 &lt;code>OAuth2&lt;/code>。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>tags&lt;/td>
-&lt;td>array&lt;/td>
-&lt;td>提供标签可以为 API 归类，每个标签名都应该是唯一的。&lt;/td>
+&lt;td style="text-align: left">tags&lt;/td>
+&lt;td style="text-align: left">array&lt;/td>
+&lt;td style="text-align: left">提供标签可以为 API 归类，每个标签名都应该是唯一的。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>externalDocs&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>附加的文档，可以通过扩展属性来扩展文档。&lt;/td>
+&lt;td style="text-align: left">externalDocs&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">附加的文档，可以通过扩展属性来扩展文档。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -3988,7 +3988,7 @@ weird
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map.png"
 width="2940"
 height="1678"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hudb4f51bb2f8bce2a084d37b76def6aa2_332185_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hudb4f51bb2f8bce2a084d37b76def6aa2_332185_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hu13530947948910731729.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hu8068362158473324550.png 1024w"
 loading="lazy"
 alt="OpenAPI Map"
 class="gallery-image"
@@ -4003,7 +4003,7 @@ data-flex-basis="420px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types.png"
 width="2654"
 height="1220"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hue30a3c9c74b7e77978f3be591373dd5a_502117_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hue30a3c9c74b7e77978f3be591373dd5a_502117_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hu11831595542361291854.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hu11782574847137562245.png 1024w"
 loading="lazy"
 alt="Tool Types"
 class="gallery-image"
@@ -4022,7 +4022,7 @@ data-flex-basis="522px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu50c8be478a0cc503116512d3818232f0_751043_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu50c8be478a0cc503116512d3818232f0_751043_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu13786939613725337817.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu16197111006281074321.png 1024w"
 loading="lazy"
 alt="Swagger Editor"
 class="gallery-image"
@@ -4076,7 +4076,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi.png"
 width="1030"
 height="318"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu9cf2fd8781eb4410d052f1a4d31c4f66_31928_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu9cf2fd8781eb4410d052f1a4d31c4f66_31928_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu11636497172913927113.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu2008888773859800931.png 1024w"
 loading="lazy"
 alt="Swagger-OpenAPI-LOGO"
 class="gallery-image"
@@ -4375,38 +4375,38 @@ data-flex-basis="777px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>注释&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">注释&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>@title&lt;/td>
-&lt;td>必填，应用程序的名称。&lt;/td>
+&lt;td style="text-align: left">@title&lt;/td>
+&lt;td style="text-align: left">必填，应用程序的名称。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@version&lt;/td>
-&lt;td>必填，提供应用程序 API 的版本。&lt;/td>
+&lt;td style="text-align: left">@version&lt;/td>
+&lt;td style="text-align: left">必填，提供应用程序 API 的版本。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@schemes&lt;/td>
-&lt;td>用空格分隔的请求传输协议。&lt;/td>
+&lt;td style="text-align: left">@schemes&lt;/td>
+&lt;td style="text-align: left">用空格分隔的请求传输协议。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@host&lt;/td>
-&lt;td>运行 API 的主机（主机名或 IP 地址）。&lt;/td>
+&lt;td style="text-align: left">@host&lt;/td>
+&lt;td style="text-align: left">运行 API 的主机（主机名或 IP 地址）。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@BasePath&lt;/td>
-&lt;td>运行 API 的基本路径。&lt;/td>
+&lt;td style="text-align: left">@BasePath&lt;/td>
+&lt;td style="text-align: left">运行 API 的基本路径。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@tag.name&lt;/td>
-&lt;td>标签的名称。&lt;/td>
+&lt;td style="text-align: left">@tag.name&lt;/td>
+&lt;td style="text-align: left">标签的名称。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@tag.description&lt;/td>
-&lt;td>标签的描述。&lt;/td>
+&lt;td style="text-align: left">@tag.description&lt;/td>
+&lt;td style="text-align: left">标签的描述。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -4414,38 +4414,38 @@ data-flex-basis="777px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>注释&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">注释&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>@Summary&lt;/td>
-&lt;td>该操作的简短摘要。&lt;/td>
+&lt;td style="text-align: left">@Summary&lt;/td>
+&lt;td style="text-align: left">该操作的简短摘要。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Description&lt;/td>
-&lt;td>操作行为的详细说明。&lt;/td>
+&lt;td style="text-align: left">@Description&lt;/td>
+&lt;td style="text-align: left">操作行为的详细说明。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Tags&lt;/td>
-&lt;td>该 API 操作的标签列表，多个标签以逗号分隔。&lt;/td>
+&lt;td style="text-align: left">@Tags&lt;/td>
+&lt;td style="text-align: left">该 API 操作的标签列表，多个标签以逗号分隔。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Accept&lt;/td>
-&lt;td>API 可以接收的参数 MIME 类型列表。&lt;/td>
+&lt;td style="text-align: left">@Accept&lt;/td>
+&lt;td style="text-align: left">API 可以接收的参数 MIME 类型列表。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Produce&lt;/td>
-&lt;td>API 可以生成的参数 MIME 类型列表。&lt;/td>
+&lt;td style="text-align: left">@Produce&lt;/td>
+&lt;td style="text-align: left">API 可以生成的参数 MIME 类型列表。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Success&lt;/td>
-&lt;td>成功响应。&lt;/td>
+&lt;td style="text-align: left">@Success&lt;/td>
+&lt;td style="text-align: left">成功响应。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Router&lt;/td>
-&lt;td>路由路径定义。&lt;/td>
+&lt;td style="text-align: left">@Router&lt;/td>
+&lt;td style="text-align: left">路由路径定义。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -4546,7 +4546,7 @@ data-flex-basis="777px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu50c8be478a0cc503116512d3818232f0_349132_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu50c8be478a0cc503116512d3818232f0_349132_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu5464059219958836424.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu1907861210466128564.png 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -4558,7 +4558,7 @@ data-flex-basis="383px"
 &lt;p>​ &lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654.png"
 width="1920"
 height="1079"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu48363c004fdfc3e553ff145f99c5c8b9_187189_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu48363c004fdfc3e553ff145f99c5c8b9_187189_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu16066956154001759176.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu5727047915985269664.png 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -4717,7 +4717,7 @@ data-flex-basis="427px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu50c8be478a0cc503116512d3818232f0_196290_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu50c8be478a0cc503116512d3818232f0_196290_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu12084203987052416730.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu3270958407674032454.png 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -4732,7 +4732,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu50c8be478a0cc503116512d3818232f0_250895_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu50c8be478a0cc503116512d3818232f0_250895_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu4577965313047486071.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu3053960091180229094.png 1024w"
 loading="lazy"
 alt="Try it out"
 class="gallery-image"
@@ -4743,7 +4743,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu50c8be478a0cc503116512d3818232f0_250672_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu50c8be478a0cc503116512d3818232f0_250672_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu14621013203693771965.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu1664761513483763181.png 1024w"
 loading="lazy"
 alt="Execute"
 class="gallery-image"
@@ -4754,7 +4754,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action.jpg"
 width="2910"
 height="3180"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu322d2d6e2c1db2da0ec1bf30df36bb57_679751_480x0_resize_q75_box.jpg 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu322d2d6e2c1db2da0ec1bf30df36bb57_679751_1024x0_resize_q75_box.jpg 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu10036913900027862929.jpg 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu13262232106267239029.jpg 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -4765,7 +4765,7 @@ data-flex-basis="219px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld.png"
 width="2782"
 height="788"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_huc999c3ba0617e79974778dde457ebd0f_178928_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_huc999c3ba0617e79974778dde457ebd0f_178928_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_hu11803184297255699794.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_hu15947667008627047552.png 1024w"
 loading="lazy"
 alt="Server"
 class="gallery-image"
@@ -5083,7 +5083,7 @@ data-flex-basis="847px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu50c8be478a0cc503116512d3818232f0_235710_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu50c8be478a0cc503116512d3818232f0_235710_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu1769640714021411060.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu17066186318195299966.png 1024w"
 loading="lazy"
 alt="ReDoc"
 class="gallery-image"
@@ -5099,7 +5099,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox.png"
 width="2600"
 height="1646"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hue3e0bd39a9272ba90dc255573fbc4cc5_383072_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hue3e0bd39a9272ba90dc255573fbc4cc5_383072_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hu13726459383099595247.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hu7728220111995171266.png 1024w"
 loading="lazy"
 alt="Apifox"
 class="gallery-image"
@@ -6674,22 +6674,22 @@ Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。&lt;/li>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align:left">参数&lt;/th>
-&lt;th style="text-align:left">说明&lt;/th>
+&lt;th style="text-align: left">参数&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align:left">code&lt;/td>
-&lt;td style="text-align:left">http状态码&lt;/td>
+&lt;td style="text-align: left">code&lt;/td>
+&lt;td style="text-align: left">http状态码&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:left">format&lt;/td>
-&lt;td style="text-align:left">返回结果，支持类似Sprintf函数一样的字符串格式定义，例如,%d 代表插入整数，%s代表插入字符串&lt;/td>
+&lt;td style="text-align: left">format&lt;/td>
+&lt;td style="text-align: left">返回结果，支持类似Sprintf函数一样的字符串格式定义，例如,%d 代表插入整数，%s代表插入字符串&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:left">values&lt;/td>
-&lt;td style="text-align:left">任意个format参数定义的字符串格式参数&lt;/td>
+&lt;td style="text-align: left">values&lt;/td>
+&lt;td style="text-align: left">任意个format参数定义的字符串格式参数&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -7170,21 +7170,21 @@ Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。&lt;/li>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>作用&lt;/th>
-&lt;th style="text-align:left">Go内置&lt;/th>
-&lt;th style="text-align:left">Gin封装&lt;/th>
+&lt;th style="text-align: left">作用&lt;/th>
+&lt;th style="text-align: left">Go内置&lt;/th>
+&lt;th style="text-align: left">Gin封装&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>指定解析的模板文件&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (t *Template) ParseFiles(filenames ...string) (*Template, error)&lt;/code>&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (engine *Engine) LoadHTMLFiles(files ...string)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">指定解析的模板文件&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (t *Template) ParseFiles(filenames ...string) (*Template, error)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (engine *Engine) LoadHTMLFiles(files ...string)&lt;/code>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>根据匹配模式解析模板文件（&lt;strong>推荐&lt;/strong>）&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (t *Template) ParseGlob(pattern string) (*Template, error)&lt;/code>&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (engine *Engine) LoadHTMLGlob(pattern string)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">根据匹配模式解析模板文件（&lt;strong>推荐&lt;/strong>）&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (t *Template) ParseGlob(pattern string) (*Template, error)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (engine *Engine) LoadHTMLGlob(pattern string)&lt;/code>&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -20979,7 +20979,7 @@ loading="lazy"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221.png"
 width="1107"
 height="693"
-srcset="https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu2fe08c5fd266909738116a9dadd6ba88_51547_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu2fe08c5fd266909738116a9dadd6ba88_51547_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu16764304771487360070.png 480w, https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu6273930605695523273.png 1024w"
 loading="lazy"
 alt="Consul Config"
 class="gallery-image"
@@ -24895,26 +24895,26 @@ data-flex-basis="383px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>语法&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">语法&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>&lt;code>--flag&lt;/code>&lt;/td>
-&lt;td>适用于 bool 类型标志，或具有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
+&lt;td style="text-align: left">&lt;code>--flag&lt;/code>&lt;/td>
+&lt;td style="text-align: left">适用于 bool 类型标志，或具有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>--flag x&lt;/code>&lt;/td>
-&lt;td>适用于非 bool 类型标志，或没有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
+&lt;td style="text-align: left">&lt;code>--flag x&lt;/code>&lt;/td>
+&lt;td style="text-align: left">适用于非 bool 类型标志，或没有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>--flag=x&lt;/code>&lt;/td>
-&lt;td>适用于 bool 类型标志。&lt;/td>
+&lt;td style="text-align: left">&lt;code>--flag=x&lt;/code>&lt;/td>
+&lt;td style="text-align: left">适用于 bool 类型标志。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>-n 1234&lt;/code>/&lt;code>-n=1234&lt;/code>/&lt;code>-n1234&lt;/code>&lt;/td>
-&lt;td>简短标志，非 bool 类型且没有 &lt;code>NoOptDefVal&lt;/code> 属性，三者等价。&lt;/td>
+&lt;td style="text-align: left">&lt;code>-n 1234&lt;/code>/&lt;code>-n=1234&lt;/code>/&lt;code>-n1234&lt;/code>&lt;/td>
+&lt;td style="text-align: left">简短标志，非 bool 类型且没有 &lt;code>NoOptDefVal&lt;/code> 属性，三者等价。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -25093,22 +25093,22 @@ data-flex-basis="383px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>命令行参数&lt;/th>
-&lt;th>结果值&lt;/th>
+&lt;th style="text-align: left">命令行参数&lt;/th>
+&lt;th style="text-align: left">结果值&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>–flagname=1357&lt;/td>
-&lt;td>ip=1357&lt;/td>
+&lt;td style="text-align: left">–flagname=1357&lt;/td>
+&lt;td style="text-align: left">ip=1357&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>–flagname&lt;/td>
-&lt;td>ip=4321&lt;/td>
+&lt;td style="text-align: left">–flagname&lt;/td>
+&lt;td style="text-align: left">ip=4321&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>[nothing]&lt;/td>
-&lt;td>ip=1234&lt;/td>
+&lt;td style="text-align: left">[nothing]&lt;/td>
+&lt;td style="text-align: left">ip=1234&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -27302,56 +27302,56 @@ data-flex-basis="383px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>函数名&lt;/th>
-&lt;th>作用&lt;/th>
-&lt;th>使用示例&lt;/th>
+&lt;th style="text-align: left">函数名&lt;/th>
+&lt;th style="text-align: left">作用&lt;/th>
+&lt;th style="text-align: left">使用示例&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>Print&lt;/td>
-&lt;td>打印日志&lt;/td>
-&lt;td>log.Print(“Print”)&lt;/td>
+&lt;td style="text-align: left">Print&lt;/td>
+&lt;td style="text-align: left">打印日志&lt;/td>
+&lt;td style="text-align: left">log.Print(“Print”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Printf&lt;/td>
-&lt;td>打印格式化日志&lt;/td>
-&lt;td>log.Printf(“Printf: %s”, “print”)&lt;/td>
+&lt;td style="text-align: left">Printf&lt;/td>
+&lt;td style="text-align: left">打印格式化日志&lt;/td>
+&lt;td style="text-align: left">log.Printf(“Printf: %s”, “print”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Println&lt;/td>
-&lt;td>打印日志并换行&lt;/td>
-&lt;td>log.Println(“Println”)&lt;/td>
+&lt;td style="text-align: left">Println&lt;/td>
+&lt;td style="text-align: left">打印日志并换行&lt;/td>
+&lt;td style="text-align: left">log.Println(“Println”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Panic&lt;/td>
-&lt;td>打印日志后执行 panic(s)（s 为日志内容）&lt;/td>
-&lt;td>log.Panic(“Panic”)&lt;/td>
+&lt;td style="text-align: left">Panic&lt;/td>
+&lt;td style="text-align: left">打印日志后执行 panic(s)（s 为日志内容）&lt;/td>
+&lt;td style="text-align: left">log.Panic(“Panic”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Panicf&lt;/td>
-&lt;td>打印格式化日志后执行 panic(s)&lt;/td>
-&lt;td>log.Panicf(“Panicf: %s”, “panic”)&lt;/td>
+&lt;td style="text-align: left">Panicf&lt;/td>
+&lt;td style="text-align: left">打印格式化日志后执行 panic(s)&lt;/td>
+&lt;td style="text-align: left">log.Panicf(“Panicf: %s”, “panic”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Panicln&lt;/td>
-&lt;td>打印日志并换行后执行 panic(s)&lt;/td>
-&lt;td>log.Panicln(“Panicln”)&lt;/td>
+&lt;td style="text-align: left">Panicln&lt;/td>
+&lt;td style="text-align: left">打印日志并换行后执行 panic(s)&lt;/td>
+&lt;td style="text-align: left">log.Panicln(“Panicln”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Fatal&lt;/td>
-&lt;td>打印日志后执行 os.Exit(1)&lt;/td>
-&lt;td>log.Fatal(“Fatal”)&lt;/td>
+&lt;td style="text-align: left">Fatal&lt;/td>
+&lt;td style="text-align: left">打印日志后执行 os.Exit(1)&lt;/td>
+&lt;td style="text-align: left">log.Fatal(“Fatal”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Fatalf&lt;/td>
-&lt;td>打印格式化日志后执行 os.Exit(1)&lt;/td>
-&lt;td>log.Fatalf(“Fatalf: %s”, “fatal”)&lt;/td>
+&lt;td style="text-align: left">Fatalf&lt;/td>
+&lt;td style="text-align: left">打印格式化日志后执行 os.Exit(1)&lt;/td>
+&lt;td style="text-align: left">log.Fatalf(“Fatalf: %s”, “fatal”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Fatalln&lt;/td>
-&lt;td>打印日志并换行后执行 os.Exit(1)&lt;/td>
-&lt;td>log.Panicln(“Panicln”)&lt;/td>
+&lt;td style="text-align: left">Fatalln&lt;/td>
+&lt;td style="text-align: left">打印日志并换行后执行 os.Exit(1)&lt;/td>
+&lt;td style="text-align: left">log.Panicln(“Panicln”)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -27410,42 +27410,42 @@ data-flex-basis="383px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>属性&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">属性&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>Ldate&lt;/td>
-&lt;td>当前时区的日期，格式：2009/01/23&lt;/td>
+&lt;td style="text-align: left">Ldate&lt;/td>
+&lt;td style="text-align: left">当前时区的日期，格式：2009/01/23&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Ltime&lt;/td>
-&lt;td>当前时区的时间，格式：01:23:23&lt;/td>
+&lt;td style="text-align: left">Ltime&lt;/td>
+&lt;td style="text-align: left">当前时区的时间，格式：01:23:23&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Lmicroseconds&lt;/td>
-&lt;td>当前时区的时间，格式：01:23:23.123123，精确到微妙&lt;/td>
+&lt;td style="text-align: left">Lmicroseconds&lt;/td>
+&lt;td style="text-align: left">当前时区的时间，格式：01:23:23.123123，精确到微妙&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Llongfile&lt;/td>
-&lt;td>全文件名和行号，格式：/a/b/c/d.go:23&lt;/td>
+&lt;td style="text-align: left">Llongfile&lt;/td>
+&lt;td style="text-align: left">全文件名和行号，格式：/a/b/c/d.go:23&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Lshortfile&lt;/td>
-&lt;td>当前文件名和行号，格式：d.go:23，会覆盖 Llongfile&lt;/td>
+&lt;td style="text-align: left">Lshortfile&lt;/td>
+&lt;td style="text-align: left">当前文件名和行号，格式：d.go:23，会覆盖 Llongfile&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>LUTC&lt;/td>
-&lt;td>使用 UTC 而非本地时区，推荐日志全部使用 UTC 时间&lt;/td>
+&lt;td style="text-align: left">LUTC&lt;/td>
+&lt;td style="text-align: left">使用 UTC 而非本地时区，推荐日志全部使用 UTC 时间&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Lmsgprefix&lt;/td>
-&lt;td>将 &lt;code>prefix&lt;/code> 内容从行首移动到日志内容前面&lt;/td>
+&lt;td style="text-align: left">Lmsgprefix&lt;/td>
+&lt;td style="text-align: left">将 &lt;code>prefix&lt;/code> 内容从行首移动到日志内容前面&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>LstdFlags&lt;/td>
-&lt;td>标准 logger 对象的初始值（等于：`Ldate&lt;/td>
+&lt;td style="text-align: left">LstdFlags&lt;/td>
+&lt;td style="text-align: left">标准 logger 对象的初始值（等于：`Ldate&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -27454,22 +27454,22 @@ data-flex-basis="383px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>方法&lt;/th>
-&lt;th>作用&lt;/th>
+&lt;th style="text-align: left">方法&lt;/th>
+&lt;th style="text-align: left">作用&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>SetOutput&lt;/td>
-&lt;td>设置日志输出位置&lt;/td>
+&lt;td style="text-align: left">SetOutput&lt;/td>
+&lt;td style="text-align: left">设置日志输出位置&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>SetPrefix&lt;/td>
-&lt;td>设置日志输出前缀&lt;/td>
+&lt;td style="text-align: left">SetPrefix&lt;/td>
+&lt;td style="text-align: left">设置日志输出前缀&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>SetFlags&lt;/td>
-&lt;td>设置日志属性&lt;/td>
+&lt;td style="text-align: left">SetFlags&lt;/td>
+&lt;td style="text-align: left">设置日志属性&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -28047,12 +28047,12 @@ data-flex-basis="383px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这个函数短小精悍，它接收三个参数，&lt;code>buf&lt;/code> 用来保存转换后的内容，&lt;code>i&lt;/code> 就是带转换的值，比如 &lt;code>year&lt;/code>、&lt;code>month&lt;/code> 等，&lt;code>wid&lt;/code> 表示转换后 &lt;code>ASCII&lt;/code> 码字符串宽度，如果传进来的 &lt;code>i&lt;/code> 宽度不够，则前面补零。比如传入 &lt;code>itoa(&amp;amp;b, 12, 3)&lt;/code>，最终输出字符串为 &lt;code>012&lt;/code>。&lt;/p>
-&lt;p>&lt;code>'0'+i&lt;/code>会隐式触发字符和ASCII之间的转换，0的ASCII码是48，加0~9就是对应0~9的ASCII码，超过57就是别的字符。&lt;/p>
+&lt;p>&lt;code>'0'+i&lt;/code>会隐式触发字符和ASCII之间的转换，0的ASCII码是48，加0&lt;del>9就是对应0&lt;/del>9的ASCII码，超过57就是别的字符。&lt;/p>
 &lt;p>至此，我们已经理清了 &lt;code>log.Print(&amp;quot;Print&amp;quot;)&lt;/code> 是如何打印一条日志的，其函数调用流程如下：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728.png"
 width="1099"
 height="250"
-srcset="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hud48500becb6283a595555b2655488062_37387_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hud48500becb6283a595555b2655488062_37387_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hu7987778261327590928.png 480w, https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hu5413138703599467516.png 1024w"
 loading="lazy"
 alt="调用流程"
 class="gallery-image"
@@ -28976,7 +28976,7 @@ data-flex-basis="1055px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370.png"
 width="508"
 height="714"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hube3381562c708eec75f7ef34fbf2fa5a_102162_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hube3381562c708eec75f7ef34fbf2fa5a_102162_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hu16613892297353346032.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hu14587072405466674252.png 1024w"
 loading="lazy"
 alt="image-20240424235145370"
 class="gallery-image"
@@ -29039,7 +29039,7 @@ data-flex-basis="170px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378.png"
 width="382"
 height="319"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu31e809d703e74fc17059636a2a115931_49980_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu31e809d703e74fc17059636a2a115931_49980_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu11347775368437541309.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu9073337363257843069.png 1024w"
 loading="lazy"
 alt="image-20240424235225378"
 class="gallery-image"
@@ -29063,7 +29063,7 @@ data-flex-basis="287px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897.png"
 width="596"
 height="315"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu0800ee0bb4962a236c252d9b19d905cf_57376_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu0800ee0bb4962a236c252d9b19d905cf_57376_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu17835441995960474583.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu1432681905228754152.png 1024w"
 loading="lazy"
 alt="image-20240424235319897"
 class="gallery-image"
@@ -29188,7 +29188,7 @@ data-flex-basis="454px"
 &lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199.png"
 width="857"
 height="820"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hua5f23be303f0a3bcae8948fd87547a77_167340_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hua5f23be303f0a3bcae8948fd87547a77_167340_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hu6238779219988871866.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hu12466494811801947696.png 1024w"
 loading="lazy"
 alt="image-20240424235532199"
 class="gallery-image"

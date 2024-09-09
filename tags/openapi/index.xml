@@ -18,51 +18,51 @@
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>字段名&lt;/th>
-&lt;th>类型&lt;/th>
-&lt;th>描述&lt;/th>
+&lt;th style="text-align: left">字段名&lt;/th>
+&lt;th style="text-align: left">类型&lt;/th>
+&lt;th style="text-align: left">描述&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>openapi&lt;/td>
-&lt;td>string&lt;/td>
-&lt;td>必选，必须是 OpenAPI 已发布的合法版本，如 &lt;code>3.0.1&lt;/code>。&lt;/td>
+&lt;td style="text-align: left">openapi&lt;/td>
+&lt;td style="text-align: left">string&lt;/td>
+&lt;td style="text-align: left">必选，必须是 OpenAPI 已发布的合法版本，如 &lt;code>3.0.1&lt;/code>。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>info&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>必选，此字段提供 API 相关的元数据（如描述、作者和联系信息）。&lt;/td>
+&lt;td style="text-align: left">info&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">必选，此字段提供 API 相关的元数据（如描述、作者和联系信息）。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>servers&lt;/td>
-&lt;td>array[object]&lt;/td>
-&lt;td>这是一个 Server 对象的数组，提供到服务器的连接信息。&lt;/td>
+&lt;td style="text-align: left">servers&lt;/td>
+&lt;td style="text-align: left">array[object]&lt;/td>
+&lt;td style="text-align: left">这是一个 Server 对象的数组，提供到服务器的连接信息。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>paths&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>必选，API 提供的可用的路径和操作。&lt;/td>
+&lt;td style="text-align: left">paths&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">必选，API 提供的可用的路径和操作。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>components&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>一个包含多种结构的元素，可复用组件。&lt;/td>
+&lt;td style="text-align: left">components&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">一个包含多种结构的元素，可复用组件。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>security&lt;/td>
-&lt;td>array&lt;/td>
-&lt;td>声明 API 使用的安全认证机制，目前支持 &lt;code>HTTP Basic Auth&lt;/code>、&lt;code>HTTP Bearer Auth&lt;/code>、&lt;code>ApiKey Auth&lt;/code> 以及 &lt;code>OAuth2&lt;/code>。&lt;/td>
+&lt;td style="text-align: left">security&lt;/td>
+&lt;td style="text-align: left">array&lt;/td>
+&lt;td style="text-align: left">声明 API 使用的安全认证机制，目前支持 &lt;code>HTTP Basic Auth&lt;/code>、&lt;code>HTTP Bearer Auth&lt;/code>、&lt;code>ApiKey Auth&lt;/code> 以及 &lt;code>OAuth2&lt;/code>。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>tags&lt;/td>
-&lt;td>array&lt;/td>
-&lt;td>提供标签可以为 API 归类，每个标签名都应该是唯一的。&lt;/td>
+&lt;td style="text-align: left">tags&lt;/td>
+&lt;td style="text-align: left">array&lt;/td>
+&lt;td style="text-align: left">提供标签可以为 API 归类，每个标签名都应该是唯一的。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>externalDocs&lt;/td>
-&lt;td>object&lt;/td>
-&lt;td>附加的文档，可以通过扩展属性来扩展文档。&lt;/td>
+&lt;td style="text-align: left">externalDocs&lt;/td>
+&lt;td style="text-align: left">object&lt;/td>
+&lt;td style="text-align: left">附加的文档，可以通过扩展属性来扩展文档。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -188,7 +188,7 @@
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map.png"
 width="2940"
 height="1678"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hudb4f51bb2f8bce2a084d37b76def6aa2_332185_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hudb4f51bb2f8bce2a084d37b76def6aa2_332185_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hu13530947948910731729.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-map_hu8068362158473324550.png 1024w"
 loading="lazy"
 alt="OpenAPI Map"
 class="gallery-image"
@@ -203,7 +203,7 @@ data-flex-basis="420px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types.png"
 width="2654"
 height="1220"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hue30a3c9c74b7e77978f3be591373dd5a_502117_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hue30a3c9c74b7e77978f3be591373dd5a_502117_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hu11831595542361291854.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/openapi-tool-types_hu11782574847137562245.png 1024w"
 loading="lazy"
 alt="Tool Types"
 class="gallery-image"
@@ -222,7 +222,7 @@ data-flex-basis="522px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu50c8be478a0cc503116512d3818232f0_751043_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu50c8be478a0cc503116512d3818232f0_751043_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu13786939613725337817.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-editor_hu16197111006281074321.png 1024w"
 loading="lazy"
 alt="Swagger Editor"
 class="gallery-image"
@@ -276,7 +276,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi.png"
 width="1030"
 height="318"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu9cf2fd8781eb4410d052f1a4d31c4f66_31928_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu9cf2fd8781eb4410d052f1a4d31c4f66_31928_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu11636497172913927113.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/swagger-openapi_hu2008888773859800931.png 1024w"
 loading="lazy"
 alt="Swagger-OpenAPI-LOGO"
 class="gallery-image"
@@ -575,38 +575,38 @@ data-flex-basis="777px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>注释&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">注释&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>@title&lt;/td>
-&lt;td>必填，应用程序的名称。&lt;/td>
+&lt;td style="text-align: left">@title&lt;/td>
+&lt;td style="text-align: left">必填，应用程序的名称。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@version&lt;/td>
-&lt;td>必填，提供应用程序 API 的版本。&lt;/td>
+&lt;td style="text-align: left">@version&lt;/td>
+&lt;td style="text-align: left">必填，提供应用程序 API 的版本。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@schemes&lt;/td>
-&lt;td>用空格分隔的请求传输协议。&lt;/td>
+&lt;td style="text-align: left">@schemes&lt;/td>
+&lt;td style="text-align: left">用空格分隔的请求传输协议。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@host&lt;/td>
-&lt;td>运行 API 的主机（主机名或 IP 地址）。&lt;/td>
+&lt;td style="text-align: left">@host&lt;/td>
+&lt;td style="text-align: left">运行 API 的主机（主机名或 IP 地址）。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@BasePath&lt;/td>
-&lt;td>运行 API 的基本路径。&lt;/td>
+&lt;td style="text-align: left">@BasePath&lt;/td>
+&lt;td style="text-align: left">运行 API 的基本路径。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@tag.name&lt;/td>
-&lt;td>标签的名称。&lt;/td>
+&lt;td style="text-align: left">@tag.name&lt;/td>
+&lt;td style="text-align: left">标签的名称。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@tag.description&lt;/td>
-&lt;td>标签的描述。&lt;/td>
+&lt;td style="text-align: left">@tag.description&lt;/td>
+&lt;td style="text-align: left">标签的描述。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -614,38 +614,38 @@ data-flex-basis="777px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>注释&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">注释&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>@Summary&lt;/td>
-&lt;td>该操作的简短摘要。&lt;/td>
+&lt;td style="text-align: left">@Summary&lt;/td>
+&lt;td style="text-align: left">该操作的简短摘要。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Description&lt;/td>
-&lt;td>操作行为的详细说明。&lt;/td>
+&lt;td style="text-align: left">@Description&lt;/td>
+&lt;td style="text-align: left">操作行为的详细说明。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Tags&lt;/td>
-&lt;td>该 API 操作的标签列表，多个标签以逗号分隔。&lt;/td>
+&lt;td style="text-align: left">@Tags&lt;/td>
+&lt;td style="text-align: left">该 API 操作的标签列表，多个标签以逗号分隔。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Accept&lt;/td>
-&lt;td>API 可以接收的参数 MIME 类型列表。&lt;/td>
+&lt;td style="text-align: left">@Accept&lt;/td>
+&lt;td style="text-align: left">API 可以接收的参数 MIME 类型列表。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Produce&lt;/td>
-&lt;td>API 可以生成的参数 MIME 类型列表。&lt;/td>
+&lt;td style="text-align: left">@Produce&lt;/td>
+&lt;td style="text-align: left">API 可以生成的参数 MIME 类型列表。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Success&lt;/td>
-&lt;td>成功响应。&lt;/td>
+&lt;td style="text-align: left">@Success&lt;/td>
+&lt;td style="text-align: left">成功响应。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>@Router&lt;/td>
-&lt;td>路由路径定义。&lt;/td>
+&lt;td style="text-align: left">@Router&lt;/td>
+&lt;td style="text-align: left">路由路径定义。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -746,7 +746,7 @@ data-flex-basis="777px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu50c8be478a0cc503116512d3818232f0_349132_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu50c8be478a0cc503116512d3818232f0_349132_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu5464059219958836424.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swag-example-swagger-editor_hu1907861210466128564.png 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -758,7 +758,7 @@ data-flex-basis="383px"
 &lt;p>​ &lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654.png"
 width="1920"
 height="1079"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu48363c004fdfc3e553ff145f99c5c8b9_187189_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu48363c004fdfc3e553ff145f99c5c8b9_187189_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu16066956154001759176.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/image-20240522235024654_hu5727047915985269664.png 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -917,7 +917,7 @@ data-flex-basis="427px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu50c8be478a0cc503116512d3818232f0_196290_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu50c8be478a0cc503116512d3818232f0_196290_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu12084203987052416730.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger_hu3270958407674032454.png 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -932,7 +932,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu50c8be478a0cc503116512d3818232f0_250895_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu50c8be478a0cc503116512d3818232f0_250895_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu4577965313047486071.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-try-it-out_hu3053960091180229094.png 1024w"
 loading="lazy"
 alt="Try it out"
 class="gallery-image"
@@ -943,7 +943,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu50c8be478a0cc503116512d3818232f0_250672_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu50c8be478a0cc503116512d3818232f0_250672_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu14621013203693771965.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-execute_hu1664761513483763181.png 1024w"
 loading="lazy"
 alt="Execute"
 class="gallery-image"
@@ -954,7 +954,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action.jpg"
 width="2910"
 height="3180"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu322d2d6e2c1db2da0ec1bf30df36bb57_679751_480x0_resize_q75_box.jpg 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu322d2d6e2c1db2da0ec1bf30df36bb57_679751_1024x0_resize_q75_box.jpg 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu10036913900027862929.jpg 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-action_hu13262232106267239029.jpg 1024w"
 loading="lazy"
 alt="Swagger UI"
 class="gallery-image"
@@ -965,7 +965,7 @@ data-flex-basis="219px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld.png"
 width="2782"
 height="788"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_huc999c3ba0617e79974778dde457ebd0f_178928_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_huc999c3ba0617e79974778dde457ebd0f_178928_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_hu11803184297255699794.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/gin-swagger-helloworld_hu15947667008627047552.png 1024w"
 loading="lazy"
 alt="Server"
 class="gallery-image"
@@ -1283,7 +1283,7 @@ data-flex-basis="847px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc.png"
 width="2940"
 height="1838"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu50c8be478a0cc503116512d3818232f0_235710_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu50c8be478a0cc503116512d3818232f0_235710_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu1769640714021411060.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/redoc_hu17066186318195299966.png 1024w"
 loading="lazy"
 alt="ReDoc"
 class="gallery-image"
@@ -1299,7 +1299,7 @@ data-flex-basis="383px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox.png"
 width="2600"
 height="1646"
-srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hue3e0bd39a9272ba90dc255573fbc4cc5_383072_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hue3e0bd39a9272ba90dc255573fbc4cc5_383072_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hu13726459383099595247.png 480w, https://arlettebrook.github.io/p/openapi-and-swagger-introduction/index.assets/apifox_hu7728220111995171266.png 1024w"
 loading="lazy"
 alt="Apifox"
 class="gallery-image"

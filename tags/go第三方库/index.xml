@@ -2130,22 +2130,22 @@ Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。&lt;/li>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align:left">参数&lt;/th>
-&lt;th style="text-align:left">说明&lt;/th>
+&lt;th style="text-align: left">参数&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align:left">code&lt;/td>
-&lt;td style="text-align:left">http状态码&lt;/td>
+&lt;td style="text-align: left">code&lt;/td>
+&lt;td style="text-align: left">http状态码&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:left">format&lt;/td>
-&lt;td style="text-align:left">返回结果，支持类似Sprintf函数一样的字符串格式定义，例如,%d 代表插入整数，%s代表插入字符串&lt;/td>
+&lt;td style="text-align: left">format&lt;/td>
+&lt;td style="text-align: left">返回结果，支持类似Sprintf函数一样的字符串格式定义，例如,%d 代表插入整数，%s代表插入字符串&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:left">values&lt;/td>
-&lt;td style="text-align:left">任意个format参数定义的字符串格式参数&lt;/td>
+&lt;td style="text-align: left">values&lt;/td>
+&lt;td style="text-align: left">任意个format参数定义的字符串格式参数&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -2626,21 +2626,21 @@ Gin 为 JSON，XML 和 HTML 渲染提供了易于使用的 API。&lt;/li>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>作用&lt;/th>
-&lt;th style="text-align:left">Go内置&lt;/th>
-&lt;th style="text-align:left">Gin封装&lt;/th>
+&lt;th style="text-align: left">作用&lt;/th>
+&lt;th style="text-align: left">Go内置&lt;/th>
+&lt;th style="text-align: left">Gin封装&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>指定解析的模板文件&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (t *Template) ParseFiles(filenames ...string) (*Template, error)&lt;/code>&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (engine *Engine) LoadHTMLFiles(files ...string)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">指定解析的模板文件&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (t *Template) ParseFiles(filenames ...string) (*Template, error)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (engine *Engine) LoadHTMLFiles(files ...string)&lt;/code>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>根据匹配模式解析模板文件（&lt;strong>推荐&lt;/strong>）&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (t *Template) ParseGlob(pattern string) (*Template, error)&lt;/code>&lt;/td>
-&lt;td style="text-align:left">&lt;code>func (engine *Engine) LoadHTMLGlob(pattern string)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">根据匹配模式解析模板文件（&lt;strong>推荐&lt;/strong>）&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (t *Template) ParseGlob(pattern string) (*Template, error)&lt;/code>&lt;/td>
+&lt;td style="text-align: left">&lt;code>func (engine *Engine) LoadHTMLGlob(pattern string)&lt;/code>&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -15393,7 +15393,7 @@ loading="lazy"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221.png"
 width="1107"
 height="693"
-srcset="https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu2fe08c5fd266909738116a9dadd6ba88_51547_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu2fe08c5fd266909738116a9dadd6ba88_51547_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu16764304771487360070.png 480w, https://arlettebrook.github.io/p/go%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93viper/viper.assets/image-20240505001230221_hu6273930605695523273.png 1024w"
 loading="lazy"
 alt="Consul Config"
 class="gallery-image"
@@ -19309,26 +19309,26 @@ data-flex-basis="383px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>语法&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">语法&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>&lt;code>--flag&lt;/code>&lt;/td>
-&lt;td>适用于 bool 类型标志，或具有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
+&lt;td style="text-align: left">&lt;code>--flag&lt;/code>&lt;/td>
+&lt;td style="text-align: left">适用于 bool 类型标志，或具有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>--flag x&lt;/code>&lt;/td>
-&lt;td>适用于非 bool 类型标志，或没有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
+&lt;td style="text-align: left">&lt;code>--flag x&lt;/code>&lt;/td>
+&lt;td style="text-align: left">适用于非 bool 类型标志，或没有 &lt;code>NoOptDefVal&lt;/code> 属性的标志。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>--flag=x&lt;/code>&lt;/td>
-&lt;td>适用于 bool 类型标志。&lt;/td>
+&lt;td style="text-align: left">&lt;code>--flag=x&lt;/code>&lt;/td>
+&lt;td style="text-align: left">适用于 bool 类型标志。&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;code>-n 1234&lt;/code>/&lt;code>-n=1234&lt;/code>/&lt;code>-n1234&lt;/code>&lt;/td>
-&lt;td>简短标志，非 bool 类型且没有 &lt;code>NoOptDefVal&lt;/code> 属性，三者等价。&lt;/td>
+&lt;td style="text-align: left">&lt;code>-n 1234&lt;/code>/&lt;code>-n=1234&lt;/code>/&lt;code>-n1234&lt;/code>&lt;/td>
+&lt;td style="text-align: left">简短标志，非 bool 类型且没有 &lt;code>NoOptDefVal&lt;/code> 属性，三者等价。&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -19507,22 +19507,22 @@ data-flex-basis="383px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>命令行参数&lt;/th>
-&lt;th>结果值&lt;/th>
+&lt;th style="text-align: left">命令行参数&lt;/th>
+&lt;th style="text-align: left">结果值&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>–flagname=1357&lt;/td>
-&lt;td>ip=1357&lt;/td>
+&lt;td style="text-align: left">–flagname=1357&lt;/td>
+&lt;td style="text-align: left">ip=1357&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>–flagname&lt;/td>
-&lt;td>ip=4321&lt;/td>
+&lt;td style="text-align: left">–flagname&lt;/td>
+&lt;td style="text-align: left">ip=4321&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>[nothing]&lt;/td>
-&lt;td>ip=1234&lt;/td>
+&lt;td style="text-align: left">[nothing]&lt;/td>
+&lt;td style="text-align: left">ip=1234&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

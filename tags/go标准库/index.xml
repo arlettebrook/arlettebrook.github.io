@@ -1358,37 +1358,37 @@
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;html/template&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;os&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">User&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Name&lt;/span> &lt;span class="kt">string&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Email&lt;/span> &lt;span class="kt">string&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Data&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">User&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">const&lt;/span> &lt;span class="nx">info&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">`&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">define&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;userinfo.tmpl&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">with&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.User&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">姓名: &lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.Name&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">邮箱：&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.Email&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}{{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}{{&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">const&lt;/span> &lt;span class="nx">tmpl&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">`用户信息：&lt;/span>&lt;span class="cp">{{&lt;/span>&lt;span class="k">template&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;userinfo.tmpl&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">.&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="cp">}}&lt;/span>&lt;span class="s">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">t&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">template&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Must&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">template&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">New&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;example&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">Parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">tmpl&lt;/span>&lt;span class="p">))&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">t&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">info&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Fail to parse template: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">data&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">Data&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">User&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">Name&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">Email&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;arlettebrook@proton.me&amp;#34;&lt;/span>&lt;span class="p">}}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">t&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Execute&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Stdout&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Fatalf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Fail to execute template: %s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="err">&amp;#34;&lt;/span>&lt;span class="nx">html&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">template&lt;/span>&lt;span class="s">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> &amp;#34;&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="s">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> &amp;#34;&lt;/span>&lt;span class="nx">os&lt;/span>&lt;span class="s">&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">type User struct {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> Name string
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> Email string
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">type Data struct {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> User
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">func main() {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> const info = `{{ define &amp;#34;&lt;/span>&lt;span class="nx">userinfo&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tmpl&lt;/span>&lt;span class="s">&amp;#34; }}{{ with .User }}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">姓名: {{ .Name }}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">邮箱：{{ .Email }}{{ end }}{{end}}`
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> const tmpl = `用户信息：{{template &amp;#34;&lt;/span>&lt;span class="nx">userinfo&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">tmpl&lt;/span>&lt;span class="s">&amp;#34; . }}`
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> t := template.Must(template.New(&amp;#34;&lt;/span>&lt;span class="nx">example&lt;/span>&lt;span class="s">&amp;#34;).Parse(tmpl))
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> t, err := t.Parse(info)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> if err != nil {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> log.Fatalf(&amp;#34;&lt;/span>&lt;span class="nx">Fail&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="nx">parse&lt;/span> &lt;span class="nx">template&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">%&lt;/span>&lt;span class="nx">s&lt;/span>&lt;span class="s">&amp;#34;, err)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> data := Data{User{Name: &amp;#34;&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>&lt;span class="s">&amp;#34;, Email: &amp;#34;&lt;/span>&lt;span class="nx">arlettebrook&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="nx">proton&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">me&lt;/span>&lt;span class="s">&amp;#34;}}
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> err = t.Execute(os.Stdout, data)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> if err != nil {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s"> log.Fatalf(&amp;#34;&lt;/span>&lt;span class="nx">Fail&lt;/span> &lt;span class="nx">to&lt;/span> &lt;span class="nx">execute&lt;/span> &lt;span class="nx">template&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">%&lt;/span>&lt;span class="nx">s&lt;/span>&lt;span class="err">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
@@ -3151,56 +3151,56 @@
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>函数名&lt;/th>
-&lt;th>作用&lt;/th>
-&lt;th>使用示例&lt;/th>
+&lt;th style="text-align: left">函数名&lt;/th>
+&lt;th style="text-align: left">作用&lt;/th>
+&lt;th style="text-align: left">使用示例&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>Print&lt;/td>
-&lt;td>打印日志&lt;/td>
-&lt;td>log.Print(“Print”)&lt;/td>
+&lt;td style="text-align: left">Print&lt;/td>
+&lt;td style="text-align: left">打印日志&lt;/td>
+&lt;td style="text-align: left">log.Print(“Print”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Printf&lt;/td>
-&lt;td>打印格式化日志&lt;/td>
-&lt;td>log.Printf(“Printf: %s”, “print”)&lt;/td>
+&lt;td style="text-align: left">Printf&lt;/td>
+&lt;td style="text-align: left">打印格式化日志&lt;/td>
+&lt;td style="text-align: left">log.Printf(“Printf: %s”, “print”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Println&lt;/td>
-&lt;td>打印日志并换行&lt;/td>
-&lt;td>log.Println(“Println”)&lt;/td>
+&lt;td style="text-align: left">Println&lt;/td>
+&lt;td style="text-align: left">打印日志并换行&lt;/td>
+&lt;td style="text-align: left">log.Println(“Println”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Panic&lt;/td>
-&lt;td>打印日志后执行 panic(s)（s 为日志内容）&lt;/td>
-&lt;td>log.Panic(“Panic”)&lt;/td>
+&lt;td style="text-align: left">Panic&lt;/td>
+&lt;td style="text-align: left">打印日志后执行 panic(s)（s 为日志内容）&lt;/td>
+&lt;td style="text-align: left">log.Panic(“Panic”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Panicf&lt;/td>
-&lt;td>打印格式化日志后执行 panic(s)&lt;/td>
-&lt;td>log.Panicf(“Panicf: %s”, “panic”)&lt;/td>
+&lt;td style="text-align: left">Panicf&lt;/td>
+&lt;td style="text-align: left">打印格式化日志后执行 panic(s)&lt;/td>
+&lt;td style="text-align: left">log.Panicf(“Panicf: %s”, “panic”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Panicln&lt;/td>
-&lt;td>打印日志并换行后执行 panic(s)&lt;/td>
-&lt;td>log.Panicln(“Panicln”)&lt;/td>
+&lt;td style="text-align: left">Panicln&lt;/td>
+&lt;td style="text-align: left">打印日志并换行后执行 panic(s)&lt;/td>
+&lt;td style="text-align: left">log.Panicln(“Panicln”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Fatal&lt;/td>
-&lt;td>打印日志后执行 os.Exit(1)&lt;/td>
-&lt;td>log.Fatal(“Fatal”)&lt;/td>
+&lt;td style="text-align: left">Fatal&lt;/td>
+&lt;td style="text-align: left">打印日志后执行 os.Exit(1)&lt;/td>
+&lt;td style="text-align: left">log.Fatal(“Fatal”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Fatalf&lt;/td>
-&lt;td>打印格式化日志后执行 os.Exit(1)&lt;/td>
-&lt;td>log.Fatalf(“Fatalf: %s”, “fatal”)&lt;/td>
+&lt;td style="text-align: left">Fatalf&lt;/td>
+&lt;td style="text-align: left">打印格式化日志后执行 os.Exit(1)&lt;/td>
+&lt;td style="text-align: left">log.Fatalf(“Fatalf: %s”, “fatal”)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Fatalln&lt;/td>
-&lt;td>打印日志并换行后执行 os.Exit(1)&lt;/td>
-&lt;td>log.Panicln(“Panicln”)&lt;/td>
+&lt;td style="text-align: left">Fatalln&lt;/td>
+&lt;td style="text-align: left">打印日志并换行后执行 os.Exit(1)&lt;/td>
+&lt;td style="text-align: left">log.Panicln(“Panicln”)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -3259,42 +3259,42 @@
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>属性&lt;/th>
-&lt;th>说明&lt;/th>
+&lt;th style="text-align: left">属性&lt;/th>
+&lt;th style="text-align: left">说明&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>Ldate&lt;/td>
-&lt;td>当前时区的日期，格式：2009/01/23&lt;/td>
+&lt;td style="text-align: left">Ldate&lt;/td>
+&lt;td style="text-align: left">当前时区的日期，格式：2009/01/23&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Ltime&lt;/td>
-&lt;td>当前时区的时间，格式：01:23:23&lt;/td>
+&lt;td style="text-align: left">Ltime&lt;/td>
+&lt;td style="text-align: left">当前时区的时间，格式：01:23:23&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Lmicroseconds&lt;/td>
-&lt;td>当前时区的时间，格式：01:23:23.123123，精确到微妙&lt;/td>
+&lt;td style="text-align: left">Lmicroseconds&lt;/td>
+&lt;td style="text-align: left">当前时区的时间，格式：01:23:23.123123，精确到微妙&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Llongfile&lt;/td>
-&lt;td>全文件名和行号，格式：/a/b/c/d.go:23&lt;/td>
+&lt;td style="text-align: left">Llongfile&lt;/td>
+&lt;td style="text-align: left">全文件名和行号，格式：/a/b/c/d.go:23&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Lshortfile&lt;/td>
-&lt;td>当前文件名和行号，格式：d.go:23，会覆盖 Llongfile&lt;/td>
+&lt;td style="text-align: left">Lshortfile&lt;/td>
+&lt;td style="text-align: left">当前文件名和行号，格式：d.go:23，会覆盖 Llongfile&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>LUTC&lt;/td>
-&lt;td>使用 UTC 而非本地时区，推荐日志全部使用 UTC 时间&lt;/td>
+&lt;td style="text-align: left">LUTC&lt;/td>
+&lt;td style="text-align: left">使用 UTC 而非本地时区，推荐日志全部使用 UTC 时间&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Lmsgprefix&lt;/td>
-&lt;td>将 &lt;code>prefix&lt;/code> 内容从行首移动到日志内容前面&lt;/td>
+&lt;td style="text-align: left">Lmsgprefix&lt;/td>
+&lt;td style="text-align: left">将 &lt;code>prefix&lt;/code> 内容从行首移动到日志内容前面&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>LstdFlags&lt;/td>
-&lt;td>标准 logger 对象的初始值（等于：`Ldate&lt;/td>
+&lt;td style="text-align: left">LstdFlags&lt;/td>
+&lt;td style="text-align: left">标准 logger 对象的初始值（等于：`Ldate&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -3303,22 +3303,22 @@
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>方法&lt;/th>
-&lt;th>作用&lt;/th>
+&lt;th style="text-align: left">方法&lt;/th>
+&lt;th style="text-align: left">作用&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>SetOutput&lt;/td>
-&lt;td>设置日志输出位置&lt;/td>
+&lt;td style="text-align: left">SetOutput&lt;/td>
+&lt;td style="text-align: left">设置日志输出位置&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>SetPrefix&lt;/td>
-&lt;td>设置日志输出前缀&lt;/td>
+&lt;td style="text-align: left">SetPrefix&lt;/td>
+&lt;td style="text-align: left">设置日志输出前缀&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>SetFlags&lt;/td>
-&lt;td>设置日志属性&lt;/td>
+&lt;td style="text-align: left">SetFlags&lt;/td>
+&lt;td style="text-align: left">设置日志属性&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -3896,12 +3896,12 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>这个函数短小精悍，它接收三个参数，&lt;code>buf&lt;/code> 用来保存转换后的内容，&lt;code>i&lt;/code> 就是带转换的值，比如 &lt;code>year&lt;/code>、&lt;code>month&lt;/code> 等，&lt;code>wid&lt;/code> 表示转换后 &lt;code>ASCII&lt;/code> 码字符串宽度，如果传进来的 &lt;code>i&lt;/code> 宽度不够，则前面补零。比如传入 &lt;code>itoa(&amp;amp;b, 12, 3)&lt;/code>，最终输出字符串为 &lt;code>012&lt;/code>。&lt;/p>
-&lt;p>&lt;code>'0'+i&lt;/code>会隐式触发字符和ASCII之间的转换，0的ASCII码是48，加0~9就是对应0~9的ASCII码，超过57就是别的字符。&lt;/p>
+&lt;p>&lt;code>'0'+i&lt;/code>会隐式触发字符和ASCII之间的转换，0的ASCII码是48，加0&lt;del>9就是对应0&lt;/del>9的ASCII码，超过57就是别的字符。&lt;/p>
 &lt;p>至此，我们已经理清了 &lt;code>log.Print(&amp;quot;Print&amp;quot;)&lt;/code> 是如何打印一条日志的，其函数调用流程如下：&lt;/p>
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728.png"
 width="1099"
 height="250"
-srcset="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hud48500becb6283a595555b2655488062_37387_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hud48500becb6283a595555b2655488062_37387_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hu7987778261327590928.png 480w, https://arlettebrook.github.io/p/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-go-log-%E6%A0%87%E5%87%86%E5%BA%93/index.assets/image-20240427181422728_hu5413138703599467516.png 1024w"
 loading="lazy"
 alt="调用流程"
 class="gallery-image"
@@ -4247,7 +4247,7 @@ data-flex-basis="1055px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370.png"
 width="508"
 height="714"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hube3381562c708eec75f7ef34fbf2fa5a_102162_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hube3381562c708eec75f7ef34fbf2fa5a_102162_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hu16613892297353346032.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235145370_hu14587072405466674252.png 1024w"
 loading="lazy"
 alt="image-20240424235145370"
 class="gallery-image"
@@ -4310,7 +4310,7 @@ data-flex-basis="170px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378.png"
 width="382"
 height="319"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu31e809d703e74fc17059636a2a115931_49980_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu31e809d703e74fc17059636a2a115931_49980_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu11347775368437541309.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235225378_hu9073337363257843069.png 1024w"
 loading="lazy"
 alt="image-20240424235225378"
 class="gallery-image"
@@ -4334,7 +4334,7 @@ data-flex-basis="287px"
 &lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897.png"
 width="596"
 height="315"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu0800ee0bb4962a236c252d9b19d905cf_57376_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu0800ee0bb4962a236c252d9b19d905cf_57376_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu17835441995960474583.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235319897_hu1432681905228754152.png 1024w"
 loading="lazy"
 alt="image-20240424235319897"
 class="gallery-image"
@@ -4459,7 +4459,7 @@ data-flex-basis="454px"
 &lt;/div>&lt;p>&lt;img src="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199.png"
 width="857"
 height="820"
-srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hua5f23be303f0a3bcae8948fd87547a77_167340_480x0_resize_box_3.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hua5f23be303f0a3bcae8948fd87547a77_167340_1024x0_resize_box_3.png 1024w"
+srcset="https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hu6238779219988871866.png 480w, https://arlettebrook.github.io/p/go%E8%B0%83%E7%94%A8%E5%A4%96%E9%83%A8%E5%91%BD%E4%BB%A4os/exec%E5%BA%93%E4%BB%8B%E7%BB%8D/index.assets/image-20240424235532199_hu12466494811801947696.png 1024w"
 loading="lazy"
 alt="image-20240424235532199"
 class="gallery-image"
