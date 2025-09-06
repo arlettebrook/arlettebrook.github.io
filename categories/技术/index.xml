@@ -1,4 +1,2164 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/</link><description>Recent content in 技术 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Fri, 16 Aug 2024 19:24:26 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH Introduction</title><link>https://arlettebrook.github.io/p/ssh-introduction/</link><pubDate>Sat, 03 Aug 2024 23:59:44 +0800</pubDate><guid>https://arlettebrook.github.io/p/ssh-introduction/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术 on Arlettebrook's blog</title><link>https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/</link><description>Recent content in 技术 on Arlettebrook's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Arlettebrook</copyright><lastBuildDate>Fri, 16 Aug 2024 23:23:25 +0800</lastBuildDate><atom:link href="https://arlettebrook.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Basics Introduction</title><link>https://arlettebrook.github.io/p/linux-basics-introduction/</link><pubDate>Fri, 16 Aug 2024 23:23:25 +0800</pubDate><guid>https://arlettebrook.github.io/p/linux-basics-introduction/</guid><description>&lt;hr>
+&lt;h2 id="操作系统简介">操作系统简介
+&lt;/h2>&lt;p>&lt;strong>了解&lt;/strong>操作系统：操作计算机就是操作硬件（CPU，内存，硬盘等），而各类硬件只能识别机器语言。为了方便操作硬件，我们在硬件的基础上安装的各种操作系统。&lt;/p>
+&lt;p>操作系统的&lt;strong>分类&lt;/strong>：&lt;/p>
+&lt;ol>
+&lt;li>桌面操作系统
+&lt;ol>
+&lt;li>Windows：用户群体大&lt;/li>
+&lt;li>macOS：适合开发人员&lt;/li>
+&lt;li>Linux：应用软件少&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>服务器操作系统
+&lt;ol>
+&lt;li>Linux：安全，稳定，免费，占有率高&lt;/li>
+&lt;li>Windows Server：付费，只有率低&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>嵌入式操作系统
+&lt;ol>
+&lt;li>Linux&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>移动设备操作系统
+&lt;ol>
+&lt;li>iOS&lt;/li>
+&lt;li>Android（基于Linux）&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="linux的内核版和发行版">Linux的内核版和发行版
+&lt;/h2>&lt;blockquote>
+&lt;p>Linux的内核版本&lt;strong>只有一个&lt;/strong>，而&lt;strong>发行版都是基于内核版本开发的&lt;/strong>，发行版包含了各种应用软件。&lt;/p>
+&lt;p>常见的发行版有：Ubuntu（乌班图），Redhat，Debian，CentOS等。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="linux操作系统目录结构">Linux操作系统目录结构
+&lt;/h2>&lt;p>【大致了解即可：】&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>/&lt;/code>：根目录，&lt;strong>一般根目录只存放目录&lt;/strong>，在Linux下&lt;strong>有且只有一个根目录&lt;/strong>，&lt;strong>所有的东西都是从这里开始的&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>/home&lt;/code>：&lt;strong>系统存放用户的家目录&lt;/strong>，&lt;strong>新增用户账号时，用户的家目录都存放在此目录下&lt;/strong>。用用户名作为目录名存放。
+&lt;ul>
+&lt;li>&lt;code>~&lt;/code>：&lt;strong>表示当前用户的家目录&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>/bin, /usr/bin&lt;/code>: &lt;strong>可执行二进制文件的目录&lt;/strong>，如常用的命令ls,tar,mv,cat等。
+&lt;ul>
+&lt;li>&lt;code>/sbin&lt;/code>: 存放&lt;strong>系统管理员&lt;/strong>相关的可执行二进制文件。存放&lt;strong>系统二进制文件&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>/usr/bin&lt;/code>(user commands for applications)后期安装的一些软件。&lt;/li>
+&lt;li>&lt;code>/usr/sbin&lt;/code>(super user commands for applications)超级用户的一些管理程序。如&lt;code>useradd&lt;/code>等。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>/boot&lt;/code>: 放置Linux系统&lt;strong>启动&lt;/strong>时用到的一些&lt;strong>文件&lt;/strong>，如Linux的内核文件：/boot/vmlinuz,系统引导管理器：/boot/grub&lt;/li>
+&lt;li>&lt;code>/dev&lt;/code>: 存放linux系统下的&lt;strong>设备文件&lt;/strong>，访问该目录下的某个文件，相当于访问某个设备，常用的是挂载光驱&lt;code>mount /dev/cdrom /mnt/cdrom&lt;/code>。&lt;/li>
+&lt;li>&lt;code>/etc&lt;/code>: &lt;strong>系统配置文件存放的目录&lt;/strong>，&lt;strong>不建议在此目录下存放可执行文件&lt;/strong>，重要的配置文件如：
+&lt;ul>
+&lt;li>&lt;code>/etc/inittab&lt;/code>&lt;/li>
+&lt;li>&lt;code>/etc/fstab&lt;/code>&lt;/li>
+&lt;li>&lt;code>/etc/init.d&lt;/code>&lt;/li>
+&lt;li>&lt;code>/etc/X11&lt;/code>&lt;/li>
+&lt;li>&lt;code>/etc/sysconfig&lt;/code>&lt;/li>
+&lt;li>&lt;code>/etc/xinetd.d&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>/lib, /usr/lib, /usr/local/lib&lt;/code>: &lt;strong>系统使用的函数的目录&lt;/strong>，程序在执行的过程中，需要调用一些额外的参数时需要函数库的协助。&lt;/li>
+&lt;li>&lt;code>/lost+fount&lt;/code>: 系统异常产生错误时，会将一些遗失的片段放置于此目录下。&lt;/li>
+&lt;li>&lt;code>/mnt, /media&lt;/code>: 光盘默认挂载点，通常光盘挂载于&lt;code>/mnt/cdrom&lt;/code>下，也不一定，也可以选择任意位置进行挂载。&lt;strong>挂载目录&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>/opt&lt;/code>：&lt;strong>给主机额外安装软件所的存放目录&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>/proc&lt;/code>: 此目录的数据都在内存中，如系统核心，外部设备，网络状态，由于数据都存放于内存中，所以不占用磁盘空间，都是些比较重要的文件。
+&lt;ul>
+&lt;li>如&lt;code>/proc/cpuinfo, /proc/interrupts, /proc/dma, /proc/ioports, /proc/net/*&lt;/code>等。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>/sys&lt;/code>: 类似于&lt;code>/proc&lt;/code>, 也是一个伪文件系统，提供关于系统信息的虚拟目录。&lt;/li>
+&lt;li>&lt;code>/root&lt;/code>: &lt;strong>系统管理员root的家目录&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>/srv&lt;/code>: 存储&lt;strong>系统服务数据&lt;/strong>的地方。&lt;/li>
+&lt;li>&lt;code>/tmp&lt;/code>: 存储&lt;strong>临时文件&lt;/strong>的地方。&lt;/li>
+&lt;li>&lt;code>/usr&lt;/code>: 存储&lt;strong>用户可用的程序和只读的文件&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>/var&lt;/code>: 存储&lt;strong>系统运行时产生的可变数据&lt;/strong>。如日志文件、邮件、系统数据库等。&lt;/li>
+&lt;li>&lt;code>/run&lt;/code>: 存储&lt;strong>系统运行时产生的临时文件&lt;/strong>。如运行中的进程和服务的状态信息。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>ps&lt;/strong>：系统目录了解，只需要知道常见的目录进行&lt;/p>
+&lt;hr>
+&lt;h2 id="linux命令基础">Linux命令基础*
+&lt;/h2>&lt;h3 id="终端命令格式">终端命令格式
+&lt;/h3>&lt;p>不仅是在终端中运行的命令，命令格式大多数情况下都是通用的。&lt;/p>
+&lt;p>终端命令格式：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">command&lt;/span> &lt;span class="o">[&lt;/span>-options&lt;span class="o">]&lt;/span> &lt;span class="o">[&lt;/span>parameter&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>&lt;code>command&lt;/code>: 命令名，相应功能的命令名，如&lt;code>ls&lt;/code>，&lt;code>mv&lt;/code>。&lt;/li>
+&lt;li>&lt;code>[]&lt;/code>: 表示可选的。&lt;/li>
+&lt;li>&lt;code>options&lt;/code>: 选项，对命令进行控制，可以省略。
+&lt;ul>
+&lt;li>可以多开选项组合使用，只有一个减号。称之为短选项。&lt;/li>
+&lt;li>还有长选项，两个减号。对应命令就比较长。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>parameter&lt;/code>：传给命令的参数，可以是零个，一个或者多个。&lt;/li>
+&lt;/ul>
+&lt;h3 id="放大或缩小终端字体">放大或缩小终端字体
+&lt;/h3>&lt;ul>
+&lt;li>放大终端字体：&lt;code>ctrl-shift-=&lt;/code>：相当于&lt;code>ctrl-+&lt;/code>。
+&lt;ul>
+&lt;li>注意：部分终端不需要&lt;code>shift&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>缩写终端字体：&lt;code>ctrl--&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h3 id="自动补全">自动补全
+&lt;/h3>&lt;ul>
+&lt;li>&lt;strong>自动补全&lt;/strong>: 在敲出文件/目录/命令/的前几个字母之后，按下&lt;code>tab&lt;/code>键，如果没有歧义，会自动补全，有歧义会显示歧义的内容。&lt;/li>
+&lt;li>&lt;strong>曾经使用过的命令&lt;/strong>：使用&lt;strong>上下键&lt;/strong>可以自由切换在终端中使用过的命令。&lt;/li>
+&lt;li>&lt;code>ctrl-c&lt;/code>: 可以退出使用。多数情况下，退出都可以使用&lt;code>ctrl-c&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h3 id="查看命令帮助信息">查看命令帮助信息
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;code>command --help&lt;/code>: 显示命令command的帮助信息。&lt;/p>
+&lt;ul>
+&lt;li>短选项&lt;code>-h&lt;/code>只有部分命令可用，一般推荐使用长选项&lt;code>–help&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>man command&lt;/code>：查看命令command的使用手册(manual:使用手册)：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>是由Linux提供的手册，包含了大部分命令，选项的&lt;strong>详细说明&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>常用操作键&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>空格键&lt;/code>：显示手册页的下一屏&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>enter&lt;/code>：滚动手册页的下一行&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>b&lt;/code>：回滚一屏&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>f&lt;/code>：前滚一屏&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>q&lt;/code>：退出&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>/word&lt;/code>: 搜索word字符串&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>h&lt;/code>：查看&lt;code>man&lt;/code>命令帮助信息。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>ps&lt;/strong>：我们要知道上面两种查看命令帮助信息的方式，对于查询结果看不懂没关系，我们只需要学习常用命令及常用选项的使用即可，学会之后可以尝试阅读。对于不知道的命令、选项可以借助网络搜索。&lt;/p>
+&lt;h3 id="学习技巧">学习技巧
+&lt;/h3>&lt;blockquote>
+&lt;p>学习技巧：&lt;/p>
+&lt;ul>
+&lt;li>不需要死记硬背，对于常用命令，用得多了，自然就记住了。&lt;/li>
+&lt;li>不要尝试一次学会所有的命令，有些命令是非常不常用的，临时遇到，临时查询就可以了。&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h3 id="linux下文件和目录的特点">Linux下文件和目录的特点
+&lt;/h3>&lt;ul>
+&lt;li>Linux文件或目录名称最长可以有256个字符。&lt;/li>
+&lt;li>以&lt;code>.&lt;/code>开头的文件或目录是自动隐藏的，需要使用&lt;code>-a&lt;/code>参数才能显示。&lt;/li>
+&lt;li>&lt;code>.&lt;/code>表示当前目录。&lt;/li>
+&lt;li>&lt;code>..&lt;/code>表示上一级目录。&lt;/li>
+&lt;/ul>
+&lt;h3 id="计算机中文件大小的表示方式">计算机中文件大小的表示方式
+&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">单位&lt;/th>
+&lt;th style="text-align: center">英文&lt;/th>
+&lt;th style="text-align: center">含义&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">字节&lt;/td>
+&lt;td style="text-align: center">B(byte)&lt;/td>
+&lt;td style="text-align: center">在计算机中作为一个数字单元，一般为8位二进制数&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">千&lt;/td>
+&lt;td style="text-align: center">K(Kibibyte)&lt;/td>
+&lt;td style="text-align: center">1KiB=1024B：千字节&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">兆&lt;/td>
+&lt;td style="text-align: center">M(Mebibyte)&lt;/td>
+&lt;td style="text-align: center">1MiB=1024KiB：百万字节&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">千兆&lt;/td>
+&lt;td style="text-align: center">G(Gigabyte)&lt;/td>
+&lt;td style="text-align: center">1GiB=1024MiB：十亿字节，千兆字节&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">太&lt;/td>
+&lt;td style="text-align: center">T(Terabyte)&lt;/td>
+&lt;td style="text-align: center">1TiB=1024GiB：万亿字节，太字节&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;strong>注意&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>计算机中不同单位之间转换是8的倍数。如：100Mib = 12.5 MiB。也就是我们说的100兆，实际速率有12.5兆字节。&lt;/li>
+&lt;li>相同单位之间，计算机中是1024倍，现实生活中是1000倍。
+&lt;ul>
+&lt;li>为了区分，所以计算机中单位通常多个i。&lt;/li>
+&lt;li>所以我们购买的硬盘容量在计算机中往往偏小。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>ps&lt;/strong>：更多内容请网络搜索。&lt;/p>
+&lt;h3 id="相对路径和绝对路径">相对路径和绝对路径
+&lt;/h3>&lt;ul>
+&lt;li>&lt;strong>相对路径&lt;/strong>：在输入路径时，不是以&lt;code>/&lt;/code>或者&lt;code>~&lt;/code>开头的路径，表示相对当前目录所在的目录位置。如: &lt;code>../python&lt;/code>表示上一级目录中的python文件或目录。&lt;/li>
+&lt;li>&lt;strong>绝对路径&lt;/strong>：在输入路径时，最前面是以&lt;code>/&lt;/code>或者&lt;code>~&lt;/code>开头的路径，表示从根目录或者家目录开始的具体目录位置。如：&lt;code>/home/centos/python&lt;/code>或者&lt;code>~/python&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h3 id="通配符的使用">通配符的使用
+&lt;/h3>&lt;p>【了解】&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">通配符&lt;/th>
+&lt;th style="text-align: center">含义&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">&lt;code>*&lt;/code>&lt;/td>
+&lt;td style="text-align: center">表示&lt;strong>任意个字符&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;code>?&lt;/code>&lt;/td>
+&lt;td style="text-align: center">表示&lt;strong>任意一个字符&lt;/strong>，只有一个&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;code>[]&lt;/code>&lt;/td>
+&lt;td style="text-align: center">表示可以匹配字符组中的&lt;strong>任意一个&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;code>[abc]&lt;/code>&lt;/td>
+&lt;td style="text-align: center">匹配a，b，c中的任意一个&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;code>[a-f]&lt;/code>&lt;/td>
+&lt;td style="text-align: center">匹配a到f&lt;strong>范围内的任意一个&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="网卡和ip地址">网卡和IP地址
+&lt;/h3>&lt;ul>
+&lt;li>网卡：网卡是一个专门负责网络通讯的硬件设备。&lt;/li>
+&lt;li>IP地址是设置在网卡上的地址信息。&lt;/li>
+&lt;li>理解：电脑就是手机，网卡就是SIM卡，IP地址就是电话号码。&lt;/li>
+&lt;li>有了IP地址电脑才能连接到其他电脑，也就是连接互联网。&lt;/li>
+&lt;li>一台计算机中可以会有一个物理网卡和多个虚拟网卡，在Linux中物理网卡的名字通常以&lt;code>ensXX&lt;/code>表示。&lt;/li>
+&lt;li>&lt;code>127.0.0.1&lt;/code>被称之为&lt;strong>本地回环&lt;/strong>或者&lt;strong>回环地址&lt;/strong>，一般用来&lt;strong>测试本机网卡是否正常&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>网络上的机器都有唯一确定的IP地址&lt;/strong>，我们给目标IP地址发送一个数据包，对方就要返回一个数据包，根据返回的数据包以及时间，我们可以确定目标主机的存在。&lt;/li>
+&lt;li>在Linux中，想要终止一个终端程序的执行，绝大多数都可以&lt;code>ctrl+c&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h3 id="ssh基础">SSH基础
+&lt;/h3>&lt;ul>
+&lt;li>在Linux中SSH是非常常用的工具，通过ssh客户端我们可以远程连接到运行了ssh服务器（sshd）的机器上。
+&lt;ul>
+&lt;li>SSH软件架构是客户端、服务端模式。客户端就是ssh，服务端是sshd。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>ssh客户端是一种使用secure shell（ssh）协议连接到远程计算机的软件程序。&lt;strong>登录远程服务器&lt;/strong>。&lt;/li>
+&lt;li>ssh是目前可靠，专为远程登录会话和其他网络服务提供&lt;strong>安全性的协议&lt;/strong>。&lt;strong>加密通信&lt;/strong>。&lt;/li>
+&lt;li>通过ssh协议：&lt;strong>数据传输是加密的，可以防止信息泄露，数据传输是压缩的，可以提高传输速度&lt;/strong>。&lt;/li>
+&lt;li>利用ssh协议，&lt;strong>可以有效防止远程管理过程中的信息泄露&lt;/strong>。&lt;/li>
+&lt;li>通过ssh协议，&lt;strong>可以对所有传输的数据进行加密，也能防止DNS欺骗和IP欺骗&lt;/strong>。&lt;/li>
+&lt;li>ssh的另一项优点是&lt;strong>传输的数据可以是经过压缩的，所以可以加快传输的速度&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;h4 id="ssh的安装">SSH的安装
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>对于不同的Linux开发板有的安装了ssh和sshd，而有的没有。没有的就需要自己安装。&lt;/p>
+&lt;ul>
+&lt;li>注意：是服务器安装服务端sshd，客户端安装ssh。连接那台服务器就需要安装sshd，用那台电脑连接就需要安装ssh客户端。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>查看sshd状态：&lt;code>service ssh status&lt;/code>，如果提示&lt;code>ssh：unrecognized service&lt;/code>，说明没有安装服务端，则需要安装sshd。&lt;/p>
+&lt;ul>
+&lt;li>sshd服务端的安装：&lt;code>sudo apt install openssh-server&lt;/code>&lt;/li>
+&lt;li>可以再次输入&lt;code>service ssh status&lt;/code>查看是否安装成功。&lt;/li>
+&lt;li>打开sshd服务：&lt;code>service ssh start&lt;/code>&lt;/li>
+&lt;li>终止sshd服务：&lt;code>service ssh stop&lt;/code>&lt;/li>
+&lt;li>重启sshd服务：&lt;code>service ssh restart&lt;/code>&lt;/li>
+&lt;li>开机自启sshd服务：&lt;code>sudo systemctl enable ssh&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>查看是否安装ssh：&lt;code>whereis ssh&lt;/code>，如果提示&lt;code>ssh：&lt;/code>，说明没有安装ssh客户端。&lt;/p>
+&lt;ul>
+&lt;li>ssh客户端的安装：&lt;code>sudo apt install openssh-client&lt;/code>&lt;/li>
+&lt;li>&lt;strong>登录远程服务器&lt;/strong>：&lt;code>ssh username@hostname&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>注意&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>以上操作系统是Ubuntu、Debian。如果是Centos、RedHat，安装的ssh客户端是&lt;code>openssh-clients&lt;/code>，服务端的服务名是&lt;code>sshd&lt;/code>。其他的没有区别。&lt;/li>
+&lt;li>Windows上如果没有安装ssh客户端，可以打开搜索&lt;strong>添加可选功能&lt;/strong>，安装ssh客户端。它是系统自带的，也可以安装服务端sshd。&lt;/li>
+&lt;li>macOS也自带ssh客户端。也自带服务端，不过服务端默认是关闭的，需要手动开启。在共享设置中开启。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>推荐文章&lt;/strong>：&lt;a class="link" href="https://arlettebrook.github.io//p/ssh-introduction/" target="_blank" rel="noopener"
+>SSH Introduction&lt;/a>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>PS：更多内容请自行网络搜索。&lt;/p>
+&lt;h3 id="域名基础">域名基础
+&lt;/h3>&lt;p>域名（Domain Name）是互联网中用于标识一个网站或服务的友好名称。它提供了一种便捷的方式，让用户可以通过简单的字符序列（如&lt;code>www.example.com&lt;/code>）而不是难记的IP地址来访问网站。&lt;strong>是IP地址的别名，方便用户记忆&lt;/strong>。以下是关于域名的详细介绍：&lt;/p>
+&lt;h4 id="域名的基本概念">域名的基本概念
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>域名&lt;/strong>：是互联网上用于标识一个网站、服务器或网络资源的名字。一个域名由一串字母和数字组成，并&lt;strong>按照层级结构排列&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>IP地址&lt;/strong>：域名的背后是&lt;strong>一个或多个IP地址&lt;/strong>，它们用于在网络中标识具体的计算机或服务器。**域名系统（DNS）**负责将域名解析为相应的IP地址。&lt;/li>
+&lt;li>&lt;strong>URL（统一资源定位符）&lt;/strong>：URL是访问特定资源（如网页、文件等）的完整路径，它包含域名、协议（如HTTP/HTTPS）、路径等信息。例如，&lt;code>https://www.example.com/index.html&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h4 id="域名的层级结构">域名的层级结构
+&lt;/h4>&lt;p>域名采用&lt;strong>分层结构&lt;/strong>，从&lt;strong>右到左&lt;/strong>依次为&lt;strong>顶级域名&lt;/strong>（TLD）、&lt;strong>二级域名&lt;/strong>（SLD）以及&lt;strong>子域名&lt;/strong>等：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;ul>
+&lt;li>&lt;strong>通用顶级域名（gTLD）&lt;/strong>：如 &lt;code>.com&lt;/code>、&lt;code>.net&lt;/code>、&lt;code>.org&lt;/code>。&lt;/li>
+&lt;li>&lt;strong>国家或地区顶级域名（ccTLD）&lt;/strong>：如 &lt;code>.cn&lt;/code>（中国）、&lt;code>.uk&lt;/code>（英国）、&lt;code>.jp&lt;/code>（日本）。&lt;/li>
+&lt;li>&lt;strong>新顶级域名（nTLD）&lt;/strong>：如 &lt;code>.xyz&lt;/code>、&lt;code>.app&lt;/code>、&lt;code>.tech&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>二级域名（SLD）Second-level domain：它位于TLD的左侧，通常由用户自行选择或注册。例如，在 &lt;code>www.example.com&lt;/code> 中，&lt;code>example&lt;/code> 就是二级域名。&lt;code>www&lt;/code>是它的子域名。&lt;/li>
+&lt;li>&lt;strong>子域名（Subdomain）&lt;/strong>：子域名是二级域名之下的扩展部分。例如，在 &lt;code>blog.example.com&lt;/code> 中，&lt;code>blog&lt;/code> 就是 &lt;code>example.com&lt;/code> 的一个子域名。&lt;/li>
+&lt;/ul>
+&lt;h4 id="域名的分类">域名的分类
+&lt;/h4>&lt;p>【仅供参考】&lt;/p>
+&lt;h5 id="按层级分类">按层级分类
+&lt;/h5>&lt;p>顶级域名（Top-Level Domain, TLD）：这是域名结构中最右边的部分，通常分为以下几类：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>通用顶级域名&lt;/strong>（Generic Top-Level Domains, gTLDs）：这些域名类型不受地域限制，适用于全球范围。常见的有：
+&lt;ul>
+&lt;li>&lt;strong>.com&lt;/strong>：最常用的顶级域名，适用于商业机构和个人。&lt;/li>
+&lt;li>&lt;strong>.net&lt;/strong>：最初为网络服务提供商保留，但现已广泛使用。&lt;/li>
+&lt;li>&lt;strong>.org&lt;/strong>：主要用于非营利组织和非政府组织。&lt;/li>
+&lt;li>&lt;strong>.info&lt;/strong>：用于信息网站。&lt;/li>
+&lt;li>&lt;strong>.biz&lt;/strong>：用于商业网站。&lt;/li>
+&lt;li>&lt;strong>.name&lt;/strong>：用于个人或家庭。&lt;/li>
+&lt;li>&lt;strong>.gov&lt;/strong>：仅限政府机构使用（通常为美国政府）。&lt;/li>
+&lt;li>&lt;strong>.edu&lt;/strong>：仅限教育机构使用（主要为美国的教育机构）。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>国家或地区顶级域名&lt;/strong>（Country Code Top-Level Domains, ccTLDs）：这些域名专门为各个国家或地区分配，通常由两个字母组成。例如：
+&lt;ul>
+&lt;li>&lt;strong>.cn&lt;/strong>：中国&lt;/li>
+&lt;li>&lt;strong>.uk&lt;/strong>：英国&lt;/li>
+&lt;li>&lt;strong>.de&lt;/strong>：德国&lt;/li>
+&lt;li>&lt;strong>.jp&lt;/strong>：日本&lt;/li>
+&lt;li>&lt;strong>.fr&lt;/strong>：法国&lt;/li>
+&lt;li>&lt;strong>.us&lt;/strong>：美国&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>新通用顶级域名&lt;/strong>（New Generic Top-Level Domains, nTLDs）：这些域名是近年来ICANN推出的新类别，提供更多细分的选择，如：
+&lt;ul>
+&lt;li>&lt;strong>.app&lt;/strong>：应用程序相关的网站。&lt;/li>
+&lt;li>&lt;strong>.tech&lt;/strong>：技术或科技领域的网站。&lt;/li>
+&lt;li>&lt;strong>.store&lt;/strong>：在线商店。&lt;/li>
+&lt;li>&lt;strong>.xyz&lt;/strong>：通用性强，适用于各种类型的网站。&lt;/li>
+&lt;li>&lt;strong>.online&lt;/strong>：在线服务或互联网相关内容。&lt;/li>
+&lt;li>&lt;strong>.club&lt;/strong>：适用于俱乐部或社群。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h5 id="按用途分类">按用途分类
+&lt;/h5>&lt;ul>
+&lt;li>&lt;strong>个人域名&lt;/strong>：主要用于个人博客、个人简历等。例如，&lt;code>yourname.com&lt;/code>。&lt;/li>
+&lt;li>&lt;strong>企业域名&lt;/strong>：用于企业官网、电子商务网站等，通常使用&lt;code>.com&lt;/code>或&lt;code>.biz&lt;/code>域名。&lt;/li>
+&lt;li>&lt;strong>政府域名&lt;/strong>：专用于政府机构，通常使用&lt;code>.gov&lt;/code>或各国的ccTLD，例如&lt;code>gov.uk&lt;/code>。&lt;/li>
+&lt;li>&lt;strong>教育域名&lt;/strong>：用于教育机构，通常使用&lt;code>.edu&lt;/code>，例如&lt;code>harvard.edu&lt;/code>。&lt;/li>
+&lt;li>&lt;strong>组织域名&lt;/strong>：适用于非营利组织、非政府组织等，通常使用&lt;code>.org&lt;/code>，例如&lt;code>redcross.org&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h5 id="按地域分类">按地域分类
+&lt;/h5>&lt;ul>
+&lt;li>&lt;strong>国际域名&lt;/strong>：这些域名可以被全球使用，如&lt;code>.com&lt;/code>、&lt;code>.org&lt;/code>、&lt;code>.net&lt;/code>。&lt;/li>
+&lt;li>地区性域名：这些域名与特定国家或地区相关，使用对应的ccTLD，如：
+&lt;ul>
+&lt;li>&lt;strong>.cn&lt;/strong>：中国&lt;/li>
+&lt;li>&lt;strong>.uk&lt;/strong>：英国&lt;/li>
+&lt;li>&lt;strong>.ca&lt;/strong>：加拿大&lt;/li>
+&lt;li>&lt;strong>.au&lt;/strong>：澳大利亚&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h5 id="按语种分类">按语种分类
+&lt;/h5>&lt;p>国际化域名（Internationalized Domain Name, IDN）允许使用非ASCII字符（如中文、阿拉伯文、俄文等）注册域名。这使得非英语国家的用户可以使用自己的语言作为域名的一部分。例如，&lt;code>中国.com&lt;/code>。&lt;/p>
+&lt;p>域名可分为英文域名、中文域名、日文域名等。中文域名允许使用汉字进行注册，为使用中文的用户提供了更便捷的上网方式。&lt;/p>
+&lt;p>……&lt;/p>
+&lt;h4 id="域名系统dns">域名系统（DNS）
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>DNS的功能&lt;/strong>：域名系统（DNS, Domain Name System）是&lt;strong>互联网的“电话簿”&lt;/strong>，&lt;strong>它将域名解析为相应的IP地址&lt;/strong>，帮助用户找到他们要访问的服务器。&lt;/li>
+&lt;li>DNS服务器：&lt;strong>DNS服务器负责处理域名解析请求&lt;/strong>。通常包括根DNS服务器、顶级域名服务器、权威DNS服务器等。
+&lt;ul>
+&lt;li>&lt;strong>根DNS服务器&lt;/strong>：管理顶级域名的根节点，如&lt;code>.com&lt;/code>、&lt;code>.org&lt;/code>的指向。&lt;/li>
+&lt;li>&lt;strong>顶级域名服务器&lt;/strong>：管理某个TLD下所有二级域名的解析。&lt;/li>
+&lt;li>&lt;strong>权威DNS服务器&lt;/strong>：提供特定域名的实际IP地址解析。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="域名注册与管理">域名注册与管理
+&lt;/h4>&lt;p>&lt;strong>域名注册机构（Registrar）&lt;/strong>：域名注册机构是授权的公司或组织，提供域名注册服务。常见的域名注册机构有GoDaddy、Namecheap、阿里云等。&lt;/p>
+&lt;p>&lt;strong>域名注册步骤&lt;/strong>：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>选择域名&lt;/strong>：确定要注册的域名（如example.com）。&lt;/li>
+&lt;li>&lt;strong>查询可用性&lt;/strong>：检查域名是否已被注册，如果没有，则可以继续注册。&lt;/li>
+&lt;li>&lt;strong>选择注册商&lt;/strong>：选择一个域名注册机构进行注册。&lt;/li>
+&lt;li>&lt;strong>支付费用&lt;/strong>：大多数域名注册需要按年收费，费用视TLD类型和注册年限而定。&lt;/li>
+&lt;li>&lt;strong>域名解析设置&lt;/strong>：注册成功后，需要设置DNS记录，将域名指向对应的服务器IP地址。&lt;/li>
+&lt;/ol>
+&lt;h4 id="dns记录类型">DNS记录类型
+&lt;/h4>&lt;p>在域名管理中，常见的DNS记录类型包括：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>A记录&lt;/strong>：将域名指向一个IPv4地址。&lt;/li>
+&lt;li>&lt;strong>AAAA记录&lt;/strong>：将域名指向一个IPv6地址。&lt;/li>
+&lt;li>&lt;strong>CNAME记录&lt;/strong>：将一个域名指向另一个域名。相对于取别名。&lt;/li>
+&lt;li>&lt;strong>MX记录&lt;/strong>：用于指定处理电子邮件的服务器（邮件交换记录）。&lt;/li>
+&lt;li>&lt;strong>TXT记录&lt;/strong>：存储任意文本信息，常用于验证域名所有权和设置电子邮件安全机制（如SPF、DKIM等）。&lt;/li>
+&lt;li>&lt;strong>NS记录&lt;/strong>：指定负责解析该域名的DNS服务器。&lt;/li>
+&lt;/ul>
+&lt;h4 id="域名解析过程">域名解析过程
+&lt;/h4>&lt;p>当用户在浏览器中输入一个域名时，解析过程如下：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>本地缓存查询&lt;/strong>：浏览器和操作系统首先检查本地是否缓存了该域名的IP地址。&lt;/li>
+&lt;li>&lt;strong>DNS递归查询&lt;/strong>：如果本地没有缓存，系统会向递归DNS服务器发送查询请求。&lt;/li>
+&lt;li>&lt;strong>根DNS查询&lt;/strong>：递归DNS服务器向根DNS服务器查询该域名所属的TLD服务器地址。&lt;/li>
+&lt;li>&lt;strong>TLD服务器查询&lt;/strong>：递归DNS服务器向TLD服务器查询该域名的权威DNS服务器地址。&lt;/li>
+&lt;li>&lt;strong>权威DNS查询&lt;/strong>：最终，递归DNS服务器向权威DNS服务器查询到该域名的IP地址，并返回给用户。&lt;/li>
+&lt;/ol>
+&lt;h4 id="域名的安全性">域名的安全性
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>域名劫持&lt;/strong>：攻击者通过劫持DNS解析过程，将合法域名指向恶意网站。&lt;/li>
+&lt;li>&lt;strong>域名仿冒&lt;/strong>：攻击者注册与目标域名非常相似的域名，欺骗用户（如&lt;code>gooogle.com&lt;/code>）。&lt;/li>
+&lt;li>&lt;strong>DNSSEC&lt;/strong>：DNSSEC（Domain Name System Security Extensions）是DNS的安全扩展，它通过数字签名验证DNS数据的真实性，防止域名劫持。&lt;/li>
+&lt;/ul>
+&lt;h4 id="域名的过期与续费">域名的过期与续费
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>域名过期&lt;/strong>：域名注册有时限，通常为1年到10年。若到期未续费，域名将被标记为“过期”，可能会被其他人注册。
+&lt;ul>
+&lt;li>一旦域名过期，一定要及时处理。要不然可能会出现官网跳yellow的情况。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>赎回期&lt;/strong>：在域名过期后的短时间内（通常是30天到45天），域名进入赎回期，原注册者可以以较高费用赎回域名。&lt;/li>
+&lt;li>&lt;strong>删除期&lt;/strong>：赎回期结束后，域名进入删除期，最终会被删除并重新开放注册。&lt;/li>
+&lt;/ul>
+&lt;h4 id="域名的法律与争议">域名的法律与争议
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>域名抢注&lt;/strong>：抢注指在他人注册商标或品牌之前，恶意注册与其相同或相似的域名，从而获利或损害对方利益。抢注行为通常会引发法律纠纷。&lt;/li>
+&lt;li>&lt;strong>域名争议解决政策（UDRP）&lt;/strong>：这是ICANN制定的一套解决域名争议的政策，用于处理恶意注册和使用域名的纠纷。&lt;/li>
+&lt;/ul>
+&lt;h4 id="域名的应用与趋势">域名的应用与趋势
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>品牌保护&lt;/strong>：企业通常会注册多个相关域名（如品牌名、商标名等）以保护品牌。&lt;/li>
+&lt;li>&lt;strong>数字资产&lt;/strong>：优质域名具有很高的商业价值，短、易记或与热门关键词相关的域名常被视为数字资产，可能以高价交易。&lt;/li>
+&lt;li>&lt;strong>新顶级域名的兴起&lt;/strong>：随着互联网的发展，越来越多的nTLD被引入，如&lt;code>.tech&lt;/code>、&lt;code>.shop&lt;/code>等，给企业和个人提供了更多选择。&lt;/li>
+&lt;/ul>
+&lt;h4 id="常见的域名工具和服务">常见的域名工具和服务
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>WHOIS查询&lt;/strong>：用于查询域名的注册信息，包括注册人、注册商、注册日期等。&lt;/li>
+&lt;li>&lt;strong>DNS查询工具&lt;/strong>：用于检查域名的DNS记录，了解域名解析是否正确。&lt;/li>
+&lt;li>&lt;strong>域名生成器&lt;/strong>：帮助用户根据关键字生成可用的域名建议。&lt;/li>
+&lt;li>&lt;strong>SSL证书&lt;/strong>：在域名上配置SSL证书可以启用HTTPS，确保网站通信的安全性。&lt;/li>
+&lt;/ul>
+&lt;h3 id="端口基础">端口基础
+&lt;/h3>&lt;p>端口（Port）在计算机网络中是用于标识特定进程或网络服务的逻辑终端。它是IP地址的一部分，用于在传输层（通常是传输控制协议 TCP 或用户数据报协议 UDP）上区分不同的网络应用程序。以下是关于端口的详细介绍：&lt;/p>
+&lt;h4 id="端口的基本概念">端口的基本概念
+&lt;/h4>&lt;p>&lt;strong>端口号&lt;/strong>：每个端口都有一个独特的数字标识，称为端口号。端口号的范围是0到65535，共计65536个可能的端口。&lt;/p>
+&lt;p>&lt;strong>IP地址与端口&lt;/strong>：一个IP地址可以通过不同的端口号与多个应用程序通信。IP地址定位到具体的设备，端口号则用于确定设备上的具体应用程序。&lt;/p>
+&lt;h4 id="端口号的分类">端口号的分类
+&lt;/h4>&lt;p>端口号根据用途和范围可以分为以下&lt;strong>三类&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>知名端口（Well-Known Ports）、&lt;strong>公认端口&lt;/strong>、&lt;strong>保留端口&lt;/strong>：范围是0-1023。这些端口号通常被分配给系统或特定的网络服务。由于这些端口的重要性，通常不建议用户自行修改或占用这些端口。例如：
+&lt;ul>
+&lt;li>&lt;strong>HTTP&lt;/strong>：80（用于网页浏览）&lt;/li>
+&lt;li>&lt;strong>HTTPS&lt;/strong>：443（用于安全网页浏览）&lt;/li>
+&lt;li>&lt;strong>FTP&lt;/strong>：21（用于文件传输）&lt;/li>
+&lt;li>&lt;strong>SSH&lt;/strong>：22（用于安全远程登录）
+&lt;ul>
+&lt;li>&lt;strong>ssh服务器的默认端口号是22&lt;/strong>，如果是默认端口号，在连接的时候，可以省略。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Telnet：23（用于不安全的远程登录）&lt;/li>
+&lt;li>SMTP：25（用于发送邮件）&lt;/li>
+&lt;li>DNS：53（用于域名解析）&lt;/li>
+&lt;li>POP3：110（用于接收邮件）&lt;/li>
+&lt;li>IMAP：143（用于管理邮件）&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>注册端口&lt;/strong>（Registered Ports）：范围是1024-49151。这些端口号通常分配给&lt;strong>用户进程或特定的应用程序服务&lt;/strong>。这些端口较为松散地绑定于一些服务，但并非特定于某一种服务。许多服务可能会绑定在这些端口上，并且这些端口也用于许多其他目的。用户或应用程序可以根据需要自定义这些端口，但应确保不会与已有的服务或应用程序产生冲突。例如：
+&lt;ul>
+&lt;li>&lt;strong>MySQL数据库&lt;/strong>：3306&lt;/li>
+&lt;li>&lt;strong>PostgreSQL数据库&lt;/strong>：5432&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>动态/私有端口（Dynamic/Private Ports）&lt;/strong>：范围是49152-65535。这些端口号通常分配给&lt;strong>临时或私有的客户端进程&lt;/strong>，通常在客户端与服务器通信时&lt;strong>动态分配&lt;/strong>。理论上不应为常用服务所分配。&lt;/li>
+&lt;/ul>
+&lt;h4 id="端口的工作原理">端口的工作原理
+&lt;/h4>&lt;p>在网络通信中，&lt;strong>IP地址用于标识一台主机&lt;/strong>，而&lt;strong>端口号用于标识主机上的具体服务或应用程序&lt;/strong>。当一个应用程序在主机上运行时，它通常会监听特定的端口以等待客户端连接。&lt;/p>
+&lt;p>例如，当你在浏览器中输入一个URL时，浏览器将会发出一个HTTP请求。这个请求会被发送到目标服务器的IP地址和端口80（默认的HTTP端口），服务器上的应用程序（例如Apache或Nginx）监听这个端口并处理请求，然后将响应返回给浏览器。&lt;/p>
+&lt;h4 id="端口的安全性建议">端口的安全性建议
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>仅开放必要的端口&lt;/strong>：减少开放的端口数量可以降低攻击面。&lt;/li>
+&lt;li>&lt;strong>使用防火墙&lt;/strong>：防火墙是保护端口安全的第一道防线。&lt;/li>
+&lt;li>&lt;strong>监控和日志记录&lt;/strong>：监控端口的使用情况并保持详细的日志记录，有助于发现潜在的安全问题。&lt;/li>
+&lt;li>&lt;strong>使用加密协议&lt;/strong>：如尽量使用HTTPS代替HTTP，以保护数据传输的安全性。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>PS&lt;/strong>：更多内容请网络搜索。&lt;/p>
+&lt;h3 id="用户和权限的基本概念">用户和权限的基本概念
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>用户是Linux系统工作中重要的一环，用户管理包括用户与组的管理。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在Linux系统中，不论是由本机或是远程登录系统，每个系统都必须拥有一个账号，并且不同账号对于不同的系统资源拥有不同的使用权限。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在Linux中，可以指定每一个用户针对不同的文件或目录的不同权限。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>对文件/目录的权限包括：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">权限&lt;/th>
+&lt;th style="text-align: center">英文&lt;/th>
+&lt;th style="text-align: center">缩写&lt;/th>
+&lt;th style="text-align: center">数字代号&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">读&lt;/td>
+&lt;td style="text-align: center">read&lt;/td>
+&lt;td style="text-align: center">r&lt;/td>
+&lt;td style="text-align: center">4&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">写&lt;/td>
+&lt;td style="text-align: center">write&lt;/td>
+&lt;td style="text-align: center">w&lt;/td>
+&lt;td style="text-align: center">2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">执行&lt;/td>
+&lt;td style="text-align: center">excute&lt;/td>
+&lt;td style="text-align: center">x&lt;/td>
+&lt;td style="text-align: center">1&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="组">组
+&lt;/h4>&lt;ul>
+&lt;li>为了方便用户管理，提出了组的概念。&lt;/li>
+&lt;li>在实际应用中，可以预先针对组设置好权限，然后将不同的用户添加到对应的组中，从而不用依次为每一个用户设置权限。&lt;/li>
+&lt;/ul>
+&lt;h4 id="ls--l扩展">&lt;code>ls -l&lt;/code>扩展
+&lt;/h4>&lt;p>&lt;code>ls -l&lt;/code> ：可以查看当前目录下文件/目录的详细信息，从左到右依次是：&lt;/p>
+&lt;p>示意图：&lt;img src="https://arlettebrook.github.io/p/linux-basics-introduction/linux-basics-introduction.assets/2022-08-23-15-36-59-1723904313158-1.png"
+width="882"
+height="681"
+srcset="https://arlettebrook.github.io/p/linux-basics-introduction/linux-basics-introduction.assets/2022-08-23-15-36-59-1723904313158-1_hu15542583016897376919.png 480w, https://arlettebrook.github.io/p/linux-basics-introduction/linux-basics-introduction.assets/2022-08-23-15-36-59-1723904313158-1_hu10589752778298113933.png 1024w"
+loading="lazy"
+alt="示意图"
+class="gallery-image"
+data-flex-grow="129"
+data-flex-basis="310px"
+>&lt;/p>
+&lt;p>用空格进行分隔：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">localhost demo $ ls -lh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">total 20K
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-rw-r--r--. &lt;span class="m">2&lt;/span> root root 19K May &lt;span class="m">8&lt;/span> 22:49 hard
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">lrwxrwxrwx. &lt;span class="m">1&lt;/span> root root &lt;span class="m">18&lt;/span> May &lt;span class="m">8&lt;/span> 23:46 soft -&amp;gt; /root/test/abc.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>权限&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>第一个字母&lt;code>d&lt;/code>表示目录，&lt;code>-&lt;/code>表示文件，&lt;code>l&lt;/code>表示软连接。&lt;/li>
+&lt;li>接着三位数表示：当前用户权限，就是拥有者，&lt;code>r&lt;/code>：可读，&lt;code>w&lt;/code>：可写，&lt;code>x&lt;/code>：可执行&lt;/li>
+&lt;li>接着三位数表示：组权限，在Linux中，很多时候，会出现组名和用户名相同的情况，后续会介绍。&lt;/li>
+&lt;li>接着三位数表示：其他用户权限。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>硬链接数&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>通俗的来讲，就是有多少种方式，可以访问到这个文件/目录&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>访问方式：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>绝对路径&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>cd ..&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>目录看有多少个子目录通过&lt;code>cd ..&lt;/code> 访问。&lt;/p>
+&lt;p>能通过这两种访问方式访问的硬链接数＋1。&lt;/p>
+&lt;p>所以通常不包含子目录的硬链接数是2。注意是不包含子目录，但可以包含文件。&lt;/p>
+&lt;p>参考：&lt;a class="link" href="https://arlettebrook.github.io/p/linux-common-commands/#ln" target="_blank" rel="noopener"
+>Linux Common Commands#ln&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>一般文件都是1，因为只能通过路径访问。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>但是可以通过创建硬链接来改变硬链接数&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>硬链接不能对目录创建&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>拥有者&lt;/strong>：数字后面的字符&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>所属组&lt;/strong>：所属组的名称，在Linux中，很多时候，会出现组名和用户名相同的情况，后续会介绍。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>文件大小&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>可通过&lt;code>-h&lt;/code>选项，以人类能读懂的方式显示。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>最后修改时间&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>文件/目录名称&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>有的带箭头的是软连接。&lt;/p>
+&lt;ul>
+&lt;li>硬链接不会显示。但在有的shell中会高亮。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="超级用户">超级用户
+&lt;/h3>&lt;ul>
+&lt;li>Linux系统中root账号通常用于系统的维护和管理，对操作系统的所有资源具有&lt;strong>所有访问权限&lt;/strong>。&lt;/li>
+&lt;li>在大多数版本的Linux中，都&lt;strong>不推荐直接使用root账号登录系统&lt;/strong>。&lt;/li>
+&lt;li>在Linux安装的过程中，系统会自动创建一个用户账号，而这个默认的用户就称之为”&lt;strong>标准用户&lt;/strong>“。&lt;/li>
+&lt;li>&lt;code>sudo&lt;/code>：
+&lt;ol>
+&lt;li>&lt;code>su&lt;/code>是substitute user 的缩写，中文翻译为替代用户，表示&lt;strong>使用另一个用户的身份&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>sudo&lt;/code> 命令用来&lt;strong>以其他用户执行命令&lt;/strong>，&lt;strong>预设的用户为root&lt;/strong>。就是以管理员身份运行命令。&lt;/li>
+&lt;li>用户使用&lt;code>sudo&lt;/code>时，&lt;strong>必须先输入密码，之后有5分钟的有效期限，超过期限则必须重新输入密码&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>若未经过授权的用户企图使用sudo，则会发出警告邮件给管理员&lt;/strong>。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="passwd文件">&lt;code>passwd&lt;/code>文件
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>passwd&lt;/code>文件是存放&lt;strong>用户信息的文件&lt;/strong>，属于&lt;strong>系统配置文件&lt;/strong>，因此存放于&lt;code>/etc/passwd&lt;/code>。&lt;/li>
+&lt;li>存放形式：由6个分号组成的7个信息，分别是：
+&lt;ol>
+&lt;li>&lt;strong>用户名&lt;/strong>&lt;/li>
+&lt;li>：&lt;strong>密码&lt;/strong>（x：表示加密的密码）&lt;/li>
+&lt;li>：&lt;strong>UID&lt;/strong>（用户标识）&lt;/li>
+&lt;li>：&lt;strong>GID&lt;/strong>（组标识）&lt;/li>
+&lt;li>：&lt;strong>用户全名或本地账号&lt;/strong>（如果没有指定就用用户名）&lt;/li>
+&lt;li>：&lt;strong>家目录&lt;/strong>&lt;/li>
+&lt;li>：&lt;strong>登录使用的Shell&lt;/strong>（就是登录之后，使用的终端命令窗口，大多是Linux发现版默认是&lt;code>/bin/bash&lt;/code>）&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="linux常用基础命令">Linux常用基础命令*
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>ls&lt;/code>: &lt;strong>查看当前文件夹下的内容&lt;/strong>(list)：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-a&lt;/code>：显示当前文件夹下的所有内容，包括隐藏内容。&lt;/li>
+&lt;li>&lt;code>-l&lt;/code>：显示文件、目录的详细信息。&lt;/li>
+&lt;li>&lt;code>-h&lt;/code>：配合&lt;code>-l&lt;/code>使用以人类读懂的方式显示文件大小。&lt;/li>
+&lt;li>可以配合通配符查看文件或目录：
+&lt;ul>
+&lt;li>&lt;code>ls *.txt&lt;/code>: 查看所txt文件。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>pwd&lt;/code>: &lt;strong>查看当前所在的文件夹&lt;/strong>(print wrok directory)。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>cd [目录名]&lt;/code>：&lt;strong>切换目录&lt;/strong>(change directory)：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>cd&lt;/code>：切换到当前用户的主目录（&lt;code>/home/用户目录&lt;/code>）。&lt;/li>
+&lt;li>&lt;code>cd ~&lt;/code>：切换到当前用户的主目录（&lt;code>/home/用户目录&lt;/code>）。&lt;/li>
+&lt;li>&lt;code>cd .&lt;/code>: 切换到当前目录，保存当前目录不变。&lt;/li>
+&lt;li>&lt;code>cd ..&lt;/code>：切换到上一级目录。&lt;/li>
+&lt;li>&lt;code>cd -&lt;/code>：可以来回切换最近两次的工作目录。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>touch [文件名]&lt;/code>：&lt;strong>新键文件&lt;/strong>(touch)：&lt;/p>
+&lt;ul>
+&lt;li>如果文件不存在，新键文件。&lt;/li>
+&lt;li>如果目标存在，可以&lt;strong>修改文件或目录的最后访问时间和修改时间&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>mkdir [目录名]&lt;/code>：&lt;strong>创建目录&lt;/strong>(make derectoy)：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-p&lt;/code>：可以递归创建多个目录如：&lt;code>mkdir -p a/b/c&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>rm [文件名]&lt;/code>：&lt;strong>永久删除指定的文件名&lt;/strong>(remove)：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-f&lt;/code>: 强制删除文件，&lt;strong>忽略文件不存在时的提示&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>-r&lt;/code>：&lt;strong>加入这个选项可以递归删除文件夹&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>clear&lt;/code>: &lt;strong>清屏&lt;/strong>(clear)：&lt;/p>
+&lt;ul>
+&lt;li>与快捷键&lt;code>ctrl-l&lt;/code>等效。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>tree [目录名]&lt;/code>：&lt;strong>查看文件，目录的树形图，不指定目录为当前目录&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>通常Linux的发行版，不会自带&lt;code>tree&lt;/code>命令，需要使用对应的包管理器安装&lt;code>tree&lt;/code>。&lt;/li>
+&lt;li>&lt;code>-d&lt;/code>：只显示目录。&lt;/li>
+&lt;li>&lt;code>-f&lt;/code>：显示完整路径。&lt;/li>
+&lt;li>&lt;code>-a&lt;/code>：显示隐藏文件。&lt;/li>
+&lt;li>&lt;code>-L 2&lt;/code>：限制目录深度。&lt;/li>
+&lt;li>&lt;code>-h&lt;/code>：以人类读懂的方式显示文件大小。&lt;/li>
+&lt;li>&lt;code>-P &amp;quot;*.txt&amp;quot;&lt;/code>：仅显示匹配模式的文件或目录。&lt;/li>
+&lt;li>&lt;code>-I &amp;quot;*.log&amp;quot;&lt;/code>：排除匹配模式的文件或目录。&lt;/li>
+&lt;li>&lt;code>-t&lt;/code>：按文件修改时间排序。&lt;/li>
+&lt;li>&lt;code>--help&lt;/code>：查看帮助信息。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>cp 源文件 目标文件&lt;/code>：&lt;strong>复制文件&lt;/strong>(copy)：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-i&lt;/code>：覆盖文件前提示。&lt;/li>
+&lt;li>&lt;code>-r&lt;/code>: 递归复制文件夹。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>mv 源文件 目标文件&lt;/code>：&lt;strong>移动文件或者目录(move)还可以重命名&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-i&lt;/code>: 覆盖文件前提示。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>cat 文件名&lt;/code>：&lt;strong>查看文件内容&lt;/strong>，创建文件，文件合并，追加文件内容等功能(concatenate连接)：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>当查看文件内容时&lt;/strong>，会一次性显示所有文件内容，适合查看文件内容较少的：
+&lt;ul>
+&lt;li>&lt;code>-b&lt;/code>：对输出的非空行编号。&lt;/li>
+&lt;li>&lt;code>-n&lt;/code>：对输出的所有行编号。&lt;/li>
+&lt;li>Linux中还有一个&lt;code>nl&lt;/code>命令和&lt;code>cat -b&lt;/code>的效果等价。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>more 文件名&lt;/code>：&lt;strong>分屏显示文件内容，每次只显示一页内容，适合查看文件内容较多的&lt;/strong>(more)：&lt;/p>
+&lt;ul>
+&lt;li>操作键：
+&lt;ul>
+&lt;li>&lt;code>空格键&lt;/code>：显示下一屏&lt;/li>
+&lt;li>&lt;code>enter&lt;/code>：滚动下一行&lt;/li>
+&lt;li>&lt;code>b&lt;/code>：回滚一屏&lt;/li>
+&lt;li>&lt;code>f&lt;/code>：前滚一屏&lt;/li>
+&lt;li>&lt;code>q&lt;/code>：退出&lt;/li>
+&lt;li>&lt;code>/word&lt;/code>: 搜索word字符串&lt;/li>
+&lt;li>&lt;code>h&lt;/code>：查看命令帮助信息。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>其他&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>echo 文字内容&lt;/code>：在终端中回显文字内容，通常和重定向联合使用。&lt;/li>
+&lt;li>&lt;strong>重定向&lt;/strong>：&lt;strong>Linux允许将命令执行结果重定向到一个文件&lt;/strong>，就是将显示到终端的内容输出或者追加到指定文件中：
+&lt;ol>
+&lt;li>&lt;code>&amp;gt;&lt;/code>: 一个大于号表示输出，会&lt;strong>覆盖&lt;/strong>文件原有的内容。&lt;/li>
+&lt;li>&lt;code>&amp;gt;&amp;gt;&lt;/code>：两个大于号表示&lt;strong>追加&lt;/strong>，会将内容追加到已有文件的末尾。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>&lt;code>|&lt;/code>：管道。&lt;code>第一个命令|第二个命令&lt;/code>：&lt;strong>第一个命令的输出通过管道作为第二个命令的输入&lt;/strong>。
+&lt;ol>
+&lt;li>常用管道命令的有：
+&lt;ol>
+&lt;li>&lt;code>more&lt;/code>：分屏显示内容。&lt;/li>
+&lt;li>&lt;code>grep&lt;/code>：在命令执行结果的基础上查询指定的文本。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>grep keyword&lt;/code>：&lt;strong>只显示包含关键字的行&lt;/strong>。过滤作用：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-n&lt;/code>：显示匹配行及行号。&lt;/li>
+&lt;li>&lt;code>-v&lt;/code>:显示不包含匹配文本的所有行（相当于取反）。&lt;/li>
+&lt;li>&lt;code>-i&lt;/code>：忽略大小写匹配。&lt;/li>
+&lt;li>&lt;strong>模式查找&lt;/strong>：就是正则表达式：
+&lt;ol>
+&lt;li>&lt;code>^a&lt;/code>: 搜索以a开头的行。&lt;/li>
+&lt;li>&lt;code>b$&lt;/code>: 搜索以b结尾的行。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>如: 搜索本机IP地址：&lt;code>ip address|grep inet&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>shutdown [选项] [时间]&lt;/code>：&lt;strong>安全的关机/重启&lt;/strong>：不指定选项和参数表示&lt;strong>默认一分钟之后关机&lt;/strong>，远程维护服务器最好不要关闭系统，而应该重新启动系统：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-r&lt;/code>：&lt;strong>默认一分钟之后重启&lt;/strong>。&lt;code>reboot&lt;/code>立即重启，&lt;/li>
+&lt;li>&lt;code>-c&lt;/code>: &lt;strong>取消之前指定的关机计划&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>-t 时间单位秒&lt;/code>：表示多少秒只后执行计划。&lt;/li>
+&lt;li>时间：
+&lt;ol>
+&lt;li>&lt;code>now&lt;/code>：&lt;strong>现在&lt;/strong>。&lt;/li>
+&lt;li>&lt;code>+数字&lt;/code>：表示10分钟之后执行计划。
+&lt;ul>
+&lt;li>如+10：表示十分钟之后执行计划。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>具体时间&lt;/code>：表示几点执行计划。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="linux基础进阶">Linux基础进阶*
+&lt;/h2>&lt;h3 id="查看或配置网卡信息">查看或配置网卡信息
+&lt;/h3>&lt;p>【了解】很复杂😂&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>ifconfing&lt;/code>: 查看计算机当前的网卡配置信息。目前现代大多数Linux发行版已经弃用或未安装该命令。用&lt;code>ip&lt;/code>命令取代。
+&lt;ol>
+&lt;li>&lt;code>ifconfig&lt;/code>：查看网卡配置信息。可用用&lt;code>ip addr&lt;/code>替代。addr是address的缩写，还可以直接缩写为&lt;code>ip a&lt;/code>。&lt;/li>
+&lt;li>&lt;code>ifconfig|grep inet&lt;/code>: 查看网卡对于的IP地址。可用&lt;code>ip addr|grep inet&lt;/code>替代。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>&lt;code>ping ip地址或域名&lt;/code>：&lt;strong>检测目标主机是否连接正常&lt;/strong>，数值越大，速度越慢。&lt;/li>
+&lt;li>&lt;code>ping 127.0.0.1&lt;/code>：检测本地网卡工作是否正常。&lt;/li>
+&lt;/ul>
+&lt;h3 id="远程登录和复制文件">远程登录和复制文件
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>ssh客户端的&lt;strong>简单使用&lt;/strong>：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>远程登录：&lt;code>ssh [-p port] username@hostname&lt;/code>：
+&lt;code>username&lt;/code>: 是远程机器上的用户名，如果不指定的话默认为当前本地主机登录的用户。
+&lt;code>hostname&lt;/code>：是远程机器的地址，可以是&lt;strong>IP/域名&lt;/strong>，或者是后面会提到的&lt;strong>别名&lt;/strong>。
+&lt;code>port&lt;/code>：是ssh server监听的端口号，如果不指定，就为&lt;strong>默认值22&lt;/strong> 。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用&lt;code>exit&lt;/code>可以退出当前用户的登录。或者快捷键&lt;code>ctrl-d&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ssh这个终端命令只能在Linux或者Unix（macOS）系统下使用。因为通常自带ssh客户端。&lt;/p>
+&lt;p>如果在Windows系统中，可以安装putty或者xshell客户端软件使用即可，二者对个人均免费，建议搜索官网安装 putty： &lt;a class="link" href="https://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank" rel="noopener"
+>https://www.chiark.greenend.org.uk/~sgtatham/putty/&lt;/a>&lt;/p>
+&lt;p>xshell： &lt;a class="link" href="https://www.xshell.com" target="_blank" rel="noopener"
+>www.xshell.com&lt;/a>&lt;/p>
+&lt;p>&lt;strong>补充&lt;/strong>：现代的Windows版本一般也自动ssh客户端，如何没有，可以搜索添加可选功能进行安装。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ssh服务器的端口号可能不是22，如果遇到这种情况就需要使用&lt;code>-p&lt;/code>选项，指定正确的端口号，否则无法正常连接到服务器。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>远程复制文件&lt;code>scp&lt;/code>，不需要登录到远程计算机：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;code>scp&lt;/code>：就是secure copy，是ssh客户端提供的一个工具，用来进行&lt;strong>远程拷贝文件&lt;/strong>的命令。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>它的地址格式与ssh基本相同，需要注意的是，在指定端口是用的是大写的-P，而不是小写的p&lt;/strong>。&lt;/p>
+&lt;p>&lt;code>-p&lt;/code>是包留原文件或目录的元信息，如修改时间，访问时间等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-P&lt;/code>: 若远程ssh服务器的端口号不是22，需要使用大写字母-P选项来指定端口号。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-r&lt;/code>: 递归复制目录&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将客户端文件复制到服务器：&lt;code>scp [-P port] 源文件 user@remote:目标地址&lt;/code> 。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将服务器文件复制到客户端：&lt;code>scp p[-P port] user@remote:源文件 目标地址&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>只要安装了ssh客户端（由openssh提供），就能使用&lt;code>scp&lt;/code>命令。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>sftp&lt;/code>：在文件传输时，使用的FTP服务而不是ssh服务，因此端口号为21。【了解】&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="chmod基本使用">&lt;code>chmod&lt;/code>基本使用
+&lt;/h3>&lt;p>【重要】&lt;/p>
+&lt;p>&lt;code>chmod&lt;/code>可以&lt;strong>修改用户、组、其他用户对文件、目录的权限&lt;/strong>。权限决定了谁可以读取、写入或执行文件或目录。&lt;code>chmod&lt;/code> 允许你通过各种方式设置文件权限，包括&lt;strong>符号模式&lt;/strong>和&lt;strong>数字模式&lt;/strong>。下面是对 &lt;code>chmod&lt;/code> 使用的详细介绍:&lt;/p>
+&lt;h4 id="文件权限基础">文件权限基础
+&lt;/h4>&lt;p>文件或目录的权限由三部分组成：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>用户（User, u）&lt;/strong>：文件的所有者。&lt;/li>
+&lt;li>&lt;strong>组（Group, g）&lt;/strong>：与文件所有者属于同一组的用户。&lt;/li>
+&lt;li>&lt;strong>其用户（Others, o）&lt;/strong>：除了所有者和组外的其他用户。&lt;/li>
+&lt;/ol>
+&lt;p>每个部分都包含三种权限：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>读取（Read, r）&lt;/strong>：可以读取文件的内容或列出目录的内容。&lt;/li>
+&lt;li>&lt;strong>写入（Write, w）&lt;/strong>：可以修改文件的内容或在目录中创建、删除文件。&lt;/li>
+&lt;li>&lt;strong>执行（Execute, x）&lt;/strong>：可以执行文件（如果它是一个脚本或程序），或进入目录。&lt;/li>
+&lt;/ul>
+&lt;p>默认情况下，新键的文件或目录：&lt;/p>
+&lt;ul>
+&lt;li>拥有者：文件或目录&lt;code>wrx&lt;/code>。&lt;/li>
+&lt;li>主组（所属组）：目录&lt;code>rx&lt;/code>，文件&lt;code>r&lt;/code>。&lt;/li>
+&lt;li>其他用户：目录&lt;code>rx&lt;/code>，文件&lt;code>r&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h4 id="符号模式">符号模式
+&lt;/h4>&lt;p>&lt;code>chmod&lt;/code> 的符号模式允许你使用符号表示权限的更改。符号模式由三个部分组成：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>用户类别&lt;/strong>：&lt;code>u&lt;/code>（用户），&lt;code>g&lt;/code>（组），&lt;code>o&lt;/code>（其他），&lt;code>a&lt;/code>（所有）。&lt;/li>
+&lt;li>&lt;strong>操作符&lt;/strong>：&lt;code>+&lt;/code>（添加权限），&lt;code>-&lt;/code>（移除权限），&lt;code>=&lt;/code>（设置精确权限，用&lt;code>,&lt;/code>分隔，没有权限就是等号）。&lt;/li>
+&lt;li>&lt;strong>权限&lt;/strong>：&lt;code>r&lt;/code>（读取），&lt;code>w&lt;/code>（写入），&lt;code>x&lt;/code>（执行）。&lt;/li>
+&lt;li>注意：
+&lt;ul>
+&lt;li>&lt;code>+w&lt;/code>、&lt;code>-w&lt;/code>只能给当前用户添加、移除可写权限。是为了安全，如果别的有&lt;code>w&lt;/code>权限，有警告提示。
+&lt;ul>
+&lt;li>如果要所有：&lt;code>a+w&lt;/code>、&lt;code>a-w&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>+r&lt;/code>、&lt;code>-r&lt;/code>、&lt;code>+x&lt;/code>、&lt;code>-x&lt;/code>能够给所有用户添加、移除对应权限。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;ul>
+&lt;li>给文件添加执行权限：&lt;code>chmod +x filename&lt;/code>。这将对所有用户类别（用户、组、其他）添加执行权限。&lt;/li>
+&lt;li>给文件的所有者添加写权限：&lt;code>chmod u+w filename&lt;/code>。&lt;/li>
+&lt;li>移除其他用户的读取权限：&lt;code>chmod o-r filename&lt;/code>。&lt;/li>
+&lt;li>设置文件的权限为所有者可以读写，组可以读，其他人没有权限：&lt;code>chmod u=wr,g=r,o= filename&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h4 id="数字模式">数字模式
+&lt;/h4>&lt;p>&lt;code>chmod&lt;/code> 的数字模式通过使用八进制数表示权限。每种权限的八进制表示如下：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>r&lt;/code>（读取） = 4&lt;/li>
+&lt;li>&lt;code>w&lt;/code>（写入） = 2&lt;/li>
+&lt;li>&lt;code>x&lt;/code>（执行） = 1&lt;/li>
+&lt;li>没有任何权限用&lt;code>0&lt;/code>表示&lt;/li>
+&lt;li>补充：目录需要&lt;code>x&lt;/code>权限才能打开，有&lt;code>r&lt;/code>权限才能读取文件内容。&lt;/li>
+&lt;/ul>
+&lt;p>每个部分（用户、组、其他）的权限值相加后，形成一个&lt;strong>三位数的八进制数&lt;/strong>，例如：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>7&lt;/code>（4 + 2 + 1）= 读、写、执行权限&lt;/li>
+&lt;li>&lt;code>6&lt;/code>（4 + 2 + 0）= 读、写权限&lt;/li>
+&lt;li>&lt;code>5&lt;/code>（4 + 0 + 1）= 读、执行权限&lt;/li>
+&lt;li>&lt;code>4&lt;/code>（4 + 0 + 0）= 只读权限&lt;/li>
+&lt;li>没有任何权限用&lt;code>0&lt;/code>表示&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;ul>
+&lt;li>设置文件的权限为所有者可以读写执行，组和其他用户只能读取：&lt;code>chmod 744 filename&lt;/code>。&lt;/li>
+&lt;li>设置文件的权限为所有用户类别可以读写执行：&lt;code>chmod 777 filename&lt;/code>。&lt;/li>
+&lt;li>设置文件的权限为所有者可以读写，组和其他用户没有任何权限：&lt;code>chmod 600 filename&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h4 id="递归更改目录权限">递归更改目录权限
+&lt;/h4>&lt;ul>
+&lt;li>使用 &lt;code>-R&lt;/code> 选项可以递归地更改目录及其子目录中所有文件、目录的权限。如果没有只能修改指定目录权限，里面的文件或目录权限无法修改。递归修改文件、目录权限。&lt;/li>
+&lt;li>将目录及其所有子文件和子目录的权限设置为 &lt;code>755&lt;/code>：&lt;code>chmod -R 755 directoryName&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h4 id="特殊权限位">特殊权限位
+&lt;/h4>&lt;p>【了解】&lt;/p>
+&lt;p>在 Linux 和 Unix 中，还有一些特殊权限位，可以用 &lt;code>chmod&lt;/code> 设置：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>SUID（Set User ID, &lt;code>u+s&lt;/code>）&lt;/strong>：执行文件时，&lt;strong>以文件所有者的权限运行&lt;/strong>，而&lt;strong>不是执行者的权限&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>SGID（Set Group ID, &lt;code>g+s&lt;/code>）&lt;/strong>：&lt;strong>目录下新创建的文件继承目录的组权限&lt;/strong>，而&lt;strong>不是创建者的默认组&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>粘滞位（Sticky Bit, &lt;code>o+t&lt;/code>）&lt;/strong>：&lt;strong>只允许文件的所有者或root用户删除文件&lt;/strong>，常用于公共目录（如 &lt;code>/tmp&lt;/code>）。&lt;/li>
+&lt;/ul>
+&lt;h4 id="小结">小结
+&lt;/h4>&lt;p>&lt;code>chmod&lt;/code> 是一个功能强大的工具，可以灵活地控制文件和目录的权限。通过理解符号模式和数字模式，以及如何使用特殊权限位，你可以精确地控制谁可以访问和操作系统中的文件和目录。&lt;/p>
+&lt;h3 id="组管理基础">组管理基础
+&lt;/h3>&lt;p>【了解】&lt;/p>
+&lt;p>在 Linux 系统中，用户和组的管理是系统安全和权限控制的重要组成部分。&lt;strong>组（Group）是用户的集合&lt;/strong>，&lt;strong>用于简化权限管理&lt;/strong>。同一个组的成员可以共享对文件和目录的访问权限。下面详细介绍与 Linux 组管理相关的知识：&lt;/p>
+&lt;h4 id="组的概念">组的概念
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>组（Group）&lt;/strong>：组是多个用户的集合，便于对文件和资源进行&lt;strong>权限管理&lt;/strong>。组可以有一个或多个用户，&lt;strong>一个用户也可以属于多个组&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>主组（Primary Group）&lt;/strong>：用户的主组是&lt;strong>默认关联的组&lt;/strong>，每个用户在登录时默认隶属于主组。&lt;strong>如果没有特殊指定默认主组与用户名同名&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>附加组（Supplementary Group）&lt;/strong>：用户除主组外，还可以属于其他多个附加组。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="组的相关文件">组的相关文件
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>&lt;code>/etc/group&lt;/code>&lt;/strong>：这个文件包含了系统中所有&lt;strong>组的信息&lt;/strong>，包括组名、组ID（GID）、组成员等。每一行表示一个组，格式如下：&lt;code>组名:密码占位符:组ID:组成员列表&lt;/code>。
+&lt;ul>
+&lt;li>例如：&lt;code>developers:x:1001:alice,bob&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>&lt;code>/etc/passwd&lt;/code>&lt;/strong>：虽然这个文件主要存储&lt;strong>用户信息&lt;/strong>，但它也包含了用户的主组信息。在这个文件的每一行中，第 4 个字段代表用户的主组 ID（GID）。前面有介绍。&lt;/li>
+&lt;/ul>
+&lt;h4 id="组的基本管理命令">组的基本管理命令
+&lt;/h4>&lt;p>​ 以下是管理 Linux 组的常用命令（注意：创建组、删除组的终端命令都需要通过管理员权限&lt;code>sudo&lt;/code>执行）：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>创建组&lt;/strong>：&lt;/p>
+&lt;p>使用 &lt;code>groupadd&lt;/code> 命令可以创建一个新组：&lt;code>sudo groupadd groupname&lt;/code>。GID随机。&lt;/p>
+&lt;p>可以通过 &lt;code>-g&lt;/code> 选项指定组的 GID（组ID已存在会报错）：&lt;code>sudo groupadd -g 1050 groupname&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>删除组&lt;/strong>：&lt;/p>
+&lt;p>使用 &lt;code>groupdel&lt;/code> 命令可以删除一个组：&lt;code>sudo groupdel groupname&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>修改组&lt;/strong>：&lt;/p>
+&lt;p>使用 &lt;code>groupmod&lt;/code> 命令可以修改组的属性，比如组名或 GID。&lt;/p>
+&lt;p>​ &lt;strong>修改组名&lt;/strong>：&lt;code>sudo groupmod -n newgroupname oldgroupname&lt;/code>。&lt;/p>
+&lt;p>​ &lt;strong>修改 GID&lt;/strong>：&lt;code>sudo groupmod -g 1051 groupname&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>查看组信息&lt;/strong>：&lt;/p>
+&lt;p>使用 &lt;code>getent group&lt;/code> 命令可以&lt;strong>查看特定组的信息&lt;/strong>：&lt;code>getent group groupname&lt;/code>。多个组用空格分隔。&lt;/p>
+&lt;p>​ 这个命令也可以查看特定用户信息：&lt;code>getent psswd username&lt;/code>。多个组用空格分隔。&lt;/p>
+&lt;p>​ 没有指定组或者用户名&lt;strong>默认查询全部&lt;/strong>。&lt;/p>
+&lt;p>这个命令从 &lt;code>/etc/group&lt;/code> 文件或组数据库中提取信息。&lt;/p>
+&lt;p>查看所有组信息：&lt;code>cat /etc/group&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>将用户添加到组&lt;/strong>：&lt;/p>
+&lt;p>使用 &lt;code>usermod&lt;/code> 命令可以将用户添加到一个或多个组：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo usermod -aG groupname username
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中 &lt;code>-aG&lt;/code> 表示将用户追加到附加组，而不从其他组中移除。如果不加 &lt;code>-a&lt;/code> 选项，用户将被移除所有其他组，且只属于指定的组。&lt;/p>
+&lt;p>注意：设置了用户的附件组之后，需要重新登录才能生效&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>查看用户的组&lt;/strong>：&lt;/p>
+&lt;p>使用 &lt;code>groups&lt;/code> 命令可以查看某个用户&lt;strong>所属的所有组&lt;/strong>：&lt;code>groups username&lt;/code>。&lt;/p>
+&lt;p>如果不指定用户名，则显示当前用户的&lt;strong>所属的所有组&lt;/strong>。&lt;/p>
+&lt;p>使用 &lt;code>id&lt;/code> 命令也可以查看用户的 UID、GID 和所属的组：&lt;code>id username&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="文件和目录的组权限管理">文件和目录的组权限管理
+&lt;/h4>&lt;p>​ 在 Linux 中，文件和目录的权限由三部分组成：所有者权限、组权限和其他用户权限。文件或目录的组权限决定了所属组的用户可以执行哪些操作。&lt;/p>
+&lt;p>​&lt;/p>
+&lt;p>​ 使用 &lt;code>chgrp&lt;/code> 命令可以更改文件或目录的所属组：&lt;code>sudo chgrp groupname filename/dictionaryName&lt;/code>。&lt;/p>
+&lt;p>​ 使用 &lt;code>-R&lt;/code> 选项可以递归地更改目录及其内容的所属组：&lt;code>sudo chgrp -R groupname directoryname&lt;/code>。&lt;/p>
+&lt;h4 id="设置默认组权限">设置默认组权限
+&lt;/h4>&lt;p>​ 在某些情况下，文件或目录可能需要继承特定的组权限。使用 SGID（Set Group ID） 位可以确保目录中新创建的文件或子目录自动继承父目录的组属性：&lt;code>sudo chmod g+s directoryname&lt;/code>。&lt;/p>
+&lt;h4 id="特殊组">特殊组
+&lt;/h4>&lt;p>​ Linux 系统中有一些特殊的组，具有系统特定的功能：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>&lt;code>root&lt;/code>&lt;/strong>：超级用户组，拥有系统的&lt;strong>完全访问权限&lt;/strong>。&lt;/li>
+&lt;li>&lt;strong>&lt;code>wheel&lt;/code>&lt;/strong>：在某些 Linux 发行版中，&lt;code>wheel&lt;/code> 组的成员可以使用 &lt;code>sudo&lt;/code> 提权。&lt;/li>
+&lt;li>&lt;strong>&lt;code>sudo&lt;/code>&lt;/strong>：&lt;code>sudo&lt;/code> 组的成员可以使用 &lt;code>sudo&lt;/code> 命令获得临时的超级用户权限。&lt;/li>
+&lt;/ul>
+&lt;h4 id="组管理的实际应用场景">组管理的实际应用场景
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>多用户协作&lt;/strong>：&lt;/p>
+&lt;p>在开发环境中，不同的用户可能需要协作处理同一项目。例如，项目文件可以分配给一个开发组，组中的所有成员都可以访问和修改这些文件。通过将用户添加到项目组，并使用组权限管理文件访问，可以轻松实现多用户协作。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>限制访问&lt;/strong>：&lt;/p>
+&lt;p>使用组可以限制对特定资源的访问。例如，系统中可能存在一些敏感信息文件，只有特定的组成员可以访问。通过将文件的组权限设置为只读或只执行，可以控制哪些用户可以查看或修改这些文件。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="小结-1">小结
+&lt;/h4>&lt;p>​ 在实际应用中，可以预先针对&lt;strong>组设置好权限&lt;/strong>，然后将不同的用户添加到对应的组中，从而不用依次为每一个用户设置权限。Linux 组管理是系统管理中的一项重要技能。通过创建和管理组，以及配置文件和目录的组权限，可以有效地控制多用户环境中的资源访问。这种机制不仅简化了权限管理，还提高了系统的安全性和可维护性。&lt;/p>
+&lt;h3 id="用户管理基础">用户管理基础*
+&lt;/h3>&lt;p>Linux 用户管理是系统管理的重要组成部分，涉及创建、修改、删除用户及管理用户权限和环境等操作。掌握用户管理知识对于维护系统安全和确保正确的资源访问非常关键。以下是有关 Linux 用户管理的详细介绍。&lt;/p>
+&lt;h4 id="用户的概念">用户的概念
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>用户（User）&lt;/strong>：在 Linux 中，&lt;strong>用户是能够登录系统并执行操作的实体&lt;/strong>。每个用户都有一个&lt;strong>唯一的用户 ID（UID）和用户名&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>超级用户（Superuser）&lt;/strong>：&lt;code>root&lt;/code> 用户是系统的超级用户，**拥有最高权限，能够执行所有系统操作。**对所有文件、目录拥有完全的访问权限。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>普通用户（Regular User）&lt;/strong>：普通用户的权限受限，&lt;strong>通常只能访问和修改自己拥有的文件和资源&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="用户相关的文件">用户相关的文件
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>/etc/passwd&lt;/code>&lt;/strong>：该文件存储所有&lt;strong>用户的基本信息&lt;/strong>。每个用户的信息在一行中表示，字段以冒号分隔。格式如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-py" data-lang="py">&lt;span class="line">&lt;span class="cl">&lt;span class="n">用户名&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">密码占位符&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">用户ID&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">组ID&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">描述&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">主目录&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">Shell&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>例如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-py" data-lang="py">&lt;span class="line">&lt;span class="cl">&lt;span class="n">alice&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">1001&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">1001&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">Alice&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">home&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">alice&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nb">bin&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">bash&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>/etc/shadow&lt;/code>&lt;/strong>：该文件&lt;strong>存储用户的加密密码及密码相关的安全信息&lt;/strong>。为了安全起见，只有超级用户可以访问该文件。格式如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-py" data-lang="py">&lt;span class="line">&lt;span class="cl">&lt;span class="n">用户名&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">加密密码&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">上次修改日期&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">最小天数&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">最大天数&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">警告天数&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">不活动天数&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">过期日期&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">保留字段&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如何加密密码为&lt;code>!!&lt;/code>表示密码暂未设置。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>/etc/group&lt;/code>&lt;/strong>：该文件存储系统中的组信息，每个组的信息包括组名、组ID（GID）和组成员。【前面有介绍】&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>以上文件都可以使用&lt;code>getent&lt;/code>命令配合文件名获取特定用户的相关信息，如果没有指定用户，将获取全部。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="用户的基本管理命令">用户的基本管理命令
+&lt;/h4>&lt;p>注意：创建用户、删除用户、修改其他用户密码的终端命令都需要通过管理员权限&lt;code>sudo&lt;/code>执行。&lt;/p>
+&lt;h5 id="创建新用户">创建新用户
+&lt;/h5>&lt;p>使用 &lt;code>useradd&lt;/code> 命令可以&lt;strong>创建新用户&lt;/strong>：&lt;code>sudo useradd username&lt;/code>。，新键用户之后，用户信息会保存在&lt;code>/etc/passwd&lt;/code>文件中&lt;/p>
+&lt;p>常用的选项包括：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>-m&lt;/code>&lt;/strong>：自动创建用户的主目录。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>&lt;code>-d&lt;/code>&lt;/strong>：指定用户的主目录位置。&lt;/li>
+&lt;li>创建用户时，如果忘记添加-m选项自动创建新用户的家目录，最简单的方法就是删除用户，重新创建。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>-s&lt;/code>&lt;/strong>：指定用户的默认 shell。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>-g&lt;/code>&lt;/strong>：指定用户的主组。默认与用户名同名。&lt;/p>
+&lt;ul>
+&lt;li>创建用户时，如果不指定所属组系统会默认创建一个和用户名同名的组名（主组）。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>-G&lt;/code>&lt;/strong>：指定用户的附加组。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>例如，创建一个名为 &lt;code>bob&lt;/code> 的用户，自动创建主目录并指定 shell 为 &lt;code>/bin/bash&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo useradd -m -s /bin/bash bob
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>一般默认shell都为&lt;code>/bin/bash&lt;/code>。&lt;/p>
+&lt;p>&lt;strong>注意&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>默认使用&lt;code>useradd&lt;/code>添加的用户是没有权限使用&lt;code>sudo&lt;/code>以root身份执行命令的，可以使用以下命令，将用户添加到&lt;code>sudo&lt;/code>附加组中：&lt;code>usermod -aG sudo 用户名&lt;/code>。&lt;/li>
+&lt;li>如果没有&lt;code>sudo&lt;/code>组，可以使用&lt;code>wheel&lt;/code>组，一般在Centos、RedHat之类的主机使用&lt;code>wheel&lt;/code>组。&lt;/li>
+&lt;li>也没有&lt;code>wheel&lt;/code>组，可以手动创建sudo组。
+&lt;ul>
+&lt;li>创建sudo组，并将用户添加到该组中，并保证 &lt;code>/etc/sudoers&lt;/code> 中有&lt;code>%sudo ALL=(ALL:ALL) ALL&lt;/code>内容即可。&lt;/li>
+&lt;li>编辑&lt;code>sudoers&lt;/code>文件可以使用&lt;code>visudo&lt;/code>命令。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h5 id="设置用户密码">设置用户密码
+&lt;/h5>&lt;ul>
+&lt;li>使用 &lt;code>passwd&lt;/code> 命令可以为用户设置或更改密码：&lt;code>sudo passwd username&lt;/code>。输入新密码并确认即可。&lt;/li>
+&lt;li>直接使用，修改当前登录用户密码。
+&lt;ul>
+&lt;li>如果是普通用户，直接用&lt;code>passwd&lt;/code>可以修改自己的账户密码。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>不需要输入旧密码😂。&lt;/li>
+&lt;li>只有设置用户密码之后我们才能够登录或者远程连接到该用户。&lt;/li>
+&lt;li>&lt;strong>注意区分&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;code>/etc/passwd&lt;/code>是用于保存用户信息的文件，没有可执行的权限。&lt;/li>
+&lt;li>&lt;code>/usr/bin/passwd&lt;/code>是用于修改用户密码的程序，有可执行的权限，因此可以用来修改密码。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h5 id="修改用户">修改用户
+&lt;/h5>&lt;p>使用 &lt;code>usermod&lt;/code> 命令可以修改现有用户的属性：&lt;code>sudo usermod [选项] username&lt;/code>。&lt;/p>
+&lt;p>常用选项包括：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>&lt;code>-l&lt;/code>&lt;/strong>：修改用户名。&lt;/li>
+&lt;li>&lt;strong>&lt;code>-d&lt;/code>&lt;/strong>：更改主目录。&lt;/li>
+&lt;li>&lt;strong>&lt;code>-m&lt;/code>&lt;/strong>：在更改主目录时移动用户的文件到新主目录。&lt;/li>
+&lt;li>&lt;strong>&lt;code>-s&lt;/code>&lt;/strong>：更改用户的默认 shell。&lt;/li>
+&lt;li>&lt;strong>&lt;code>-g&lt;/code>&lt;/strong>：更改用户的主组。&lt;/li>
+&lt;li>&lt;strong>&lt;code>-G&lt;/code>&lt;/strong>：更改用户的附加组。&lt;/li>
+&lt;li>&lt;strong>&lt;code>-aG&lt;/code>&lt;/strong>：将用户添加到附加组而不移除其他组。&lt;/li>
+&lt;/ul>
+&lt;p>例如，将 &lt;code>bob&lt;/code> 用户添加到 &lt;code>developers&lt;/code> 组中：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo usermod -aG developers bob
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h5 id="删除用户">删除用户
+&lt;/h5>&lt;p>使用 &lt;code>userdel&lt;/code> 命令可以删除用户：&lt;code>sudo userdel username&lt;/code>。不会删除该用户的家目录。&lt;/p>
+&lt;p>常用选项包括：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>&lt;code>-r&lt;/code>&lt;/strong>：删除用户的主目录及其所有文件。&lt;/li>
+&lt;/ul>
+&lt;p>例如，删除 &lt;code>bob&lt;/code> 用户并删除其主目录：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo userdel -r bob
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h5 id="查看用户信息">查看用户信息
+&lt;/h5>&lt;ul>
+&lt;li>&lt;code>id&lt;/code> 命令：显示用户的 UID、GID 以及所属的组：&lt;code>id username&lt;/code>。
+&lt;ul>
+&lt;li>省略用户名为当前登录用户。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>finger&lt;/code> 命令：显示用户的详细信息（需安装 &lt;code>finger&lt;/code> 软件包）：&lt;code>finger username&lt;/code>。&lt;/li>
+&lt;li>以下三个命令，如果没有指定用户名，与直接访问对应文件一样：
+&lt;ul>
+&lt;li>&lt;code>getent passwd username&lt;/code> 命令：从 &lt;code>/etc/passwd&lt;/code> 文件或用户数据库中提取用户信息。&lt;/li>
+&lt;li>&lt;code>getent group username&lt;/code> 命令：从 &lt;code>/etc/group&lt;/code> 文件或用户数据库中提取用户组信息。&lt;/li>
+&lt;li>&lt;code>getent shadow username&lt;/code> 命令：从 &lt;code>/etc/shadow&lt;/code> 文件或用户数据库中提取用户密码信息。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>who&lt;/code> ：查看当前所有登录的用户列表，最后面表示的是IP地址，0或空表示远程主机。&lt;/li>
+&lt;li>&lt;code>whoami&lt;/code>：查看当前登录用户的用户名。&lt;/li>
+&lt;/ul>
+&lt;h5 id="更改文件所有者">更改文件所有者
+&lt;/h5>&lt;ul>
+&lt;li>使用 &lt;code>chown&lt;/code> 命令可以更改文件或目录的所有者：&lt;code>sudo chown ownername filename&lt;/code>。&lt;/li>
+&lt;li>也可以同时更改文件的所属组：&lt;code>sudo chown ownername:groupname filename&lt;/code>。&lt;/li>
+&lt;li>使用 &lt;code>-R&lt;/code> 选项可以递归更改目录及其内容的所有者：&lt;code>sudo chown -R ownername:groupname directoryname&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h5 id="更改文件权限">更改文件权限
+&lt;/h5>&lt;p>【&lt;a class="link" href="#%e6%96%87%e4%bb%b6%e6%9d%83%e9%99%90%e5%9f%ba%e7%a1%80" >参考chmod基本使用&lt;/a>】&lt;/p>
+&lt;h4 id="用户的环境配置">用户的环境配置*
+&lt;/h4>&lt;h5 id="用户主目录">用户主目录
+&lt;/h5>&lt;p>&lt;strong>&lt;code>/home/username&lt;/code>&lt;/strong>：每个用户都有一个主目录，用于存放用户的个人文件和配置文件。用户主目录通常位于 &lt;code>/home&lt;/code> 目录下，超级用户 &lt;code>root&lt;/code> 的主目录是 &lt;code>/root&lt;/code>。&lt;/p>
+&lt;h5 id="用户配置文件">用户配置文件
+&lt;/h5>&lt;p>用户的环境配置文件通常位于其主目录中，包括：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.bashrc&lt;/code>&lt;/strong>：是一个&lt;strong>非登录Bash shell 的配置文件&lt;/strong>，在每次打开新的&lt;strong>非登录 shell 时被执行&lt;/strong>。非登录 shell 通常是在已经登录的用户下打开的新终端或使用命令如 &lt;code>bash&lt;/code> 启动的新 shell。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>这个文件常用于设置&lt;strong>别名&lt;/strong>、&lt;strong>环境变量&lt;/strong>、&lt;strong>函数&lt;/strong>、&lt;strong>shell 提示符（PS1）&lt;/strong>、**路径（PATH）**等。示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置命令别名&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">ll&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;ls -alF&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">la&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;ls -A&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置环境变量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$PATH&lt;/span>:/usr/local/mybin
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 自定义提示符&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">PS1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;[\u@\h \W]\$ &amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置用户语言环境&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">LANG&lt;/span>&lt;span class="o">=&lt;/span>en_US.UTF-8
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.bash_profile&lt;/code>&lt;/strong>：是一个&lt;strong>登录Bash shell 的配置文件&lt;/strong>，专门用于&lt;strong>登录 shell&lt;/strong>。登录 shell 是指用户通过登录（如 SSH 登录或在控制台输入用户名和密码）进入系统时的 shell。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>.bash_profile&lt;/code> 通常会包含对其他配置文件的引用，例如 &lt;code>.bashrc&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>**意思就是登录bash shell的配置文件会引用非登录bash shell的配置文件。**示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置环境变量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$PATH&lt;/span>:/usr/local/myapp/bin
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 让 .bash_profile 也加载 .bashrc 的配置&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> -f ~/.bashrc &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> . ~/.bashrc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 启动应用程序&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">myapp &lt;span class="p">&amp;amp;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.profile&lt;/code>&lt;/strong> ：是一个与 &lt;code>.bash_profile&lt;/code> 类似的配置文件，但它是&lt;strong>通用登录shell配置文件&lt;/strong>。它不仅适用于 Bash，还适用于其他兼容 POSIX 的 shell（如 Dash）。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>当 &lt;code>.bash_profile&lt;/code> 不存在时，Bash 登录 shell 会读取 &lt;code>.profile&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>当然这个登录shell的配置文件也会读取非登录bash shell 的配置文件&lt;code>.bashrc&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>以上三个shell 的配置文件都可以用于设置&lt;strong>别名&lt;/strong>、&lt;strong>环境变量&lt;/strong>、&lt;strong>函数&lt;/strong>、&lt;strong>shell 提示符（PS1）&lt;/strong>、**路径（PATH）**等。&lt;/p>
+&lt;ul>
+&lt;li>如果使用的是bash shell，一般只需要配置&lt;code>.bashrc&lt;/code>即可。&lt;/li>
+&lt;li>如果是zsh shell，一般配置&lt;code>.zshrc&lt;/code>。&lt;/li>
+&lt;li>因为&lt;strong>登录shell都会加载非登录shell的配置文件&lt;/strong>。更通用。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.bash_logout&lt;/code>&lt;/strong>：是一个在用户&lt;strong>退出登录bash shell 时执行的配置文件&lt;/strong>。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>这个文件通常用于清理用户环境、记录日志或执行一些退出时需要的命令。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在用户注销或退出登录bash shell时执行。适用于执行一些退出时需要的操作，如删除临时文件、打印退出信息等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 清除屏幕&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">clear
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 删除临时文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rm -rf /tmp/mytempfiles
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 记录用户退出时间&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;User logged out at &lt;/span>&lt;span class="k">$(&lt;/span>date&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &amp;gt;&amp;gt; ~/.logout_log
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.bash_aliases&lt;/code>&lt;/strong> 是一个通常用于存放用户定义的别名的配置文件。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>一般情况下，这个文件并不会自动创建，但用户可以在 &lt;code>.bashrc&lt;/code> 中引用它，用来集中管理别名。&lt;strong>也不常用&lt;/strong>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>主要用于组织和管理大量别名，便于在 &lt;code>.bashrc&lt;/code> 中引用。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>通过将别名从 &lt;code>.bashrc&lt;/code> 中抽离到 &lt;code>.bash_aliases&lt;/code>，可以使 &lt;code>.bashrc&lt;/code> 更加整洁易读。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 在 .bashrc 中引用 .bash_aliases&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> -f ~/.bash_aliases &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> . ~/.bash_aliases
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 在 .bash_aliases 中定义别名&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">ll&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;ls -alF&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">gs&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;git status&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>以下两个配置文件属于全局配置文件，适用于系统上所有用户：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>/etc/bashrc&lt;/code>&lt;/strong>：类似于用户的 &lt;code>.bashrc&lt;/code>，用于&lt;strong>全局非登录 shell配置&lt;/strong>，对所有用户生效。&lt;/p>
+&lt;ul>
+&lt;li>注意这个文件名与使用的shell有关系，上面是bash，如何是zsh，则是&lt;code>zshrc&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>/etc/profile&lt;/code>：用于设置全局环境变量和启动命令，在所有用户的&lt;strong>登录 shell 中执行&lt;/strong>。&lt;strong>全局登录shell配置文件。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>注意：以上两个文件默认不会相互加载。让登录shell加载非登录shell需要额外配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> -f /etc/bashrc &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> . /etc/bashrc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>全局配置示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># /etc/profile 示例&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置全局 umask&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">umask&lt;/span> &lt;span class="m">022&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># /etc/bashrc 示例&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 禁用 Ctrl-S/Ctrl-Q 流控制&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">stty -ixon
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置全局别名&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">ls&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;ls --color=auto&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>配置文件的加载顺序：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>登录 shell&lt;/strong>：当用户通过登录方式进入系统（如通过 SSH、控制台登录）时，Bash 会按照以下顺序加载配置文件：
+&lt;ol>
+&lt;li>&lt;code>/etc/profile&lt;/code>&lt;/li>
+&lt;li>&lt;code>~/.bash_profile&lt;/code> （如果不存在则加载 &lt;code>~/.profile&lt;/code>）&lt;/li>
+&lt;li>&lt;code>~/.bashrc&lt;/code> （通常通过 &lt;code>~/.bash_profile&lt;/code> 或&lt;code>~/.profile&lt;/code>引用）&lt;/li>
+&lt;li>&lt;code>~/.bash_logout&lt;/code>（退出时加载）&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>&lt;strong>非登录 shell&lt;/strong>：当用户在已登录的环境中启动一个新的终端或 Bash shell 时Bash 会按照以下顺序加载配置文件：
+&lt;ol>
+&lt;li>&lt;code>/etc/bashrc&lt;/code>&lt;/li>
+&lt;li>&lt;code>~/.bashrc&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>以上文件区别总结：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.bashrc&lt;/code>&lt;/strong> 用于非登录 shell，每次打开新终端时执行，适合定义别名、函数和 shell 提示符等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.bash_profile&lt;/code>&lt;/strong> 和 &lt;strong>&lt;code>.profile&lt;/code>&lt;/strong> 用于登录 shell，适合定义用户环境变量和启动命令。&lt;code>.bash_profile&lt;/code> 是 Bash 专用的，而 &lt;code>.profile&lt;/code> 则是通用的，适用于其他 POSIX shell。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>.bash_logout&lt;/code>&lt;/strong> 在退出登录 shell 时执行，适合清理环境和记录日志。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>/etc/profile&lt;/code>&lt;/strong> 和 &lt;strong>&lt;code>/etc/bash.bashrc&lt;/code>&lt;/strong> 是全局配置文件，适用于系统上所有用户的登录和非登录 shell。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h5 id="小结-2">小结
+&lt;/h5>&lt;p>通过合理配置这些文件，用户可以定制适合自己需求的工作环境，同时也可以确保在不同的登录方式和 shell 环境下，系统行为的一致性。&lt;/p>
+&lt;h4 id="用户配额管理-">用户配额管理: ?
+&lt;/h4>&lt;p>【了解】用户配额管理用于限制用户可以使用的磁盘空间和文件数量。&lt;/p>
+&lt;h5 id="启用磁盘配额">启用磁盘配额
+&lt;/h5>&lt;p>首先需要安装配额管理工具并启用磁盘配额功能：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>编辑 &lt;code>/etc/fstab&lt;/code> 文件&lt;/strong>，为相应的文件系统添加 &lt;code>usrquota&lt;/code> 和/或 &lt;code>grpquota&lt;/code> 选项。例如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">/dev/sda1 /home ext4 defaults,usrquota,grpquota &lt;span class="m">0&lt;/span> &lt;span class="m">2&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>重新挂载文件系统&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo mount -o remount /home
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>初始化配额数据库&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo quotacheck -cum /home
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>启动配额服务&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo quotaon /home
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h5 id="配置用户配额">配置用户配额
+&lt;/h5>&lt;p>使用 &lt;code>edquota&lt;/code> 命令可以为用户配置配额：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo edquota username
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>编辑配额信息，通常包括软限制（Soft Limit）和硬限制（Hard Limit）两部分：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>软限制&lt;/strong>：用户达到软限制后，仍然可以继续使用磁盘，但会收到警告。&lt;/li>
+&lt;li>&lt;strong>硬限制&lt;/strong>：用户达到硬限制后，将无法再使用更多的磁盘空间。&lt;/li>
+&lt;/ul>
+&lt;h4 id="特殊用户和系统用户">特殊用户和系统用户
+&lt;/h4>&lt;p>在 Linux 系统中，除了普通用户和超级用户外，还有一些特殊用户和系统用户。这些用户通常用于&lt;strong>运行系统服务和守护进程&lt;/strong>，并不允许正常登录。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>系统用户&lt;/strong>：系统用户通常拥有较低的 UID（如 0-999），它们用于管理系统进程和服务。&lt;/li>
+&lt;li>&lt;strong>伪用户&lt;/strong>：一些伪用户如 &lt;code>nobody&lt;/code>、&lt;code>daemon&lt;/code> 用于运行没有专门账户的系统进程。&lt;/li>
+&lt;/ul>
+&lt;h4 id="用户管理的实际应用场景">用户管理的实际应用场景
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>多用户环境中的协作&lt;/strong>&lt;/p>
+&lt;p>在企业环境中，不同用户可能需要协作完成任务。通过创建用户组并赋予特定权限，可以确保团队成员可以访问和操作相关文件，而其他人无法访问。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>系统安全性&lt;/strong>&lt;/p>
+&lt;p>通过严格管理用户账户，分配合适的权限，并定期检查和更新密码策略，可以提高系统的安全性，防止未经授权的访问。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="小结-3">小结
+&lt;/h4>&lt;p>Linux 用户管理是系统管理的核心内容之一。通过熟练掌握用户创建、修改、删除、权限管理、配额管理等操作，系统管理员可以有效控制多用户环境中的资源访问，保障系统安全性和稳定性。&lt;/p>
+&lt;hr>
+&lt;h2 id="linux常用基础进阶命令">Linux常用基础进阶命令
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>which 命令&lt;/code>：&lt;strong>可以查看执行命令所在位置&lt;/strong>。包括别名。&lt;/p>
+&lt;ul>
+&lt;li>可能出现&lt;code>cd&lt;/code>命令找不到：因为&lt;code>cd&lt;/code>这个终端命令是内置在系统内核中的，没有独立的文件，因此使用&lt;code>which&lt;/code>无法找到&lt;code>cd&lt;/code>命令的位置。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>whereis 命令&lt;/code>：&lt;strong>可以参考命令所在的所有位置&lt;/strong>。不包括别名。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>切换用户&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>su - username&lt;/code>：&lt;strong>切换指定用户，并切换至家目录&lt;/strong>，说明：&lt;strong>&lt;code>-&lt;/code>可以切换到用户的家目录，否则保持位置不变&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>exit&lt;/code>：退出当前登录用户，如果没有退出shell，突出shell可以使用快捷键&lt;code>ctrl-d&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>su&lt;/code> 不指定用户名，可以切换到root用户，但是不推荐使用，因为不安全 。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>stat [选项] 文件名&lt;/code>：&lt;strong>查看文件或目录详细信息&lt;/strong>。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>包括文件的大小、权限、所有者、修改时间等。最重要的是&lt;strong>能够查看文件或目录的访问时间（&lt;code>atime&lt;/code>）、修改时间（&lt;code>mtime&lt;/code>）、更改时间（&lt;code>ctime&lt;/code>）。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>运行 &lt;code>stat&lt;/code> 命令后，输出信息可能包括以下内容：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>File:&lt;/strong> 文件名称。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Size:&lt;/strong> 文件大小（以字节为单位）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Blocks:&lt;/strong> 文件占用的块数。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>IO Block:&lt;/strong> 每次文件 I/O 操作的块大小。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>File type:&lt;/strong> 文件类型（如普通文件、目录、符号链接等）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Device:&lt;/strong> 文件所在的设备号。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Inode:&lt;/strong> 文件的 inode 号。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Links:&lt;/strong> 文件的硬链接数。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Access:&lt;/strong> 文件的权限（包括八进制表示）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Uid:&lt;/strong> 文件所有者的用户 ID 及用户名。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Gid:&lt;/strong> 文件所属组的组 ID 及组名。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Access:&lt;/strong> &lt;strong>文件的最后访问时间。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Modify:&lt;/strong> &lt;strong>文件的最后修改时间。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Change:&lt;/strong> 文件的 inode 信息最后改变的时间。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Birth:&lt;/strong> 文件的创建时间（注意：并非所有文件系统都支持这个信息）。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>常用选项&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>-L&lt;/code>：当文件是一个符号链接时，显示链接所指向的目标文件的信息，而不是符号链接本身的信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-f&lt;/code>：显示文件系统的信息，而不是单个文件的信息。&lt;/p>
+&lt;p>显示文件系统的信息：&lt;code>stat -f /&lt;/code>。这会显示根文件系统的信息，包括块大小、空闲块数等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-c&lt;/code>：自定义输出格式，通过格式化字符串显示特定的信息。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>使用 &lt;code>-c&lt;/code> 或 &lt;code>--format&lt;/code> 选项可以自定义输出格式。常用的格式化占位符包括：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>%n&lt;/code>：文件名。&lt;/li>
+&lt;li>&lt;code>%s&lt;/code>：文件大小。&lt;/li>
+&lt;li>&lt;code>%f&lt;/code>：十六进制的文件模式。&lt;/li>
+&lt;li>&lt;code>%F&lt;/code>：文件类型。&lt;/li>
+&lt;li>&lt;code>%h&lt;/code>：硬链接数。&lt;/li>
+&lt;li>&lt;code>%u&lt;/code>：所有者的用户 ID。&lt;/li>
+&lt;li>&lt;code>%U&lt;/code>：所有者的用户名。&lt;/li>
+&lt;li>&lt;code>%g&lt;/code>：组 ID。&lt;/li>
+&lt;li>&lt;code>%G&lt;/code>：组名。&lt;/li>
+&lt;li>&lt;code>%x&lt;/code>：最后访问时间。&lt;/li>
+&lt;li>&lt;code>%y&lt;/code>：最后修改时间。&lt;/li>
+&lt;li>&lt;code>%z&lt;/code>：最后改变时间。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>stat -c '%n %s %y' example.txt&lt;/code>：输出文件名、文件大小和最后修改时间，使用自定义格式。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-t&lt;/code>：以简洁格式输出信息，信息以单行显示。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>touch 文件或目录&lt;/code>：可以修改文件或目录的最后修改时间或最后访问时间。&lt;/p>
+&lt;ul>
+&lt;li>使用&lt;code>-t 时间&lt;/code>选项可以指定时间：&lt;code>touch -t 202408201435.22 filename&lt;/code>：这将时间戳设定为 &lt;code>2024-08-20 14:35:22&lt;/code>。&lt;/li>
+&lt;li>时间表示：&lt;code>use [[CC]YY]MMDDhhmm[.ss] instead of current time。&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>系统相关简单命令&lt;/strong>:&lt;/p>
+&lt;p>本节内容主要是为了方便通过&lt;strong>远程终端维护服务器&lt;/strong>时，查看服务器上&lt;strong>当前系统日期和时间&lt;/strong>、&lt;strong>磁盘空间占用情况&lt;/strong>、&lt;strong>程序执行情况&lt;/strong>。这些终端命令基本上都是查询命令，通过这些命令&lt;strong>对系统资源的使用情况有个了解&lt;/strong>。开始：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>日期和时间&lt;/strong>：&lt;/p>
+&lt;p>Linux 系统中的日期和时间管理是非常重要的，涉及到系统日志、计划任务、文件时间戳等多个方面。下面将详细介绍 Linux 中与日期和时间相关的主要知识点：&lt;/p>
+&lt;p>在 Linux 中，时间分为&lt;strong>系统时间&lt;/strong>（system time又叫Local time）和&lt;strong>硬件时间&lt;/strong>（hardware time又叫RTC time：Real Time Clock、BIOS时间）。系统时间是操作系统维护的当前时间，而硬件时间由计算机的硬件时钟维护。&lt;/p>
+&lt;p>&lt;strong>注意&lt;/strong>：&lt;strong>系统关机或重启之后，系统时间会被硬件时间覆盖&lt;/strong>。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>查看和设置系统时间&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>date&lt;/code>：&lt;strong>显示当前时间和日期&lt;/strong>：&lt;/p>
+&lt;p>使用 &lt;code>+&lt;/code> 后跟格式字符串，可以以&lt;strong>自定义格式显示日期和时间&lt;/strong>：&lt;code>date +&amp;quot;%Y-%m-%d %H:%M:%S&amp;quot;&lt;/code>。这个格式可以改写成：**&lt;code>date +&amp;quot;%F %T&amp;quot;&lt;/code>**格式都为为：&lt;code>2024-08-20 21:54:42&lt;/code>&lt;/p>
+&lt;p>&lt;code>%F&lt;/code>：格式化为完整的日期，格式为 &lt;code>YYYY-MM-DD&lt;/code>。&lt;/p>
+&lt;p>&lt;code>%T&lt;/code>：格式化为完整的时间，格式为 &lt;code>HH:MM:SS&lt;/code>。&lt;/p>
+&lt;p>&lt;code>%x&lt;/code>：日期表示 (如 &lt;code>08/20/2024&lt;/code>)&lt;/p>
+&lt;p>&lt;code>%X&lt;/code>：时间表示 (如 &lt;code>08:55:12&lt;/code>)&lt;/p>
+&lt;p>**&lt;code>date +“%x %X”&lt;/code>**格式为：&lt;code>08/20/2024 09:49:47 PM&lt;/code>&lt;/p>
+&lt;p>常见的格式化参数：&lt;code>%Y：年&lt;/code>、&lt;code>%m：月&lt;/code>、&lt;code>%d：日&lt;/code>、&lt;code>%H：时&lt;/code>、&lt;code>%M：分&lt;/code>、&lt;code>%S：秒&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>设置系统时间： 需要使用管理员权限来设置时间。例如，设置为 &lt;code>2024-08-20 14:35:22&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo date -s &lt;span class="s2">&amp;#34;2024-08-20 14:35:22&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>注意&lt;/strong>：&lt;strong>不推荐使用该命令修改系统时间，后面会介绍。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>查看和设置硬件时间&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>显示硬件时间&lt;/strong>：&lt;code>hwclock&lt;/code>&lt;/p>
+&lt;p>输出类似于：&lt;code>Tue 20 Aug 2024 10:46:51 PM CST -0.821040 seconds&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>将系统时间写入硬件时间&lt;/strong>：&lt;code>sudo hwclock --systohc&lt;/code>&lt;/p>
+&lt;p>&lt;strong>短选项是&lt;code>-w&lt;/code>。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>将硬件时间写入系统时间：&lt;code>sudo hwclock --hctosys&lt;/code>&lt;/p>
+&lt;p>短选项是&lt;code>-s&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>时区管理&lt;/strong>：&lt;/p>
+&lt;p>时区决定了系统显示的时间与 UTC 时间的差值。&lt;/p>
+&lt;p>实际上Linux时间还有一个时间，叫做UTC时间（Universal Time Coordinated协调世界时间）：&lt;/p>
+&lt;p>&lt;strong>系统时间=UTC时间+时区的偏移量&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>查看当前时区&lt;/strong>：使用 &lt;code>date&lt;/code> 命令查看时区：&lt;code>date +'%Z %z'&lt;/code>。输出类似于：&lt;code>CST +0800&lt;/code>。&lt;/p>
+&lt;p>&lt;code>%Z&lt;/code>：时区名称 (如 &lt;code>UTC&lt;/code>, &lt;code>CST&lt;/code>)&lt;/p>
+&lt;p>&lt;code>%z&lt;/code>：时区偏移 (如 &lt;code>+0800&lt;/code>)&lt;/p>
+&lt;p>命令&lt;code>timedatectl&lt;/code>、&lt;code>date&lt;/code>、&lt;code>hwclock&lt;/code>的输出也会包括当前时区的信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>补充&lt;/strong>：&lt;code>timedatectl&lt;/code>：&lt;/p>
+&lt;p>&lt;code>timedatectl&lt;/code> 是一个在 Linux 系统上用于&lt;strong>管理时间和日期的命令行工具&lt;/strong>。&lt;/p>
+&lt;p>&lt;strong>查看当前时间和日期&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>命令：&lt;code>timedatectl&lt;/code>&lt;/li>
+&lt;li>输出信息包括系统当前的本地时间（&lt;strong>系统时间&lt;/strong>）、&lt;strong>UTC 时间&lt;/strong>、&lt;strong>RTC时间&lt;/strong>、时区、系统时钟是否同步，以及是否启用了 NTP。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>设置系统时间和日期&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>命令：&lt;code>timedatectl set-time &amp;lt;时间&amp;gt;&lt;/code>&lt;/li>
+&lt;li>示例：&lt;code>timedatectl set-time &amp;quot;2024-08-20 12:34:56&amp;quot;&lt;/code>&lt;/li>
+&lt;li>可以手动设置系统的时间和日期。&lt;/li>
+&lt;li>&lt;strong>手动设置日期时间，推荐使用这种方式&lt;/strong>。使用&lt;code>date -s&lt;/code>不会将UTC时间与RTC时间同步，会造成关机或重启之后，时间修改失效的问题：因为该命令只修改了UTC时间，重启之后，RTC时间会覆盖UTC时间，造成系统时间未成功修改。&lt;strong>解决该问题&lt;/strong>：使用该命名之后，还需要&lt;strong>将系统时间写入硬件时间&lt;/strong>：&lt;code>hwclock -w&lt;/code>。&lt;strong>所以推荐使用&lt;code>timedatectl set-time &amp;lt;时间&amp;gt;&lt;/code>手动修改时间，它会同步UTC时间与RTC时间。&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>设置时区&lt;/strong>：设置时区通常需要管理员权限。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>命令：&lt;code>timedatectl set-timezone &amp;lt;时区名称&amp;gt;&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>示例：&lt;code>timedatectl set-timezone Asia/Shanghai&lt;/code>&lt;/p>
+&lt;p>可以将系统时区设置为指定的时区名称。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>查看可用的时区&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>命令：&lt;code>timedatectl list-timezones&lt;/code>&lt;/li>
+&lt;li>列出所有可用的时区，可以通过管道符 &lt;code>|&lt;/code> 配合 &lt;code>grep&lt;/code> 命令筛选特定时区。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>手动设置时区：&lt;/strong> 可以通过创建或链接 &lt;code>/etc/localtime&lt;/code> 文件到特定时区文件来设置时区：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>时间同步&lt;/strong>：时间同步确保系统UTC时间与全球标准UTC时间保持一致。同步硬件时间：&lt;code>hwclock -w&lt;/code>.&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>ntp&lt;/code> 服务&lt;/strong>&lt;/p>
+&lt;p>&lt;code>ntp&lt;/code>（Network Time Protocol）用于同步网络上的时间。一般需要安装。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>安装 &lt;code>ntp&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo apt install ntp &lt;span class="c1"># Ubuntu/Debian&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo yum install ntp &lt;span class="c1"># CentOS/Fedora&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>启动&lt;code>ntp&lt;/code>服务&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo systemctl start ntpd &lt;span class="c1"># 启动&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo systemctl &lt;span class="nb">enable&lt;/span> ntpd &lt;span class="c1"># 开机自启&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">service ntpd status &lt;span class="c1"># 查看ntp服务状态&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>启用或禁用 NTP 同步&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>启用 NTP 同步：&lt;code>timedatectl set-ntp true&lt;/code>&lt;/li>
+&lt;li>禁用 NTP 同步：&lt;code>timedatectl set-ntp false&lt;/code>&lt;/li>
+&lt;li>NTP 同步用于自动从时间服务器获取时间。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>完成以上操作之后，就会自动同步网络时间。&lt;/strong>&lt;/p>
+&lt;p>启动 &lt;code>ntpd&lt;/code> 服务后，时间同步会自动进行，但初始同步可能需要一些时间，并且&lt;code>ntpd&lt;/code>会采取渐进方式调整时钟。为了确保系统时间尽快同步，可以手动强制同步一次。&lt;/p>
+&lt;p>强制立即同步时间：&lt;code>sudo ntpd -gq&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-g&lt;/code> 选项允许在第一次同步时忽略时间偏差的大小。&lt;/li>
+&lt;li>&lt;code>-q&lt;/code> 选项使 &lt;code>ntpd&lt;/code> 在同步完成后立即退出，而不继续作为守护进程运行。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>检查同步状态：&lt;code>ntpq -p&lt;/code>。会显示与哪些 NTP 服务器同步及其状态。 &lt;code>*&lt;/code> 号表示正在使用的服务器。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code> 1. cal：calendar查看日历，-y选项可以查看一年的日历
+&lt;/code>&lt;/pre>
+&lt;ol start="5">
+&lt;li>
+&lt;p>磁盘信息&lt;/p>
+&lt;ol>
+&lt;li>df -h ：disk free显示磁盘剩余空间&lt;/li>
+&lt;li>du -h [目录名]：disk usage显示目录下的文件大小，省略目录名为当前目录&lt;/li>
+&lt;li>-h 选项以人性化的方式显示文件大小&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>进程信息&lt;/p>
+&lt;ol>
+&lt;li>所谓进程，通俗地说就是当前正在执行的一个程序
+&lt;ol>
+&lt;li>top：动态显示运行中的进程并且排序，要退出键盘输入q&lt;/li>
+&lt;li>ps aux：process status查看进程的详细状况
+&lt;ol>
+&lt;li>ps默认只会显示当前用户通过终端启动的应用程序，另外这个命令的选项没有减号-&lt;/li>
+&lt;li>a：显示终端上的所有进程，包括其他用户的进程&lt;/li>
+&lt;li>u：显示进程的详细状态&lt;/li>
+&lt;li>x：显示没有控制终端的进程&lt;/li>
+&lt;li>注意：使用kill命令时，最好只终止当前用户开启的进程，而不要终止root身份开启的进程，否则可能导致系统崩溃&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>kill [-9] 进程代号PID：终止指定代号的进程，-9选项表示强行终止&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>其他命令&lt;/p>
+&lt;ol>
+&lt;li>查找文件
+&lt;ol>
+&lt;li>find命令功能非常强大，通常用来在特定的目录下搜索符合条件的文件&lt;/li>
+&lt;li>find [路径] -name &amp;ldquo;*.py&amp;rdquo;：查找指定路径下扩展名是.py的文件，包括子目录&lt;/li>
+&lt;li>如果省略路径，表示在当前目录下查找&lt;/li>
+&lt;li>之前学习的通配符，在使用find命令时同时可用&lt;/li>
+&lt;li>有关find的高级使用，后面慢慢了解，匹配选项有多种模式，-name以名字搜索，后面会介绍更多&lt;/li>
+&lt;li>搜索包含1的文件或目录：find -name &amp;ldquo;&lt;em>1&lt;/em>&amp;rdquo;&lt;/li>
+&lt;li>搜索以.txt为扩展名的文件：find -name &amp;ldquo;*.txt&amp;rdquo;&lt;/li>
+&lt;li>搜索以1开头的文件或目录：find -name &amp;ldquo;1*&amp;rdquo;&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>软连接
+&lt;ol>
+&lt;li>ln -s 被链接的源文件 链接文件：建立文件的软链接，用通俗的方式讲类似于windows下的快捷方式&lt;/li>
+&lt;li>没有-s选项建立的是一个硬链接文件&lt;/li>
+&lt;li>两个文件占用相同大小的磁盘空间，工作中几乎不会建立文件的硬链接&lt;/li>
+&lt;li>源文件要使用绝对路径，不能使用相对路径，这样可以方便移动链接文件后，仍然能够正常使用&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>硬链接（知道）
+&lt;ol>
+&lt;li>在使用ln创建链接时，如果没有-s选项，会创建一个硬链接，而不是软链接&lt;/li>
+&lt;li>软链接的过程：软链接文件名》软链接文件数据》文件名》文件数据&lt;/li>
+&lt;li>硬链接的过程：文件名》文件数据，硬链接》文件数据&lt;/li>
+&lt;li>在Linux中，文件名和文件的数据是分开存储的&lt;/li>
+&lt;li>在Linux中，只有文件的硬链接数==0才会被删除&lt;/li>
+&lt;li>使用ls -l可以查看一个文件的硬链接的数量&lt;/li>
+&lt;li>在日常工作中，几乎不会建立文件的硬链接，知道即可&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>打包压缩
+&lt;ol>
+&lt;li>打包压缩是日常工作中备份文件的一种方式&lt;/li>
+&lt;li>在不同的操作系统中，常用的打包压缩方式是不同的
+&lt;ol>
+&lt;li>Windows常用rar&lt;/li>
+&lt;li>Mac常用zip&lt;/li>
+&lt;li>Linux常用tar.gz&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>打包/解包
+&lt;ol>
+&lt;li>tar是Linux中常用的备份工具，此命令可以把一系列文件打包到一个大文件中，也可以把一个打包的大文件恢复成一系列文件&lt;/li>
+&lt;li>tar的命令格式如下：
+&lt;ol>
+&lt;li>打包文件：tar -cvf 打包的文件名.tar 被打包的文件/路径多个用空格隔开 不负责压缩&lt;/li>
+&lt;li>解包文件：tar -xvf 打包的文件名.tar&lt;/li>
+&lt;li>-c：生成档案文件，创建打包文件&lt;/li>
+&lt;li>-x：解开档案文件&lt;/li>
+&lt;li>-v：列出归档的详细过程，显示进度&lt;/li>
+&lt;li>-f：指定档案文件的名称，f后面一定是.tar文件，所以必须放选项最后&lt;/li>
+&lt;li>f选项必须放在最后，其他选项顺序可以随意&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>压缩/解压缩
+&lt;ol>
+&lt;li>tar与gzip命令结合可以实现文件的打包和压缩&lt;/li>
+&lt;li>tar只负责打包文件，但不压缩&lt;/li>
+&lt;li>用gzip压缩tar打包后的文件，其扩展名一般用xxx.tar.gz&lt;/li>
+&lt;li>在Linux中，最常见的压缩文件格式就是xxx.tar.gz&lt;/li>
+&lt;li>在tar命令中有一个选项-z可以调用gzip，从而可以方便的实现压缩和解压缩的功能&lt;/li>
+&lt;li>压缩文件：tar -zcvf 打包的文件名.tar.gz 被压缩的文件/路径&amp;hellip;&lt;/li>
+&lt;li>解压缩文件：tar -zxvf 打包的文件名.tar.gz&lt;/li>
+&lt;li>解压缩到指定路径：tar -zxvf 打包的文件名.tar.gz -C 目标路径&lt;/li>
+&lt;li>-C：解压缩到指定目录，注意：要解压缩的目录必须存在&lt;/li>
+&lt;li>另外一种Linux中常见的压缩格式bzip2（two）
+&lt;ol>
+&lt;li>tar与bzip2命令结合可以实现文件的打包和压缩（用法和gzip一样）&lt;/li>
+&lt;li>tar只负责打包文件，但不压缩&lt;/li>
+&lt;li>用bzip2压缩tar打包后的文件，其扩展名一般用xxx.tar.bz2&lt;/li>
+&lt;li>在tar命令中有一个选项-j可以调用bzip2，从而可以方便的实现压缩和解压缩的功能&lt;/li>
+&lt;li>压缩文件：tar -jcvf 打包的文件名.tar.bz2 被压缩的文件/路径&amp;hellip;&lt;/li>
+&lt;li>解压缩文件：tar -jxvf 打包的文件名.tar.bz2&lt;/li>
+&lt;li>-C:同样适用&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>软件安装&lt;/p>
+&lt;ol>
+&lt;li>通过apt安装/卸载/更新软件&lt;/li>
+&lt;li>apt是advanced packaging tool，是Linux下的一款安装包管理工具&lt;/li>
+&lt;li>可以在终端中方便的安装/卸载/更新软件&lt;/li>
+&lt;li>安装软件：sudo apt install 安装的软件名软件包 安装命令其实不需要记，如果软件没有安装，终端会提示你安装&lt;/li>
+&lt;li>卸载软件：sudo apt remove 软件名&lt;/li>
+&lt;li>更新已安装的包：sudo apt upgrade，这种升级，如果软件包有相依性的问题，此软件包就不会被升级&lt;/li>
+&lt;li>更新已安装的包：sudo apt dist-upgrade，如果软件包有相依性的问题，会移除旧版，直接安装新版本&lt;/li>
+&lt;li>所以通常dist-upgrade会被认为是有点风险的升级&lt;/li>
+&lt;li>检查更新：apt update：注意：我们每次在执行更新操作之前都应该检查更新，在执行upgrade，如果没有执行update就没有获取到更新包的信息，那么upgrade就无效了&lt;/li>
+&lt;li>apt可以看作apt-get和apt-cache命令的子集，apt和apt-get功能一样，都是安装软件包，没有区别，但apt更方便使用&lt;/li>
+&lt;li>如：sudo apt install sl：一个小火车提示&lt;/li>
+&lt;li>一个比较漂亮的查看当前进程排名的软件：sudo apt install htop&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>配置软件源&lt;/p>
+&lt;ol>
+&lt;li>如果希望在Linux中安装软件，更加快速，可以通过设置镜像源，选择一个访问网速更快的服务器，来提供软件的下载/安装服务&lt;/li>
+&lt;li>提示：更换服务器之后，需要一个相对比较长时间的更新过程，需要耐心等待，更新完成后，在安装软件都会从新设置的服务器下载软件&lt;/li>
+&lt;li>所谓镜像源，就是所有服务器的内容都是相同的（镜像），但是根据所在位置不同，国内服务器通常速度会更快一些，因为Linux的服务器默认是国外&lt;/li>
+&lt;li>步骤
+&lt;ol>
+&lt;li>备份原先镜像源：sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup&lt;/li>
+&lt;li>输入sudo vim /etc/apt/sources.list命令进入源地址文件&lt;/li>
+&lt;li>按“i”进入插入模式&lt;/li>
+&lt;li>将原来的下载源注释调，在前面加一个#号&lt;/li>
+&lt;li>复制镜像源（其中一个）
+&lt;ol>
+&lt;li>#aliyun 阿里云：
+deb &lt;a class="link" href="http://mirrors.aliyun.com/kali" target="_blank" rel="noopener"
+>http://mirrors.aliyun.com/kali&lt;/a> kali-rolling main non-free contrib
+deb-src &lt;a class="link" href="http://mirrors.aliyun.com/kali" target="_blank" rel="noopener"
+>http://mirrors.aliyun.com/kali&lt;/a> kali-rolling main non-free contrib&lt;/li>
+&lt;li>#ustc 中科大
+deb &lt;a class="link" href="http://mirrors.ustc.edu.cn/kali" target="_blank" rel="noopener"
+>http://mirrors.ustc.edu.cn/kali&lt;/a> kali-rolling main non-free contrib
+deb-src &lt;a class="link" href="http://mirrors.ustc.edu.cn/kali" target="_blank" rel="noopener"
+>http://mirrors.ustc.edu.cn/kali&lt;/a> kali-rolling main non-free contrib&lt;/li>
+&lt;li>#tsinghua 清华
+deb &lt;a class="link" href="http://mirrors.tuna.tsinghua.edu.cn/kali" target="_blank" rel="noopener"
+>http://mirrors.tuna.tsinghua.edu.cn/kali&lt;/a> kali-rolling main contrib non-free
+deb-src &lt;a class="link" href="http://mirrors.tuna.tsinghua.edu.cn/kali" target="_blank" rel="noopener"
+>http://mirrors.tuna.tsinghua.edu.cn/kali&lt;/a> kali-rolling main contrib non-free&lt;/li>
+&lt;li>#浙大源
+deb &lt;a class="link" href="http://mirrors.zju.edu.cn/kali" target="_blank" rel="noopener"
+>http://mirrors.zju.edu.cn/kali&lt;/a> kali-rolling main contrib non-free
+deb-src &lt;a class="link" href="http://mirrors.zju.edu.cn/kali" target="_blank" rel="noopener"
+>http://mirrors.zju.edu.cn/kali&lt;/a> kali-rolling main contrib non-free&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Esc退出插入模式&lt;/li>
+&lt;li>输入“:wq”保存退出&lt;/li>
+&lt;li>复制：在kali终端下，使用鼠标选中内容，就可以完成复制&lt;/li>
+&lt;li>粘贴：移动光标到需要粘贴的位置，按下鼠标中间的滚轮，就可以粘贴&lt;/li>
+&lt;li>deb代表软件的位置&lt;/li>
+&lt;li>deb-src代表软件的源代码的位置&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>您可以使用以下命令来查询 Linux 发行版：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>lsb_release -a&lt;/code>:该命令适用于所有 Linux 系统，会显示出完整的版本信息，包括 Linux 系统的名称，如 Debian、Ubuntu、CentOS 等，和对应的版本号，以及该版本的代号。&lt;/li>
+&lt;li>&lt;code>uname -a&lt;/code>:该命令可以查看当前操作系统的内核信息。&lt;/li>
+&lt;li>&lt;code>cat /proc/version&lt;/code>:该命令可以查看当前操作系统的版本信息。&lt;/li>
+&lt;li>&lt;code>cat /etc/*-release&lt;/code>:该命令可以查看当前操作系统的发行版信息。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol></description></item><item><title>SSH Introduction</title><link>https://arlettebrook.github.io/p/ssh-introduction/</link><pubDate>Sat, 03 Aug 2024 23:59:44 +0800</pubDate><guid>https://arlettebrook.github.io/p/ssh-introduction/</guid><description>&lt;hr>
 &lt;h2 id="ssh-介绍">SSH 介绍
 &lt;/h2>&lt;p>SSH（Secure Shell 的缩写）是一种网络协议，用于加密两台计算机之间的通信，并且支持各种身份验证机制。&lt;/p>
 &lt;p>实际中，它主要用于保证远程登录和远程通信的安全，任何网络服务都可以用这个协议来加密。&lt;/p>
